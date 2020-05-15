@@ -7,10 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Home Table View Controller-->
+        <!--Title-->
         <scene sceneID="RGM-VW-mrU">
             <objects>
-                <tableViewController id="rSO-Ud-TUV" customClass="HomeTableViewController" customModule="Noti" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController modalPresentationStyle="fullScreen" id="rSO-Ud-TUV" customClass="HomeTableViewController" customModule="Noti" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="y0u-fJ-y6o">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -94,7 +94,7 @@
                             <outlet property="delegate" destination="rSO-Ud-TUV" id="Hea-hG-2Pv"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="DLh-lN-tO1"/>
+                    <navigationItem key="navigationItem" title="Title" largeTitleDisplayMode="always" id="FaF-dC-Hqw"/>
                     <connections>
                         <segue destination="idL-QX-ola" kind="show" identifier="detailSegue" id="2R8-0h-5QD"/>
                     </connections>

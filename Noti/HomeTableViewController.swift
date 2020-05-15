@@ -73,7 +73,8 @@ class HomeTableViewController: UITableViewController {
         
         navigationItem.largeTitleDisplayMode = .always
         
-        title = "홈"
+        navigationItem.title = "홈 N개의 새로운 글"
+        tabBarItem.title = "홈"
         
     }
         

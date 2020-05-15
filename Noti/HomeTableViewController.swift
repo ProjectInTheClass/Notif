@@ -73,7 +73,7 @@ class HomeTableViewController: UITableViewController {
         
         navigationItem.largeTitleDisplayMode = .always
         
-        title = "오늘"
+        title = "홈"
         
     }
         
@@ -118,11 +118,14 @@ class HomeTableViewController: UITableViewController {
         return CGFloat(100)
     }
     
+    // 이거 넣으면 세그웨이 두번실행되서 지움
+    /*
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! HomeTableViewCell
         
         performSegue(withIdentifier: "detailSegue", sender: cell)
     }
+    */
     
     /*
     // Override to support conditional editing of the table view.

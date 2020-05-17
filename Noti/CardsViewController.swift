@@ -25,10 +25,11 @@ struct CardViewController {
             Card(title:"BS-Care 기초과학교과목 성적상승 장학 안내", source: "포털-장학 게시판", time:  dateFormatter.date(from: "2020-04-20")!, color: UIColor.second, url:""),
             Card(title:"경기청년 해외취업과정 연수생 모집(베트남, 일본)", source: "학부-취업 게시판", time:  dateFormatter.date(from: "2020-04-23")!, color: UIColor.third, url:""),
             Card(title:"[푸르덴셜 생명] SPAC 설명회", source: "학부-취업 게시판", time:  dateFormatter.date(from: "2020-04-22")!, color: UIColor.third, url:""),
-            Card(title:"[순천시] 2021 순천 4차산업혁명박람회 브랜드 공모]", source: "학부-취업 게시판", time:  dateFormatter.date(from: "2020-04-22")!, color: UIColor.third, url:"" )
+            Card(title:"[순천시] 2021 순천 4차산업혁명박람회 브랜드 공모]", source: "학부-취업 게시판", time:  dateFormatter.date(from: "2020-04-22")!, color: UIColor.third, url:"" ),
+            Card(title:"제18회 임베디드SW경진대회 공고", source: "학부-학사 게시판", tag:[], time: dateFormatter.date(from: "2020-05-14")!, color:UIColor.first, url:"http://cs.hanyang.ac.kr/board/info_board.php?ptype=view&idx=28898&page=1&code=notice")
         ]
         cards.sort {(obj1, obj2) -> Bool in
-            return obj1.time < obj2.time
+            return obj1.time > obj2.time
         }
     }
 }

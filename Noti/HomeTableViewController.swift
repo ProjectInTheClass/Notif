@@ -16,10 +16,12 @@ class HomeTableViewController: UITableViewController {
         if (segue.identifier == "detailSegue") {
             let destination = segue.destination as! detailViewController
             if let cell = sender as? HomeTableViewCell {
+                guard let indexPath = self.tableView.indexPathForSelectedRow else {return}
                 destination.title2 = cell.titleLabel.text
                 destination.source = cell.sourceLabel.text
                 destination.date = cell.dateLabel.text
                 destination.back2 = title
+                destination.url = cardsViewController.cards[indexPath.row].url
             }
         }
     }

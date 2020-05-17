@@ -15,6 +15,8 @@
 		0F5DB59C246AEA1C00245E96 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F5DB59A246AEA1C00245E96 /* LaunchScreen.storyboard */; };
 		0F5DB5A4246AEAB300245E96 /* HomeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DB5A3246AEAB300245E96 /* HomeTableViewController.swift */; };
 		0F5DB5A6246AF0A600245E96 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DB5A5246AF0A500245E96 /* HomeTableViewCell.swift */; };
+		0F93EE1D2471232F0018B9C8 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F93EE1C2471232F0018B9C8 /* Card.swift */; };
+		0F93EE212471308A0018B9C8 /* CardsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F93EE202471308A0018B9C8 /* CardsViewController.swift */; };
 		86A5E83B246EE5BC00B692F4 /* HomeDetailView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86A5E83A246EE5BC00B692F4 /* HomeDetailView.storyboard */; };
 		86A5E87D246EF00400B692F4 /* HistoryView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86A5E87C246EF00400B692F4 /* HistoryView.storyboard */; };
 /* End PBXBuildFile section */
@@ -30,6 +32,8 @@
 		0F5DB59D246AEA1C00245E96 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0F5DB5A3246AEAB300245E96 /* HomeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewController.swift; sourceTree = "<group>"; };
 		0F5DB5A5246AF0A500245E96 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
+		0F93EE1C2471232F0018B9C8 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Card.swift; path = Noti/Card.swift; sourceTree = SOURCE_ROOT; };
+		0F93EE202471308A0018B9C8 /* CardsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CardsViewController.swift; path = Noti/CardsViewController.swift; sourceTree = SOURCE_ROOT; };
 		86A5E83A246EE5BC00B692F4 /* HomeDetailView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HomeDetailView.storyboard; sourceTree = "<group>"; };
 		86A5E87C246EF00400B692F4 /* HistoryView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HistoryView.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -66,6 +70,8 @@
 			children = (
 				86A5E839246EE58B00B692F4 /* Views */,
 				0F5DB58F246AEA1700245E96 /* AppDelegate.swift */,
+				0F93EE1C2471232F0018B9C8 /* Card.swift */,
+				0F93EE202471308A0018B9C8 /* CardsViewController.swift */,
 				0F5DB591246AEA1700245E96 /* SceneDelegate.swift */,
 				0F044262246B0899002A7C2B /* detailViewController.swift */,
 				0F5DB5A5246AF0A500245E96 /* HomeTableViewCell.swift */,
@@ -160,7 +166,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F93EE212471308A0018B9C8 /* CardsViewController.swift in Sources */,
 				0F5DB5A4246AEAB300245E96 /* HomeTableViewController.swift in Sources */,
+				0F93EE1D2471232F0018B9C8 /* Card.swift in Sources */,
 				0F5DB590246AEA1700245E96 /* AppDelegate.swift in Sources */,
 				0F5DB5A6246AF0A600245E96 /* HomeTableViewCell.swift in Sources */,
 				0F044263246B0899002A7C2B /* detailViewController.swift in Sources */,

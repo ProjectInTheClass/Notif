@@ -29,21 +29,22 @@ struct Card {
     var color: UIColor
     var isVisited: Bool = false
     var url: String
+    var json = [String:String]()
     
     var formattedDate: String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy/MM/dd"
+        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
         return dateFormatter.string(from: time)
     }
 }
 
 struct Channel {
-    var tilte: String
-    var subTitle: String
+    var title: String
     var channelTags = [Tag]()
     static var allTags = [Tag]()
 }
 
 struct Tag {
-    var name: String
+    let name: String
+    let time: Date
 }

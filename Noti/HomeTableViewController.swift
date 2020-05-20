@@ -22,6 +22,7 @@ class HomeTableViewController: UITableViewController {
                 destination.date = cell.dateLabel.text
                 destination.back2 = title
                 destination.url = cardsViewController.cards[indexPath.row].url
+                destination.json = cardsViewController.cards[indexPath.row].json
             }
         }
     }

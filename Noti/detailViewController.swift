@@ -29,6 +29,39 @@ extension String {
     }
 }
 
+extension StringProtocol {
+    func index<S: StringProtocol>(of string: S, options: String.CompareOptions = []) -> Index? {
+        range(of: string, options: options)?.lowerBound
+    }
+    func endIndex<S: StringProtocol>(of string: S, options: String.CompareOptions = []) -> Index? {
+        range(of: string, options: options)?.upperBound
+    }
+    func indices<S: StringProtocol>(of string: S, options: String.CompareOptions = []) -> [Index] {
+        var indices: [Index] = []
+        var startIndex = self.startIndex
+        while startIndex < endIndex,
+            let range = self[startIndex...]
+                .range(of: string, options: options) {
+                indices.append(range.lowerBound)
+                startIndex = range.lowerBound < range.upperBound ? range.upperBound :
+                    index(range.lowerBound, offsetBy: 1, limitedBy: endIndex) ?? endIndex
+        }
+        return indices
+    }
+    func ranges<S: StringProtocol>(of string: S, options: String.CompareOptions = []) -> [Range<Index>] {
+        var result: [Range<Index>] = []
+        var startIndex = self.startIndex
+        while startIndex < endIndex,
+            let range = self[startIndex...]
+                .range(of: string, options: options) {
+                result.append(range)
+                startIndex = range.lowerBound < range.upperBound ? range.upperBound :
+                    index(range.lowerBound, offsetBy: 1, limitedBy: endIndex) ?? endIndex
+        }
+        return result
+    }
+}
+
 class detailViewController: UIViewController {
     
     var title2: String?
@@ -36,7 +69,7 @@ class detailViewController: UIViewController {
     var date: String?
     var back2: String?
     var url:String?
-    
+    var json = [String:String]()
     
     @IBOutlet weak var contentTextView: UITextView!
     @IBOutlet weak var titleView: UIView!
@@ -57,10 +90,10 @@ class detailViewController: UIViewController {
         getContent() {
             dataString, encoding in
             DispatchQueue.main.async {
-                var slicedString = dataString?.slice(from: "<td class=\"view_content\" colspan=\"2\">", to: "</td>")
-                slicedString = "<div style=\"font-size:17px; line-height:22px\" >" + slicedString! + "</div>"
                 
-                self.contentTextView.attributedText = slicedString!.htmlToAttributedString
+                let resultString = "<div style=\"font-size:17px; line-height:22px\" >" + dataString! + "</div>"
+                print(resultString)
+                self.contentTextView.attributedText = resultString.htmlToAttributedString
                
             }
         }
@@ -80,7 +113,17 @@ class detailViewController: UIViewController {
     func getContent(completion: @escaping (_ dataString:String?, _ encoding:String.Encoding) -> ()) {
         guard let url2 = URL(string: url!) else {return }
         var request = URLRequest(url: url2)
-        request.httpMethod = "get"
+        if (self.source!.hasPrefix("학부")) {
+            request.httpMethod = "get"
+        } else if (self.source!.hasPrefix("포털")) {
+            request.httpMethod = "post"
+            request.setValue("application/json+sua; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+            request.setValue("https://portal.hanyang.ac.kr", forHTTPHeaderField: "Origin")
+            request.setValue("ipSecGb=MQ%3D%3D; savedUserId=anVucm9vdDA5MDk%3D; WMONID=GQOvjLQn9EC; HYIN_JSESSIONID=3_IwslGjnw3_Ofp8I2LXCV8auS-tSHEMCKsQzPxJneE2XU8cBZzw!-1281175488!-1914115946; newLoginStatus=PORTALb4517457-3799-48ce-9dd3-fb2619fc1732; COM_JSESSIONID=duowsmgywu9ar1zEuMs9bakyUMJ2C-wHQAIJpexCjUCLj-aEIaC0!1301282226!777610703; _SSO_Global_Logout_url=get%5Ehttps%3A%2F%2Fportal.hanyang.ac.kr%2Flgot.do%24get%5Ehttps%3A%2F%2Fportal.hanyang.ac.kr%2Fhaksa%2Flgot.do%24; HAKSA_JSESSIONID=VWowsm6h-q30k6CTLq0FspImm0n8MCr_gxL0HG_BDxOsPDr33toz!1933421118!-968664353", forHTTPHeaderField: "Cookie")
+            let jsonData = try? JSONSerialization.data(withJSONObject: json)
+            request.httpBody = jsonData
+        }
+        
         let session = URLSession.shared
         let task = session.dataTask(with: request) { data, response, error in
             // Check if Error took place
@@ -97,8 +140,23 @@ class detailViewController: UIViewController {
                 }
             }
             // Convert HTTP Response Data to a simple String
-            if let data = data, let dataString = String(data: data, encoding: encoding) {
+            if let data = data, var dataString = String(data: data, encoding: encoding) {
+                
 //                print("Response data string:\n \(dataString)")
+                if (self.source!.hasPrefix("학부")) {
+                    dataString = dataString.slice(from: "<td class=\"view_content\" colspan=\"2\">", to: "<td class=\"tit\">이전글</td>")!
+                    let endtdIndices = dataString.ranges(of: "</td>")
+
+                    if let lastIndex = endtdIndices.last {
+                        dataString = String(dataString[..<lastIndex.upperBound])
+                    }
+                } else if (self.source!.hasPrefix("포털")) {
+                    dataString = dataString.slice(from: "\"contents\":\"", to: "\",\"haengsaSdt\"")!
+                    dataString = dataString.replacingOccurrences(of: "\\n", with: "")
+                    dataString = dataString.replacingOccurrences(of: "\\\"", with: "\"")
+//                    print(dataString)
+                    
+                }
                 completion(dataString,encoding)
             }
             

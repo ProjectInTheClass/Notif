@@ -23,12 +23,13 @@ extension UIColor {
 
 struct Card {
     var title: String
-    var source: String
+    var source: String?
     var tag = [String]()
     var time: Date
     var color: UIColor
     var isVisited: Bool = false
     var url: String
+    var json = [String:String]()
     
     var formattedDate: String {
         let dateFormatter = DateFormatter()
@@ -38,12 +39,20 @@ struct Card {
 }
 
 struct Channel {
-    var tilte: String
-    var subTitle: String
-    var channelTags = [Tag]()
+    var title: String
+    //var subTitle: String?
+    var channelTags = [String]()
     static var allTags = [Tag]()
+    //channeltag -> string alltag -> tag
 }
 
 struct Tag {
     var name: String
+    var time: Date
+    var formattedDate: String {
+        let dateFormatter = DateFormatter()
+        //dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+        dateFormatter.dateFormat = "yyyy/MM/dd"
+        return dateFormatter.string(from: time)
+    }
 }

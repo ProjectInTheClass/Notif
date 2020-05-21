@@ -28,8 +28,9 @@ class HomeTableViewController: UITableViewController {
         super.viewDidLoad()
         
         navigationItem.largeTitleDisplayMode = .always
-        
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "홈 N개의 새로운 글"
+        //navigationController?.navigationBar.topItem?.title = "홈 개의 새로운 글"
         tabBarItem.title = "홈"
         
     }

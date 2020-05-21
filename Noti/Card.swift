@@ -33,7 +33,7 @@ struct Card {
     
     var formattedDate: String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy/MM/dd"
+        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
         return dateFormatter.string(from: time)
     }
 }
@@ -55,4 +55,5 @@ struct Tag {
         dateFormatter.dateFormat = "yyyy/MM/dd"
         return dateFormatter.string(from: time)
     }
+
 }

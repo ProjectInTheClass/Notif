@@ -10,9 +10,9 @@ import UIKit
 
 class HomeTableViewController: UITableViewController {
     
-    var cardsViewController = CardViewController()
+    //var cardsViewController = CardViewController()
     // 모든 카드 정보(cardsViewController에 있는 카드와 테이블뷰에 뿌릴 카드를 나눔
-    lazy var cards = cardsViewController.cards
+    var cards = cardsDataSource.cards
     // 메세지 버튼(안본거만 뿌려주는 버튼)
     var listUnread = false
     
@@ -25,11 +25,11 @@ class HomeTableViewController: UITableViewController {
                 destination.source = cell.sourceLabel.text
                 destination.date = cell.dateLabel.text
                 destination.back2 = title
-                destination.url = cardsViewController.cards[indexPath.row].url
-                destination.json = cardsViewController.cards[indexPath.row].json
+                destination.url = cards[indexPath.row].url
+                destination.json = cards[indexPath.row].json
                 
                 // 방문할경우 비짓처리하고 테이블뷰 리로드
-                cards[indexPath.row].isVisited.isVisited = true
+                cards[indexPath.row].isVisited = true
                 tableView.reloadData()
                 
             }
@@ -85,7 +85,7 @@ class HomeTableViewController: UITableViewController {
         cell.sourceColorView.layer.backgroundColor = cards[indexPath.row].color.cgColor
 
         // 비짓이 트루로 되어있으면 배경 블러처리해줌
-        if (cards[indexPath.row].isVisited.isVisited == true){
+        if (cards[indexPath.row].isVisited == true){
             cell.cellView.backgroundColor = UIColor(white: 0.95, alpha: 1)
             cell.cellView.alpha = 0.67
         }else {
@@ -111,23 +111,23 @@ class HomeTableViewController: UITableViewController {
     @IBAction func unreadButtonIsSelected(_ sender: UIBarButtonItem) {
         listUnread.toggle()
         if listUnread{
-            cards = cardsViewController.cards.filter{ $0.isVisited.isVisited == false }
+            cards = cardsDataSource.cards.filter{ $0.isVisited == false }
         
         }
         else{
-            cards = cardsViewController.cards
+            cards = cardsDataSource.cards
         }
         tableView.reloadData()
     }
     
     // 이거 넣으면 세그웨이 두번실행되서 지움
-    /*
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! HomeTableViewCell
         
         performSegue(withIdentifier: "detailSegue", sender: cell)
     }
-    */
+    
     
     /*
     // Override to support conditional editing of the table view.

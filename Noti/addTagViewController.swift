@@ -9,16 +9,16 @@
 import UIKit
 
 class addTagViewController: UIViewController, UITableViewDataSource, UITextFieldDelegate  {
-    var channelView = ChannelViewController()
+    //var channelView = ChannelViewController()
     var allTagsNameList = [String]()
-    var cardView = CardViewController()
+    var cardView = CardDataSource()
     @IBOutlet weak var tagTextField: UITextField!
     @IBOutlet weak var tagTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        for i in 0..<channelView.allTags.count{
-            allTagsNameList += [channelView.allTags[i].name]
+        for i in 0..<channelsDataSource.allTags.count{
+            allTagsNameList += [channelsDataSource.allTags[i].name]
         }
         tagTableView.dataSource = self
         tagTextField.delegate = self
@@ -41,12 +41,12 @@ class addTagViewController: UIViewController, UITableViewDataSource, UITextField
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return  channelView.allTags.count
+        return  channelsDataSource.allTags.count
       }
       
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "allTagCell", for: indexPath) as UITableViewCell
-        cell.textLabel?.text = channelView.allTags[indexPath.row].name
+        cell.textLabel?.text = channelsDataSource.allTags[indexPath.row].name
         return cell
       }
     //공백과 10글자 이내로
@@ -71,7 +71,7 @@ class addTagViewController: UIViewController, UITableViewDataSource, UITextField
             let now = NSDate()
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-            channelView.allTags.append(Tag(name: textField.text!, time: now as Date ))
+            channelsDataSource.allTags.append(Tag(name: textField.text!, time: now as Date ))
             //tableView(tagTableView, cellForRowAt: IndexPath)
             
             cardView.cards.append(Card(title: textField.text!, time: now as Date, color: UIColor.first, url: ""))

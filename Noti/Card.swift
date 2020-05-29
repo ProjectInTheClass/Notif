@@ -24,13 +24,13 @@ extension UIColor {
         static var sourceFont: UIColor { return UIColor(red: 190/255, green: 191/255, blue: 195/255, alpha: 1) }
 }
 
-struct Card {
+class Card {
     var title: String
     var source: String?
     var tag = [String]()
     var time: Date
     var color: UIColor
-    var isVisited = Visit(isVisited: false)
+    var isVisited = false
     var url: String
     var json = [String:String]()
     
@@ -39,21 +39,25 @@ struct Card {
         dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
         return dateFormatter.string(from: time)
     }
-}
-
-class Visit{
-    var isVisited: Bool
-    init(isVisited: Bool){
-        self.isVisited = isVisited
-    }
     
+    
+    init(title: String, source: String? = nil, tag:[String] = [String](), time: Date, color: UIColor, isVisited:Bool = false, url: String, json: [String:String] = [String:String]() ){
+        self.title = title
+        self.source = source
+        self.tag = tag
+        self.time = time
+        self.color = color
+        self.isVisited = isVisited
+        self.url = url
+        self.json = json
+    }
 }
 struct Channel {
     var title: String
-    var subTitle: String
+    var category: String
     var channelTags = [String]()
     //static var allTags = [Tag]()
-    var isVisited : Bool = false
+    var isSubscribed : Bool = false
 }
 
 struct Tag {

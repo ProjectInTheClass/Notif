@@ -10,14 +10,15 @@ import Foundation
 
 struct classifiedCard{
     let cardview = CardViewController()
+    let channelview = ChannelViewController()
     var allTagsArray = [String]()
     
     var cards = [Card]()
     init(){
-        for i in 0..<Channel.allTags.count{
-            allTagsArray += [Channel.allTags[i].name]
+        for i in 0..<channelview.allTags.count{
+            allTagsArray += [channelview.allTags[i].name]
         }
-        if(Channel.allTags.count != 0){
+        if(channelview.allTags.count != 0){
             for i in 0..<cardview.cards.count{
                 if(cardview.cards[i].source == nil){
                     self.cards.append(cardview.cards[i])

@@ -22,7 +22,9 @@ class HistoryViewController: UIViewController, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.historyTable.dataSource = self
+        self.historyTable.rowHeight = 80
         // Do any additional setup after loading the view.
+        self.historyTable.tableFooterView = UIView(frame: CGRect.zero)
     }
     
     
@@ -38,7 +40,7 @@ class HistoryViewController: UIViewController, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if(Channel.allTags.count == 0 ){
+        if(channelsViewController.allTags.count == 0 ){
                    return 1
         }
         let date = Array(Set(self.cardsViewController.cards.map{$0.formattedDate})).sorted().reversed()[section]
@@ -55,7 +57,7 @@ class HistoryViewController: UIViewController, UITableViewDataSource {
         //tag를 추가했을 때 생기는 cell, 기존의 card 구조체에서 제목과 시간만 저장됨
         let tagCell = tableView.dequeueReusableCell(withIdentifier: "tagCell", for: indexPath) as! tagTableViewCell
         
-        if(Channel.allTags.count == 0 ){
+        if(channelsViewController.allTags.count == 0 ){
             tagCell.whenTagCreated.text = "--------표시할 데이터 없음---------"
             return tagCell
         }
@@ -72,7 +74,7 @@ class HistoryViewController: UIViewController, UITableViewDataSource {
             cardCell.cellView.layer.shadowOpacity = 0.5 // alpha값입니다.
                     
             cardCell.sourceColorView.layer.backgroundColor = nowCell.color.cgColor
-
+            
             return cardCell
        }
         //source가 없는 경우 tagCell 로 구분된다
@@ -83,9 +85,7 @@ class HistoryViewController: UIViewController, UITableViewDataSource {
     }
     
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(100)
-    }
+   
     
 
     /*

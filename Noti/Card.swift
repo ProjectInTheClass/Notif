@@ -40,10 +40,10 @@ struct Card {
 
 struct Channel {
     var title: String
-    //var subTitle: String?
+    var subTitle: String
     var channelTags = [String]()
-    static var allTags = [Tag]()
-    //channeltag -> string alltag -> tag
+    //static var allTags = [Tag]()
+    var isVisited : Bool = false
 }
 
 struct Tag {

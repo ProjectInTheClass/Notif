@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ODg-HY-JJ9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ODg-HY-JJ9">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -100,18 +100,19 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PPl-qn-zJk">
-                                                    <rect key="frame" x="20" y="30" width="374" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PPl-qn-zJk">
+                                                    <rect key="frame" x="12" y="6" width="390" height="68"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="PPl-qn-zJk" firstAttribute="centerY" secondItem="Ajs-i1-Sob" secondAttribute="centerY" id="SMh-LE-ci4"/>
-                                                <constraint firstItem="PPl-qn-zJk" firstAttribute="centerX" secondItem="Ajs-i1-Sob" secondAttribute="centerX" id="Veo-OR-923"/>
-                                                <constraint firstItem="PPl-qn-zJk" firstAttribute="centerX" secondItem="Ajs-i1-Sob" secondAttribute="centerX" id="dej-01-X6N"/>
-                                                <constraint firstItem="PPl-qn-zJk" firstAttribute="centerY" secondItem="Ajs-i1-Sob" secondAttribute="centerY" id="x5B-FR-Sel"/>
+                                                <constraint firstAttribute="bottom" secondItem="PPl-qn-zJk" secondAttribute="bottom" constant="6" id="2Cp-z7-FgM"/>
+                                                <constraint firstItem="PPl-qn-zJk" firstAttribute="top" secondItem="Ajs-i1-Sob" secondAttribute="top" constant="6" id="80D-xT-wD8"/>
+                                                <constraint firstAttribute="trailing" secondItem="PPl-qn-zJk" secondAttribute="trailing" constant="12" id="D3e-Qu-nVC"/>
+                                                <constraint firstItem="PPl-qn-zJk" firstAttribute="leading" secondItem="Ajs-i1-Sob" secondAttribute="leading" constant="12" id="cQu-v9-erV"/>
+                                                <constraint firstItem="PPl-qn-zJk" firstAttribute="centerX" secondItem="Ajs-i1-Sob" secondAttribute="centerX" id="hLP-zu-sfw"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>

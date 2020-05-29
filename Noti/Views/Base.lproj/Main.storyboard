@@ -1,21 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5wB-9v-x5V">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5wB-9v-x5V">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Title-->
+        <!--Home Table View Controller-->
         <scene sceneID="RGM-VW-mrU">
             <objects>
                 <tableViewController modalPresentationStyle="fullScreen" id="rSO-Ud-TUV" customClass="HomeTableViewController" customModule="Noti" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="60" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="y0u-fJ-y6o">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="YWJ-3R-re4">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="18"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        </view>
                         <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="customCell" rowHeight="80" id="d2V-fV-Fju" customClass="HomeTableViewCell" customModule="Noti" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="46" width="414" height="80"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d2V-fV-Fju" id="PK2-d6-rdF">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iNl-lK-lWb">
+                                            <rect key="frame" x="17" y="0.0" width="380" height="71"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hCe-Wc-xJ0">
+                                                    <rect key="frame" x="19" y="9" width="354" height="20"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Jw-cg-P7Y">
+                                                    <rect key="frame" x="19" y="44.5" width="37" height="17.5"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="15"/>
+                                                    <color key="textColor" red="0.55306309460000003" green="0.55661767719999999" blue="0.57255154850000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kVT-am-Wis">
+                                                    <rect key="frame" x="336" y="44.5" width="37" height="17.5"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="15"/>
+                                                    <color key="textColor" red="0.55696040390000001" green="0.55661970380000003" blue="0.57255154850000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YPB-28-TSg">
+                                                    <rect key="frame" x="0.0" y="0.0" width="12" height="71"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="12" id="X51-ag-Xzd"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            <constraints>
+                                                <constraint firstItem="YPB-28-TSg" firstAttribute="top" secondItem="iNl-lK-lWb" secondAttribute="top" id="1x1-Lw-BeT"/>
+                                                <constraint firstAttribute="bottom" secondItem="kVT-am-Wis" secondAttribute="bottom" constant="9" id="3fv-vO-GVf"/>
+                                                <constraint firstAttribute="trailing" secondItem="hCe-Wc-xJ0" secondAttribute="trailing" constant="7" id="NY1-KU-HC7"/>
+                                                <constraint firstItem="YPB-28-TSg" firstAttribute="leading" secondItem="iNl-lK-lWb" secondAttribute="leading" id="Qa3-vl-oLI"/>
+                                                <constraint firstItem="hCe-Wc-xJ0" firstAttribute="leading" secondItem="YPB-28-TSg" secondAttribute="trailing" constant="7" id="YjB-6t-mEn"/>
+                                                <constraint firstItem="1Jw-cg-P7Y" firstAttribute="leading" secondItem="YPB-28-TSg" secondAttribute="trailing" constant="7" id="c2P-ho-Xs6"/>
+                                                <constraint firstAttribute="bottom" secondItem="YPB-28-TSg" secondAttribute="bottom" id="dv5-QT-hJz"/>
+                                                <constraint firstItem="hCe-Wc-xJ0" firstAttribute="top" secondItem="iNl-lK-lWb" secondAttribute="top" constant="9" id="gy7-Ru-vvM"/>
+                                                <constraint firstAttribute="trailing" secondItem="kVT-am-Wis" secondAttribute="trailing" constant="7" id="mhh-9x-YVd"/>
+                                                <constraint firstAttribute="bottom" secondItem="1Jw-cg-P7Y" secondAttribute="bottom" constant="9" id="xr4-5z-fB2"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="iNl-lK-lWb" firstAttribute="top" secondItem="PK2-d6-rdF" secondAttribute="top" id="AJM-f6-qGx"/>
+                                        <constraint firstAttribute="trailing" secondItem="iNl-lK-lWb" secondAttribute="trailing" constant="17" id="PqT-Ts-cRZ"/>
+                                        <constraint firstAttribute="bottom" secondItem="iNl-lK-lWb" secondAttribute="bottom" constant="9" id="fCP-PF-rZR"/>
+                                        <constraint firstItem="iNl-lK-lWb" firstAttribute="leading" secondItem="PK2-d6-rdF" secondAttribute="leading" constant="17" id="ota-au-8dy"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="cellView" destination="iNl-lK-lWb" id="NUh-Qm-Yp9"/>
+                                    <outlet property="dateLabel" destination="kVT-am-Wis" id="gCJ-Ie-RBD"/>
+                                    <outlet property="sourceColorView" destination="YPB-28-TSg" id="l8o-vY-eG1"/>
+                                    <outlet property="sourceLabel" destination="1Jw-cg-P7Y" id="l3o-NU-OZv"/>
+                                    <outlet property="titleLabel" destination="hCe-Wc-xJ0" id="jlz-Fg-0MT"/>
+                                </connections>
+                            </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="postCell" rowHeight="80" id="3Fb-GH-t07" customClass="HomeTableViewCell" customModule="Noti" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="126" width="414" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3Fb-GH-t07" id="rvD-If-dxh">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
@@ -80,11 +150,10 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="cellView" destination="4jd-KJ-Amw" id="IYV-KE-IUT"/>
-                                    <outlet property="dateLabel" destination="iQg-yb-Bmi" id="0Nr-2y-Vld"/>
-                                    <outlet property="sourceColorView" destination="hK7-aL-W9U" id="cFD-OS-Ckw"/>
-                                    <outlet property="sourceLabel" destination="rM8-tB-jLc" id="2az-Nx-Mu7"/>
-                                    <outlet property="titleLabel" destination="KNO-m8-idT" id="ch0-x1-bOq"/>
+                                    <outlet property="cellView" destination="4jd-KJ-Amw" id="XC2-cn-i5F"/>
+                                    <outlet property="dateLabel" destination="iQg-yb-Bmi" id="kAT-vs-Qdx"/>
+                                    <outlet property="sourceLabel" destination="rM8-tB-jLc" id="bhP-9W-kab"/>
+                                    <outlet property="titleLabel" destination="KNO-m8-idT" id="xF1-kn-1di"/>
                                     <segue destination="t0f-QK-AGs" kind="show" identifier="detailSegue" id="fpa-V1-9Ug"/>
                                 </connections>
                             </tableViewCell>
@@ -94,7 +163,15 @@
                             <outlet property="delegate" destination="rSO-Ud-TUV" id="Hea-hG-2Pv"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="DLh-lN-tO1"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="DLh-lN-tO1">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="envelope" catalog="system" id="Wgc-te-p69">
+                            <connections>
+                                <action selector="unreadButtonIsSelected:" destination="rSO-Ud-TUV" id="9tI-ZF-kDg"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QCZ-qg-QQI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -179,6 +256,7 @@
     </scenes>
     <resources>
         <image name="calendar" catalog="system" width="128" height="106"/>
+        <image name="envelope" catalog="system" width="128" height="93"/>
         <image name="text.justify" catalog="system" width="128" height="100"/>
     </resources>
 </document>

@@ -11,6 +11,10 @@ import UIKit
 class HomeTableViewController: UITableViewController {
     
     var cardsViewController = CardViewController()
+    // 모든 카드 정보(cardsViewController에 있는 카드와 테이블뷰에 뿌릴 카드를 나눔
+    lazy var cards = cardsViewController.cards
+    // 메세지 버튼(안본거만 뿌려주는 버튼)
+    var listUnread = false
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "detailSegue") {
@@ -23,6 +27,11 @@ class HomeTableViewController: UITableViewController {
                 destination.back2 = title
                 destination.url = cardsViewController.cards[indexPath.row].url
                 destination.json = cardsViewController.cards[indexPath.row].json
+                
+                // 방문할경우 비짓처리하고 테이블뷰 리로드
+                cards[indexPath.row].isVisited.isVisited = true
+                tableView.reloadData()
+                
             }
         }
     }
@@ -31,9 +40,18 @@ class HomeTableViewController: UITableViewController {
         super.viewDidLoad()
         
         navigationItem.largeTitleDisplayMode = .always
-        
-        navigationItem.title = "홈 N개의 새로운 글"
+        //카드개수만큼만 보여주도록 설정함
+        navigationItem.title = "\(cards.count)개의 새로운 글"
         tabBarItem.title = "홈"
+        
+        //네비게이션바 배경색 넣어주는 코드
+        let coloredAppearance = UINavigationBarAppearance()
+        coloredAppearance.configureWithOpaqueBackground()
+        coloredAppearance.backgroundColor = UIColor.navBack
+        coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.navFont]
+        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.navFont]
+        self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
+        self.navigationController?.navigationBar.standardAppearance = coloredAppearance
         
     }
         
@@ -46,15 +64,15 @@ class HomeTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return cardsViewController.cards.count
+        return cards.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "postCell", for: indexPath) as! HomeTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! HomeTableViewCell
         
-        cell.titleLabel.text = cardsViewController.cards[indexPath.row].title
-        cell.sourceLabel.text = cardsViewController.cards[indexPath.row].source
-        cell.dateLabel.text = cardsViewController.cards[indexPath.row].formattedDate
+        cell.titleLabel.text = cards[indexPath.row].title
+        cell.sourceLabel.text = cards[indexPath.row].source
+        cell.dateLabel.text = cards[indexPath.row].formattedDate
 //        cell.cellView.layer.borderWidth = 1
         
         cell.cellView.layer.shadowColor = UIColor.black.cgColor
@@ -62,8 +80,17 @@ class HomeTableViewController: UITableViewController {
         cell.cellView.layer.shadowRadius = 2 // 반경?
         cell.cellView.layer.shadowOpacity = 0.5 // alpha값입니다.
         
-        cell.sourceColorView.layer.backgroundColor = cardsViewController.cards[indexPath.row].color.cgColor
+        cell.sourceColorView.layer.backgroundColor = cards[indexPath.row].color.cgColor
 
+        // 비짓이 트루로 되어있으면 배경 블러처리해줌
+        if (cards[indexPath.row].isVisited.isVisited == true){
+            cell.cellView.backgroundColor = UIColor(white: 0.95, alpha: 1)
+            cell.cellView.alpha = 0.67
+        }else {
+            cell.cellView.backgroundColor = .white
+            cell.cellView.alpha = 1
+        }
+        
         return cell
     }
     
@@ -74,8 +101,21 @@ class HomeTableViewController: UITableViewController {
         return headerView
     }
     
+    //자잘하게 ui수정 카드 높이 수정함
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(100)
+        return 95
+    }
+    // 메시지 버튼 눌리면 할거
+    @IBAction func unreadButtonIsSelected(_ sender: UIBarButtonItem) {
+        listUnread.toggle()
+        if listUnread{
+            cards = cardsViewController.cards.filter{ $0.isVisited.isVisited == false }
+        
+        }
+        else{
+            cards = cardsViewController.cards
+        }
+        tableView.reloadData()
     }
     
     // 이거 넣으면 세그웨이 두번실행되서 지움

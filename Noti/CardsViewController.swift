@@ -25,7 +25,8 @@ struct CardViewController {
             Card(title:"2020-2학기 1차 국가근로장학금 학생신청기간 안내", source: "포털-장학 게시판",tag:["장학금"], time:  dateFormatter.date(from: "2020-05-18")!, color: UIColor.third, url:"https://portal.hanyang.ac.kr/GjshAct/findGongjisahangs.do?pgmId=P308200&menuId=M006263&tk=0be29593626429dfc3f1b618045bc8172b86832df0d333bc0f5db47199b9028a", json: ["gongjiSeq":"15689"]),
             Card(title:"대운동장 인조잔디구장 및 지하주차장 사용 안내", source: "포털-일반 게시판", time:  dateFormatter.date(from: "2020-05-18")!, color: UIColor.fourth, url:"https://portal.hanyang.ac.kr/GjshAct/findGongjisahangs.do?pgmId=P308200&menuId=M006263&tk=0be29593626429dfc3f1b618045bc8172b86832df0d333bc0f5db47199b9028a", json: ["gongjiSeq":"15688"]),
             Card(title:"2020년도 상반기 울산광역시 대학생 학자금대출 이자지원 사업 신청 안내", source: "포털-장학 게시판", time:  dateFormatter.date(from: "2020-05-18")!, color: UIColor.third, url:"https://portal.hanyang.ac.kr/GjshAct/findGongjisahangs.do?pgmId=P308200&menuId=M006263&tk=0be29593626429dfc3f1b618045bc8172b86832df0d333bc0f5db47199b9028a" , json: ["gongjiSeq":"15686"]),
-            Card(title:"2020-1학기 국가장학금1유형 지급(3차 지급실행) 예정 안내", source: "포털-장학 게시판", tag:["장학금"], time: dateFormatter.date(from: "2020-05-18")!, color:UIColor.first, url:"https://portal.hanyang.ac.kr/GjshAct/findGongjisahangs.do?pgmId=P308200&menuId=M006263&tk=0be29593626429dfc3f1b618045bc8172b86832df0d333bc0f5db47199b9028a", json: ["gongjiSeq":"15685"])
+            Card(title:"2020-1학기 국가장학금1유형 지급(3차 지급실행) 예정 안내", source: "포털-장학 게시판", tag:["장학금"], time: dateFormatter.date(from: "2020-05-18")!, color:UIColor.first, url:"https://portal.hanyang.ac.kr/GjshAct/findGongjisahangs.do?pgmId=P308200&menuId=M006263&tk=0be29593626429dfc3f1b618045bc8172b86832df0d333bc0f5db47199b9028a", json: ["gongjiSeq":"15685"]),
+            Card(title:"장학", source: nil, tag :[], time:dateFormatter.date(from : "2020-05-18")!, color:UIColor.first, url:"")
         ]
         cards.sort {(obj1, obj2) -> Bool in
             return obj1.time > obj2.time
@@ -33,15 +34,5 @@ struct CardViewController {
     }
 }
 
-struct ChannelViewController{
-    var channels = [Channel]()
-    let dateFormatter = DateFormatter()
-    init() {
-        dateFormatter.dateFormat = "yyyy/MM/dd"
-        channels += [Channel(title: "학부-학사", channelTags: ["대회","모집"]), Channel(title: "학부-취업", channelTags: ["모집","채용"]), Channel(title: "포털-장학", channelTags: ["장학금"]), Channel(title: "포털-일반", channelTags: [] ),]
-            //Channel.allTags += ["취업","모집","채용","장학금"]
-            //Channel.allTags += ["모집"]
-        Channel.allTags += [Tag(name: "대회", time: dateFormatter.date(from: "2020-05-12")!),Tag(name: "모집", time: dateFormatter.date(from: "2020-05-11")!),Tag(name: "채용", time: dateFormatter.date(from: "2020-05-14")!),Tag(name: "장학금", time: dateFormatter.date(from: "2020-05-13")!),]
-    }
-    
-}
+
+

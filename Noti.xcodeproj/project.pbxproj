@@ -20,6 +20,11 @@
 		6258C0AB2473DE49001E5B49 /* tagTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6258C0AA2473DE49001E5B49 /* tagTableViewCell.swift */; };
 		6258C0AD2474348A001E5B49 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6258C0AC2474348A001E5B49 /* HistoryViewController.swift */; };
 		6258C0B12474736C001E5B49 /* classifyCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6258C0B02474736C001E5B49 /* classifyCards.swift */; };
+		6258C0B3247EDCC5001E5B49 /* ChannelCenterView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6258C0B2247EDCC5001E5B49 /* ChannelCenterView.storyboard */; };
+		6258C0B9247EF5C2001E5B49 /* ChannelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6258C0B8247EF5C2001E5B49 /* ChannelCollectionViewCell.swift */; };
+		6258C0BB247EF7F6001E5B49 /* ChannelCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6258C0BA247EF7F6001E5B49 /* ChannelCollectionViewController.swift */; };
+		625F32742480F9EA00C917D4 /* channelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625F32732480F9EA00C917D4 /* channelView.swift */; };
+		62E3020724805B6D002332AE /* addTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62E3020624805B6D002332AE /* addTagViewController.swift */; };
 		86A5E83B246EE5BC00B692F4 /* HomeDetailView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86A5E83A246EE5BC00B692F4 /* HomeDetailView.storyboard */; };
 		86A5E87D246EF00400B692F4 /* HistoryView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86A5E87C246EF00400B692F4 /* HistoryView.storyboard */; };
 /* End PBXBuildFile section */
@@ -40,6 +45,11 @@
 		6258C0AA2473DE49001E5B49 /* tagTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tagTableViewCell.swift; sourceTree = "<group>"; };
 		6258C0AC2474348A001E5B49 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		6258C0B02474736C001E5B49 /* classifyCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = classifyCards.swift; sourceTree = "<group>"; };
+		6258C0B2247EDCC5001E5B49 /* ChannelCenterView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ChannelCenterView.storyboard; sourceTree = "<group>"; };
+		6258C0B8247EF5C2001E5B49 /* ChannelCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCollectionViewCell.swift; sourceTree = "<group>"; };
+		6258C0BA247EF7F6001E5B49 /* ChannelCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCollectionViewController.swift; sourceTree = "<group>"; };
+		625F32732480F9EA00C917D4 /* channelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = channelView.swift; sourceTree = "<group>"; };
+		62E3020624805B6D002332AE /* addTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addTagViewController.swift; sourceTree = "<group>"; };
 		86A5E83A246EE5BC00B692F4 /* HomeDetailView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HomeDetailView.storyboard; sourceTree = "<group>"; };
 		86A5E87C246EF00400B692F4 /* HistoryView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HistoryView.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -88,6 +98,10 @@
 				6258C0AA2473DE49001E5B49 /* tagTableViewCell.swift */,
 				6258C0AC2474348A001E5B49 /* HistoryViewController.swift */,
 				6258C0B02474736C001E5B49 /* classifyCards.swift */,
+				6258C0B8247EF5C2001E5B49 /* ChannelCollectionViewCell.swift */,
+				6258C0BA247EF7F6001E5B49 /* ChannelCollectionViewController.swift */,
+				62E3020624805B6D002332AE /* addTagViewController.swift */,
+				625F32732480F9EA00C917D4 /* channelView.swift */,
 			);
 			path = Noti;
 			sourceTree = "<group>";
@@ -98,6 +112,7 @@
 				0F5DB595246AEA1700245E96 /* Main.storyboard */,
 				86A5E83A246EE5BC00B692F4 /* HomeDetailView.storyboard */,
 				86A5E87C246EF00400B692F4 /* HistoryView.storyboard */,
+				6258C0B2247EDCC5001E5B49 /* ChannelCenterView.storyboard */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -162,6 +177,7 @@
 			files = (
 				0F5DB59C246AEA1C00245E96 /* LaunchScreen.storyboard in Resources */,
 				86A5E87D246EF00400B692F4 /* HistoryView.storyboard in Resources */,
+				6258C0B3247EDCC5001E5B49 /* ChannelCenterView.storyboard in Resources */,
 				0F5DB599246AEA1C00245E96 /* Assets.xcassets in Resources */,
 				86A5E83B246EE5BC00B692F4 /* HomeDetailView.storyboard in Resources */,
 				0F5DB597246AEA1700245E96 /* Main.storyboard in Resources */,
@@ -175,8 +191,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				625F32742480F9EA00C917D4 /* channelView.swift in Sources */,
+				6258C0BB247EF7F6001E5B49 /* ChannelCollectionViewController.swift in Sources */,
+				62E3020724805B6D002332AE /* addTagViewController.swift in Sources */,
 				6258C0AB2473DE49001E5B49 /* tagTableViewCell.swift in Sources */,
 				0F93EE212471308A0018B9C8 /* CardsViewController.swift in Sources */,
+				6258C0B9247EF5C2001E5B49 /* ChannelCollectionViewCell.swift in Sources */,
 				0F5DB5A4246AEAB300245E96 /* HomeTableViewController.swift in Sources */,
 				0F93EE1D2471232F0018B9C8 /* Card.swift in Sources */,
 				0F5DB590246AEA1700245E96 /* AppDelegate.swift in Sources */,

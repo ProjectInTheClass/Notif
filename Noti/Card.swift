@@ -26,7 +26,7 @@ extension UIColor {
 
 struct Card {
     var title: String
-    var source: String
+    var source: String?
     var tag = [String]()
     var time: Date
     var color: UIColor
@@ -50,11 +50,20 @@ class Visit{
 }
 struct Channel {
     var title: String
-    var channelTags = [Tag]()
-    static var allTags = [Tag]()
+    var subTitle: String
+    var channelTags = [String]()
+    //static var allTags = [Tag]()
+    var isVisited : Bool = false
 }
 
 struct Tag {
-    let name: String
-    let time: Date
+    var name: String
+    var time: Date
+    var formattedDate: String {
+        let dateFormatter = DateFormatter()
+        //dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+        dateFormatter.dateFormat = "yyyy/MM/dd"
+        return dateFormatter.string(from: time)
+    }
+
 }

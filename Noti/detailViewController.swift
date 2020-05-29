@@ -71,6 +71,9 @@ class detailViewController: UIViewController {
     var url:String?
     var json = [String:String]()
     
+
+
+    @IBOutlet weak var URLTextView: UITextView!
     @IBOutlet weak var contentTextView: UITextView!
     @IBOutlet weak var titleView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -85,7 +88,14 @@ class detailViewController: UIViewController {
         titleLabel.text = title2
         sourceLabel.text = source
         dateLabel.text = date
-//        contentTextView.text = url
+//        URLTextView.dataDetectorTypes = .link
+//        URLTextView.isEditable = false
+//        URLTextView.isUserInteractionEnabled = true
+//        URLTextView.isSelectable = true
+        URLTextView.text = url!
+        URLTextView.textContainer.maximumNumberOfLines = 1
+        URLTextView.textContainer.lineBreakMode = .byTruncatingTail
+        
         
         getContent() {
             dataString, encoding in
@@ -119,7 +129,7 @@ class detailViewController: UIViewController {
             request.httpMethod = "post"
             request.setValue("application/json+sua; charset=UTF-8", forHTTPHeaderField: "Content-Type")
             request.setValue("https://portal.hanyang.ac.kr", forHTTPHeaderField: "Origin")
-            request.setValue("ipSecGb=MQ%3D%3D; savedUserId=anVucm9vdDA5MDk%3D; WMONID=GQOvjLQn9EC; HYIN_JSESSIONID=3_IwslGjnw3_Ofp8I2LXCV8auS-tSHEMCKsQzPxJneE2XU8cBZzw!-1281175488!-1914115946; newLoginStatus=PORTALb4517457-3799-48ce-9dd3-fb2619fc1732; COM_JSESSIONID=duowsmgywu9ar1zEuMs9bakyUMJ2C-wHQAIJpexCjUCLj-aEIaC0!1301282226!777610703; _SSO_Global_Logout_url=get%5Ehttps%3A%2F%2Fportal.hanyang.ac.kr%2Flgot.do%24get%5Ehttps%3A%2F%2Fportal.hanyang.ac.kr%2Fhaksa%2Flgot.do%24; HAKSA_JSESSIONID=VWowsm6h-q30k6CTLq0FspImm0n8MCr_gxL0HG_BDxOsPDr33toz!1933421118!-968664353", forHTTPHeaderField: "Cookie")
+            request.setValue("ipSecGb=MQ%3D%3D; savedUserId=anVucm9vdDA5MDk%3D; WMONID=GQOvjLQn9EC; HYIN_JSESSIONID=tKgxq9hHchZjg48jxEDNXGgyBn-zjBNY3LXGhGaQ-wD4VqbXc4Nu!942074279!220462321; newLoginStatus=PORTAL8e1d20d1-e3df-4118-9884-5d5e75ed4505; COM_JSESSIONID=C1Uxq-QZlU2oBt_tL9XW_qLQbXuIEI4jg9UJsp4RI8eUfub3yGjc!-1908862846!2143065293; _SSO_Global_Logout_url=get%5Ehttps%3A%2F%2Fportal.hanyang.ac.kr%2Flgot.do%24get%5Ehttps%3A%2F%2Fportal.hanyang.ac.kr%2Fhaksa%2Flgot.do%24; HAKSA_JSESSIONID=D0oxq-o982mmyEIviMiFnft8hPXwrAneB_oFB5bbyH-mmR0y7guZ!-1049547854!193342111", forHTTPHeaderField: "Cookie")
             let jsonData = try? JSONSerialization.data(withJSONObject: json)
             request.httpBody = jsonData
         }

@@ -11,7 +11,8 @@ import UIKit
 private let reuseIdentifier = "ChannelCell"
 
 class ChannelCollectionViewController: UICollectionViewController {
-    var channelView = ChannelViewController()
+    var channels = channelsDataSource.channels
+    var channelsForServer = channelsDataSource.channelForServer
     let cellSpacing :CGFloat = 5
     let sectionSpacing :CGFloat = 10
     
@@ -65,14 +66,14 @@ class ChannelCollectionViewController: UICollectionViewController {
         
         // Configure the cell
         if(indexPath.section == 0){
-            cell.channelTitle.text = channelView.channels[indexPath.item].title
-            cell.channelSubTitle.text = channelView.channels[indexPath.item].subTitle
+            cell.channelTitle.text = channels[indexPath.item].title
+            cell.channelSubTitle.text = channels[indexPath.item].category
             cell.channelColor.layer.backgroundColor = UIColor.first.cgColor
         }
         
         else{
-            cell.channelTitle.text = channelView.channels[indexPath.item + 2].title
-            cell.channelSubTitle.text = channelView.channels[indexPath.item + 2].subTitle
+            cell.channelTitle.text = channels[indexPath.item + 2].title
+            cell.channelSubTitle.text = channels[indexPath.item + 2].category
             cell.channelColor.layer.backgroundColor = UIColor.second.cgColor
         }
         
@@ -148,7 +149,7 @@ class ChannelCollectionViewController: UICollectionViewController {
         cell.channelTitle.textColor = .black
         cell.channelSubTitle.textColor = .black
         cell.channelCell.backgroundColor = .white
-        channelView.channelForServer.append(Channel(title: cell.channelTitle.text!, subTitle: cell.channelSubTitle.text!))
+        channelsForServer.append(Channel(title: cell.channelTitle.text!, category:  cell.channelSubTitle.text!))
     }
     
     override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -163,7 +164,7 @@ class ChannelCollectionViewController: UICollectionViewController {
     func buttonTouched(_ cell : UICollectionViewCell){
         let path = collectionView.indexPath(for: cell)
         let addChannelCell = collectionView.cellForItem(at: path!) as! ChannelCollectionViewCell
-        channelView.channelForServer.append(Channel(title: addChannelCell.channelTitle.text!, subTitle: addChannelCell.channelSubTitle.text!))
+        channelsForServer.append(Channel(title: addChannelCell.channelTitle.text!, category:  addChannelCell.channelSubTitle.text!))
     }
 
     /*

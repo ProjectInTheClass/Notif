@@ -9,7 +9,6 @@
 import UIKit
 
 class ChannelCollectionViewCell: UICollectionViewCell {
-    var ChannelController = ChannelViewController()
     @IBOutlet weak var channelTitle: UILabel!
     @IBOutlet weak var channelCell: UIView!
     

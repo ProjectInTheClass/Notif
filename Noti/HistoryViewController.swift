@@ -11,7 +11,6 @@ import UIKit
 class HistoryViewController: UIViewController, UITableViewDataSource {
     
    
-    let channelsViewController = ChannelViewController()
     
     
     //var cardsViewController = CardViewController()
@@ -40,7 +39,7 @@ class HistoryViewController: UIViewController, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if(channelsViewController.allTags.count == 0 ){
+        if(channelsDataSource.allTags.count == 0 ){
                    return 1
         }
         let date = Array(Set(self.cardsViewController.cards.map{$0.formattedDate})).sorted().reversed()[section]
@@ -49,7 +48,7 @@ class HistoryViewController: UIViewController, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //home 화면에서 제공되던 card 셀들
-        let cardCell = tableView.dequeueReusableCell(withIdentifier: "cardCell", for: indexPath) as! HomeTableViewCell
+        let cardCell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! HomeTableViewCell
         //날짜별로 정렬하기 위해서 추가, 카드들을 날짜별로 묶어줄 수 있도록 각 섹션의 날짜가 저장된 변수
         let date = Array(Set(self.cardsViewController.cards.map{$0.formattedDate})).sorted().reversed()[indexPath.section]
         //cardsViewController.cards를 돌면서 각 날짜에 맞는 card를 필터를 걸어서 찾아내기 위한 변수
@@ -57,7 +56,7 @@ class HistoryViewController: UIViewController, UITableViewDataSource {
         //tag를 추가했을 때 생기는 cell, 기존의 card 구조체에서 제목과 시간만 저장됨
         let tagCell = tableView.dequeueReusableCell(withIdentifier: "tagCell", for: indexPath) as! tagTableViewCell
         
-        if(channelsViewController.allTags.count == 0 ){
+        if(channelsDataSource.allTags.count == 0 ){
             tagCell.whenTagCreated.text = "--------표시할 데이터 없음---------"
             return tagCell
         }

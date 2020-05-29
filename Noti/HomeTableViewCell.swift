@@ -15,7 +15,7 @@ class HomeTableViewCell: UITableViewCell {
     @IBOutlet weak var sourceLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var cellView: UIView!
-    @IBOutlet weak var sourceColorView: UIView!
+    @IBOutlet weak var sourceColorView: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

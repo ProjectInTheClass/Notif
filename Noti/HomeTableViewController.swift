@@ -40,8 +40,10 @@ class HomeTableViewController: UITableViewController {
         super.viewDidLoad()
         
         navigationItem.largeTitleDisplayMode = .always
+
         //카드개수만큼만 보여주도록 설정함
         navigationItem.title = "\(cards.count)개의 새로운 글"
+
         tabBarItem.title = "홈"
         
         //네비게이션바 배경색 넣어주는 코드

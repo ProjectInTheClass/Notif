@@ -19,6 +19,9 @@ extension UIColor {
     static var third: UIColor { return UIColor(red: 108/255, green: 166/255, blue: 94/255, alpha: 1) }
     static var fourth: UIColor { return UIColor(red: 95/255, green: 142/255, blue: 199/255, alpha: 1) }
     static var fifth: UIColor { return UIColor(red: 54/255, green: 81/255, blue: 113/255, alpha: 1) }
+    static var navBack: UIColor { return UIColor(red: 249/255, green: 249/255, blue: 249/255, alpha: 1) }
+        static var navFont: UIColor { return UIColor(red: 27/255, green: 26/255, blue: 29/255, alpha: 1) }
+        static var sourceFont: UIColor { return UIColor(red: 190/255, green: 191/255, blue: 195/255, alpha: 1) }
 }
 
 struct Card {
@@ -27,7 +30,7 @@ struct Card {
     var tag = [String]()
     var time: Date
     var color: UIColor
-    var isVisited: Bool = false
+    var isVisited = Visit(isVisited: false)
     var url: String
     var json = [String:String]()
     
@@ -38,6 +41,13 @@ struct Card {
     }
 }
 
+class Visit{
+    var isVisited: Bool
+    init(isVisited: Bool){
+        self.isVisited = isVisited
+    }
+    
+}
 struct Channel {
     var title: String
     var subTitle: String

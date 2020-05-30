@@ -12,9 +12,23 @@ class HomeTableViewController: UITableViewController {
     
     //var cardsViewController = CardViewController()
     // 모든 카드 정보(cardsViewController에 있는 카드와 테이블뷰에 뿌릴 카드를 나눔
-    var cards = cardsDataSource.cards
+//    var cards = cardsDataSource.cards
+    var cards: [Card] = []
     // 메세지 버튼(안본거만 뿌려주는 버튼)
     var listUnread = false
+    
+    func updateCards(){
+//        let now = Date()
+        
+        // 임시로 보여주기 위해 선언함
+        var dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm"
+        let now = dateFormatter.date(from: "2020-05-18 17:21")!
+        //
+        
+        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: now)!
+        cards = cardsDataSource.cards.filter{ $0.time <= now && $0.time > yesterday && $0.url != ""}
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "detailSegue") {
@@ -26,6 +40,7 @@ class HomeTableViewController: UITableViewController {
                 destination.date = cell.dateLabel.text
                 destination.back2 = title
                 destination.url = cards[indexPath.row].url
+//                print("!!!!!"+cards[indexPath.row].url)
                 destination.json = cards[indexPath.row].json
                 
                 // 방문할경우 비짓처리하고 테이블뷰 리로드
@@ -38,9 +53,9 @@ class HomeTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        updateCards()
         navigationItem.largeTitleDisplayMode = .always
-
+        
         //카드개수만큼만 보여주도록 설정함
         navigationItem.title = "\(cards.count)개의 새로운 글"
 
@@ -74,16 +89,9 @@ class HomeTableViewController: UITableViewController {
         
         cell.titleLabel.text = cards[indexPath.row].title
         cell.sourceLabel.text = cards[indexPath.row].source
-        cell.dateLabel.text = cards[indexPath.row].formattedDate
-//        cell.cellView.layer.borderWidth = 1
+        cell.dateLabel.text = cards[indexPath.row].homeFormattedDate
+        cell.sourceColorView.backgroundColor = cards[indexPath.row].color
         
-        cell.cellView.layer.shadowColor = UIColor.black.cgColor
-        cell.cellView.layer.shadowOffset = CGSize(width: 0, height: 2) //반경
-        cell.cellView.layer.shadowRadius = 2 // 반경?
-        cell.cellView.layer.shadowOpacity = 0.5 // alpha값입니다.
-        
-        cell.sourceColorView.layer.backgroundColor = cards[indexPath.row].color.cgColor
-
         // 비짓이 트루로 되어있으면 배경 블러처리해줌
         if (cards[indexPath.row].isVisited == true){
             cell.cellView.backgroundColor = UIColor(white: 0.95, alpha: 1)
@@ -93,6 +101,13 @@ class HomeTableViewController: UITableViewController {
             cell.cellView.alpha = 1
         }
         
+        // 그림자 부분
+        cell.cellView.layer.shadowColor = UIColor.black.cgColor // 검정색 사용
+        cell.cellView.layer.masksToBounds = false
+        cell.cellView.layer.shadowOffset = CGSize(width: 1, height: 2) //반경
+        cell.cellView.layer.shadowRadius = 8 // 반경?
+        cell.cellView.layer.shadowOpacity = 0.2 //
+
         return cell
     }
     
@@ -104,30 +119,31 @@ class HomeTableViewController: UITableViewController {
     }
     
     //자잘하게 ui수정 카드 높이 수정함
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 95
-    }
+//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 95
+//    }
     // 메시지 버튼 눌리면 할거
     @IBAction func unreadButtonIsSelected(_ sender: UIBarButtonItem) {
         listUnread.toggle()
         if listUnread{
-            cards = cardsDataSource.cards.filter{ $0.isVisited == false }
+            updateCards()
+            cards = cards.filter{ $0.isVisited == false }
         
         }
         else{
-            cards = cardsDataSource.cards
+            updateCards()
         }
         tableView.reloadData()
     }
     
     // 이거 넣으면 세그웨이 두번실행되서 지움
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath) as! HomeTableViewCell
-        
-        performSegue(withIdentifier: "detailSegue", sender: cell)
-    }
-    
+//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let cell = tableView.cellForRow(at: indexPath) as! HomeTableViewCell
+//
+//        performSegue(withIdentifier: "detailSegue", sender: cell)
+//    }
+//
     
     /*
     // Override to support conditional editing of the table view.

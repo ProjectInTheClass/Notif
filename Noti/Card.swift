@@ -34,9 +34,26 @@ class Card {
     var url: String
     var json = [String:String]()
     
-    var formattedDate: String {
+    var homeFormattedDate: String {
+//        let now = Date()
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        // 임시로 보여주기 위해 선언함
+        let now = dateFormatter.date(from: "2020-05-18")!
+        //
+        let standard = dateFormatter.string(from: now)
+        let result = dateFormatter.string(from: time)
+        dateFormatter.dateFormat = "HH:mm"
+        if result == standard{
+            return "오늘 " + dateFormatter.string(from: time)
+        }else{
+            return "어제 " + dateFormatter.string(from: time)
+        }
+    }
+    
+    var historyFormattedDate: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
         return dateFormatter.string(from: time)
     }
     

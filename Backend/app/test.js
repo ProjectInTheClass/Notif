@@ -8,11 +8,86 @@ const xml2js = require('xml2js');
 
 
 
-csLoop(1, 'info_board');
-csLoop(1, 'job_board');
+// csLoop(1, 'info_board');
+// csLoop(1, 'job_board');
 //portalLoop();
-bsLoop(1);
+// bsLoop(1);
+meLoop(1);
 
+
+function meLoop(pagenum) {
+    const url = 'http://me.hanyang.ac.kr/ko/cmnt/mann/views/findCmntList.do';
+    request.post({url: url,
+        headers: {
+            'Host': 'me.hanyang.ac.kr',
+            'Connection': 'keep-alive',
+            'Content-Length': '36',
+            'Cache-Control': 'max-age=0',
+            'Upgrade-Insecure-Requests': '1',
+            'Origin': 'http://me.hanyang.ac.kr',
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+            'Referer': 'http://me.hanyang.ac.kr/ko/cmnt/mann/views/findCmntList.do',
+            'Accept-Encoding': 'gzip, deflate',
+            'Accept-Language': 'ko-KR,ko;q=0.9,en;q=0.8,ja;q=0.7',
+        },
+        form: {
+            'page': pagenum,
+            'catCd': '',
+            'searchType': '',
+            'searchVal': ''
+            }
+        }, 
+        function(error, res, body) {
+            console.log('mePage' + pagenum);
+            const $ = cheerio.load(body);
+
+            var sqlList = new Array();
+
+            $('tbody').find('tr').each(function (index, elem) {
+                // console.log($(this).find('td').eq(0).text());
+                if ($(this).find('td').eq(0).text() != '공지') {
+                    var data = new Object();
+                    data.title = $(this).find('td a').eq(0).text();
+                    data.url = 'http://me.hanyang.ac.kr/ko/cmnt/mann/views/findCmntInfo.do?boardSeq='+$(this).find('td input').eq(0).attr('value')+'&searchType=&searchVal=&menuCd=mann&catCd=&page=1';
+                    data.source = '기계공학부'
+                    data.category = $(this).find('td').eq(1).text();
+                    data.time=$(this).find('td').eq(3).text().replace(/\./gi, '-');
+                    data.json='';
+                    
+                    sqlList.push([data.title, data.url, data.source, data.category, data.time, data.json]);
+                }
+            });
+
+            var connection = mysql.createConnection({
+                host : 'noti.c0pwj79j83nj.ap-northeast-2.rds.amazonaws.com',
+                user : 'admin',
+                password: 'notinoti',
+                port : 3306,
+                database : 'noti'
+            });
+            
+
+            connection.connect();
+
+            var sql = 'INSERT IGNORE INTO Cards (title, url, source, category, time_, json_) VALUES ?;';
+            connection.query(sql, [sqlList],function(err, rows, fields) {
+                connection.end();
+                if(err) {
+                    console.log(err);
+                } else {
+                    console.log(rows);
+                    if (rows.changedRows != 10){
+                        // if(pagenum == 3) return;
+                        pagenum += 1;
+                        meLoop(pagenum);
+                    }
+                    
+                }
+            });
+    });
+}
 
 var currentDate = new Date();
 var currentYear = currentDate.getFullYear();

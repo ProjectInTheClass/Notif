@@ -10,7 +10,70 @@ module.exports.crawler = (event, context, callback) => {
 	csLoop(1, 'info_board');
 	csLoop(1, 'job_board');
 	portalLoop();
+	bsLoop(1);
 
+
+	var currentDate = new Date();
+	var currentYear = currentDate.getFullYear();
+	var currentMonth = currentDate.getMonth() + 1;
+
+	function bsLoop(pagenum) {
+		const url = 'https://biz.hanyang.ac.kr/board/bbs/board.php?bo_table=m4111&page=' + pagenum;
+		console.log(url)
+
+		var sqlList = new Array();
+		request({url: url,encoding: null},
+			function (error, res, body) {
+				console.log('bsPage' + pagenum);
+				const $ = cheerio.load(iconv.decode(body, 'utf-8'));
+				
+				// console.log($('.board_list tbody').html());
+				$('.board_list tbody').find('tr').each(function (index, elem) {
+					if (index == 0) return;
+					var data = new Object();
+					data.title = $(this).find('td a').eq(1).text();
+					var rex = /wr_id=|&page/g;
+					data.url = 'https://biz.hanyang.ac.kr/board/bbs/board.php?bo_table=m4111&wr_id=' + $(this).find('td a').eq(1).attr('href').split(rex)[1]+'&page=1';
+					data.source = '경영학부';
+					data.category = $(this).find('td a').eq(0).text();
+					var cardDate = $(this).find('td').eq(3).text();
+					var cardMonth = cardDate.slice(0,2) * 1;
+					if (cardMonth > currentMonth) currentYear -= 1;
+					currentMonth = cardMonth;
+					data.time = currentYear.toString().slice(2) + '-' + cardDate;
+					data.json = '';
+					
+					sqlList.push([data.title, data.url, data.source, data.category, data.time, data.json]);
+				});
+
+				var connection = mysql.createConnection({
+					host : 'noti.c0pwj79j83nj.ap-northeast-2.rds.amazonaws.com',
+					user : 'admin',
+					password: 'notinoti',
+					port : 3306,
+					database : 'noti'
+				});
+				
+
+				connection.connect();
+
+				var sql = 'INSERT IGNORE INTO Cards (title, url, source, category, time_, json_) VALUES ?;';
+				connection.query(sql, [sqlList],function(err, rows, fields) {
+					connection.end();
+					if(err) {
+						console.log(err);
+					} else {
+						console.log(rows);
+						if (rows.changedRows != 25){
+							// if(pagenum == 3) return;
+							pagenum += 1;
+							bsLoop(pagenum);
+						}
+						
+					}
+				});
+		});
+	}
 
 	function portalInnerLoop(list, i) {
 		if (i >= list.length)   return;
@@ -20,6 +83,7 @@ module.exports.crawler = (event, context, callback) => {
 		data.title = list[i].title[0];
 		data.url = 'https://portal.hanyang.ac.kr/GjshAct/findGongjisahangs.do?pgmId=P308200&menuId=M006263&tk=0be29593626429dfc3f1b618045bc8172b86832df0d333bc0f5db47199b9028a';
 		data.source = '한양포털'
+		data.category = '';
 		var parsedDate = new Date(list[i].pubDate[0]);
 		data.time = parsedDate.toISOString().substring(2, 10);
 		var jsonList = new Array();
@@ -28,7 +92,7 @@ module.exports.crawler = (event, context, callback) => {
 		jsonList.push(jsonObject);
 		data.json = JSON.stringify(jsonList);
 	
-		sqlList.push([data.title, data.url, data.source, data.time, data.json]);
+		sqlList.push([data.title, data.url, data.source, data.category, data.time, data.json]);
 	
 		var connection = mysql.createConnection({
 			host : 'noti.c0pwj79j83nj.ap-northeast-2.rds.amazonaws.com',
@@ -41,7 +105,7 @@ module.exports.crawler = (event, context, callback) => {
 	
 		connection.connect();
 	
-		var sql = 'INSERT IGNORE INTO Cards (title, url, source, time_, json_) VALUES (?);';
+		var sql = 'INSERT IGNORE INTO Cards (title, url, source, category, time_, json_) VALUES (?);';
 		connection.query(sql, sqlList,function(err, rows, fields) {
 			connection.end();
 			if(err) {
@@ -97,13 +161,14 @@ module.exports.crawler = (event, context, callback) => {
 							data.url = 'http://cs.hanyang.ac.kr/board/'+ boardname +'.php?ptype=view&idx='+idx+'&page=1&code=notice';
 						}
 						// data.writer = $(this).find('td').eq(3).text()
-						data.source = boardname == 'info_board' ? '컴퓨터소프트웨어학부-학사일반' : '컴퓨터소프트웨어학부-취업정보'
+						data.source = '컴퓨터소프트웨어학부';
+                    	data.category = boardname == 'info_board' ? '학사일반' : '취업정보';
 						var time = $(this).find('td').eq(4).text()
 						data.time = time.substring(0,2) + '-' + time.substring(3,5) + '-' + time.substring(6,8)
 						data.json = null
 
 						resultList.push(data);
-						sqlList.push([data.title, data.url, data.source, data.time, data.json]);
+						sqlList.push([data.title, data.url, data.source, data.category, data.time, data.json]);
 					}
 				});
 
@@ -120,7 +185,7 @@ module.exports.crawler = (event, context, callback) => {
 
 				connection.connect();
 
-				var sql = 'INSERT IGNORE INTO Cards (title, url, source, time_, json_) VALUES ?;';
+				var sql = 'INSERT IGNORE INTO Cards (title, url, source, category, time_, json_) VALUES ?;';
 				connection.query(sql, [sqlList],function(err, rows, fields) {
 					connection.end();
 					if(err) {

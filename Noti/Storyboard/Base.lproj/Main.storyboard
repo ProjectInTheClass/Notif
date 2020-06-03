@@ -143,16 +143,17 @@
                         <segue destination="QzP-22-FGm" kind="relationship" relationship="viewControllers" id="5x0-DD-EPT"/>
                         <segue destination="4hi-XS-iOl" kind="relationship" relationship="viewControllers" id="yBI-f1-ABM"/>
                         <segue destination="Hht-5r-HH2" kind="relationship" relationship="viewControllers" id="XSA-8l-1Md"/>
+                        <segue destination="lSo-6i-qIa" kind="relationship" relationship="viewControllers" id="SjX-wk-bL9"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jZp-uM-nmq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-445" y="686"/>
         </scene>
-        <!--HistoryViewController-->
+        <!--HistoryTableViewController-->
         <scene sceneID="jIE-Gx-eN5">
             <objects>
-                <viewControllerPlaceholder storyboardName="HistoryView" referencedIdentifier="HistoryViewController" id="Ud3-hY-Ra3" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="History2View" referencedIdentifier="HistoryTableViewController" id="Ud3-hY-Ra3" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="jFE-9q-IVL"/>
                     <navigationItem key="navigationItem" id="4cU-A2-Laf"/>
                 </viewControllerPlaceholder>
@@ -203,6 +204,33 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pp7-Rh-ipe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1748" y="1938"/>
+        </scene>
+        <!--Item-->
+        <scene sceneID="pF3-A2-ynS">
+            <objects>
+                <navigationController id="lSo-6i-qIa" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="vTY-Q2-DXL"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="FUN-lU-Rbd">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="WEl-v0-qSF" kind="relationship" relationship="rootViewController" id="QK1-BE-hte"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8MY-0h-XOA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="75" y="2492"/>
+        </scene>
+        <!--HistoryViewController-->
+        <scene sceneID="4w2-tu-MdR">
+            <objects>
+                <viewControllerPlaceholder storyboardName="HistoryView" referencedIdentifier="HistoryViewController" id="WEl-v0-qSF" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="yK7-zI-dEF"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YLd-5c-z77" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="798" y="2937"/>
         </scene>
     </scenes>
     <resources>

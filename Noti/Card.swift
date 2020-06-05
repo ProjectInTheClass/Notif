@@ -29,7 +29,9 @@ extension UIColor {
 
 class Card {
     var title: String
-    var source: String?
+//    var source: String?
+    var category: String
+    var channelName: String
     var tag = [String]()
     var time: Date
     var color: UIColor
@@ -66,10 +68,15 @@ class Card {
         return dateFormatter.string(from: time)
     }
     
+    var source: String{
+        return category+channelName
+    }
     
-    init(title: String, source: String? = nil, tag:[String] = [String](), time: Date, color: UIColor, isVisited:Bool = false, url: String, json: [String:String] = [String:String]() ){
+    
+    init(title: String, channelName: String, category: String, tag:[String] = [String](), time: Date, color: UIColor, isVisited:Bool = false, url: String, json: [String:String] = [String:String]() ){
         self.title = title
-        self.source = source
+        self.channelName = channelName
+        self.category = category
         self.tag = tag
         self.time = time
         self.color = color
@@ -80,8 +87,11 @@ class Card {
 }
 struct Channel {
     var title: String
+    var subtitle: String
     var category: String
+    var color: UIColor
     var channelTags = [String]()
+    var alarm = false
     //static var allTags = [Tag]()
     var isSubscribed : Bool = false
 }

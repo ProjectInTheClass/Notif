@@ -21,10 +21,11 @@
 		6258C0AD2474348A001E5B49 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6258C0AC2474348A001E5B49 /* HistoryViewController.swift */; };
 		6258C0B12474736C001E5B49 /* classifyCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6258C0B02474736C001E5B49 /* classifyCards.swift */; };
 		6258C0B3247EDCC5001E5B49 /* ChannelCenterView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6258C0B2247EDCC5001E5B49 /* ChannelCenterView.storyboard */; };
-		6258C0B9247EF5C2001E5B49 /* ChannelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6258C0B8247EF5C2001E5B49 /* ChannelCollectionViewCell.swift */; };
 		6258C0BB247EF7F6001E5B49 /* ChannelCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6258C0BA247EF7F6001E5B49 /* ChannelCollectionViewController.swift */; };
 		625F32742480F9EA00C917D4 /* ChannelDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625F32732480F9EA00C917D4 /* ChannelDataSource.swift */; };
 		62E3020724805B6D002332AE /* addTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62E3020624805B6D002332AE /* addTagViewController.swift */; };
+		860930AB24898DFD005B7A28 /* ChannelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860930AA24898DFD005B7A28 /* ChannelCollectionViewCell.swift */; };
+		860930AD248991B9005B7A28 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860930AC248991B9005B7A28 /* CustomCollectionViewCell.swift */; };
 		861984AE2487BAE7002FCF04 /* HistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861984AD2487BAE7002FCF04 /* HistoryCell.swift */; };
 		86A5E83B246EE5BC00B692F4 /* HomeDetailView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86A5E83A246EE5BC00B692F4 /* HomeDetailView.storyboard */; };
 		86A5E87D246EF00400B692F4 /* HistoryView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86A5E87C246EF00400B692F4 /* HistoryView.storyboard */; };
@@ -49,10 +50,11 @@
 		6258C0AC2474348A001E5B49 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		6258C0B02474736C001E5B49 /* classifyCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = classifyCards.swift; sourceTree = "<group>"; };
 		6258C0B2247EDCC5001E5B49 /* ChannelCenterView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ChannelCenterView.storyboard; sourceTree = "<group>"; };
-		6258C0B8247EF5C2001E5B49 /* ChannelCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCollectionViewCell.swift; sourceTree = "<group>"; };
 		6258C0BA247EF7F6001E5B49 /* ChannelCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCollectionViewController.swift; sourceTree = "<group>"; };
 		625F32732480F9EA00C917D4 /* ChannelDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDataSource.swift; sourceTree = "<group>"; };
 		62E3020624805B6D002332AE /* addTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addTagViewController.swift; sourceTree = "<group>"; };
+		860930AA24898DFD005B7A28 /* ChannelCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCollectionViewCell.swift; sourceTree = "<group>"; };
+		860930AC248991B9005B7A28 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		861984AD2487BAE7002FCF04 /* HistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryCell.swift; sourceTree = "<group>"; };
 		86A5E83A246EE5BC00B692F4 /* HomeDetailView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HomeDetailView.storyboard; sourceTree = "<group>"; };
 		86A5E87C246EF00400B692F4 /* HistoryView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HistoryView.storyboard; sourceTree = "<group>"; };
@@ -93,7 +95,9 @@
 				86B27EB82486C154008DE388 /* ViewController */,
 				86A5E839246EE58B00B692F4 /* Storyboard */,
 				0F5DB58F246AEA1700245E96 /* AppDelegate.swift */,
+				860930AC248991B9005B7A28 /* CustomCollectionViewCell.swift */,
 				0F93EE1C2471232F0018B9C8 /* Card.swift */,
+				860930AA24898DFD005B7A28 /* ChannelCollectionViewCell.swift */,
 				861984AD2487BAE7002FCF04 /* HistoryCell.swift */,
 				0F93EE202471308A0018B9C8 /* CardDataSource.swift */,
 				0F5DB591246AEA1700245E96 /* SceneDelegate.swift */,
@@ -103,7 +107,6 @@
 				0F5DB59D246AEA1C00245E96 /* Info.plist */,
 				6258C0AA2473DE49001E5B49 /* tagTableViewCell.swift */,
 				6258C0B02474736C001E5B49 /* classifyCards.swift */,
-				6258C0B8247EF5C2001E5B49 /* ChannelCollectionViewCell.swift */,
 				62E3020624805B6D002332AE /* addTagViewController.swift */,
 				625F32732480F9EA00C917D4 /* ChannelDataSource.swift */,
 			);
@@ -211,12 +214,13 @@
 			files = (
 				625F32742480F9EA00C917D4 /* ChannelDataSource.swift in Sources */,
 				6258C0BB247EF7F6001E5B49 /* ChannelCollectionViewController.swift in Sources */,
+				860930AB24898DFD005B7A28 /* ChannelCollectionViewCell.swift in Sources */,
 				62E3020724805B6D002332AE /* addTagViewController.swift in Sources */,
 				6258C0AB2473DE49001E5B49 /* tagTableViewCell.swift in Sources */,
 				0F93EE212471308A0018B9C8 /* CardDataSource.swift in Sources */,
-				6258C0B9247EF5C2001E5B49 /* ChannelCollectionViewCell.swift in Sources */,
 				0F5DB5A4246AEAB300245E96 /* HomeTableViewController.swift in Sources */,
 				0F93EE1D2471232F0018B9C8 /* Card.swift in Sources */,
+				860930AD248991B9005B7A28 /* CustomCollectionViewCell.swift in Sources */,
 				0F5DB590246AEA1700245E96 /* AppDelegate.swift in Sources */,
 				0F5DB5A6246AF0A600245E96 /* HomeTableViewCell.swift in Sources */,
 				6258C0AD2474348A001E5B49 /* HistoryViewController.swift in Sources */,

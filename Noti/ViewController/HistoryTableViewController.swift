@@ -56,19 +56,43 @@ class HistoryTableViewController: UITableViewController {
         navigationItem.largeTitleDisplayMode = .always
         
         //카드개수만큼만 보여주도록 설정함
-        navigationItem.title = "전체"
+        navigationItem.title = "취업정보게시판"
 
-//            tabBarItem.title = "홈"
+
+        let source = NSAttributedString(string: "컴퓨터소프트웨어대학", attributes: [.font : UIFont.boldSystemFont(ofSize: 20), .foregroundColor: UIColor.sourceFont])
+
+        navigationController?.hidesBarsOnSwipe = true
+        // 라이트 뷰 생성
+        let rightView = UIView()
+        rightView.frame = CGRect(x: 0, y: 0, width: .bitWidth, height: 70)
+        
+        let rItem = UIBarButtonItem(customView: rightView)
+        self.navigationItem.leftBarButtonItem = rItem
+//        self.navigationItem.
+        // 새로고침 버튼 생성
+//        let refreshButton = UIButton(type:.system)
+//        refreshButton.frame = CGRect(x:0, y:10, width: 180, height: 62)
+//        refreshButton.setAttributedTitle(source, for: .normal)
+//        refreshButton.tintColor = .black
+//        refreshButton.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
+        let somet = UILabel()
+        somet.frame = CGRect(x:0, y:10, width: 400, height: 62)
+        somet.attributedText=source
+        rightView.addSubview(somet)
+//        rightView.addSubview(refreshButton)
         
         //네비게이션바 배경색 넣어주는 코드
         let coloredAppearance = UINavigationBarAppearance()
-        coloredAppearance.configureWithOpaqueBackground()
-        coloredAppearance.backgroundColor = UIColor.navBack
-        coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.navFont]
-        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.navFont]
-        self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
-        self.navigationController?.navigationBar.standardAppearance = coloredAppearance
-        
+         coloredAppearance.configureWithOpaqueBackground()
+         coloredAppearance.backgroundColor = UIColor.navBack
+         coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.navFont]
+         coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.navFont]
+         self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
+         self.navigationController?.navigationBar.standardAppearance = coloredAppearance
+    
+    }
+    @objc func buttonClicked(){
+           print("refresh button Clicked!")
     }
         
     // MARK: - Table view data source

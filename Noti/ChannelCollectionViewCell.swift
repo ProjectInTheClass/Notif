@@ -2,7 +2,7 @@
 //  ChannelCollectionViewCell.swift
 //  Noti
 //
-//  Created by sejin on 2020/05/28.
+//  Created by 이상윤 on 2020/06/05.
 //  Copyright © 2020 Junroot. All rights reserved.
 //
 

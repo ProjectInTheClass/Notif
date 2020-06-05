@@ -149,7 +149,7 @@ class ChannelCollectionViewController: UICollectionViewController {
         cell.channelTitle.textColor = .black
         cell.channelSubTitle.textColor = .black
         cell.channelCell.backgroundColor = .white
-        channelsForServer.append(Channel(title: cell.channelTitle.text!, category:  cell.channelSubTitle.text!))
+        channelsForServer.append(Channel(title: cell.channelTitle.text!,subtitle: "", category:  cell.channelSubTitle.text!,color: .white))
     }
     
     override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -164,7 +164,7 @@ class ChannelCollectionViewController: UICollectionViewController {
     func buttonTouched(_ cell : UICollectionViewCell){
         let path = collectionView.indexPath(for: cell)
         let addChannelCell = collectionView.cellForItem(at: path!) as! ChannelCollectionViewCell
-        channelsForServer.append(Channel(title: addChannelCell.channelTitle.text!, category:  addChannelCell.channelSubTitle.text!))
+        channelsForServer.append(Channel(title: addChannelCell.channelTitle.text!,subtitle: "", category:  addChannelCell.channelSubTitle.text!,color: .white))
     }
 
     /*

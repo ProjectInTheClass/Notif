@@ -69,6 +69,7 @@
                                 </collectionViewCellContentView>
                                 <size key="customSize" width="160" height="121"/>
                                 <connections>
+                                    <outlet property="channelAlarmButton" destination="Xph-RN-azc" id="PJR-hD-8w8"/>
                                     <outlet property="channelCell" destination="bNh-Uf-UOd" id="Gqf-nl-lsf"/>
                                     <outlet property="channelColor" destination="BEJ-IP-X8S" id="bAR-ew-nD8"/>
                                     <outlet property="channelSubTitle" destination="sTp-1p-qbm" id="JCx-gC-cwC"/>

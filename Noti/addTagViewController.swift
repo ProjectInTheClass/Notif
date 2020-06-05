@@ -74,7 +74,7 @@ class addTagViewController: UIViewController, UITableViewDataSource, UITextField
             channelsDataSource.allTags.append(Tag(name: textField.text!, time: now as Date ))
             //tableView(tagTableView, cellForRowAt: IndexPath)
             
-            cardView.cards.append(Card(title: textField.text!, time: now as Date, color: UIColor.first, url: ""))
+            cardView.cards.append(Card(title: textField.text!,channelName: "", category: "", time: now as Date, color: UIColor.first, url: ""))
             tagTableView.reloadData()
             textField.text! = ""
             return true

@@ -51,7 +51,7 @@ module.exports.crawler = (event, context, callback) => {
 						data.title = $(this).find('td a').eq(0).text();
 						data.url = 'http://me.hanyang.ac.kr/ko/cmnt/mann/views/findCmntInfo.do?boardSeq='+$(this).find('td input').eq(0).attr('value')+'&searchType=&searchVal=&menuCd=mann&catCd=&page=1';
 						data.source = '기계공학부'
-						data.category = $(this).find('td').eq(1).text();
+						data.category = '공지사항';
 						data.time=$(this).find('td').eq(3).text().replace(/\./gi, '-');
 						data.json='';
 						
@@ -110,7 +110,7 @@ module.exports.crawler = (event, context, callback) => {
 					var rex = /wr_id=|&page/g;
 					data.url = 'https://biz.hanyang.ac.kr/board/bbs/board.php?bo_table=m4111&wr_id=' + $(this).find('td a').eq(1).attr('href').split(rex)[1]+'&page=1';
 					data.source = '경영학부';
-					data.category = $(this).find('td a').eq(0).text();
+					data.category = '공지사항';
 					var cardDate = $(this).find('td').eq(3).text();
 					var cardMonth = cardDate.slice(0,2) * 1;
 					if (cardMonth > currentMonth) currentYear -= 1;

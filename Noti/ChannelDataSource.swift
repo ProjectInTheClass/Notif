@@ -7,7 +7,8 @@
 //
 
 import Foundation
-
+import CoreData
+/*
 class ChannelDataSource{
     var channels = [Channel]()
     var channelForServer = [Channel]()
@@ -23,4 +24,4 @@ class ChannelDataSource{
     
 }
 
-var channelsDataSource = ChannelDataSource()
+var channelsDataSource = ChannelDataSource()*/

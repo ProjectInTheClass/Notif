@@ -1,4 +1,4 @@
-//
+    //
 //  HistoryTableViewController.swift
 //  Noti
 //
@@ -7,14 +7,17 @@
 //
 
 import UIKit
-
+import CoreData
 class HistoryTableViewController: UITableViewController {
 
-    var cards: [Card] = []
+    var cards = CoreDataManager.shared.getCards()
+    var channels = CoreDataManager.shared.getChannels()
+    var allTags = CoreDataManager.shared.getTags()
     // 메세지 버튼(안본거만 뿌려주는 버튼)
     var listUnread = false
+    var mangedObjectContext : NSManagedObjectContext!
     
-    func updateCards(){
+    /*func updateCards(){
 //        let now = Date()
         
         // 임시로 보여주기 위해 선언함
@@ -26,7 +29,7 @@ class HistoryTableViewController: UITableViewController {
 //        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: now)!
 //        cards = cardsDataSource.cards.filter{ $0.time <= now && $0.time > yesterday && $0.url != ""}
         cards = cardsDataSource.cards
-    }
+    }*/
     
 // 일단 주석처리
 //        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -52,7 +55,6 @@ class HistoryTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateCards()
         navigationItem.largeTitleDisplayMode = .always
         
         //카드개수만큼만 보여주도록 설정함
@@ -111,7 +113,7 @@ class HistoryTableViewController: UITableViewController {
 
         label.font = UIFont.boldSystemFont(ofSize: 17)
         label.textColor = UIColor.sectionFont
-        label.text = Array(Set(cards.map{$0.historyFormattedDate})).sorted().reversed()[section]
+        label.text = Array(Set(cards.map{$0.historyFormattedDate})).sorted(by :>)[section]
         view.addSubview(label)
         view.backgroundColor = UIColor.white
 
@@ -126,23 +128,26 @@ class HistoryTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if(channelsDataSource.allTags.count == 0 ){
+        if(allTags.count == 0 ){
                    return 1
         }
-        let date = Array(Set(cards.map{$0.historyFormattedDate})).sorted().reversed()[section]
-        return cards.filter{$0.historyFormattedDate == date}.count
+        let date = Array(Set(cards.map{$0.historyFormattedDate}))
+        date.sorted(by : >)
+        let returnData  =  cards.filter{$0.historyFormattedDate == date[section]} //cards.filter{$0.historyFormattedDate == date}
+        return returnData.count
     }
     
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let date = Array(Set(cards.map{$0.historyFormattedDate})).sorted().reversed()[indexPath.section]
-        let sectionCards = cards.filter{$0.historyFormattedDate==date}
+        let date = Array(Set(cards.map{$0.historyFormattedDate}))
+        date.sorted(by: >)
+        let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section]}
         if (sectionCards[indexPath.row].source != nil){
             let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! HomeTableViewCell
             cell.titleLabel.text = sectionCards[indexPath.row].title
             cell.sourceLabel.text = sectionCards[indexPath.row].source
             cell.dateLabel.text = sectionCards[indexPath.row].historyCardFormattedDate
-            cell.sourceColorView.backgroundColor = sectionCards[indexPath.row].color
+            cell.sourceColorView.backgroundColor = sectionCards[indexPath.row].color as? UIColor
 
             // 비짓이 트루로 되어있으면 배경 블러처리해줌
             if (cards[indexPath.row].isVisited == true){
@@ -163,12 +168,13 @@ class HistoryTableViewController: UITableViewController {
         }else{
 
             let cell = tableView.dequeueReusableCell(withIdentifier: "a", for: indexPath) as! HistoryCell
-            cell.history.text = "#"+sectionCards[indexPath.row].title + " 추가"
+            cell.history.text =  "#"+sectionCards[indexPath.row].title  + " 추가"
+            //cell.history.text = "#추가"
             cell.history.textColor = UIColor.first
             let attributedStr = NSMutableAttributedString(string: cell.history.text!)
-
+            
             //위에서 만든 attributedStr에 addAttribute메소드를 통해 Attribute를 적용. kCTFontAttributeName은 value로 폰트크기와 폰트를 받을 수 있음.
-            attributedStr.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.sourceFont, range: (cell.history.text as! NSString).range(of:"추가"))
+            attributedStr.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.sourceFont, range: (cell.history.text! as NSString).range(of:"추가"))
 
 
             //최종적으로 내 label에 속성을 적용

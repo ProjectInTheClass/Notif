@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19E266" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Card" representedClassName="Card" syncable="YES">
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="channelName" optional="YES" attributeType="String"/>
+        <attribute name="color" optional="YES" attributeType="String" valueTransformerName="NSSecureUnarchiveFromData"/>
+        <attribute name="historyCardFormattedDate" optional="YES" attributeType="String"/>
+        <attribute name="historyFormattedDate" optional="YES" attributeType="String"/>
+        <attribute name="homeFormattedDate" optional="YES" attributeType="String"/>
+        <attribute name="isVisited" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="json" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String:String]"/>
+        <attribute name="source" optional="YES" attributeType="String"/>
+        <attribute name="tag" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
+        <attribute name="time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="url" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="Channel" representedClassName="Channel" syncable="YES">
+        <attribute name="alarm" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="channelTags" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
+        <attribute name="color" optional="YES" attributeType="String" valueTransformerName="NSSecureUnarchiveFromData"/>
+        <attribute name="isSubscribed" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="subtitle" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="Tags" representedClassName="Tags" syncable="YES">
+        <attribute name="formattedDate" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+    </entity>
+    <elements>
+        <element name="Card" positionX="-36" positionY="72" width="128" height="238"/>
+        <element name="Channel" positionX="-54" positionY="18" width="128" height="148"/>
+        <element name="Tags" positionX="-63" positionY="-18" width="128" height="88"/>
+    </elements>
+</model>

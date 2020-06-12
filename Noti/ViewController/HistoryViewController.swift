@@ -7,24 +7,68 @@
 //
 
 import UIKit
+import CoreData
 
 class HistoryViewController: UIViewController{
-//    var channels = channelsDataSource.channels.filter{ $0.isSubscribed == true }
-    var channels = channelsDataSource.channels
-    var cards = cardsDataSource.cards
+
     var selectedChannel = 0
     @IBOutlet weak var historyTable: UITableView!
+    var mangedObjectContext : NSManagedObjectContext!
+    var cards = [Card]()
+    var channels = [Channel]()
+    var allTags = [Tags]()
+    var date = [String]()
+    func loadData(){
+        if selectedChannel == 0 {
+            cards = CoreDataManager.shared.getCards()
+        }else{
+            let channelToChange = channels[selectedChannel]
+            let allCards = CoreDataManager.shared.getCards()
+            cards = allCards.filter{ $0.channelName == channelToChange.category && $0.category!.contains(channelToChange.title!)}
+            /*let title = channelToChange.title
+            let predicate = NSPredicate(format: "category CONTAINS  %@", title!)
+            fetchRequest.predicate = predicate
+            cards = cardsData.filter{$0.channelName == channelToChange.category}
+            do{
+                cardsData = try mangedObjectContext.fetch(fetchRequest)
+                cards = cardsData.filter{$0.channelName == channelToChange.category}
+            }catch{
+                fatalError("fetch error!")
+            }*/
     
-    func updateCards(){
+        }
+        channels = CoreDataManager.shared.getChannels()
+        allTags = CoreDataManager.shared.getTags()
+        
+        navigationItem.title = channels[selectedChannel].title
+        date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by: >)
+        let source = NSAttributedString(string: channels[selectedChannel].category!, attributes: [.font : UIFont.boldSystemFont(ofSize: 20), .foregroundColor: UIColor.sourceFont])
+               navigationController?.hidesBarsOnSwipe = true
+               // 라이트 뷰 생성
+               let rightView = UIView()
+               rightView.frame = CGRect(x: 0, y: 0, width: .bitWidth, height: 70)
+               let rItem = UIBarButtonItem(customView: rightView)
+               self.navigationItem.leftBarButtonItem = rItem
+               let somet = UILabel()
+               somet.frame = CGRect(x:1, y:10, width: 400, height: 62)
+               somet.attributedText=source
+               rightView.addSubview(somet)
+    }
+    
+    
+    
+    
+   /* func updateCards(){
         if selectedChannel == 0{
             cards = cardsDataSource.cards
         }else{
             let channelToChange = channels[selectedChannel]
+            
             cards = cardsDataSource.cards.filter{ $0.channelName == channelToChange.category && $0.category.contains(channelToChange.title)}
         }
         navigationItem.title = channels[selectedChannel].title
         
-        let source = NSAttributedString(string: channels[selectedChannel].category, attributes: [.font : UIFont.boldSystemFont(ofSize: 20), .foregroundColor: UIColor.sourceFont])
+        let source = NSAttributedString(string: channels[selectedChannel].category!, attributes: [.font : UIFont.boldSystemFont(ofSize: 20), .foregroundColor: UIColor.sourceFont])
         navigationController?.hidesBarsOnSwipe = true
         // 라이트 뷰 생성
         let rightView = UIView()
@@ -38,7 +82,7 @@ class HistoryViewController: UIViewController{
         
         
         
-    }
+    }*/
     
     @objc func buttonClicked(){
         print("alarm button Clicked!")
@@ -52,7 +96,7 @@ class HistoryViewController: UIViewController{
         print("!!!!")
 //        channels = channelsDataSource.channels.filter{ $0.isSubscribed == true }
         navigationItem.title = "전체"
-        
+        loadData()
         let rightView = UIView()
         rightView.frame = CGRect(x: 0, y: 0, width: 80, height: 40)
         // rItem이라는 UIBarButtonItem 객체 생성
@@ -94,29 +138,33 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return Array(Set(cards.map{$0.historyFormattedDate})).count
+        let returnData = Array(Set(cards.map{$0.historyFormattedDate}))
+        return returnData.count
     }
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if(channelsDataSource.allTags.count == 0 ){
+        if(allTags.count == 0 ){
                    return 1
         }
-        let date = Array(Set(cards.map{$0.historyFormattedDate})).sorted().reversed()[section]
-        return cards.filter{$0.historyFormattedDate == date}.count
+        let returnData = cards.filter{$0.historyFormattedDate == date[section]}
+        
+        return returnData.count
 
     }
 
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let date = Array(Set(cards.map{$0.historyFormattedDate})).sorted().reversed()[indexPath.section]
-        let sectionCards = cards.filter{$0.historyFormattedDate==date}
+        let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section]}
+        
         if (sectionCards[indexPath.row].url != ""){
+          
             let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! HomeTableViewCell
+            
             cell.titleLabel.text = sectionCards[indexPath.row].title
             cell.sourceLabel.text = sectionCards[indexPath.row].source
             cell.dateLabel.text = sectionCards[indexPath.row].historyCardFormattedDate
-            cell.sourceColorView.backgroundColor = sectionCards[indexPath.row].color
+            cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionCards[indexPath.row].color!)
             
             if (cards[indexPath.row].isVisited == true){
                 cell.cellView.backgroundColor = UIColor(white: 0.95, alpha: 1)
@@ -136,13 +184,13 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
             
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "history", for: indexPath) as! HistoryCell
-            cell.history.text = "  #"+sectionCards[indexPath.row].title + " 추가  "
+
+            cell.history.text = "  #"+sectionCards[indexPath.row].title! + " 추가  "
             cell.history.textColor = UIColor.first
             let attributedStr = NSMutableAttributedString(string: cell.history.text!)
-
             //위에서 만든 attributedStr에 addAttribute메소드를 통해 Attribute를 적용. kCTFontAttributeName은 value로 폰트크기와 폰트를 받을 수 있음.
-            attributedStr.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.sourceFont, range: (cell.history.text as! NSString).range(of:"추가"))
-            
+            attributedStr.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.sourceFont, range: (cell.history.text! as NSString).range(of:"추가"))
+
             cell.history.attributedText = attributedStr
             cell.backLine.backgroundColor = .sourceFont
             return cell
@@ -157,7 +205,7 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
 
         label.font = UIFont.boldSystemFont(ofSize: 17)
         label.textColor = UIColor.sectionFont
-        label.text = Array(Set(cards.map{$0.historyFormattedDate})).sorted().reversed()[section]
+        label.text = date[section] //Array(Set(cards.map{$0.historyFormattedDate}))[section]//.sorted(by : >)[section]
         view.addSubview(label)
         view.backgroundColor = UIColor.white
 
@@ -182,7 +230,7 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
                 print("history" + cards[indexPath.row].url)
                 destination.url = cards[indexPath.row].url
                 //                print("!!!!!"+cards[indexPath.row].url)
-                destination.json = cards[indexPath.row].json
+                destination.json = cards[indexPath.row].json!
                 
                 // 방문할경우 비짓처리하고 테이블뷰 리로드
                 cards[indexPath.row].isVisited = true
@@ -207,7 +255,8 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.colorLabel.textColor = .clear
         if selectedChannel==indexPath.row {
             cell.titleLabel.textColor = UIColor.navFont
-            cell.colorLabel.backgroundColor = channels[indexPath.row].color
+            cell.colorLabel.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString:channels[indexPath.row].color!) 
+
         }else{
             cell.titleLabel.textColor = .sourceFont
             cell.colorLabel.backgroundColor = .clear
@@ -221,7 +270,8 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
         
 //        print("Cell \(indexPath.row) sellected")
         selectedChannel = indexPath.row
-        updateCards()
+        //updateCards()
+        loadData()
         collectionView.reloadData()
         historyTable.reloadData()
     }

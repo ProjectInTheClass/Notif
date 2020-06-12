@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class CardDataSource {
+/*class CardDataSource {
     var dateFormatter: DateFormatter
     var cards: [Card]
     init() {
@@ -39,4 +39,4 @@ class CardDataSource {
 
 
 
-var cardsDataSource = CardDataSource()
+var cardsDataSource = CardDataSource()*/

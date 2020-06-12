@@ -58,7 +58,13 @@ class ChannelCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 2
+        if(section == 0){
+            return 2
+        }
+        else{
+            return channels.count-2
+        }
+        
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -111,10 +117,10 @@ class ChannelCollectionViewController: UICollectionViewController {
         
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerCell", for: indexPath) as! ChannelCollectionViewHeader
         if(indexPath.section == 0) {
-            header.titleForChannelList.text = "학부사이트"
+            header.titleForChannelList.text = "포털"
         }
         else {
-            header.titleForChannelList.text = "포털"
+            header.titleForChannelList.text = "학부사이트"
         }
             return header
         

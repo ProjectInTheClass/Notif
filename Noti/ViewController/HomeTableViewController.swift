@@ -7,28 +7,31 @@
 //
 
 import UIKit
+import CoreData
 
 class HomeTableViewController: UITableViewController {
+    var mangedObjectContext : NSManagedObjectContext!
+    var cards = [Card]()
+    
+    func loadData(){
+        let cardsData = CoreDataManager.shared.getCards()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm"
+        let now = dateFormatter.date(from: "2020-05-18 17:21")!
+        //
+               
+        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: now)!
+        //cards = cardsDataSource.cards.filter{ $0.time <= now && $0.time > yesterday && $0.url != ""}
+        cards = cardsData.filter{ $0.time! <= now && $0.time! > yesterday && $0.url != ""}
+        
+    }
     
     //var cardsViewController = CardViewController()
     // 모든 카드 정보(cardsViewController에 있는 카드와 테이블뷰에 뿌릴 카드를 나눔
 //    var cards = cardsDataSource.cards
-    var cards: [Card] = []
+    //var cards: [Card] = []
     // 메세지 버튼(안본거만 뿌려주는 버튼)
     var listUnread = false
-    
-    func updateCards(){
-//        let now = Date()
-        
-        // 임시로 보여주기 위해 선언함
-        var dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm"
-        let now = dateFormatter.date(from: "2020-05-18 17:21")!
-        //
-        
-        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: now)!
-        cards = cardsDataSource.cards.filter{ $0.time <= now && $0.time > yesterday && $0.url != ""}
-    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "detailSegue") {
@@ -40,12 +43,14 @@ class HomeTableViewController: UITableViewController {
                 destination.source = cell.sourceLabel.text
                 destination.date = cell.dateLabel.text
                 destination.back2 = title
+                print("home" + cards[indexPath.row].url)
                 destination.url = cards[indexPath.row].url
 //                print("!!!!!"+cards[indexPath.row].url)
-                destination.json = cards[indexPath.row].json
+                destination.json = cards[indexPath.row].json!
                 
                 // 방문할경우 비짓처리하고 테이블뷰 리로드
                 cards[indexPath.row].isVisited = true
+                CoreDataManager.shared.visitCards(url: cards[indexPath.row].url!){ onSuccess in print("saved = \(onSuccess)")}
                 tableView.reloadData()
                 
             }
@@ -59,7 +64,8 @@ class HomeTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateCards()
+        //CoreDataManager.shared.setData()
+        loadData()
         navigationItem.largeTitleDisplayMode = .always
         
         //카드개수만큼만 보여주도록 설정함
@@ -110,7 +116,7 @@ class HomeTableViewController: UITableViewController {
         cell.titleLabel.text = cards[indexPath.row].title
         cell.sourceLabel.text = cards[indexPath.row].source
         cell.dateLabel.text = cards[indexPath.row].homeFormattedDate
-        cell.sourceColorView.backgroundColor = cards[indexPath.row].color
+        cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: cards[indexPath.row].color! )
         
         // 비짓이 트루로 되어있으면 배경 블러처리해줌
         if (cards[indexPath.row].isVisited == true){
@@ -142,12 +148,12 @@ class HomeTableViewController: UITableViewController {
     @IBAction func unreadButtonIsSelected(_ sender: UIBarButtonItem) {
         listUnread.toggle()
         if listUnread{
-            updateCards()
+            loadData()
             cards = cards.filter{ $0.isVisited == false }
-        
+            
         }
         else{
-            updateCards()
+            loadData()
         }
         tableView.reloadData()
     }

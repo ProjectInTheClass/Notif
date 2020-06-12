@@ -9,13 +9,17 @@
 import UIKit
 
 class ChannelCenterViewController: UIViewController {
-    var channels = CoreDataManager.shared.getChannels().filter{ $0.title! != "전체"}
+    var channels = [Channel]()
     
-    lazy var categories = Array(Set(channels.map{$0.source!})).sorted(by: >)
+    var categories = [String]()
     var selectedChannel: IndexPath = IndexPath()
     
     //        @IBOutlet weak var historyTable: UITableView!
-    
+    func loadData(){
+        channels = CoreDataManager.shared.getChannels().filter{ $0.title! != "전체"}
+        
+        categories = Array(Set(channels.map{$0.source!})).sorted(by: >)
+    }
     func updateChannels(){
         let source = Array(Set(channels.map{$0.source!})).sorted(by:>)
         //print("\(selectedChannel)!!!")
@@ -30,6 +34,9 @@ class ChannelCenterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(channels)
+        print(categories)
+        loadData()
         navigationItem.title = "채널센터"
         //updateChannels()
         //categories = Array(Set(channels.map{$0.source!})).sorted(by: >)

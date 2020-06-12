@@ -64,7 +64,7 @@ class HomeTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        CoreDataManager.shared.setData()
+//        CoreDataManager.shared.setData()
         loadData()
         navigationItem.largeTitleDisplayMode = .always
         
@@ -72,20 +72,6 @@ class HomeTableViewController: UITableViewController {
         navigationItem.title = "\(cards.count)개의 새로운 글"
 
         tabBarItem.title = "홈"
-        
-//        let rightView = UIView()
-//        rightView.frame = CGRect(x: 0, y: 0, width: 80, height: 40)
-//        // rItem이라는 UIBarButtonItem 객체 생성
-//        let rItem = UIBarButtonItem(customView: rightView)
-//        self.navigationItem.rightBarButtonItem = rItem
-//        // 새로고침 버튼 생성
-//        let refreshButton = UIButton(type:.system)
-//        refreshButton.frame = CGRect(x:50, y:10, width: 30, height: 30)
-//        refreshButton.setImage(UIImage(systemName: "envelope"), for: .normal)
-//        refreshButton.tintColor = .systemBlue
-//        refreshButton.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
-//        // 라이트 뷰에 버튼 추가
-//        rightView.addSubview(refreshButton)
         
         //네비게이션바 배경색 넣어주는 코드
         let coloredAppearance = UINavigationBarAppearance()
@@ -96,6 +82,11 @@ class HomeTableViewController: UITableViewController {
         self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
         self.navigationController?.navigationBar.standardAppearance = coloredAppearance
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        loadData()
+        self.tableView.reloadData()
     }
         
     // MARK: - Table view data source

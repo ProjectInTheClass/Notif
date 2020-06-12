@@ -209,6 +209,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="7ZV-JZ-Ked"/>
                     <connections>
+                        <outlet property="channelCollection" destination="1De-Rr-WXR" id="mKE-kC-NQt"/>
                         <outlet property="historyTable" destination="etd-5I-hXs" id="y2N-xw-iDT"/>
                     </connections>
                 </viewController>

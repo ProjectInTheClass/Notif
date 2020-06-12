@@ -16,6 +16,11 @@ class ChannelCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var channelSubTitle: UILabel!
     @IBOutlet weak var channelColor: UIView!
     
+    @IBOutlet weak var colorImageView: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var categoryLabel: UILabel!
+    @IBOutlet weak var backView: UIView!
+    
     /*@IBAction func buttonTouched() {
         ChannelController.buttonTouched(self)
     }*/
@@ -25,5 +30,7 @@ class ChannelCollectionViewCell: UICollectionViewCell {
 
 class ChannelCollectionViewHeader: UICollectionReusableView{
     @IBOutlet weak var titleForChannelList: UILabel!
+    @IBOutlet weak var categoryLabel: UILabel!
+    @IBOutlet weak var colorLabel: UILabel!
     
 }

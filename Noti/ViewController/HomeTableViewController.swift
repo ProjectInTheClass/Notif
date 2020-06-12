@@ -38,6 +38,7 @@ class HomeTableViewController: UITableViewController {
             let destination = segue.destination as! detailViewController
             if let cell = sender as? HomeTableViewCell {
                 guard let indexPath = self.tableView.indexPathForSelectedRow else {return}
+                print(cards[indexPath.row].url)
                 destination.title2 = cell.titleLabel.text
                 destination.source = cell.sourceLabel.text
                 destination.date = cell.dateLabel.text

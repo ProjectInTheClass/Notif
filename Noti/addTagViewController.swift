@@ -7,18 +7,22 @@
 //
 
 import UIKit
+import CoreData
 
 class addTagViewController: UIViewController, UITableViewDataSource, UITextFieldDelegate  {
     //var channelView = ChannelViewController()
     var allTagsNameList = [String]()
-    var cardView = CardDataSource()
+    //var cardView = CardDataSource()
+    var mangedObjectContext : NSManagedObjectContext!
     @IBOutlet weak var tagTextField: UITextField!
     @IBOutlet weak var tagTableView: UITableView!
+    var allTags = [Tags]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        for i in 0..<channelsDataSource.allTags.count{
-            allTagsNameList += [channelsDataSource.allTags[i].name]
+        allTags = CoreDataManager.shared.getTags()
+        for i in 0..<allTags.count{
+            allTagsNameList += [allTags[i].name!]
         }
         tagTableView.dataSource = self
         tagTextField.delegate = self
@@ -41,12 +45,12 @@ class addTagViewController: UIViewController, UITableViewDataSource, UITextField
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return  channelsDataSource.allTags.count
+        return  allTags.count
       }
       
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "allTagCell", for: indexPath) as UITableViewCell
-        cell.textLabel?.text = channelsDataSource.allTags[indexPath.row].name
+        cell.textLabel?.text = allTags[indexPath.row].name
         return cell
       }
     //공백과 10글자 이내로
@@ -71,12 +75,17 @@ class addTagViewController: UIViewController, UITableViewDataSource, UITextField
             let now = NSDate()
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-            channelsDataSource.allTags.append(Tag(name: textField.text!, time: now as Date ))
+            
+            CoreDataManager.shared.saveTags(name: textField.text!, time: now as Date){ onSuccess in print("saved = \(onSuccess)")}
+           // channelsDataSource.allTags.append(Tag(name: textField.text!, time: now as Date ))
             //tableView(tagTableView, cellForRowAt: IndexPath)
             
-            cardView.cards.append(Card(title: textField.text!,channelName: "", category: "", time: now as Date, color: UIColor.first, url: ""))
+           // cardView.cards.append(Card(title: textField.text!,channelName: "", category: "", time: now as Date, color: UIColor.first, url: ""))
+            self.viewDidLoad()
             tagTableView.reloadData()
+            CoreDataManager.shared.saveCards(title: textField.text!, channelName: "", category: "", tag :[], time: now as Date, color:UIColor.first, isVisited: false, url:"", json:["":""]){ onSuccess in print("saved = \(onSuccess)")}
             textField.text! = ""
+            
             return true
         }
         

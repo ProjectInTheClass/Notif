@@ -9,11 +9,20 @@
 import Foundation
 import UIKit
 
-enum cardType {
+/*enum cardType {
     case tag, card
-}
+}*/
 
 extension UIColor {
+    class func color(data:Data) -> UIColor? {
+         return try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? UIColor
+    }
+    func encode() -> Data? {
+         return try? NSKeyedArchiver.archivedData(withRootObject: self, requiringSecureCoding: false)
+    }
+    
+
+    
     static var first: UIColor  { return UIColor(red: 205/255, green: 98/255, blue: 94/255, alpha: 1) }
     static var second: UIColor { return UIColor(red: 218/255, green: 147/255, blue: 94/255, alpha: 1) }
     static var third: UIColor { return UIColor(red: 108/255, green: 166/255, blue: 94/255, alpha: 1) }
@@ -25,9 +34,10 @@ extension UIColor {
     static var sectionFont: UIColor { return UIColor(red: 84/255, green: 88/255, blue: 94/255, alpha: 1) }
     static var sectionBackground: UIColor { return UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.7) }
     static var history: UIColor { return UIColor(red: 142/255, green: 142/255, blue: 147/255, alpha: 0.7) }
+
 }
 
-class Card {
+/*class Card {
     var title: String
 //    var source: String?
     var category: String
@@ -118,4 +128,4 @@ struct Tag {
         return dateFormatter.string(from: time)
     }
 
-}
+}*/

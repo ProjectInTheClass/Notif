@@ -6,18 +6,28 @@
 //  Copyright © 2020 Junroot. All rights reserved.
 //
 
-import Foundation
+//import Foundation
+//import CoreData
 
-struct classifiedCard{
-    let cardview = CardDataSource()
+/*struct classifiedCard{
+    let cardview = [Card]()
     var allTagsArray = [String]()
-    
+    var mangedObjectContext : NSManagedObjectContext!
     var cards = [Card]()
     init(){
-        for i in 0..<channelsDataSource.allTags.count{
-            allTagsArray += [channelsDataSource.allTags[i].name]
+        var allTags = [Tags]()
+        let fetchRequest : NSFetchRequest<Tags>  = Tags.fetchRequest()
+            do{
+                allTags = try mangedObjectContext.fetch(fetchRequest)
+            }catch{
+                fatalError("fetch error!")
+            }
+                   
+        
+        for i in 0..<allTags.count{
+            allTagsArray += [allTags[i].name]
         }
-        if(channelsDataSource.allTags.count != 0){
+        if(allTags.count != 0){
             for i in 0..<cardview.cards.count{
                 if(cardview.cards[i].source == nil){
                     self.cards.append(cardview.cards[i])
@@ -31,4 +41,4 @@ struct classifiedCard{
             }
         }
     }
-}
+}*/

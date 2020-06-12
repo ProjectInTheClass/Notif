@@ -85,15 +85,27 @@ class Card {
         self.json = json
     }
 }
-struct Channel {
+class Channel {
     var title: String
     var subtitle: String
     var category: String
+    var source: String
     var color: UIColor
     var channelTags = [String]()
     var alarm = false
     //static var allTags = [Tag]()
     var isSubscribed : Bool = false
+    
+    init(title: String, subtitle: String, category: String, source: String, color: UIColor, channelTags: [String] = [String](), alarm: Bool = false, isSubscribed:Bool = false) {
+        self.title = title
+        self.subtitle = subtitle
+        self.category = category
+        self.source = source
+        self.color = color
+        self.channelTags = channelTags
+        self.alarm = alarm
+        self.isSubscribed = isSubscribed
+    }
 }
 
 struct Tag {

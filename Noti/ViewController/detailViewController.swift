@@ -119,7 +119,7 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
     func getContent() {
         guard let url2 = URL(string: url!) else {return }
         var request = URLRequest(url: url2)
-        if (self.source!.hasPrefix("포털")) {
+        if (self.source!.contains("포털")) {
             request.httpMethod = "post"
             request.setValue("application/json+sua; charset=UTF-8", forHTTPHeaderField: "Content-Type")
             request.setValue("https://portal.hanyang.ac.kr", forHTTPHeaderField: "Origin")
@@ -150,18 +150,18 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
             if let data = data, var dataString = String(data: data, encoding: encoding) {
                 
 //                print("Response data string:\n \(dataString)")
-                if (self.source!.hasPrefix("컴퓨터")) {
+                if (self.source!.contains("컴퓨터")) {
                     dataString = dataString.slice(from: "<td class=\"view_content\" colspan=\"2\">", to: "<td class=\"tit\">이전글</td>")!
                     let endtdIndices = dataString.ranges(of: "</td>")
 
                     if let lastIndex = endtdIndices.last {
                         dataString = String(dataString[..<lastIndex.upperBound])
                     }
-                } else if (self.source!.hasPrefix("경영")){
+                } else if (self.source!.contains("경영")){
                     dataString = dataString.slice(from: "<span id=\"writeContents\" style=\"display:block;width:700px\"><div align=\"center\">", to:"</span>")!
-                } else if (self.source!.hasPrefix("기계")){
+                } else if (self.source!.contains("기계")){
                     dataString = dataString.slice(from: "<div class=\"HTML_CONTENT\">", to:"</div>")!
-                } else if (self.source!.hasPrefix("포털")) {
+                } else if (self.source!.contains("포털")) {
                     dataString = dataString.slice(from: "\"contents\":\"", to: "\",\"haengsaSdt\"")!
                     dataString = dataString.replacingOccurrences(of: "\\n", with: "")
                     dataString = dataString.replacingOccurrences(of: "\\\"", with: "\"")

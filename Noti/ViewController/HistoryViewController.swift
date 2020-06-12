@@ -15,6 +15,7 @@ class HistoryViewController: UIViewController{
     @IBOutlet weak var historyTable: UITableView!
     var mangedObjectContext : NSManagedObjectContext!
     var cards = [Card]()
+    var allChannels = [Channel]()
     var channels = [Channel]()
     var allTags = [Tags]()
     var date = [String]()
@@ -37,7 +38,10 @@ class HistoryViewController: UIViewController{
             }*/
     
         }
-        channels = CoreDataManager.shared.getChannels()
+        allChannels = CoreDataManager.shared.getChannels()
+        
+        channels = allChannels.filter{ $0.isSubscribed == true }
+        print(allChannels)
         allTags = CoreDataManager.shared.getTags()
         
         navigationItem.title = channels[selectedChannel].title
@@ -117,7 +121,7 @@ class HistoryViewController: UIViewController{
         coloredAppearance.backgroundColor = UIColor.navBack
         coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.navFont]
         coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.navFont]
-        self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
+//        self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
         self.navigationController?.navigationBar.standardAppearance = coloredAppearance
         
     }

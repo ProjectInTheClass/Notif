@@ -55,6 +55,11 @@ class HomeTableViewController: UITableViewController {
         }
     }
     
+//    @objc func buttonClicked(){
+//            print("message button Clicked!")
+//    //        channels[selectedChannel]
+//    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //CoreDataManager.shared.setData()
@@ -65,6 +70,20 @@ class HomeTableViewController: UITableViewController {
         navigationItem.title = "\(cards.count)개의 새로운 글"
 
         tabBarItem.title = "홈"
+        
+//        let rightView = UIView()
+//        rightView.frame = CGRect(x: 0, y: 0, width: 80, height: 40)
+//        // rItem이라는 UIBarButtonItem 객체 생성
+//        let rItem = UIBarButtonItem(customView: rightView)
+//        self.navigationItem.rightBarButtonItem = rItem
+//        // 새로고침 버튼 생성
+//        let refreshButton = UIButton(type:.system)
+//        refreshButton.frame = CGRect(x:50, y:10, width: 30, height: 30)
+//        refreshButton.setImage(UIImage(systemName: "envelope"), for: .normal)
+//        refreshButton.tintColor = .systemBlue
+//        refreshButton.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
+//        // 라이트 뷰에 버튼 추가
+//        rightView.addSubview(refreshButton)
         
         //네비게이션바 배경색 넣어주는 코드
         let coloredAppearance = UINavigationBarAppearance()
@@ -110,7 +129,7 @@ class HomeTableViewController: UITableViewController {
         cell.cellView.layer.shadowColor = UIColor.black.cgColor // 검정색 사용
         cell.cellView.layer.masksToBounds = false
         cell.cellView.layer.shadowOffset = CGSize(width: 1, height: 2) //반경
-        cell.cellView.layer.shadowRadius = 8 // 반경?
+        cell.cellView.layer.shadowRadius = 3 // 반경?
         cell.cellView.layer.shadowOpacity = 0.2 //
 
         return cell
@@ -123,10 +142,6 @@ class HomeTableViewController: UITableViewController {
         return headerView
     }
     
-    //자잘하게 ui수정 카드 높이 수정함
-//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 95
-//    }
     // 메시지 버튼 눌리면 할거
     @IBAction func unreadButtonIsSelected(_ sender: UIBarButtonItem) {
         listUnread.toggle()

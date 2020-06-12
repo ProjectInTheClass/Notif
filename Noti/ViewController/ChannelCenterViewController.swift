@@ -9,16 +9,17 @@
 import UIKit
 
 class ChannelCenterViewController: UIViewController {
+    var channels = CoreDataManager.shared.getChannels().filter{ $0.title! != "전체"}
     
-    var channels = channelsDataSource.channels.filter{ $0.title != "전체"}
-    var categories = Array(Set(channelsDataSource.channels.map{$0.source})).sorted()
+    lazy var categories = Array(Set(channels.map{$0.source!})).sorted(by: >)
     var selectedChannel: IndexPath = IndexPath()
     
     //        @IBOutlet weak var historyTable: UITableView!
     
     func updateChannels(){
-        let source = Array(Set(channels.map{$0.source})).sorted()[selectedChannel.section]
-        var sectionChannels = channels.filter{ $0.source == source }
+        let source = Array(Set(channels.map{$0.source!})).sorted(by:>)
+        print("\(selectedChannel)!!!")
+        let sectionChannels = channels.filter{$0.source! == source[selectedChannel.section]}
         sectionChannels[selectedChannel.item].isSubscribed = !sectionChannels[selectedChannel.item].isSubscribed
     }
     
@@ -30,7 +31,8 @@ class ChannelCenterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "채널센터"
-        categories = Array(Set(channels.map{$0.source})).sorted()
+        //updateChannels()
+        //categories = Array(Set(channels.map{$0.source!})).sorted(by: >)
         let rightView = UIView()
         rightView.frame = CGRect(x: 0, y: 0, width: 80, height: 40)
         // rItem이라는 UIBarButtonItem 객체 생성
@@ -71,21 +73,21 @@ class ChannelCenterViewController: UIViewController {
 extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 //        return channels.count
-        let source = Array(Set(channels.map{$0.source})).sorted()[section]
+        let source = Array(Set(channels.map{$0.source!})).sorted(by:>)
         
-        return channels.filter{ $0.source == source }.count
+        return channels.filter{ $0.source == source[section] }.count
         
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let source = Array(Set(channels.map{$0.source})).sorted()[indexPath.section]
-        let sectionChannels = channels.filter{ $0.source == source }
+        let source = Array(Set(channels.map{$0.source!})).sorted(by: >)
+        let sectionChannels = channels.filter{ $0.source! == source[indexPath.section] }
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "channel", for: indexPath) as! ChannelCollectionViewCell
         
         cell.titleLabel.text = sectionChannels[indexPath.item].title
         cell.categoryLabel.text = sectionChannels[indexPath.item].category
-        cell.colorImageView.backgroundColor = sectionChannels[indexPath.item].color
+        cell.colorImageView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionChannels[indexPath.item].color!)
         
         // 구독안하거 블러처리
         if (sectionChannels[indexPath.item].isSubscribed == false){
@@ -95,7 +97,7 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
         }else {
             cell.backView.backgroundColor = .white
             cell.backView.alpha = 1
-            cell.colorImageView.backgroundColor = sectionChannels[indexPath.item].color
+            cell.colorImageView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionChannels[indexPath.item].color!)
         }
         
         // 그림자 부분
@@ -113,8 +115,8 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
         
         print("Cell \(indexPath.row) sellected")
         selectedChannel = indexPath
-        updateChannels()
         
+        updateChannels()
 
 //        updateCards()
         collectionView.reloadData()
@@ -123,7 +125,8 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return Array(Set(channels.map{$0.source})).count
+        let returnNum = Array(Set(channels.map{$0.source!}))
+        return returnNum.count
     }
 //
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind : String, at indexPath : IndexPath) -> UICollectionReusableView{
@@ -131,12 +134,14 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
             case UICollectionView.elementKindSectionHeader:
                 
                 let headerview = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header", for: indexPath) as! ChannelCollectionViewHeader
-                let source = Array(Set(channels.map{$0.source})).sorted()[indexPath.section]
-                let sectionChannels = channels.filter{ $0.source == source }
-                headerview.categoryLabel.text = source
-                headerview.colorLabel.text = source
-                headerview.colorLabel.textColor = .clear
-                headerview.colorLabel.backgroundColor = sectionChannels[0].color
+                let source = Array(Set(channels.map{$0.source!})).sorted(by:>)
+                //let sourceCell = source[indexPath.section]
+                let sectionChannels = channels.filter{ $0.source! == source[indexPath.section] }
+                headerview.categoryLabel.text = sectionChannels[indexPath.item].source
+                headerview.colorLabel.text =  sectionChannels[indexPath.item].source
+                headerview.colorLabel.textColor  =  .clear
+                headerview.colorLabel.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionChannels[0].color!)
+                
                 
                 return headerview
                 

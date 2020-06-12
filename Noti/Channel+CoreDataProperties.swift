@@ -24,5 +24,5 @@ extension Channel {
     @NSManaged public var channelTags: [String]?
     @NSManaged public var alarm: Bool
     @NSManaged public var isSubscribed: Bool
-    
+    @NSManaged public var source : String?
 }

@@ -109,16 +109,10 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        arr = arrList[indexPath.row]
-        
         print("Cell \(indexPath.row) sellected")
         selectedChannel = indexPath
         updateChannels()
-        
-
-//        updateCards()
         collectionView.reloadData()
-//        historyTable.reloadData()
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {

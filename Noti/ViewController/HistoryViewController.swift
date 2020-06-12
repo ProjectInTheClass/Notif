@@ -185,7 +185,7 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "history", for: indexPath) as! HistoryCell
 
-            cell.history.text = "  #"+sectionCards[indexPath.row].title + " 추가  "
+            cell.history.text = "  #"+sectionCards[indexPath.row].title! + " 추가  "
             cell.history.textColor = UIColor.first
             let attributedStr = NSMutableAttributedString(string: cell.history.text!)
             //위에서 만든 attributedStr에 addAttribute메소드를 통해 Attribute를 적용. kCTFontAttributeName은 value로 폰트크기와 폰트를 받을 수 있음.
@@ -229,7 +229,7 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
                 destination.back2 = title
                 destination.url = cards[indexPath.row].url
                 //                print("!!!!!"+cards[indexPath.row].url)
-                destination.json = cards[indexPath.row].json
+                destination.json = cards[indexPath.row].json!
                 
                 // 방문할경우 비짓처리하고 테이블뷰 리로드
                 cards[indexPath.row].isVisited = true
@@ -254,7 +254,7 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.colorLabel.textColor = .clear
         if selectedChannel==indexPath.row {
             cell.titleLabel.textColor = UIColor.navFont
-            cell.colorImageView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString:channels[indexPath.row].color!) 
+            cell.colorLabel.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString:channels[indexPath.row].color!) 
 
         }else{
             cell.titleLabel.textColor = .sourceFont

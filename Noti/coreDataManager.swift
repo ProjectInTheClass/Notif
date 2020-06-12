@@ -161,7 +161,7 @@ class CoreDataManager{
         return channels
     }
    
-    func saveChannels(title : String, subtitle :String, category : String, color : UIColor, channelTags : [String], onSuccess : @escaping ((Bool)->Void)){
+    func saveChannels(title : String, subtitle :String, category : String, color : UIColor, channelTags : [String], source : String, onSuccess : @escaping ((Bool)->Void)){
         if let context = context,
         let entity: NSEntityDescription
         = NSEntityDescription.entity(forEntityName: "Channel", in: context) {
@@ -171,6 +171,7 @@ class CoreDataManager{
             channels.subtitle = subtitle
             channels.category = category
             channels.color = hexStringFromColor(color: color)
+            channels.source = source
             channels.channelTags = channelTags 
             channels.alarm = false
             channels.isSubscribed = false
@@ -232,12 +233,12 @@ class CoreDataManager{
         CoreDataManager.shared.saveCards(title:"파이썬마스터 자격검정 안내", channelName: "컴퓨터소프트웨어대학", category: "취업정보게시판", tag:[], time:  dateFormatter.date(from: "2020-05-14 12:12")!, color: UIColor.second, isVisited: false, url:"http://cs.hanyang.ac.kr/board/job_board.php?ptype=view&idx=28896&page=1&code=job_board", json: ["":""]){ onSuccess in print("saved = \(onSuccess)")}
         CoreDataManager.shared.saveCards(title:"2020학년도 여름계절학기 수강신청 안내", channelName: "컴퓨터소프트웨어대학", category: "학사일반게시판",tag:["수강신청"], time:  dateFormatter.date(from: "2020-05-11 14:12")!, color: UIColor.first, isVisited: true, url:"http://cs.hanyang.ac.kr/board/info_board.php?ptype=view&idx=28890&page=1&code=notice", json: ["":""]){ onSuccess in print("saved = \(onSuccess)")}
         dateFormatter.dateFormat = "yyyy/MM/dd"
-        //CoreDataManager.shared.saveChannels(title: "전체",subtitle: "전체", category: "", color: .sourceFont, channelTags: ["대회","모집"]){ onSuccess in print("saved = \(onSuccess)")}
-        CoreDataManager.shared.saveChannels(title: "학사게시판",subtitle: "학사", category:  "포털", color: .fourth, channelTags: [] ){ onSuccess in print("saved = \(onSuccess)")}
-        CoreDataManager.shared.saveChannels(title: "장학게시판",subtitle: "장학", category:  "포털",color: .third,  channelTags: ["장학금"]){ onSuccess in print("saved = \(onSuccess)")}
-        CoreDataManager.shared.saveChannels(title: "학사일반게시판",subtitle: "학사일반", category: "컴퓨터소프트웨어대학",color: .first, channelTags: ["대회","모집"]){ onSuccess in print("saved = \(onSuccess)")}
-        CoreDataManager.shared.saveChannels(title: "취업정보게시판",subtitle: "취업정보", category: "컴퓨터소프트웨어대학",color: .second, channelTags: ["모집","채용"]){ onSuccess in print("saved = \(onSuccess)")}
-        CoreDataManager.shared.saveChannels(title: "test", subtitle: "check", category: "경영대학", color: .second, channelTags: []){ onSuccess in print("saved = \(onSuccess)")}
+        CoreDataManager.shared.saveChannels(title: "전체",subtitle: "전체", category: "", color: .sourceFont, channelTags: ["대회","모집"], source: ".."){ onSuccess in print("saved = \(onSuccess)")}
+        CoreDataManager.shared.saveChannels(title: "학사게시판",subtitle: "학사", category:  "포털", color: .fourth, channelTags: [], source: "포털"){ onSuccess in print("saved = \(onSuccess)")}
+        CoreDataManager.shared.saveChannels(title: "장학게시판",subtitle: "장학", category:  "포털",color: .third,  channelTags: ["장학금"], source: "포털"){ onSuccess in print("saved = \(onSuccess)")}
+        CoreDataManager.shared.saveChannels(title: "학사일반게시판",subtitle: "학사일반", category: "컴퓨터소프트웨어대학",color: .first, channelTags: ["대회","모집"], source: "학부사이트"){ onSuccess in print("saved = \(onSuccess)")}
+        CoreDataManager.shared.saveChannels(title: "취업정보게시판",subtitle: "취업정보", category: "컴퓨터소프트웨어대학",color: .second, channelTags: ["모집","채용"], source: "학부사이트"){ onSuccess in print("saved = \(onSuccess)")}
+        CoreDataManager.shared.saveChannels(title: "test", subtitle: "check", category: "경영대학", color: .second, channelTags: [], source: "학부사이트"){ onSuccess in print("saved = \(onSuccess)")}
         CoreDataManager.shared.saveTags(name: "대회", time: dateFormatter.date(from: "2020-05-12")!){ onSuccess in print("saved = \(onSuccess)")}
         CoreDataManager.shared.saveTags(name: "모집", time: dateFormatter.date(from: "2020-05-11")!){ onSuccess in print("saved = \(onSuccess)")}
         CoreDataManager.shared.saveTags(name: "채용", time: dateFormatter.date(from: "2020-05-14")!){ onSuccess in print("saved = \(onSuccess)")}

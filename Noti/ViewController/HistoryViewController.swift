@@ -223,8 +223,8 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
             let destination = segue.destination as! detailViewController
             if let cell = sender as? HomeTableViewCell {
                 guard let indexPath = historyTable.indexPathForSelectedRow else {return}
-                let date = Array(Set(cards.map{$0.historyFormattedDate})).sorted().reversed()[indexPath.section]
-                let sectionCards = cards.filter{$0.historyFormattedDate==date}
+                let date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by: >)
+                let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section]}
                 print(date)
                 print(sectionCards)
                 print(sectionCards[indexPath.row].url)
@@ -235,7 +235,7 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
 
                 destination.url = sectionCards[indexPath.row].url
                 //                print("!!!!!"+cards[indexPath.row].url)
-                destination.json = sectionCards[indexPath.row].json
+                destination.json = sectionCards[indexPath.row].json!
                 
                 // 방문할경우 비짓처리하고 테이블뷰 리로드
                 sectionCards[indexPath.row].isVisited = true

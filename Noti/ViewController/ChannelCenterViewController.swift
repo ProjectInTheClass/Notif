@@ -18,7 +18,7 @@ class ChannelCenterViewController: UIViewController {
     
     func updateChannels(){
         let source = Array(Set(channels.map{$0.source!})).sorted(by:>)
-        print("\(selectedChannel)!!!")
+        //print("\(selectedChannel)!!!")
         let sectionChannels = channels.filter{$0.source! == source[selectedChannel.section]}
         sectionChannels[selectedChannel.item].isSubscribed = !sectionChannels[selectedChannel.item].isSubscribed
     }

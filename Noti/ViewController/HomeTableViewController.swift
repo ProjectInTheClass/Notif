@@ -57,7 +57,7 @@ class HomeTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        CoreDataManager.shared.setData()
+        //CoreDataManager.shared.setData()
         loadData()
         navigationItem.largeTitleDisplayMode = .always
         

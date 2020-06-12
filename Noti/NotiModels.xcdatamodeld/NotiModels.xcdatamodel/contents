@@ -25,6 +25,9 @@
         <attribute name="subtitle" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="LastUpdated" representedClassName=".LastUpdated" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="String" defaultValueString="none"/>
+    </entity>
     <entity name="Tags" representedClassName="Tags" syncable="YES">
         <attribute name="formattedDate" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
@@ -33,6 +36,7 @@
     <elements>
         <element name="Card" positionX="-36" positionY="72" width="128" height="238"/>
         <element name="Channel" positionX="-54" positionY="18" width="128" height="163"/>
+        <element name="LastUpdated" positionX="-45" positionY="126" width="128" height="58"/>
         <element name="Tags" positionX="-63" positionY="-18" width="128" height="88"/>
     </elements>
 </model>

@@ -16,6 +16,8 @@
 		0F5DB5A4246AEAB300245E96 /* HomeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DB5A3246AEAB300245E96 /* HomeTableViewController.swift */; };
 		0F5DB5A6246AF0A600245E96 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DB5A5246AF0A500245E96 /* HomeTableViewCell.swift */; };
 		0F93EE1D2471232F0018B9C8 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F93EE1C2471232F0018B9C8 /* Card.swift */; };
+		623073AA2493739E00C06C6D /* LastUpdated+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623073A82493739E00C06C6D /* LastUpdated+CoreDataClass.swift */; };
+		623073AB2493739E00C06C6D /* LastUpdated+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623073A92493739E00C06C6D /* LastUpdated+CoreDataProperties.swift */; };
 		6258C0AB2473DE49001E5B49 /* tagTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6258C0AA2473DE49001E5B49 /* tagTableViewCell.swift */; };
 		6258C0AD2474348A001E5B49 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6258C0AC2474348A001E5B49 /* HistoryViewController.swift */; };
 		6258C0B3247EDCC5001E5B49 /* ChannelCenterView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6258C0B2247EDCC5001E5B49 /* ChannelCenterView.storyboard */; };
@@ -50,6 +52,8 @@
 		0F5DB5A3246AEAB300245E96 /* HomeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewController.swift; sourceTree = "<group>"; };
 		0F5DB5A5246AF0A500245E96 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		0F93EE1C2471232F0018B9C8 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Card.swift; path = Noti/Card.swift; sourceTree = SOURCE_ROOT; };
+		623073A82493739E00C06C6D /* LastUpdated+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LastUpdated+CoreDataClass.swift"; sourceTree = "<group>"; };
+		623073A92493739E00C06C6D /* LastUpdated+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LastUpdated+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		6258C0AA2473DE49001E5B49 /* tagTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tagTableViewCell.swift; sourceTree = "<group>"; };
 		6258C0AC2474348A001E5B49 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		6258C0B2247EDCC5001E5B49 /* ChannelCenterView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ChannelCenterView.storyboard; sourceTree = "<group>"; };
@@ -102,9 +106,11 @@
 		0F5DB58E246AEA1700245E96 /* Noti */ = {
 			isa = PBXGroup;
 			children = (
+				623073A82493739E00C06C6D /* LastUpdated+CoreDataClass.swift */,
 				62B321F1248A1A9000111CE8 /* Channel+CoreDataClass.swift */,
 				62B321F3248A1A9000111CE8 /* Tags+CoreDataClass.swift */,
 				62B321F5248A1A9000111CE8 /* Card+CoreDataClass.swift */,
+				623073A92493739E00C06C6D /* LastUpdated+CoreDataProperties.swift */,
 				62B321F2248A1A9000111CE8 /* Channel+CoreDataProperties.swift */,
 				62B321F4248A1A9000111CE8 /* Tags+CoreDataProperties.swift */,
 				62B321F6248A1A9000111CE8 /* Card+CoreDataProperties.swift */,
@@ -232,6 +238,7 @@
 				62B321FB248A1A9000111CE8 /* Card+CoreDataClass.swift in Sources */,
 				62E3020724805B6D002332AE /* addTagViewController.swift in Sources */,
 				6258C0AB2473DE49001E5B49 /* tagTableViewCell.swift in Sources */,
+				623073AB2493739E00C06C6D /* LastUpdated+CoreDataProperties.swift in Sources */,
 				62B321F8248A1A9000111CE8 /* Channel+CoreDataProperties.swift in Sources */,
 				0F5DB5A4246AEAB300245E96 /* HomeTableViewController.swift in Sources */,
 				86AE28102492B4BC00DDDDC5 /* ChannelCenterViewController.swift in Sources */,
@@ -242,6 +249,7 @@
 				62B321FA248A1A9000111CE8 /* Tags+CoreDataProperties.swift in Sources */,
 				6258C0AD2474348A001E5B49 /* HistoryViewController.swift in Sources */,
 				0F044263246B0899002A7C2B /* detailViewController.swift in Sources */,
+				623073AA2493739E00C06C6D /* LastUpdated+CoreDataClass.swift in Sources */,
 				0F5DB592246AEA1700245E96 /* SceneDelegate.swift in Sources */,
 				62BA56C5248E0BE4000CB9DF /* CoreDataManager.swift in Sources */,
 				861984AE2487BAE7002FCF04 /* HistoryCell.swift in Sources */,

@@ -7,20 +7,22 @@
 //
 
 import UIKit
+import CoreData
 
 private let reuseIdentifier = "ChannelCell"
 
 class ChannelCollectionViewController: UICollectionViewController {
-    var channels = channelsDataSource.channels
-    var channelsForServer = channelsDataSource.channelForServer
+    var channels = [Channel]()
+    var channelsForServer = [Channel]()
     let cellSpacing :CGFloat = 5
     let sectionSpacing :CGFloat = 10
-    
+    var mangedObjectContext : NSManagedObjectContext!
     override func viewDidLoad() {
         super.viewDidLoad()
         //collectionView.backgroundColor = .white
         //let width = (view.frame.size.width-20)/2
         //let height = width - 100
+        channels = CoreDataManager.shared.getChannels()
         let layout = self.collectionViewLayout as! UICollectionViewFlowLayout
         //layout.itemSize = CGSize(width: width, height: height)
         layout.minimumLineSpacing = 50
@@ -36,7 +38,6 @@ class ChannelCollectionViewController: UICollectionViewController {
 
         // Do any additional setup after loading the view.
     }
-
     /*
     // MARK: - Navigation
 
@@ -57,7 +58,13 @@ class ChannelCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 2
+        if(section == 0){
+            return 2
+        }
+        else{
+            return channels.count-2
+        }
+        
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -110,10 +117,10 @@ class ChannelCollectionViewController: UICollectionViewController {
         
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerCell", for: indexPath) as! ChannelCollectionViewHeader
         if(indexPath.section == 0) {
-            header.titleForChannelList.text = "학부사이트"
+            header.titleForChannelList.text = "포털"
         }
         else {
-            header.titleForChannelList.text = "포털"
+            header.titleForChannelList.text = "학부사이트"
         }
             return header
         
@@ -149,7 +156,7 @@ class ChannelCollectionViewController: UICollectionViewController {
         cell.channelTitle.textColor = .black
         cell.channelSubTitle.textColor = .black
         cell.channelCell.backgroundColor = .white
-        channelsForServer.append(Channel(title: cell.channelTitle.text!,subtitle: "", category:  cell.channelSubTitle.text!, source: "",color: .white))
+        //channelsForServer.append(Channel(title: cell.channelTitle.text!,subtitle: "", category:  cell.channelSubTitle.text!,color: .white))
     }
     
     override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -164,7 +171,9 @@ class ChannelCollectionViewController: UICollectionViewController {
     func buttonTouched(_ cell : UICollectionViewCell){
         let path = collectionView.indexPath(for: cell)
         let addChannelCell = collectionView.cellForItem(at: path!) as! ChannelCollectionViewCell
-        channelsForServer.append(Channel(title: addChannelCell.channelTitle.text!,subtitle: "", category:  addChannelCell.channelSubTitle.text!, source: "",color: .white))
+        //channels for server를 위j..
+        //channelsForServer.append(Channel(title: addChannelCell.channelTitle.text!,subtitle: "", category:  addChannelCell.channelSubTitle.text!,color: .white))
+
     }
 
     /*

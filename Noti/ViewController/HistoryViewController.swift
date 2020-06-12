@@ -13,6 +13,8 @@ class HistoryViewController: UIViewController{
 
     var selectedChannel = 0
     @IBOutlet weak var historyTable: UITableView!
+    @IBOutlet weak var channelCollection: UICollectionView!
+    
     var mangedObjectContext : NSManagedObjectContext!
     var cards = [Card]()
     var allChannels = [Channel]()
@@ -20,112 +22,50 @@ class HistoryViewController: UIViewController{
     var allTags = [Tags]()
     var date = [String]()
     func loadData(){
+        cards = CoreDataManager.shared.getCards()
+        allChannels = CoreDataManager.shared.getChannels()
+        
+        channels = allChannels.filter{ $0.isSubscribed == true }.sorted{ $0.source!.count < $1.source!.count }
+        print(allChannels)
+        allTags = CoreDataManager.shared.getTags()
+        date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by: >)
+    }
+    
+    
+    
+    
+    func updateCardsAndTitle(){
         if selectedChannel == 0 {
             cards = CoreDataManager.shared.getCards()
         }else{
             let channelToChange = channels[selectedChannel]
             let allCards = CoreDataManager.shared.getCards()
             cards = allCards.filter{ $0.channelName == channelToChange.category && $0.category!.contains(channelToChange.title!)}
-            /*let title = channelToChange.title
-            let predicate = NSPredicate(format: "category CONTAINS  %@", title!)
-            fetchRequest.predicate = predicate
-            cards = cardsData.filter{$0.channelName == channelToChange.category}
-            do{
-                cardsData = try mangedObjectContext.fetch(fetchRequest)
-                cards = cardsData.filter{$0.channelName == channelToChange.category}
-            }catch{
-                fatalError("fetch error!")
-            }*/
-    
+            navigationItem.title = channelToChange.title
         }
-        allChannels = CoreDataManager.shared.getChannels()
         
-        channels = allChannels.filter{ $0.isSubscribed == true }
-        print(allChannels)
-        allTags = CoreDataManager.shared.getTags()
-        
-        navigationItem.title = channels[selectedChannel].title
         date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by: >)
-        let source = NSAttributedString(string: channels[selectedChannel].category!, attributes: [.font : UIFont.boldSystemFont(ofSize: 20), .foregroundColor: UIColor.sourceFont])
-               navigationController?.hidesBarsOnSwipe = true
-               // 라이트 뷰 생성
-               let rightView = UIView()
-               rightView.frame = CGRect(x: 0, y: 0, width: .bitWidth, height: 70)
-               let rItem = UIBarButtonItem(customView: rightView)
-               self.navigationItem.leftBarButtonItem = rItem
-               let somet = UILabel()
-               somet.frame = CGRect(x:1, y:10, width: 400, height: 62)
-               somet.attributedText=source
-               rightView.addSubview(somet)
     }
-    
-    
-    
-    
-   /* func updateCards(){
-        if selectedChannel == 0{
-            cards = cardsDataSource.cards
-        }else{
-            let channelToChange = channels[selectedChannel]
-            
-            cards = cardsDataSource.cards.filter{ $0.channelName == channelToChange.category && $0.category.contains(channelToChange.title)}
-        }
-        navigationItem.title = channels[selectedChannel].title
-        
-        let source = NSAttributedString(string: channels[selectedChannel].category!, attributes: [.font : UIFont.boldSystemFont(ofSize: 20), .foregroundColor: UIColor.sourceFont])
-        navigationController?.hidesBarsOnSwipe = true
-        // 라이트 뷰 생성
-        let rightView = UIView()
-        rightView.frame = CGRect(x: 0, y: 0, width: .bitWidth, height: 70)
-        let rItem = UIBarButtonItem(customView: rightView)
-        self.navigationItem.leftBarButtonItem = rItem
-        let somet = UILabel()
-        somet.frame = CGRect(x:1, y:10, width: 400, height: 62)
-        somet.attributedText=source
-        rightView.addSubview(somet)
-        
-        
-        
-    }*/
-    
-    @objc func buttonClicked(){
-        print("alarm button Clicked!")
-//        channels[selectedChannel]
-    }
-    
-
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        print("!!!!")
-//        channels = channelsDataSource.channels.filter{ $0.isSubscribed == true }
         navigationItem.title = "전체"
-        loadData()
-        let rightView = UIView()
-        rightView.frame = CGRect(x: 0, y: 0, width: 80, height: 40)
-        // rItem이라는 UIBarButtonItem 객체 생성
-        let rItem = UIBarButtonItem(customView: rightView)
-        self.navigationItem.rightBarButtonItem = rItem
-        // 새로고침 버튼 생성
-        let refreshButton = UIButton(type:.system)
-        refreshButton.frame = CGRect(x:50, y:10, width: 30, height: 30)
-        refreshButton.setImage(UIImage(systemName: "bell"), for: .normal)
-        refreshButton.tintColor = .systemBlue
-        refreshButton.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
-        // 라이트 뷰에 버튼 추가
-        rightView.addSubview(refreshButton)
-        
         //네비게이션바 배경색 넣어주는 코드
         let coloredAppearance = UINavigationBarAppearance()
         coloredAppearance.configureWithOpaqueBackground()
         coloredAppearance.backgroundColor = UIColor.navBack
         coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.navFont]
         coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.navFont]
-//        self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
         self.navigationController?.navigationBar.standardAppearance = coloredAppearance
-        
     }
-
+    
+    override func viewDidAppear(_ animated: Bool) {
+        loadData()
+        updateCardsAndTitle()
+        channelCollection.reloadData()
+        historyTable.reloadData()
+    }
+    
     /*
     // MARK: - Navigation
 
@@ -286,9 +226,8 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
         
 //        print("Cell \(indexPath.row) sellected")
         selectedChannel = indexPath.row
-        //updateCards()
-        loadData()
-        collectionView.reloadData()
+        updateCardsAndTitle()
+        channelCollection.reloadData()
         historyTable.reloadData()
     }
     

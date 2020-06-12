@@ -59,6 +59,9 @@ class CoreDataManager{
        print(hexString)
        return hexString
     }
+    func dataFromServer(){
+        
+    }
     //sort!!
     func getCards()->[Card]{
         //cards.sort {(obj1, obj2) -> Bool in
@@ -181,6 +184,25 @@ class CoreDataManager{
             }
         }
     }
+    func subscribedChannel(subtitle : String, onSuccess: @escaping ((Bool) -> Void)){
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = filteredChannel(subtitle: subtitle)
+        var visitedChannel = Channel()
+        do {
+                   if let results: [Channel] = try context?.fetch(fetchRequest) as? [Channel] {
+                       visitedChannel = results[0]
+                       visitedChannel.willChangeValue(forKey: "isSubscribed")
+                       visitedChannel.isSubscribed = true
+                       visitedChannel.didChangeValue(forKey: "isSubscribed")
+                   }
+               } catch let error as NSError {
+                   print("Could not fatch🥺: \(error), \(error.userInfo)")
+                   onSuccess(false)
+               }
+               
+               contextSave { success in
+                   onSuccess(success)
+               }
+    }
     func getTags()->[Tags]{
         var allTags = [Tags]()
         let fetchRequest : NSFetchRequest<Tags> = Tags.fetchRequest()
@@ -233,12 +255,13 @@ class CoreDataManager{
         CoreDataManager.shared.saveCards(title:"파이썬마스터 자격검정 안내", channelName: "컴퓨터소프트웨어대학", category: "취업정보게시판", tag:[], time:  dateFormatter.date(from: "2020-05-14 12:12")!, color: UIColor.second, isVisited: false, url:"http://cs.hanyang.ac.kr/board/job_board.php?ptype=view&idx=28896&page=1&code=job_board", json: ["":""]){ onSuccess in print("saved = \(onSuccess)")}
         CoreDataManager.shared.saveCards(title:"2020학년도 여름계절학기 수강신청 안내", channelName: "컴퓨터소프트웨어대학", category: "학사일반게시판",tag:["수강신청"], time:  dateFormatter.date(from: "2020-05-11 14:12")!, color: UIColor.first, isVisited: true, url:"http://cs.hanyang.ac.kr/board/info_board.php?ptype=view&idx=28890&page=1&code=notice", json: ["":""]){ onSuccess in print("saved = \(onSuccess)")}
         dateFormatter.dateFormat = "yyyy/MM/dd"
-        CoreDataManager.shared.saveChannels(title: "전체",subtitle: "전체", category: "", color: .sourceFont, channelTags: ["대회","모집"], source: "..", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+        
         CoreDataManager.shared.saveChannels(title: "학사게시판",subtitle: "학사", category:  "포털", color: .fourth, channelTags: [], source: "포털", isSubscribed: false){ onSuccess in print("saved = \(onSuccess)")}
         CoreDataManager.shared.saveChannels(title: "장학게시판",subtitle: "장학", category:  "포털",color: .third,  channelTags: ["장학금"], source: "포털", isSubscribed: false){ onSuccess in print("saved = \(onSuccess)")}
         CoreDataManager.shared.saveChannels(title: "학사일반게시판",subtitle: "학사일반", category: "컴퓨터소프트웨어대학",color: .first, channelTags: ["대회","모집"], source: "학부사이트", isSubscribed: false){ onSuccess in print("saved = \(onSuccess)")}
         CoreDataManager.shared.saveChannels(title: "취업정보게시판",subtitle: "취업정보", category: "컴퓨터소프트웨어대학",color: .second, channelTags: ["모집","채용"], source: "학부사이트", isSubscribed: false){ onSuccess in print("saved = \(onSuccess)")}
         CoreDataManager.shared.saveChannels(title: "test", subtitle: "check", category: "경영대학", color: .second, channelTags: [], source: "학부사이트", isSubscribed: false){ onSuccess in print("saved = \(onSuccess)")}
+        CoreDataManager.shared.saveChannels(title: "전체",subtitle: "전체", category: "", color: .sourceFont, channelTags: ["대회","모집"], source: "..", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
         CoreDataManager.shared.saveTags(name: "대회", time: dateFormatter.date(from: "2020-05-12")!){ onSuccess in print("saved = \(onSuccess)")}
         CoreDataManager.shared.saveTags(name: "모집", time: dateFormatter.date(from: "2020-05-11")!){ onSuccess in print("saved = \(onSuccess)")}
         CoreDataManager.shared.saveTags(name: "채용", time: dateFormatter.date(from: "2020-05-14")!){ onSuccess in print("saved = \(onSuccess)")}
@@ -279,7 +302,12 @@ extension CoreDataManager {
         fetchRequest.predicate = NSPredicate(format: "url = %@", NSString(string: url))
         return fetchRequest
     }
-    
+    fileprivate func filteredChannel(subtitle: String) -> NSFetchRequest<NSFetchRequestResult> {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult>
+            = NSFetchRequest<NSFetchRequestResult>(entityName: "Channel")
+        fetchRequest.predicate = NSPredicate(format: "subtitle = %@", NSString(string: subtitle))
+        return fetchRequest
+    }
     fileprivate func contextSave(onSuccess: ((Bool) -> Void)) {
         do {
             try context?.save()

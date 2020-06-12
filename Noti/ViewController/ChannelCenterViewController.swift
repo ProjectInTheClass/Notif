@@ -119,6 +119,7 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Cell \(indexPath.row) sellected")
+        CoreDataManager.shared.subscribedChannel(subtitle: channels[indexPath.row].subtitle!){ onSuccess in print("saved = \(onSuccess)")}
         selectedChannel = indexPath
         updateChannels() 
         collectionView.reloadData()

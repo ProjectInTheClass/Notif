@@ -139,7 +139,7 @@
                                             <outlet property="sourceColorView" destination="rzV-xI-L9F" id="yrc-jd-BWC"/>
                                             <outlet property="sourceLabel" destination="XvZ-Zb-Nlz" id="tGh-1a-hhO"/>
                                             <outlet property="titleLabel" destination="b4d-qT-uZK" id="ASZ-NK-b3X"/>
-                                            <segue destination="kLd-YR-gh4" kind="show" id="yRj-Qk-tJL"/>
+                                            <segue destination="kLd-YR-gh4" kind="show" identifier="detailSegue" id="yRj-Qk-tJL"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="history" rowHeight="80" id="UYr-kN-Sng" customClass="HistoryCell" customModule="Noti" customModuleProvider="target">

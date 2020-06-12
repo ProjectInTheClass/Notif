@@ -35,9 +35,12 @@
 		860930AB24898DFD005B7A28 /* ChannelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860930AA24898DFD005B7A28 /* ChannelCollectionViewCell.swift */; };
 		860930AD248991B9005B7A28 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860930AC248991B9005B7A28 /* CustomCollectionViewCell.swift */; };
 		861984AE2487BAE7002FCF04 /* HistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861984AD2487BAE7002FCF04 /* HistoryCell.swift */; };
+		863ADB472492C0FE00BDE2B7 /* Custom2CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863ADB462492C0FE00BDE2B7 /* Custom2CollectionViewCell.swift */; };
 		86A5E83B246EE5BC00B692F4 /* HomeDetailView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86A5E83A246EE5BC00B692F4 /* HomeDetailView.storyboard */; };
 		86A5E87D246EF00400B692F4 /* HistoryView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86A5E87C246EF00400B692F4 /* HistoryView.storyboard */; };
-		86B27EBD2486C25F008DE388 /* History2View.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86B27EBC2486C25F008DE388 /* History2View.storyboard */; };
+
+		86AE280E2492B44900DDDDC5 /* ChannelCenterView2.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86AE280D2492B44900DDDDC5 /* ChannelCenterView2.storyboard */; };
+		86AE28102492B4BC00DDDDC5 /* ChannelCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AE280F2492B4BC00DDDDC5 /* ChannelCenterViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,9 +74,12 @@
 		860930AA24898DFD005B7A28 /* ChannelCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCollectionViewCell.swift; sourceTree = "<group>"; };
 		860930AC248991B9005B7A28 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		861984AD2487BAE7002FCF04 /* HistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryCell.swift; sourceTree = "<group>"; };
+		863ADB462492C0FE00BDE2B7 /* Custom2CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Custom2CollectionViewCell.swift; sourceTree = "<group>"; };
 		86A5E83A246EE5BC00B692F4 /* HomeDetailView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HomeDetailView.storyboard; sourceTree = "<group>"; };
 		86A5E87C246EF00400B692F4 /* HistoryView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HistoryView.storyboard; sourceTree = "<group>"; };
-		86B27EBC2486C25F008DE388 /* History2View.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = History2View.storyboard; sourceTree = "<group>"; };
+		86AE280D2492B44900DDDDC5 /* ChannelCenterView2.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ChannelCenterView2.storyboard; sourceTree = "<group>"; };
+		86AE280F2492B4BC00DDDDC5 /* ChannelCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCenterViewController.swift; sourceTree = "<group>"; };
+
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +123,7 @@
 				0F5DB58F246AEA1700245E96 /* AppDelegate.swift */,
 				62E3020624805B6D002332AE /* addTagViewController.swift */,
 				860930AC248991B9005B7A28 /* CustomCollectionViewCell.swift */,
+				863ADB462492C0FE00BDE2B7 /* Custom2CollectionViewCell.swift */,
 				0F93EE1C2471232F0018B9C8 /* Card.swift */,
 				62B321EE248A180D00111CE8 /* NotiModels.xcdatamodeld */,
 				860930AA24898DFD005B7A28 /* ChannelCollectionViewCell.swift */,
@@ -141,8 +148,8 @@
 				0F5DB595246AEA1700245E96 /* Main.storyboard */,
 				86A5E83A246EE5BC00B692F4 /* HomeDetailView.storyboard */,
 				6258C0B2247EDCC5001E5B49 /* ChannelCenterView.storyboard */,
+				86AE280D2492B44900DDDDC5 /* ChannelCenterView2.storyboard */,
 				86A5E87C246EF00400B692F4 /* HistoryView.storyboard */,
-				86B27EBC2486C25F008DE388 /* History2View.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -154,6 +161,8 @@
 				0F044262246B0899002A7C2B /* detailViewController.swift */,
 				6258C0AC2474348A001E5B49 /* HistoryViewController.swift */,
 				6258C0BA247EF7F6001E5B49 /* ChannelCollectionViewController.swift */,
+
+				86AE280F2492B4BC00DDDDC5 /* ChannelCenterViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -219,7 +228,7 @@
 				0F5DB59C246AEA1C00245E96 /* LaunchScreen.storyboard in Resources */,
 				86A5E87D246EF00400B692F4 /* HistoryView.storyboard in Resources */,
 				6258C0B3247EDCC5001E5B49 /* ChannelCenterView.storyboard in Resources */,
-				86B27EBD2486C25F008DE388 /* History2View.storyboard in Resources */,
+				86AE280E2492B44900DDDDC5 /* ChannelCenterView2.storyboard in Resources */,
 				0F5DB599246AEA1C00245E96 /* Assets.xcassets in Resources */,
 				86A5E83B246EE5BC00B692F4 /* HomeDetailView.storyboard in Resources */,
 				0F5DB597246AEA1700245E96 /* Main.storyboard in Resources */,
@@ -240,8 +249,13 @@
 				62E3020724805B6D002332AE /* addTagViewController.swift in Sources */,
 				6258C0AB2473DE49001E5B49 /* tagTableViewCell.swift in Sources */,
 				0F93EE212471308A0018B9C8 /* CardDataSource.swift in Sources */,
+
 				62B321F8248A1A9000111CE8 /* Channel+CoreDataProperties.swift in Sources */,
+
+				863ADB472492C0FE00BDE2B7 /* Custom2CollectionViewCell.swift in Sources */,
+
 				0F5DB5A4246AEAB300245E96 /* HomeTableViewController.swift in Sources */,
+				86AE28102492B4BC00DDDDC5 /* ChannelCenterViewController.swift in Sources */,
 				0F93EE1D2471232F0018B9C8 /* Card.swift in Sources */,
 				860930AD248991B9005B7A28 /* CustomCollectionViewCell.swift in Sources */,
 				0F5DB590246AEA1700245E96 /* AppDelegate.swift in Sources */,
@@ -257,6 +271,8 @@
 				62B321FC248A1A9000111CE8 /* Card+CoreDataProperties.swift in Sources */,
 				62B321F9248A1A9000111CE8 /* Tags+CoreDataClass.swift in Sources */,
 				62B321F7248A1A9000111CE8 /* Channel+CoreDataClass.swift in Sources */,
+
+
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,8 +10,7 @@ import UIKit
 import CoreData
 
 class HistoryViewController: UIViewController{
-    //var channels = channelsDataSource.channels
-    //var cards = cardsDataSource.cards
+
     var selectedChannel = 0
     @IBOutlet weak var historyTable: UITableView!
     var mangedObjectContext : NSManagedObjectContext!
@@ -90,8 +89,12 @@ class HistoryViewController: UIViewController{
 //        channels[selectedChannel]
     }
     
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("!!!!")
+//        channels = channelsDataSource.channels.filter{ $0.isSubscribed == true }
         navigationItem.title = "전체"
         loadData()
         let rightView = UIView()
@@ -175,14 +178,14 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
             cell.cellView.layer.shadowColor = UIColor.black.cgColor // 검정색 사용
             cell.cellView.layer.masksToBounds = false
             cell.cellView.layer.shadowOffset = CGSize(width: 1, height: 2) //반경
-            cell.cellView.layer.shadowRadius = 8 // 반경?
+            cell.cellView.layer.shadowRadius = 3 // 반경?
             cell.cellView.layer.shadowOpacity = 0.2 //
             return cell
             
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "history", for: indexPath) as! HistoryCell
-            
-            cell.history.text = "#"+sectionCards[indexPath.row].title! + " 추가"
+
+            cell.history.text = "  #"+sectionCards[indexPath.row].title + " 추가  "
             cell.history.textColor = UIColor.first
             let attributedStr = NSMutableAttributedString(string: cell.history.text!)
             //위에서 만든 attributedStr에 addAttribute메소드를 통해 Attribute를 적용. kCTFontAttributeName은 value로 폰트크기와 폰트를 받을 수 있음.
@@ -214,6 +217,27 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40;
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "detailSegue") {
+            let destination = segue.destination as! detailViewController
+            if let cell = sender as? HomeTableViewCell {
+                guard let indexPath = historyTable.indexPathForSelectedRow else {return}
+                destination.title2 = cell.titleLabel.text
+                destination.source = cell.sourceLabel.text
+                destination.date = cell.dateLabel.text
+                destination.back2 = title
+                destination.url = cards[indexPath.row].url
+                //                print("!!!!!"+cards[indexPath.row].url)
+                destination.json = cards[indexPath.row].json
+                
+                // 방문할경우 비짓처리하고 테이블뷰 리로드
+                cards[indexPath.row].isVisited = true
+                historyTable.reloadData()
+                
+            }
+        }
+    }
 
 }
 
@@ -226,12 +250,15 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "channel", for: indexPath) as! CustomCollectionViewCell
 //        cell.backgroundColor = UIColor.blue
         cell.titleLabel.text = channels[indexPath.row].subtitle
+        cell.colorLabel.text = channels[indexPath.row].subtitle
+        cell.colorLabel.textColor = .clear
         if selectedChannel==indexPath.row {
             cell.titleLabel.textColor = UIColor.navFont
             cell.colorImageView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString:channels[indexPath.row].color!) 
+
         }else{
             cell.titleLabel.textColor = .sourceFont
-            cell.colorImageView.backgroundColor = .clear
+            cell.colorLabel.backgroundColor = .clear
         }
         
         return cell
@@ -254,6 +281,10 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
 extension HistoryViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 80, height: 40)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24)
     }
 }
 

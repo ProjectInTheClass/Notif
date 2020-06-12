@@ -62,7 +62,7 @@ extension StringProtocol {
     }
 }
 
-class detailViewController: UIViewController {
+class detailViewController: UIViewController, UIScrollViewDelegate{
     
     var title2: String?
     var source: String?
@@ -79,9 +79,14 @@ class detailViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var sourceLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var scrollView: UIScrollView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        scrollView.delegate = self
+
+        
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.backBarButtonItem?.title = back2
         
@@ -96,45 +101,37 @@ class detailViewController: UIViewController {
         URLTextView.textContainer.maximumNumberOfLines = 1
         URLTextView.textContainer.lineBreakMode = .byTruncatingTail
         
-        
-        getContent() {
-            dataString, encoding in
-            DispatchQueue.main.async {
-                
-                let resultString = "<div style=\"font-size:17px; line-height:22px\" >" + dataString! + "</div>"
-                print(resultString)
-                self.contentTextView.attributedText = resultString.htmlToAttributedString
-               
-            }
-        }
-
-        
-        
         titleView.layer.masksToBounds = false
         titleView.layer.shadowColor = UIColor.gray.cgColor
         titleView.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
         titleView.layer.shadowOpacity = 0.5
         titleView.layer.shadowRadius = 0
         
+        
+        
+        getContent()
     }
 
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return contentView
+    }
     
-    
-    func getContent(completion: @escaping (_ dataString:String?, _ encoding:String.Encoding) -> ()) {
+    func getContent() {
         guard let url2 = URL(string: url!) else {return }
         var request = URLRequest(url: url2)
-        if (self.source!.hasPrefix("학부")) {
-            request.httpMethod = "get"
-        } else if (self.source!.hasPrefix("포털")) {
+        if (self.source!.hasPrefix("포털")) {
             request.httpMethod = "post"
             request.setValue("application/json+sua; charset=UTF-8", forHTTPHeaderField: "Content-Type")
             request.setValue("https://portal.hanyang.ac.kr", forHTTPHeaderField: "Origin")
             request.setValue("ipSecGb=MQ%3D%3D; savedUserId=anVucm9vdDA5MDk%3D; WMONID=GQOvjLQn9EC; HYIN_JSESSIONID=tKgxq9hHchZjg48jxEDNXGgyBn-zjBNY3LXGhGaQ-wD4VqbXc4Nu!942074279!220462321; newLoginStatus=PORTAL8e1d20d1-e3df-4118-9884-5d5e75ed4505; COM_JSESSIONID=C1Uxq-QZlU2oBt_tL9XW_qLQbXuIEI4jg9UJsp4RI8eUfub3yGjc!-1908862846!2143065293; _SSO_Global_Logout_url=get%5Ehttps%3A%2F%2Fportal.hanyang.ac.kr%2Flgot.do%24get%5Ehttps%3A%2F%2Fportal.hanyang.ac.kr%2Fhaksa%2Flgot.do%24; HAKSA_JSESSIONID=D0oxq-o982mmyEIviMiFnft8hPXwrAneB_oFB5bbyH-mmR0y7guZ!-1049547854!193342111", forHTTPHeaderField: "Cookie")
             let jsonData = try? JSONSerialization.data(withJSONObject: json)
             request.httpBody = jsonData
+        } else {
+            request.httpMethod = "get"
         }
         
         let session = URLSession.shared
+        //URLSession provides the async request
         let task = session.dataTask(with: request) { data, response, error in
             // Check if Error took place
             if let error = error {
@@ -153,13 +150,17 @@ class detailViewController: UIViewController {
             if let data = data, var dataString = String(data: data, encoding: encoding) {
                 
 //                print("Response data string:\n \(dataString)")
-                if (self.source!.hasPrefix("학부")) {
+                if (self.source!.hasPrefix("컴퓨터")) {
                     dataString = dataString.slice(from: "<td class=\"view_content\" colspan=\"2\">", to: "<td class=\"tit\">이전글</td>")!
                     let endtdIndices = dataString.ranges(of: "</td>")
 
                     if let lastIndex = endtdIndices.last {
                         dataString = String(dataString[..<lastIndex.upperBound])
                     }
+                } else if (self.source!.hasPrefix("경영")){
+                    dataString = dataString.slice(from: "<span id=\"writeContents\" style=\"display:block;width:700px\"><div align=\"center\">", to:"</span>")!
+                } else if (self.source!.hasPrefix("기계")){
+                    dataString = dataString.slice(from: "<div class=\"HTML_CONTENT\">", to:"</div>")!
                 } else if (self.source!.hasPrefix("포털")) {
                     dataString = dataString.slice(from: "\"contents\":\"", to: "\",\"haengsaSdt\"")!
                     dataString = dataString.replacingOccurrences(of: "\\n", with: "")
@@ -167,7 +168,31 @@ class detailViewController: UIViewController {
 //                    print(dataString)
                     
                 }
-                completion(dataString,encoding)
+                DispatchQueue.main.async {
+                    let resultString = "<div style=\"font-size:17px; line-height:22px\" >" + dataString + "</div>"
+                    let mutableAttributedString = NSMutableAttributedString(attributedString: resultString.htmlToAttributedString!)
+                    mutableAttributedString.enumerateAttribute(NSAttributedString.Key.attachment , in: NSMakeRange(0, mutableAttributedString.length) , options: .init(rawValue: 0), using: {(value, range, stop) in
+                        if let attachment = value as? NSTextAttachment {
+                            let image = attachment.image(forBounds: attachment.bounds, textContainer: NSTextContainer(), characterIndex: range.location)!
+                            let maxWidth = self.contentTextView.frame.size.width
+                            if image.size.width > maxWidth {
+                                let newSize = CGSize(width: maxWidth, height: image.size.height*(maxWidth/image.size.width))
+                                let rect = CGRect(origin: CGPoint.zero, size: newSize)
+                                
+                                UIGraphicsBeginImageContext(newSize)
+                                image.draw(in: rect)
+                                let newImage = UIGraphicsGetImageFromCurrentImageContext()
+                                UIGraphicsEndImageContext()
+                                
+                                let newAttribute = NSTextAttachment()
+                                newAttribute.image = newImage
+                                mutableAttributedString.addAttribute(NSAttributedString.Key.attachment, value: newAttribute, range: range)
+                            }
+                        }
+                    })
+//                    print(resultString)
+                    self.contentTextView.attributedText = mutableAttributedString
+                }
             }
             
         }

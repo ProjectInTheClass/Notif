@@ -160,7 +160,7 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
                 } else if (self.source!.contains("경영")){
                     dataString = dataString.slice(from: "<span id=\"writeContents\" style=\"display:block;width:700px\"><div align=\"center\">", to:"</span>")!
                 } else if (self.source!.contains("기계")){
-                    dataString = dataString.slice(from: "<div class=\"HTML_CONTENT\">", to:"</div>")!
+                    dataString = dataString.slice(from: "<div class=\"HTML_CONTENT\">", to:"</div></td>")!
                 } else if (self.source!.contains("포털")) {
                     dataString = dataString.slice(from: "\"contents\":\"", to: "\",\"haengsaSdt\"")!
                     dataString = dataString.replacingOccurrences(of: "\\n", with: "")

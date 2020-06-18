@@ -167,7 +167,8 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
             
             cell.titleLabel.text = sectionCards[indexPath.row].title
             cell.sourceLabel.text = sectionCards[indexPath.row].source
-            cell.dateLabel.text = sectionCards[indexPath.row].historyCardFormattedDate
+//            cell.dateLabel.text = sectionCards[indexPath.row].historyCardFormattedDate
+            cell.dateLabel.text = ""
             cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionCards[indexPath.row].color!)
             
             if (cards[indexPath.row].isVisited == true){

@@ -95,20 +95,12 @@ class CoreDataManager{
                 cards.isVisited = isVisited
                 cards.url = url
                 cards.json = json //as NSObject
-                cards.source = cards.category! + cards.channelName!
+                cards.source = cards.category! + ((cards.category!.count == 0) ? "" : "-") + cards.channelName!
                 
                let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yy-MM-dd"
                 // 임시로 보여주기 위해 선언함
-               let now = dateFormatter.date(from: "20-05-18")!
-                let standard = dateFormatter.string(from: now)
-                let result = dateFormatter.string(from: time)
-                dateFormatter.dateFormat = "HH:mm"
-                if result == standard{
-                    cards.homeFormattedDate =  "오늘 " + dateFormatter.string(from: time)
-                }else{
-                    cards.homeFormattedDate = "어제 " + dateFormatter.string(from: time)
-                }
+                cards.homeFormattedDate = dateFormatter.string(from: time)
                 dateFormatter.dateFormat = "M.d"
                 cards.historyFormattedDate = dateFormatter.string(from: time)
                 dateFormatter.dateFormat = "HH:mm"
@@ -217,84 +209,91 @@ class CoreDataManager{
         let url = URL(string: encoding!)
     }*/
     func getUpdated()->[LastUpdated]{
-        var allTags = [LastUpdated]()
+        var lastUpdated = [LastUpdated]()
         let fetchRequest : NSFetchRequest<LastUpdated> = LastUpdated.fetchRequest()
                do{
                    if let fetchResult : [LastUpdated] = try context?.fetch(fetchRequest){
-                   allTags = fetchResult
+                   lastUpdated = fetchResult
                    }
                }catch{
                    fatalError("fetch error!")
                }
-        return allTags
+        return lastUpdated
     }
     func saveUpdated(date: String, onSuccess : @escaping ((Bool)->Void)){
             if let context = context,
             let entity: NSEntityDescription
             = NSEntityDescription.entity(forEntityName: "LastUpdated", in: context) {
-                if let tag: LastUpdated = NSManagedObject(entity: entity, insertInto: context ) as? LastUpdated{
-                    tag.date = date
+                if let lastUpdate: LastUpdated = NSManagedObject(entity: entity, insertInto: context ) as? LastUpdated{
+                    lastUpdate.date = date
                 contextSave{
                     success in onSuccess(success)
                 }
-                }
             }
-            
+        }
     }
-    func setData(){
+    
+    func setData() -> Bool{
         var lastUpdated = CoreDataManager.shared.getUpdated()
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yy/MM/dd"
-        let dateNow = Date()
+        dateFormatter.dateFormat = "yy-MM-dd"
         if(lastUpdated.count == 0){
-            CoreDataManager.shared.saveUpdated(date: "20-06-01"){ onSuccess in print("saved = \(onSuccess)")}
+            let dateNow = Calendar.current.date(byAdding: .day, value: -1, to: Date())
+            CoreDataManager.shared.saveUpdated(date: dateFormatter.string(from: dateNow!)){ onSuccess in } //print("saved = \(onSuccess)")
             lastUpdated = CoreDataManager.shared.getUpdated()
         }
         
-        let url = URL(string:"https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/" + lastUpdated[0].date!)
-        //print(lastUpdated[0].date)
-        var request = URLRequest(url : url!)
-        request.httpMethod = "get"
-        let session = URLSession.shared
-        let task = session.dataTask(with : request){ (data, response, error) in
-            if (error != nil) {
-                print(error)
-            }
-                var dataString = String(data: data!, encoding: String.Encoding.utf8)
-                let json = try! JSONSerialization.jsonObject(with:data!, options:[]) as! [String:Any]
-                let body = json["body"] as! String
-                let dataInBody = body.data(using: .utf8)!
-                let arr = try! JSONSerialization.jsonObject(with: dataInBody, options: []) as! [String:Any]
-                let messages = arr["message"] as! [[String:Any]]
-                for message in messages {
-                    let card = message as! [String:Any]
+        let url = URL(string:"https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/" + lastUpdated[lastUpdated.count - 1].date!)
+        print(lastUpdated[lastUpdated.count - 1].date)
+       
+        do {
+            let data = try Data(contentsOf: url!)
+            let cardsData = getCards()
+            let json = try! JSONSerialization.jsonObject(with:data, options:[]) as! [String:Any]
+            let body = json["body"] as! String
+            let dataInBody = body.data(using: .utf8)!
+            let arr = try! JSONSerialization.jsonObject(with: dataInBody, options: []) as! [String:Any]
+            let messages = arr["message"] as! [[String:Any]]
+            for message in messages {
+                let card = message
 
-                    var json_:[String:String] = ["":""]
-                    if(card["json_"] != nil){
-                        
-                    }
-                    CoreDataManager.shared.saveCards(title: card["title"] as! String, channelName: card["source"] as! String, category: card["category"] as! String, tag: [""], time: dateFormatter.date(from: card["time_"] as! String)!, color: UIColor.first, isVisited: false, url: card["url"] as! String, json : json_){ onSuccess in print("saved = \(onSuccess)")}
+                let json_:[String:String] = ["":""]
+                if(card["json_"] != nil){
+                    
                 }
                 
-    //            let message = json["message"] as![[String:Any]]
-    //            print(message)
+                let cardURL = card["url"] as! String
                 
+                let checkRedundancy = cardsData.filter({ (data) -> Bool in
+                    return (data.url == cardURL) && (data.json == json_)
+                })
+                
+                if (checkRedundancy.count == 0)
+                {
+                    let time = card["time_"] as! String
+                    var color = UIColor()
+                    switch card["source"] as! String{
+                    case "한양포털":
+                        color = UIColor.first
+                    case "기계공학부":
+                        color = UIColor.second
+                    case "컴퓨터소프트웨어학부":
+                        color = UIColor.third
+                    case "경영학부":
+                        color = UIColor.fourth
+                    default:
+                        color = UIColor.fifth
+                    }
+                    
+                    dateFormatter.dateFormat = "yy-MM-dd"
+                    CoreDataManager.shared.saveCards(title: card["title"] as! String, channelName: card["source"] as! String, category: card["category"] as! String, tag: [""], time: dateFormatter.date(from: card["time_"] as! String)!, color: color, isVisited: false, url: cardURL, json : json_){ onSuccess in } //print("saved = \(onSuccess)")
+                }
             }
-        task.resume()
-       
-         /*dateFormatter.dateFormat = "yyyy/MM/dd HH:mm"
-         CoreDataManager.shared.saveCards(title:"2020년 상반기 KB국민은행 신입행원(L1) 수시채용", channelName: "컴퓨터소프트웨어대학", category: "취업정보게시판",tag:["채용"], time:  dateFormatter.date(from: "2020-05-18 10:45")!, color: UIColor.second, isVisited: false, url:"http://cs.hanyang.ac.kr/board/job_board.php?ptype=view&idx=28895&page=1&code=job_board", json: ""){ onSuccess in print("saved = \(onSuccess)")}
-        CoreDataManager.shared.saveCards(title:"2020-2학기 1차 국가근로장학금 학생신청기간 안내", channelName: "포털", category: "장학게시판",tag:["장학금"], time:  dateFormatter.date(from: "2020-05-18 17:50")!, color: UIColor.third, isVisited: true, url:"https://portal.hanyang.ac.kr/GjshAct/findGongjisahangs.do?pgmId=P308200&menuId=M006263&tk=0be29593626429dfc3f1b618045bc8172b86832df0d333bc0f5db47199b9028a", json: ["gongjiSeq":"15689"]){ onSuccess in print("saved = \(onSuccess)")}
-         CoreDataManager.shared.saveCards(title:"대운동장 인조잔디구장 및 지하주차장 사용 안내", channelName: "포털", category: "학사게시판", tag:[], time:  dateFormatter.date(from: "2020-05-18 14:40")!, color: UIColor.fourth, isVisited: false, url:"https://portal.hanyang.ac.kr/GjshAct/findGongjisahangs.do?pgmId=P308200&menuId=M006263&tk=0be29593626429dfc3f1b618045bc8172b86832df0d333bc0f5db47199b9028a", json: ["gongjiSeq":"15688"]){ onSuccess in print("saved = \(onSuccess)")}
-         CoreDataManager.shared.saveCards(title:"2020년도 상반기 울산광역시 대학생 학자금대출 이자지원 사업 신청 안내", channelName: "포털", category: "장학게시판", tag:[], time:  dateFormatter.date(from: "2020-05-18 11:10")!, color: UIColor.third, isVisited: false, url:"https://portal.hanyang.ac.kr/GjshAct/findGongjisahangs.do?pgmId=P308200&menuId=M006263&tk=0be29593626429dfc3f1b618045bc8172b86832df0d333bc0f5db47199b9028a" , json: ["gongjiSeq":"15686"]){ onSuccess in print("saved = \(onSuccess)")}
-         CoreDataManager.shared.saveCards(title:"2020-1학기 국가장학금1유형 지급(3차 지급실행) 예정 안내", channelName: "포털", category: "장학게시판", tag:["장학금"], time: dateFormatter.date(from: "2020-05-18 10:20")!, color:UIColor.third, isVisited: false, url:"https://portal.hanyang.ac.kr/GjshAct/findGongjisahangs.do?pgmId=P308200&menuId=M006263&tk=0be29593626429dfc3f1b618045bc8172b86832df0d333bc0f5db47199b9028a", json: ["gongjiSeq":"15685"]){ onSuccess in print("saved = \(onSuccess)")}
-         CoreDataManager.shared.saveCards(title:"장학", channelName: "", category: "", tag :[], time:dateFormatter.date(from : "2020-05-18 17:10")!, color:UIColor.first, isVisited: false, url:"", json:["":""]){ onSuccess in print("saved = \(onSuccess)")}
-         CoreDataManager.shared.saveCards(title:"2020학년도 2학기 재입학 신청 안내", channelName: "컴퓨터소프트웨어대학", category: "학사일반게시판", tag:[], time: dateFormatter.date(from: "2020-05-17 16:20")!, color: UIColor.first, isVisited: true, url:"http://cs.hanyang.ac.kr/board/info_board.php?ptype=view&idx=28892&page=1&code=notice", json: ["":""]){ onSuccess in print("saved = \(onSuccess)")}
-         CoreDataManager.shared.saveCards(title:"[KAIST] 2020년 몰입캠프 여름학기 모집", channelName: "컴퓨터소프트웨어대학", category: "학사일반게시판",tag:["모집"], time:  dateFormatter.date(from: "2020-05-17 20:14")!, color: UIColor.first, isVisited: true, url:"http://cs.hanyang.ac.kr/board/info_board.php?ptype=view&idx=28891&page=1&code=notice", json: ["":""]){ onSuccess in print("saved = \(onSuccess)")}
-         CoreDataManager.shared.saveCards(title:"[NCSOFT] 2020 SUMMER INTERN 공개모집 (~5/21)", channelName: "컴퓨터소프트웨어대학", category: "취업정보게시판",tag: ["모집"], time:  dateFormatter.date(from: "2020-05-17 18:22")!, color: UIColor.second, isVisited: false, url:"http://cs.hanyang.ac.kr/board/job_board.php?ptype=view&idx=28897&page=1&code=job_board", json: ["":""]){ onSuccess in print("saved = \(onSuccess)")}
-         CoreDataManager.shared.saveCards(title:"제18회 임베디드SW경진대회 공고", channelName:  "컴퓨터소프트웨어대학", category: "학사일반게시판", tag:["대회"], time: dateFormatter.date(from: "2020-05-14 01:21")!, color: UIColor.first, isVisited: true, url:"http://cs.hanyang.ac.kr/board/info_board.php?ptype=view&idx=28898&page=1&code=notice", json: ["":""]){ onSuccess in print("saved = \(onSuccess)")}
-        CoreDataManager.shared.saveCards(title:"파이썬마스터 자격검정 안내", channelName: "컴퓨터소프트웨어대학", category: "취업정보게시판", tag:[], time:  dateFormatter.date(from: "2020-05-14 12:12")!, color: UIColor.second, isVisited: false, url:"http://cs.hanyang.ac.kr/board/job_board.php?ptype=view&idx=28896&page=1&code=job_board", json: ["":""]){ onSuccess in print("saved = \(onSuccess)")}
-        CoreDataManager.shared.saveCards(title:"2020학년도 여름계절학기 수강신청 안내", channelName: "컴퓨터소프트웨어대학", category: "학사일반게시판",tag:["수강신청"], time:  dateFormatter.date(from: "2020-05-11 14:12")!, color: UIColor.first, isVisited: true, url:"http://cs.hanyang.ac.kr/board/info_board.php?ptype=view&idx=28890&page=1&code=notice", json: ["":""]){ onSuccess in print("saved = \(onSuccess)")}*/
+        dateFormatter.dateFormat = "yy-MM-dd"
+        CoreDataManager.shared.saveUpdated(date: dateFormatter.string(from: Date())){ onSuccess in }
+        } catch {
+            print("Can't get url")
+        }
         dateFormatter.dateFormat = "yyyy/MM/dd"
         CoreDataManager.shared.saveChannels(title: "전체",subtitle: "전체", category: "", color: .sourceFont, channelTags: ["대회","모집"], source: "..", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
         CoreDataManager.shared.saveChannels(title: "학사게시판",subtitle: "학사", category:  "포털", color: .fourth, channelTags: [], source: "포털", isSubscribed: false){ onSuccess in print("saved = \(onSuccess)")}
@@ -306,6 +305,8 @@ class CoreDataManager{
         CoreDataManager.shared.saveTags(name: "모집", time: dateFormatter.date(from: "2020-05-11")!){ onSuccess in print("saved = \(onSuccess)")}
         CoreDataManager.shared.saveTags(name: "채용", time: dateFormatter.date(from: "2020-05-14")!){ onSuccess in print("saved = \(onSuccess)")}
         CoreDataManager.shared.saveTags(name: "장학금", time: dateFormatter.date(from: "2020-05-13")!){ onSuccess in print("saved = \(onSuccess)")}
+        
+        return true;
     }
     /*init(){
      
@@ -335,6 +336,7 @@ class CoreDataManager{
         self.saveTags(name: "장학금", time: dateFormatter.date(from: "2020-05-13")!)
     }*/
 }
+    
 extension CoreDataManager {
     fileprivate func filteredRequest(url: String) -> NSFetchRequest<NSFetchRequestResult> {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult>
@@ -353,3 +355,4 @@ extension CoreDataManager {
         }
     }
 }
+

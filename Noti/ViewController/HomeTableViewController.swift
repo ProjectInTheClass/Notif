@@ -17,15 +17,13 @@ class HomeTableViewController: UITableViewController {
         let cardsData = CoreDataManager.shared.getCards()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yy-MM-dd"
-        let now = dateFormatter.date(from: "2020-06-09")!
-        //
+        let now = dateFormatter.string(from: Date())
                
-        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: now)!
+        let yesterday = dateFormatter.string(from: Calendar.current.date(byAdding: .day, value: -1, to: Date())!)
         //cards = cardsDataSource.cards.filter{ $0.time <= now && $0.time > yesterday && $0.url != ""}
         print(now)
         print(yesterday)
-        print(cardsData[0].time)
-        cards = cardsData.filter{ $0.time! <= now && $0.time! > yesterday && $0.url != ""}
+        cards = cardsData.filter{ ($0.homeFormattedDate! == now||$0.homeFormattedDate! == yesterday) && $0.url != ""}
         
     }
     

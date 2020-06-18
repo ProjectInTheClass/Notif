@@ -14,7 +14,7 @@ exports.handler = function (event, context, callback) {
     
     var time = event['params']['path']['time'];
 
-    var sql = 'SELECT * FROM Cards where time_ > \'' + time +'\';';
+    var sql = 'SELECT * FROM Cards where time_ >= \'' + time +'\';';
     
     mysqlPool.getConnection(function (err, connection) {
         if(err !== null)    return console.log(err)

@@ -107,7 +107,8 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
             
             cell.titleLabel.text = sectionCards[indexPath.row].title
             cell.sourceLabel.text = sectionCards[indexPath.row].source
-            cell.dateLabel.text = sectionCards[indexPath.row].historyCardFormattedDate
+//            cell.dateLabel.text = sectionCards[indexPath.row].historyCardFormattedDate
+            cell.dateLabel.text = ""
             cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionCards[indexPath.row].color!)
             
             if (cards[indexPath.row].isVisited == true){
@@ -169,9 +170,6 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
                 guard let indexPath = historyTable.indexPathForSelectedRow else {return}
                 let date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by: >)
                 let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section]}
-                print(date)
-                print(sectionCards)
-                print(sectionCards[indexPath.row].url)
                 destination.title2 = cell.titleLabel.text
                 destination.source = cell.sourceLabel.text
                 destination.date = cell.dateLabel.text

@@ -16,13 +16,14 @@ class HomeTableViewController: UITableViewController {
     func loadData(){
         let cardsData = CoreDataManager.shared.getCards()
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm"
-        let now = dateFormatter.date(from: "2020-05-18 17:21")!
-        //
+        dateFormatter.dateFormat = "yy-MM-dd"
+        let now = dateFormatter.string(from: Date())
                
-        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: now)!
+        let yesterday = dateFormatter.string(from: Calendar.current.date(byAdding: .day, value: -1, to: Date())!)
         //cards = cardsDataSource.cards.filter{ $0.time <= now && $0.time > yesterday && $0.url != ""}
-        cards = cardsData.filter{ $0.time! <= now && $0.time! > yesterday && $0.url != ""}
+        print(now)
+        print(yesterday)
+        cards = cardsData.filter{ ($0.homeFormattedDate! == now||$0.homeFormattedDate! == yesterday) && $0.url != ""}
         
     }
     
@@ -38,7 +39,6 @@ class HomeTableViewController: UITableViewController {
             let destination = segue.destination as! detailViewController
             if let cell = sender as? HomeTableViewCell {
                 guard let indexPath = self.tableView.indexPathForSelectedRow else {return}
-                print(cards[indexPath.row].url)
                 destination.title2 = cell.titleLabel.text
                 destination.source = cell.sourceLabel.text
                 destination.date = cell.dateLabel.text

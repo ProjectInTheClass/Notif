@@ -74,13 +74,13 @@ class ChannelCollectionViewController: UICollectionViewController {
         // Configure the cell
         if(indexPath.section == 0){
             cell.channelTitle.text = channels[indexPath.item].title
-            cell.channelSubTitle.text = channels[indexPath.item].category
+            cell.channelSubTitle.text = channels[indexPath.item].source
             cell.channelColor.layer.backgroundColor = UIColor.first.cgColor
         }
         
         else{
             cell.channelTitle.text = channels[indexPath.item + 2].title
-            cell.channelSubTitle.text = channels[indexPath.item + 2].category
+            cell.channelSubTitle.text = channels[indexPath.item + 2].source
             cell.channelColor.layer.backgroundColor = UIColor.second.cgColor
         }
         

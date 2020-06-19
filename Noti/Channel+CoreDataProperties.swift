@@ -19,10 +19,10 @@ extension Channel {
     
     @NSManaged public var title: String?
     @NSManaged public var subtitle: String?
-    @NSManaged public var category: String?
+    @NSManaged public var source: String?
     @NSManaged public var color: String?
     @NSManaged public var channelTags: [String]?
     @NSManaged public var alarm: Bool
     @NSManaged public var isSubscribed: Bool
-    @NSManaged public var source : String?
+    @NSManaged public var group : String?
 }

@@ -200,6 +200,7 @@
                             <constraint firstItem="etd-5I-hXs" firstAttribute="trailing" secondItem="uPU-D1-az7" secondAttribute="trailing" id="6LJ-r3-MzI"/>
                             <constraint firstItem="uPU-D1-az7" firstAttribute="trailing" secondItem="1De-Rr-WXR" secondAttribute="trailing" id="KcP-Mg-DVq"/>
                             <constraint firstItem="etd-5I-hXs" firstAttribute="top" secondItem="uPU-D1-az7" secondAttribute="top" constant="40" id="Tte-RS-Y60"/>
+                            <constraint firstItem="1De-Rr-WXR" firstAttribute="top" secondItem="uPU-D1-az7" secondAttribute="top" id="WvE-BT-tz0"/>
                             <constraint firstItem="etd-5I-hXs" firstAttribute="bottom" secondItem="uPU-D1-az7" secondAttribute="bottom" id="dUr-M6-m8I"/>
                             <constraint firstItem="etd-5I-hXs" firstAttribute="leading" secondItem="uPU-D1-az7" secondAttribute="leading" id="e1b-7D-QbB"/>
                             <constraint firstItem="1De-Rr-WXR" firstAttribute="leading" secondItem="Mva-rT-hFN" secondAttribute="leading" id="ruR-Kb-1ef"/>

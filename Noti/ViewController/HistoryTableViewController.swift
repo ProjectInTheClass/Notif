@@ -48,7 +48,17 @@ class HistoryTableViewController: UITableViewController {
                 navigationItem.title = channelToChange.title
             }
             
-            date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by: >)
+            let source = NSAttributedString(string: channels[selectedChannel].source!, attributes: [.font : UIFont.boldSystemFont(ofSize: 20), .foregroundColor: UIColor.sourceFont])
+            navigationController?.hidesBarsOnSwipe = true
+            // 소제목추가
+            let rightView = UIView()
+            rightView.frame = CGRect(x: 0, y: 0, width: .bitWidth, height: 70)
+            let rItem = UIBarButtonItem(customView: rightView)
+            self.navigationItem.leftBarButtonItem = rItem
+            let somet = UILabel()
+            somet.frame = CGRect(x:1, y:10, width: 400, height: 62)
+            somet.attributedText=source
+            rightView.addSubview(somet)
         }
     
     override func viewDidLoad() {
@@ -160,7 +170,7 @@ class HistoryTableViewController: UITableViewController {
         }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 90;
+        return 95;
     }
         
         override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

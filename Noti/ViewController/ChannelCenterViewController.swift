@@ -12,20 +12,20 @@ class ChannelCenterViewController: UIViewController {
     var channels = [Channel]()
     
     var categories = [String]()
-    var selectedChannel: IndexPath = IndexPath()
     
     //        @IBOutlet weak var historyTable: UITableView!
     func loadData(){
         channels = CoreDataManager.shared.getChannels().filter{ $0.title! != "전체"}
+        channels = channels.sorted(by: {$0.group! > $1.group!})
         
-        categories = Array(Set(channels.map{$0.source!})).sorted(by: >)
+        categories = Array(Set(channels.map{$0.group!})).sorted(by: >)
     }
-    func updateChannels(){
-        let source = Array(Set(channels.map{$0.source!})).sorted(by:>)
-        //print("\(selectedChannel)!!!")
-        let sectionChannels = channels.filter{$0.source! == source[selectedChannel.section]}
-        sectionChannels[selectedChannel.item].isSubscribed = !sectionChannels[selectedChannel.item].isSubscribed
-    }
+//    func updateChannels(){
+//        let source = Array(Set(channels.map{$0.source!})).sorted(by:<)
+//        //print("\(selectedChannel)!!!")
+//        let sectionChannels = channels.filter{$0.source! == source[selectedChannel.section]}
+//        sectionChannels[selectedChannel.item].isSubscribed = !sectionChannels[selectedChannel.item].isSubscribed
+//    }
     
     @objc func buttonClicked(){
         print("alarm button Clicked!")
@@ -80,20 +80,20 @@ class ChannelCenterViewController: UIViewController {
 extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 //        return channels.count
-        let source = Array(Set(channels.map{$0.source!})).sorted(by:>)
+//        let source = Array(Set(channels.map{$0.source!})).sorted(by:>)
         
-        return channels.filter{ $0.source == source[section] }.count
+        return channels.filter{ $0.group == categories[section] }.count
         
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let source = Array(Set(channels.map{$0.source!})).sorted(by: >)
-        let sectionChannels = channels.filter{ $0.source! == source[indexPath.section] }
+//        let source = Array(Set(channels.map{$0.source!})).sorted(by: >)
+        let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "channel", for: indexPath) as! ChannelCollectionViewCell
         
         cell.titleLabel.text = sectionChannels[indexPath.item].title
-        cell.categoryLabel.text = sectionChannels[indexPath.item].category
+        cell.categoryLabel.text = sectionChannels[indexPath.item].source
         cell.colorImageView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionChannels[indexPath.item].color!)
         
         // 구독안하거 블러처리
@@ -119,16 +119,16 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Cell \(indexPath.row) sellected")
-        CoreDataManager.shared.subscribedChannel(subtitle: channels[indexPath.row].subtitle!){ onSuccess in print("saved = \(onSuccess)")}
-        selectedChannel = indexPath
-        updateChannels() 
+        let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }
+        CoreDataManager.shared.subscribedChannel(subtitle: sectionChannels[indexPath.row].subtitle!, source: sectionChannels[indexPath.row].source!){ onSuccess in print("saved = \(onSuccess)")}
+        loadData()
         collectionView.reloadData()
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        let returnNum = Array(Set(channels.map{$0.source!}))
-        return returnNum.count
+//        let returnNum = Array(Set(channels.map{$0.source!}))
+        return categories.count
     }
 //
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind : String, at indexPath : IndexPath) -> UICollectionReusableView{
@@ -136,11 +136,11 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
             case UICollectionView.elementKindSectionHeader:
                 
                 let headerview = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header", for: indexPath) as! ChannelCollectionViewHeader
-                let source = Array(Set(channels.map{$0.source!})).sorted(by:>)
+//                let source = Array(Set(channels.map{$0.source!})).sorted(by:>)
                 //let sourceCell = source[indexPath.section]
-                let sectionChannels = channels.filter{ $0.source! == source[indexPath.section] }
-                headerview.categoryLabel.text = sectionChannels[indexPath.item].source
-                headerview.colorLabel.text =  sectionChannels[indexPath.item].source
+                let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }
+                headerview.categoryLabel.text = sectionChannels[indexPath.item].group
+                headerview.colorLabel.text =  sectionChannels[indexPath.item].group
                 headerview.colorLabel.textColor  =  .clear
                 headerview.colorLabel.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionChannels[0].color!)
                 

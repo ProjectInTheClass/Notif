@@ -152,7 +152,7 @@
         <!--HistoryViewController-->
         <scene sceneID="jIE-Gx-eN5">
             <objects>
-                <viewControllerPlaceholder storyboardName="HistoryView" referencedIdentifier="HistoryViewController" id="Ud3-hY-Ra3" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="HistoryView2" referencedIdentifier="HistoryViewController" id="Ud3-hY-Ra3" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="jFE-9q-IVL"/>
                     <navigationItem key="navigationItem" id="4cU-A2-Laf"/>
                 </viewControllerPlaceholder>
@@ -163,7 +163,7 @@
         <!--히스토리-->
         <scene sceneID="cEh-EP-gi7">
             <objects>
-                <navigationController id="4hi-XS-iOl" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="4hi-XS-iOl" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="히스토리" image="Tab2" id="5mL-ZQ-kp3"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="BHo-Pn-7W8">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>

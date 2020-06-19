@@ -12,8 +12,87 @@ const xml2js = require('xml2js');
 // csLoop(1, 'job_board');
 //portalLoop();
 // bsLoop(1);
-meLoop(1);
+// meLoop(1);
+hyLoop(1, 1);
 
+function hyLoop(category, page) {
+    const url = 'https://www.hanyang.ac.kr/web/www/notice_all?p_p_id=viewNotice_WAR_noticeportlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_viewNotice_WAR_noticeportlet_sCategoryId='+ category +'&_viewNotice_WAR_noticeportlet_sCurPage='+ page +'&_viewNotice_WAR_noticeportlet_action=view';
+    request({url: url,encoding: null},
+        function (error, res, body) {
+            console.log('hanyang ',category, page);
+            const $ = cheerio.load(iconv.decode(body, 'utf-8'));
+            var rex = /view_message\(|\);/g;
+            var sqlList = new Array();
+            $('tbody').find('.title-info').each(function (index, elem) {
+                var data = new Object();
+                data.title = $(this).find('a').eq(0).text();
+                data.url = 'https://www.hanyang.ac.kr/web/www/notice_all?p_p_id=viewNotice_WAR_noticeportlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_viewNotice_WAR_noticeportlet_sCategoryId=1&_viewNotice_WAR_noticeportlet_sCurPage=1&_viewNotice_WAR_noticeportlet_sUserId=0&_viewNotice_WAR_noticeportlet_action=view_message&_viewNotice_WAR_noticeportlet_messageId=' + $(this).find('a').eq(0).attr('href').split(rex)[1]
+                data.source = '한양대학교'
+                switch (category) {
+                    case 1: 
+                        data.category = '학사'
+                        break;
+                    case 2:
+                        data.category = '입학'
+                        break;
+                    case 3:
+                        data.category = '모집/채용'
+                        break;
+                    case 4:
+                        data.category = '사회봉사'
+                        break;
+                    case 5:
+                        data.category = '일반'
+                        break;
+                    case 6:
+                        data.category = '산학/연구'
+                        break;
+                    case 7:
+                        data.category = '행사'
+                        break;
+                    case 8:
+                        data.category = '장학'
+                        break;
+                    case 9:
+                        data.category = '학회/세미나'
+                        break;
+                    default:
+                        data.category = ''
+                }
+                data.time = $(this).find('.notice-date').eq(0).text().trim().replace(/\./gi, '-').substring(2,10)
+                data.json = '';
+                
+                // console.log(data)
+                sqlList.push([data.title, data.url, data.source, data.category, data.time, data.json]);
+            });
+
+            var connection = mysql.createConnection({
+                host : 'noti.c0pwj79j83nj.ap-northeast-2.rds.amazonaws.com',
+                user : 'admin',
+                password: 'notinoti',
+                port : 3306,
+                database : 'noti'
+            });
+
+            var sql = 'INSERT IGNORE INTO Cards (title, url, source, category, time_, json_) VALUES ?;';
+            connection.query(sql, [sqlList],function(err, rows, fields) {
+                connection.end();
+                if(err) {
+                    console.log(err);
+                } else {
+                    console.log(rows);
+                    if (rows.changedRows != 10){
+                        // if(pagenum == 3) return;
+                        hyLoop(category, page+1);
+                    } else {
+                        if (category == 9) return;
+                        hyLoop(category+1, 1);
+                    }
+                    
+                }
+            });
+        });
+}
 
 function meLoop(pagenum) {
     const url = 'http://me.hanyang.ac.kr/ko/cmnt/mann/views/findCmntList.do';
@@ -97,9 +176,10 @@ function bsLoop(pagenum) {
     const url = 'https://biz.hanyang.ac.kr/board/bbs/board.php?bo_table=m4111&page=' + pagenum;
     console.log(url)
 
-    var sqlList = new Array();
+    
     request({url: url,encoding: null},
         function (error, res, body) {
+            var sqlList = new Array();
             console.log('bsPage' + pagenum);
             const $ = cheerio.load(iconv.decode(body, 'utf-8'));
             
@@ -111,7 +191,7 @@ function bsLoop(pagenum) {
                 var rex = /wr_id=|&page/g;
                 data.url = 'https://biz.hanyang.ac.kr/board/bbs/board.php?bo_table=m4111&wr_id=' + $(this).find('td a').eq(1).attr('href').split(rex)[1]+'&page=1';
                 data.source = '경영학부';
-                data.category = $(this).find('td a').eq(0).text();
+                data.category = '공지사항';
                 var cardDate = $(this).find('td').eq(3).text();
                 var cardMonth = cardDate.slice(0,2) * 1;
                 if (cardMonth > currentMonth) currentYear -= 1;
@@ -134,6 +214,9 @@ function bsLoop(pagenum) {
             connection.connect();
 
             var sql = 'INSERT IGNORE INTO Cards (title, url, source, category, time_, json_) VALUES ?;';
+
+            console.log(sqlList)
+
             connection.query(sql, [sqlList],function(err, rows, fields) {
                 connection.end();
                 if(err) {

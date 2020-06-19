@@ -23,8 +23,14 @@ class HomeTableViewController: UITableViewController {
         //cards = cardsDataSource.cards.filter{ $0.time <= now && $0.time > yesterday && $0.url != ""}
         print(now)
         print(yesterday)
-        cards = cardsData.filter{ ($0.homeFormattedDate! == now||$0.homeFormattedDate! == yesterday) && $0.url != ""}
+        let allChannels = CoreDataManager.shared.getChannels()
         
+        let channels = allChannels.filter{ $0.isSubscribed == true }
+        cards = cardsData.filter{ ($0.homeFormattedDate! == now||$0.homeFormattedDate! == yesterday) && $0.url != ""}
+        cards = cards.filter{(card) -> Bool in
+        return channels.filter{(channel) -> Bool in
+            return channel.source == card.source && card.formattedSource!.contains(channel.subtitle!)}.count != 0}
+        navigationItem.title = "\(cards.count)개의 새로운 글"
     }
     
     //var cardsViewController = CardViewController()
@@ -64,7 +70,7 @@ class HomeTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        CoreDataManager.shared.setData()
+        CoreDataManager.shared.setData()
         loadData()
         navigationItem.largeTitleDisplayMode = .always
         
@@ -81,7 +87,7 @@ class HomeTableViewController: UITableViewController {
         coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.navFont]
         self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
         self.navigationController?.navigationBar.standardAppearance = coloredAppearance
-        
+        self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -105,7 +111,7 @@ class HomeTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! HomeTableViewCell
         
         cell.titleLabel.text = cards[indexPath.row].title
-        cell.sourceLabel.text = cards[indexPath.row].source
+        cell.sourceLabel.text = cards[indexPath.row].formattedSource
         cell.dateLabel.text = cards[indexPath.row].homeFormattedDate
         cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: cards[indexPath.row].color! )
         
@@ -141,6 +147,7 @@ class HomeTableViewController: UITableViewController {
         if listUnread{
             loadData()
             cards = cards.filter{ $0.isVisited == false }
+            navigationItem.title = "\(cards.count)개의 새로운 글"
             
         }
         else{

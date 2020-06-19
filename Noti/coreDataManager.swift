@@ -82,7 +82,7 @@ class CoreDataManager{
         return cards
     }
     
-    func saveCards(title : String,  channelName : String, category : String, tag : [String], time : Date, color : UIColor, isVisited: Bool, url : String, json : [String:String], onSuccess :@escaping ((Bool)->Void)){
+    func saveCards(title : String,  source : String, category : String, tag : [String], time : Date, color : UIColor, isVisited: Bool, url : String, json : [String:String], onSuccess :@escaping ((Bool)->Void)){
         if let context = context,
             let entity: NSEntityDescription
             = NSEntityDescription.entity(forEntityName: "Card", in: context) {
@@ -90,7 +90,7 @@ class CoreDataManager{
             if let cards: Card = NSManagedObject(entity: entity, insertInto: context ) as? Card {
                 cards.title = title
                 cards.category = category
-                cards.channelName = channelName
+                cards.source = source
                 cards.tag = tag //as NSObject
                 cards.time = time
                 cards.color
@@ -98,7 +98,7 @@ class CoreDataManager{
                 cards.isVisited = isVisited
                 cards.url = url
                 cards.json = json //as NSObject
-                cards.source = cards.category! + ((cards.category!.count == 0) ? "" : "-") + cards.channelName!
+                cards.formattedSource = cards.category! + ((cards.category!.count == 0) ? "" : "-") + cards.source!
                 
                let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yy-MM-dd"
@@ -156,7 +156,7 @@ class CoreDataManager{
         return channels
     }
    
-    func saveChannels(title : String, subtitle :String, category : String, color : UIColor, channelTags : [String], source : String, isSubscribed : Bool  ,onSuccess : @escaping ((Bool)->Void)){
+    func saveChannels(title : String, subtitle :String, source : String, color : UIColor, channelTags : [String], group : String, isSubscribed : Bool  ,onSuccess : @escaping ((Bool)->Void)){
         if let context = context,
         let entity: NSEntityDescription
         = NSEntityDescription.entity(forEntityName: "Channel", in: context) {
@@ -164,9 +164,9 @@ class CoreDataManager{
         if let channels: Channel = NSManagedObject(entity: entity, insertInto: context ) as? Channel {
             channels.title = title
             channels.subtitle = subtitle
-            channels.category = category
-            channels.color = hexStringFromColor(color: color)
             channels.source = source
+            channels.color = hexStringFromColor(color: color)
+            channels.group = group
             channels.channelTags = channelTags
             channels.alarm = false
             channels.isSubscribed = isSubscribed
@@ -176,20 +176,20 @@ class CoreDataManager{
             }
         }
     }
-    func subscribedChannel(subtitle : String, onSuccess: @escaping ((Bool) -> Void)){
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = filteredChannel(subtitle: subtitle)
+    func subscribedChannel(subtitle : String, source: String, onSuccess: @escaping ((Bool) -> Void)){
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = filteredChannel(subtitle: subtitle, source: source)
         var visitedChannel = Channel()
         do {
-                   if let results: [Channel] = try context?.fetch(fetchRequest) as? [Channel] {
-                       visitedChannel = results[0]
-                       visitedChannel.willChangeValue(forKey: "isSubscribed")
-                       visitedChannel.isSubscribed = true
-                       visitedChannel.didChangeValue(forKey: "isSubscribed")
-                   }
-               } catch let error as NSError {
-                   print("Could not fatch🥺: \(error), \(error.userInfo)")
-                   onSuccess(false)
-               }
+                if let results: [Channel] = try context?.fetch(fetchRequest) as? [Channel] {
+                    visitedChannel = results[0]
+                    visitedChannel.willChangeValue(forKey: "isSubscribed")
+                    visitedChannel.isSubscribed.toggle()
+                    visitedChannel.didChangeValue(forKey: "isSubscribed")
+                }
+                    } catch let error as NSError {
+                        print("Could not fatch🥺: \(error), \(error.userInfo)")
+                        onSuccess(false)
+                    }
                
                contextSave { success in
                    onSuccess(success)
@@ -258,16 +258,42 @@ class CoreDataManager{
     func setData() -> Bool{
         var lastUpdated = CoreDataManager.shared.getUpdated()
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yy-MM-dd"
+        
         if(lastUpdated.count == 0){
             let dateNow = Calendar.current.date(byAdding: .day, value: -1, to: Date())
+            dateFormatter.dateFormat = "yyyy/MM/dd"
+            
+            CoreDataManager.shared.saveChannels(title: "전체",subtitle: "전체", source: "전체",color: .fifth,  channelTags:["대회", "모집","채용","장학금"], group: "전체", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "공지사항게시판",subtitle: "공지사항", source: "기계공학부",color: .second,  channelTags: ["대회","모집"], group: "학부사이트", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "학사일반게시판",subtitle: "학사일반", source: "컴퓨터소프트웨어학부",color: .third,  channelTags: ["대회","모집"], group: "학부사이트", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "취업정보게시판",subtitle: "취업정보", source: "컴퓨터소프트웨어학부",color: .third,  channelTags: ["대회","모집"], group: "학부사이트", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "공지사항게시판",subtitle: "공지사항", source: "경영학부",color: .fourth,  channelTags: ["대회","모집"], group: "학부사이트", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "학사게시판",subtitle: "학사", source: "한양대학교", color: .first, channelTags: ["장학금"], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "입학게시판",subtitle: "입학", source: "한양대학교", color: .first, channelTags: ["장학금"], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "모집/채용게시판",subtitle: "모집/채용", source: "한양대학교", color: .first, channelTags: ["장학금"], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "사회봉사게시판",subtitle: "사회봉사", source: "한양대학교", color: .first, channelTags: ["장학금"], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "일반게시판",subtitle: "일반", source: "한양대학교", color: .first, channelTags: ["장학금"], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "산학/연구게시판",subtitle: "산학/연구", source: "한양대학교", color: .first, channelTags: ["장학금"], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "행사게시판",subtitle: "행사", source: "한양대학교", color: .first, channelTags: ["장학금"], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "장학게시판",subtitle: "장학", source: "한양대학교", color: .first, channelTags: ["장학금"], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "학회/세미나게시판",subtitle: "학회/세미나", source: "한양대학교", color: .first, channelTags: ["장학금"], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+
+
+
+            
+            CoreDataManager.shared.saveTags(name: "대회", time: dateNow!){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveTags(name: "모집", time: dateNow!){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveTags(name: "채용", time: dateNow!){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveTags(name: "장학금", time: dateNow!){ onSuccess in print("saved = \(onSuccess)")}
+            
+            dateFormatter.dateFormat = "yy-MM-dd"
             CoreDataManager.shared.saveUpdated(date: dateFormatter.string(from: dateNow!)){ onSuccess in } //print("saved = \(onSuccess)")
             lastUpdated = CoreDataManager.shared.getUpdated()
         }
         
-        let url = URL(string:"https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/" + lastUpdated[lastUpdated.count - 1].date!)
+//        let url = URL(string:"https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/" + lastUpdated[lastUpdated.count - 1].date!)
         print(lastUpdated[lastUpdated.count - 1].date)
-       
+       let url = URL(string:"https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/" + "20-06-11")
         do {
             let data = try Data(contentsOf: url!)
             let cardsData = getCards()
@@ -279,15 +305,17 @@ class CoreDataManager{
             for message in messages {
                 let card = message
 
-                let json_:[String:String] = ["":""]
-                if(card["json_"] != nil){
-                    
+                var json_:[String:String] = ["":""]
+                var json_String = card["json_"] as! String
+                if(json_String != ""){
+                    json_String = json_String.slice(from: ":\"", to: "\"}]")!
+                    json_ = ["GongjiSeq":json_String]
                 }
                 
                 let cardURL = card["url"] as! String
                 
                 let checkRedundancy = cardsData.filter({ (data) -> Bool in
-                    return (data.url == cardURL) && (data.json == json_)
+                    return ((data.url == cardURL) && (data.json!["GongjiSeq"] == json_["GongjiSeq"]))
                 })
                 
                 if (checkRedundancy.count == 0)
@@ -295,7 +323,7 @@ class CoreDataManager{
                     let time = card["time_"] as! String
                     var color = UIColor()
                     switch card["source"] as! String{
-                    case "한양포털":
+                    case "한양대학교":
                         color = UIColor.first
                     case "기계공학부":
                         color = UIColor.second
@@ -308,7 +336,7 @@ class CoreDataManager{
                     }
                     
                     dateFormatter.dateFormat = "yy-MM-dd"
-                    CoreDataManager.shared.saveCards(title: card["title"] as! String, channelName: card["source"] as! String, category: card["category"] as! String, tag: [""], time: dateFormatter.date(from: card["time_"] as! String)!, color: color, isVisited: false, url: cardURL, json : json_){ onSuccess in } //print("saved = \(onSuccess)")
+                    CoreDataManager.shared.saveCards(title: card["title"] as! String, source: card["source"] as! String, category: card["category"] as! String, tag: [""], time: dateFormatter.date(from: card["time_"] as! String)!, color: color, isVisited: false, url: cardURL, json : json_){ onSuccess in } //print("saved = \(onSuccess)")
                 }
             }
         dateFormatter.dateFormat = "yy-MM-dd"
@@ -316,19 +344,6 @@ class CoreDataManager{
         } catch {
             print("Can't get url")
         }
-        dateFormatter.dateFormat = "yyyy/MM/dd"
-        
-        CoreDataManager.shared.saveChannels(title: "학사게시판",subtitle: "학사", category:  "포털", color: .fourth, channelTags: [], source: "포털", isSubscribed: false){ onSuccess in print("saved = \(onSuccess)")}
-        CoreDataManager.shared.saveChannels(title: "장학게시판",subtitle: "장학", category:  "포털",color: .third,  channelTags: ["장학금"], source: "포털", isSubscribed: false){ onSuccess in print("saved = \(onSuccess)")}
-        CoreDataManager.shared.saveChannels(title: "학사일반게시판",subtitle: "학사일반", category: "컴퓨터소프트웨어대학",color: .first, channelTags: ["대회","모집"], source: "학부사이트", isSubscribed: false){ onSuccess in print("saved = \(onSuccess)")}
-        CoreDataManager.shared.saveChannels(title: "취업정보게시판",subtitle: "취업정보", category: "컴퓨터소프트웨어대학",color: .second, channelTags: ["모집","채용"], source: "학부사이트", isSubscribed: false){ onSuccess in print("saved = \(onSuccess)")}
-        CoreDataManager.shared.saveChannels(title: "test", subtitle: "check", category: "경영대학", color: .second, channelTags: [], source: "학부사이트", isSubscribed: false){ onSuccess in print("saved = \(onSuccess)")}
-        CoreDataManager.shared.saveChannels(title: "전체",subtitle: "전체", category: "", color: .sourceFont, channelTags: ["대회","모집"], source: "..", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-        CoreDataManager.shared.saveTags(name: "대회", time: dateFormatter.date(from: "2020-05-12")!){ onSuccess in print("saved = \(onSuccess)")}
-        CoreDataManager.shared.saveTags(name: "모집", time: dateFormatter.date(from: "2020-05-11")!){ onSuccess in print("saved = \(onSuccess)")}
-        CoreDataManager.shared.saveTags(name: "채용", time: dateFormatter.date(from: "2020-05-14")!){ onSuccess in print("saved = \(onSuccess)")}
-        CoreDataManager.shared.saveTags(name: "장학금", time: dateFormatter.date(from: "2020-05-13")!){ onSuccess in print("saved = \(onSuccess)")}
-        
         return true;
     }
     /*init(){
@@ -367,10 +382,10 @@ extension CoreDataManager {
         fetchRequest.predicate = NSPredicate(format: "url = %@", NSString(string: url))
         return fetchRequest
     }
-    fileprivate func filteredChannel(subtitle: String) -> NSFetchRequest<NSFetchRequestResult> {
+    fileprivate func filteredChannel(subtitle: String, source: String) -> NSFetchRequest<NSFetchRequestResult> {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult>
             = NSFetchRequest<NSFetchRequestResult>(entityName: "Channel")
-        fetchRequest.predicate = NSPredicate(format: "subtitle = %@", NSString(string: subtitle))
+        fetchRequest.predicate = NSPredicate(format: "subtitle = %@ AND source = %@", NSString(string: subtitle),NSString(string: source))
         return fetchRequest
     }
     fileprivate func contextSave(onSuccess: ((Bool) -> Void)) {

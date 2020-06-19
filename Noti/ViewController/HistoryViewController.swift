@@ -25,7 +25,7 @@ class HistoryViewController: UIViewController{
         cards = CoreDataManager.shared.getCards()
         allChannels = CoreDataManager.shared.getChannels()
         
-        channels = allChannels.filter{ $0.isSubscribed == true }.sorted{ $0.source!.count < $1.source!.count }
+        channels = allChannels.filter{ $0.isSubscribed == true }.sorted{ $0.group!.count < $1.group!.count }
         print(allChannels)
         allTags = CoreDataManager.shared.getTags()
         date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by: >)
@@ -36,20 +36,28 @@ class HistoryViewController: UIViewController{
     
     func updateCardsAndTitle(){
         if selectedChannel == 0 {
-            cards = CoreDataManager.shared.getCards()
+            let channelToChange = channels[selectedChannel]
+//            cards = CoreDataManager.shared.getCards()
+            let allCards = CoreDataManager.shared.getCards()
+            cards = allCards.filter{(card) -> Bool in
+                return channels.filter{(channel) -> Bool in
+                    return channel.source == card.source && card.formattedSource!.contains(channel.subtitle!)}.count != 0}
+            navigationItem.title = channelToChange.title
         }else{
             let channelToChange = channels[selectedChannel]
             let allCards = CoreDataManager.shared.getCards()
-            cards = allCards.filter{ $0.channelName == channelToChange.category && $0.category!.contains(channelToChange.title!)}
+            cards = allCards.filter{ $0.source == channelToChange.source && $0.formattedSource!.contains(channelToChange.subtitle!)}
             navigationItem.title = channelToChange.title
         }
         
         date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by: >)
     }
-    
+
     override func viewDidLoad() {
         navigationItem.title = "전체"
         //네비게이션바 배경색 넣어주는 코드
+        navigationItem.largeTitleDisplayMode = .always
+        
         let coloredAppearance = UINavigationBarAppearance()
         coloredAppearance.configureWithOpaqueBackground()
         coloredAppearance.backgroundColor = UIColor.navBack
@@ -57,6 +65,10 @@ class HistoryViewController: UIViewController{
         coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.navFont]
         self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
         self.navigationController?.navigationBar.standardAppearance = coloredAppearance
+        self.navigationController?.navigationBar.compactAppearance = coloredAppearance
+        historyTable.isScrollEnabled = true
+        historyTable.delegate = self
+//        navigationController?.hidesBarsOnSwipe = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -65,6 +77,7 @@ class HistoryViewController: UIViewController{
         channelCollection.reloadData()
         historyTable.reloadData()
     }
+    
     
     /*
     // MARK: - Navigation
@@ -106,7 +119,7 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! HomeTableViewCell
             
             cell.titleLabel.text = sectionCards[indexPath.row].title
-            cell.sourceLabel.text = sectionCards[indexPath.row].source
+            cell.sourceLabel.text = sectionCards[indexPath.row].formattedSource
 //            cell.dateLabel.text = sectionCards[indexPath.row].historyCardFormattedDate
             cell.dateLabel.text = ""
             cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionCards[indexPath.row].color!)
@@ -196,49 +209,49 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
 
 }
 
-extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return channels.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "channel", for: indexPath) as! CustomCollectionViewCell
-//        cell.backgroundColor = UIColor.blue
-        cell.titleLabel.text = channels[indexPath.row].subtitle
-        cell.colorLabel.text = channels[indexPath.row].subtitle
-        cell.colorLabel.textColor = .clear
-        if selectedChannel==indexPath.row {
-            cell.titleLabel.textColor = UIColor.navFont
-            cell.colorLabel.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString:channels[indexPath.row].color!) 
-
-        }else{
-            cell.titleLabel.textColor = .sourceFont
-            cell.colorLabel.backgroundColor = .clear
-        }
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        arr = arrList[indexPath.row]
-        
-//        print("Cell \(indexPath.row) sellected")
-        selectedChannel = indexPath.row
-        updateCardsAndTitle()
-        channelCollection.reloadData()
-        historyTable.reloadData()
-    }
-    
-
-}
-
-extension HistoryViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 80, height: 40)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24)
-    }
-}
-
+//extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        return channels.count
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "channel", for: indexPath) as! CustomCollectionViewCell
+////        cell.backgroundColor = UIColor.blue
+//        cell.titleLabel.text = channels[indexPath.row].subtitle
+//        cell.colorLabel.text = channels[indexPath.row].subtitle
+//        cell.colorLabel.textColor = .clear
+//        if selectedChannel==indexPath.row {
+//            cell.titleLabel.textColor = UIColor.navFont
+//            cell.colorLabel.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString:channels[indexPath.row].color!) 
+//
+//        }else{
+//            cell.titleLabel.textColor = .sourceFont
+//            cell.colorLabel.backgroundColor = .clear
+//        }
+//        
+//        return cell
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+////        arr = arrList[indexPath.row]
+//        
+////        print("Cell \(indexPath.row) sellected")
+//        selectedChannel = indexPath.row
+//        updateCardsAndTitle()
+//        channelCollection.reloadData()
+//        historyTable.reloadData()
+//    }
+//    
+//
+//}
+//
+//extension HistoryViewController: UICollectionViewDelegateFlowLayout {
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        return CGSize(width: 80, height: 40)
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+//        return UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24)
+//    }
+//}
+//

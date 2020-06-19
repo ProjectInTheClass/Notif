@@ -20,7 +20,7 @@ extension Card {
     @NSManaged public var title: String?
     @NSManaged public var category: String?
     @NSManaged public var tag: [String]?
-    @NSManaged public var channelName: String?
+    @NSManaged public var source: String?
     @NSManaged public var time: Date?
     @NSManaged public var color: String?
     @NSManaged public var isVisited: Bool
@@ -28,7 +28,7 @@ extension Card {
     @NSManaged public var json: [String:String]?
     @NSManaged public var homeFormattedDate: String?
     @NSManaged public var historyFormattedDate: String?
-    @NSManaged public var source: String?
+    @NSManaged public var formattedSource: String?
     @NSManaged public var historyCardFormattedDate: String?
 
 }

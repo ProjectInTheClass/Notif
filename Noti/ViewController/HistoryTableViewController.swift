@@ -24,7 +24,7 @@ class HistoryTableViewController: UITableViewController {
             allChannels = CoreDataManager.shared.getChannels()
             
             channels = allChannels.filter{ $0.isSubscribed == true }.sorted{ $0.group!.count < $1.group!.count }
-            print(allChannels)
+//            print(allChannels)
             allTags = CoreDataManager.shared.getTags()
             date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by: >)
         }
@@ -74,7 +74,6 @@ class HistoryTableViewController: UITableViewController {
         updateCardsAndTitle()
         channelCollection.reloadData()
         self.tableView.reloadData()
-        print("testsetestst",channelCollection.numberOfItems(inSection: 0))
     }
 
     // MARK: - Table view data source
@@ -108,7 +107,7 @@ class HistoryTableViewController: UITableViewController {
                 cell.dateLabel.text = ""
                 cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionCards[indexPath.row].color!)
                 
-                if (cards[indexPath.row].isVisited == true){
+                if (sectionCards[indexPath.row].isVisited == true){
                     cell.cellView.backgroundColor = UIColor(white: 0.95, alpha: 1)
                     cell.cellView.alpha = 0.67
                 }else {
@@ -173,7 +172,7 @@ class HistoryTableViewController: UITableViewController {
                     let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section]}
                     destination.title2 = cell.titleLabel.text
                     destination.source = cell.sourceLabel.text
-                    destination.date = cell.dateLabel.text
+                    destination.date = sectionCards[indexPath.row].homeFormattedDate
                     destination.back2 = title
 
                     destination.url = sectionCards[indexPath.row].url
@@ -182,6 +181,7 @@ class HistoryTableViewController: UITableViewController {
                     
                     // 방문할경우 비짓처리하고 테이블뷰 리로드
                     sectionCards[indexPath.row].isVisited = true
+                    CoreDataManager.shared.visitCards(url: sectionCards[indexPath.row].url!){ onSuccess in print("saved = \(onSuccess)")}
                     self.tableView.reloadData()
                     
                 }

@@ -119,16 +119,8 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
     func getContent() {
         guard let url2 = URL(string: url!) else {return }
         var request = URLRequest(url: url2)
-        if (self.source!.contains("포털")) {
-            request.httpMethod = "post"
-            request.setValue("application/json+sua; charset=UTF-8", forHTTPHeaderField: "Content-Type")
-            request.setValue("https://portal.hanyang.ac.kr", forHTTPHeaderField: "Origin")
-            request.setValue("ipSecGb=MQ%3D%3D; savedUserId=anVucm9vdDA5MDk%3D; WMONID=GQOvjLQn9EC; HYIN_JSESSIONID=tKgxq9hHchZjg48jxEDNXGgyBn-zjBNY3LXGhGaQ-wD4VqbXc4Nu!942074279!220462321; newLoginStatus=PORTAL8e1d20d1-e3df-4118-9884-5d5e75ed4505; COM_JSESSIONID=C1Uxq-QZlU2oBt_tL9XW_qLQbXuIEI4jg9UJsp4RI8eUfub3yGjc!-1908862846!2143065293; _SSO_Global_Logout_url=get%5Ehttps%3A%2F%2Fportal.hanyang.ac.kr%2Flgot.do%24get%5Ehttps%3A%2F%2Fportal.hanyang.ac.kr%2Fhaksa%2Flgot.do%24; HAKSA_JSESSIONID=D0oxq-o982mmyEIviMiFnft8hPXwrAneB_oFB5bbyH-mmR0y7guZ!-1049547854!193342111", forHTTPHeaderField: "Cookie")
-            let jsonData = try? JSONSerialization.data(withJSONObject: json)
-            request.httpBody = jsonData
-        } else {
-            request.httpMethod = "get"
-        }
+     
+        request.httpMethod = "get"
         
         let session = URLSession.shared
         //URLSession provides the async request
@@ -148,9 +140,10 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
             }
             // Convert HTTP Response Data to a simple String
             if let data = data, var dataString = String(data: data, encoding: encoding) {
-                
-//                print("Response data string:\n \(dataString)")
-                if (self.source!.contains("컴퓨터")) {
+                if (self.source!.contains("한양대학교")) {
+                    
+                }
+                else if (self.source!.contains("컴퓨터")) {
                     dataString = dataString.slice(from: "<td class=\"view_content\" colspan=\"2\">", to: "<td class=\"tit\">이전글</td>")!
                     let endtdIndices = dataString.ranges(of: "</td>")
 

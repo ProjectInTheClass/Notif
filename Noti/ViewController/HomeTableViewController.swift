@@ -115,21 +115,36 @@ class HomeTableViewController: UITableViewController {
         cell.dateLabel.text = cards[indexPath.row].homeFormattedDate
         cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: cards[indexPath.row].color! )
         
+//                cell의 backgroudView 수정
+        let backgrundView = UIView()
+        let backView = UIView(frame: CGRect(x: 17, y: 0, width: view.frame.width-34, height: 86))
+        backView.backgroundColor = .white
+        backgrundView.addSubview(backView)
+        cell.backgroundView = backgrundView
+        
+//                cell의 selectedBackgroudView 수정
+        let selectedBackgrundView = UIView()
+        let selectView = UIView(frame: CGRect(x: 17, y: 0, width: view.frame.width-34, height: 86))
+        selectView.backgroundColor = .selected
+        selectedBackgrundView.addSubview(selectView)
+        cell.selectedBackgroundView = selectedBackgrundView
+        
+        
         // 비짓이 트루로 되어있으면 배경 블러처리해줌
         if (cards[indexPath.row].isVisited == true){
-            cell.cellView.backgroundColor = UIColor(white: 0.95, alpha: 1)
-            cell.cellView.alpha = 0.67
+            cell.cellView?.backgroundColor = UIColor(white: 0.95, alpha: 1)
+            cell.cellView?.alpha = 0.67
         }else {
-            cell.cellView.backgroundColor = .white
-            cell.cellView.alpha = 1
+            cell.cellView?.backgroundColor = .white
+            cell.cellView?.alpha = 1
         }
         
         // 그림자 부분
-        cell.cellView.layer.shadowColor = UIColor.black.cgColor // 검정색 사용
-        cell.cellView.layer.masksToBounds = false
-        cell.cellView.layer.shadowOffset = CGSize(width: 1, height: 2) //반경
-        cell.cellView.layer.shadowRadius = 3 // 반경?
-        cell.cellView.layer.shadowOpacity = 0.2 //
+        cell.backgroundView?.layer.shadowColor = UIColor.black.cgColor // 검정색 사용
+        cell.backgroundView?.layer.masksToBounds = false
+        cell.backgroundView?.layer.shadowOffset = CGSize(width: 1, height: 2) //반경
+        cell.backgroundView?.layer.shadowRadius = 3 // 반경?
+        cell.backgroundView?.layer.shadowOpacity = 0.2 //
 
         return cell
     }

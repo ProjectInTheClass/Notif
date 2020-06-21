@@ -27,32 +27,12 @@ class ChannelCenterViewController: UIViewController {
 //        sectionChannels[selectedChannel.item].isSubscribed = !sectionChannels[selectedChannel.item].isSubscribed
 //    }
     
-    @objc func buttonClicked(){
-        print("alarm button Clicked!")
-        //        channels[selectedChannel]
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(channels)
-        print(categories)
         loadData()
         navigationItem.title = "채널센터"
         //updateChannels()
         //categories = Array(Set(channels.map{$0.source!})).sorted(by: >)
-        let rightView = UIView()
-        rightView.frame = CGRect(x: 0, y: 0, width: 80, height: 40)
-        // rItem이라는 UIBarButtonItem 객체 생성
-        let rItem = UIBarButtonItem(customView: rightView)
-        self.navigationItem.rightBarButtonItem = rItem
-        // 새로고침 버튼 생성
-        let refreshButton = UIButton(type:.system)
-        refreshButton.frame = CGRect(x:50, y:10, width: 30, height: 30)
-        refreshButton.setImage(UIImage(systemName: "plus"), for: .normal)
-        refreshButton.tintColor = .systemBlue
-        refreshButton.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
-        // 라이트 뷰에 버튼 추가
-        rightView.addSubview(refreshButton)
         
         //네비게이션바 배경색 넣어주는 코드
         let coloredAppearance = UINavigationBarAppearance()
@@ -155,6 +135,12 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
         }
     }
     
+    
+    
+    @IBAction func buttonPressed(_ sender: Any){
+        print("button Pressed!")
+        performSegue(withIdentifier: "tagSegue", sender: self)
+    }
 
 }
 

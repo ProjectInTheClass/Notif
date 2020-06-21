@@ -19,6 +19,7 @@ class HistoryTableViewController: UITableViewController {
         var channels = [Channel]()
         var allTags = [Tags]()
         var date = [String]()
+        var rItem = UIBarButtonItem()
         func loadData(){
             cards = CoreDataManager.shared.getCards()
             allChannels = CoreDataManager.shared.getChannels()
@@ -53,7 +54,7 @@ class HistoryTableViewController: UITableViewController {
             let source = NSAttributedString(string: channels[selectedChannel].source!, attributes: [.font : UIFont.boldSystemFont(ofSize: 20), .foregroundColor: UIColor.sourceFont])
             let rightView = UIView()
             rightView.frame = CGRect(x: 0, y: 0, width: .bitWidth, height: 70)
-            let rItem = UIBarButtonItem(customView: rightView)
+            rItem = UIBarButtonItem(customView: rightView)
             self.navigationItem.leftBarButtonItem = rItem
             let somet = UILabel()
             somet.frame = CGRect(x:1, y:10, width: 400, height: 62)
@@ -213,6 +214,23 @@ class HistoryTableViewController: UITableViewController {
                 }
             }
     }
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+
+        if scrollView.contentOffset.y <= -120 {
+
+            navigationItem.leftBarButtonItem = rItem
+
+        }
+
+        else if scrollView.contentOffset.y > -120 {
+
+            navigationItem.leftBarButtonItem = nil
+
+        }
+
+    }
+    
 }
 extension HistoryTableViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -259,4 +277,3 @@ extension HistoryTableViewController: UICollectionViewDelegateFlowLayout {
         return UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24)
     }
 }
-

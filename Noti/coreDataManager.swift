@@ -277,10 +277,6 @@ class CoreDataManager{
             CoreDataManager.shared.saveChannels(title: "행사게시판",subtitle: "행사", source: "한양대학교", color: .first, channelTags: ["장학금"], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
             CoreDataManager.shared.saveChannels(title: "장학게시판",subtitle: "장학", source: "한양대학교", color: .first, channelTags: ["장학금"], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
             CoreDataManager.shared.saveChannels(title: "학회/세미나게시판",subtitle: "학회/세미나", source: "한양대학교", color: .first, channelTags: ["장학금"], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-
-
-
-            
             CoreDataManager.shared.saveTags(name: "대회", time: dateNow!){ onSuccess in print("saved = \(onSuccess)")}
             CoreDataManager.shared.saveTags(name: "모집", time: dateNow!){ onSuccess in print("saved = \(onSuccess)")}
             CoreDataManager.shared.saveTags(name: "채용", time: dateNow!){ onSuccess in print("saved = \(onSuccess)")}

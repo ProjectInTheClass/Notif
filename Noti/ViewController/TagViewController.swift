@@ -11,15 +11,19 @@ import UIKit
 class TagViewController: UIViewController {
 
     var arr = [Tag]()
-
+    let coreDataTag = CoreDataManager.shared.getTags()
     @IBOutlet weak var tagCollection: DynmicHeightCollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         navigationItem.title = "태그"
-        for (_,str) in ["취업", "인턴", "카카오", "삼성전자", "수강신청", "장애학생도우미", "장학금", "일반대학원", "채용연계", "Generics", "Error", "Deinitialization"].enumerated() {
-            arr.append(Tag(title: str, time: NSDate(), selected: false))
+        for num in 0..<coreDataTag.count {
+            arr.append(Tag(title: coreDataTag[num].name!, time: coreDataTag[num].time! as NSDate, selected: false))
         }
-
+        /*for (_,str) in ["취업", "인턴", "카카오", "삼성전자", "수강신청", "장애학생도우미", "장학금", "일반대학원", "채용연계", "Generics", "Error", "Deinitialization"].enumerated() {
+            arr.append(Tag(title: str, time: NSDate(), selected: false))
+        }*/
+        
     }
     
 // 추가버튼 눌렸을때
@@ -33,7 +37,13 @@ class TagViewController: UIViewController {
 //                guard self.arr.map({ $0.title }).contains(newTag) else {
 //
 //                }
+                for i in 0..<self.arr.count{
+                    if self.arr[i].title == newTag{
+                        return
+                    }
+                }
                 self.arr.append(Tag(title: newTag, time: NSDate(), selected: false))
+                CoreDataManager.shared.saveTags(name: newTag, time: NSDate() as Date){onSuccess in print("saved = \(onSuccess)")}
                 let indexPath = IndexPath(row: self.arr.count - 1, section: 0)
                 self.tagCollection.insertItems(at: [indexPath])
 
@@ -78,6 +88,7 @@ extension TagViewController: UICollectionViewDelegate, UICollectionViewDataSourc
         token.selected = false
         print("tag \(indexPath) sellected")
         arr.remove(at: indexPath.item)
+        CoreDataManager.shared.removeTag(object: coreDataTag[indexPath.item])
         tagCollection.deleteItems(at: [indexPath])
         tagCollection.reloadData()
         tagCollection.collectionViewLayout.invalidateLayout()

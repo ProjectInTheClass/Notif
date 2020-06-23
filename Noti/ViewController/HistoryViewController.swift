@@ -26,7 +26,6 @@ class HistoryViewController: UIViewController{
         allChannels = CoreDataManager.shared.getChannels()
         
         channels = allChannels.filter{ $0.isSubscribed == true }.sorted{ $0.group!.count < $1.group!.count }
-        print(allChannels)
         allTags = CoreDataManager.shared.getTags()
         date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by: >)
     }

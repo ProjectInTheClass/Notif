@@ -259,6 +259,7 @@ extension HistoryTableViewController: UICollectionViewDelegate, UICollectionView
 //        arr = arrList[indexPath.row]
         
 //        print("Cell \(indexPath.row) sellected")
+        print(channels[indexPath.row].channelTags)
         selectedChannel = indexPath.row
         updateCardsAndTitle()
         channelCollection.reloadData()

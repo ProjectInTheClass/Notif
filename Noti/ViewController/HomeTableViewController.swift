@@ -21,8 +21,6 @@ class HomeTableViewController: UITableViewController {
                
         let yesterday = dateFormatter.string(from: Calendar.current.date(byAdding: .day, value: -1, to: Date())!)
         //cards = cardsDataSource.cards.filter{ $0.time <= now && $0.time > yesterday && $0.url != ""}
-        print(now)
-        print(yesterday)
         let allChannels = CoreDataManager.shared.getChannels()
         
         let channels = allChannels.filter{ $0.isSubscribed == true }

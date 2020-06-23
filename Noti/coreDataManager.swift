@@ -195,6 +195,54 @@ class CoreDataManager{
                    onSuccess(success)
                }
     }
+    func addChannelTag(subtitle : String, source: String, tag: String, onSuccess: @escaping ((Bool) -> Void)){
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = filteredChannel(subtitle: subtitle, source: source)
+        var addTagChannel = Channel()
+        do {
+                if let results: [Channel] = try context?.fetch(fetchRequest) as? [Channel] {
+                    addTagChannel = results[0]
+                    if((addTagChannel.channelTags?.contains(tag))!){
+                        return
+                    }
+                    addTagChannel.willChangeValue(forKey: "channelTags")
+                    addTagChannel.channelTags?.append(tag)
+                    addTagChannel.didChangeValue(forKey: "channelTags")
+                }
+                    } catch let error as NSError {
+                        print("Could not fatch🥺: \(error), \(error.userInfo)")
+                        onSuccess(false)
+                    }
+               
+               contextSave { success in
+                   onSuccess(success)
+               }
+    }
+    func removeChannelTag(tag: String, onSuccess: @escaping ((Bool) -> Void)){
+       let fetchRequest : NSFetchRequest<Channel>  = Channel.fetchRequest()
+        var removeTagChannel = Channel()
+        do {
+            if let results: [Channel] = try context?.fetch(fetchRequest) {
+                    for i in 0..<results.count{
+                        if((results[i].channelTags?.contains(tag))!){
+                            removeTagChannel = results[i]
+                            let index = removeTagChannel.channelTags?.firstIndex(of: tag)
+                           
+                            removeTagChannel.willChangeValue(forKey: "channelTags")
+                            removeTagChannel.channelTags?.remove(at: index!)
+                            removeTagChannel.didChangeValue(forKey: "channelTags")
+                        }
+                        
+                    }
+                }
+            } catch let error as NSError {
+                        print("Could not fatch🥺: \(error), \(error.userInfo)")
+                        onSuccess(false)
+                    }
+               
+               contextSave { success in
+                   onSuccess(success)
+               }
+    }
     func getTags()->[Tags]{
         var allTags = [Tags]()
         let fetchRequest : NSFetchRequest<Tags> = Tags.fetchRequest()
@@ -268,19 +316,19 @@ class CoreDataManager{
             dateFormatter.dateFormat = "yyyy/MM/dd"
             
             CoreDataManager.shared.saveChannels(title: "전체",subtitle: "전체", source: "전체",color: .fifth,  channelTags:["대회", "모집","채용","장학금"], group: "전체", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "공지사항게시판",subtitle: "공지사항", source: "기계공학부",color: .second,  channelTags: ["대회","모집"], group: "학부사이트", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "학사일반게시판",subtitle: "학사일반", source: "컴퓨터소프트웨어학부",color: .third,  channelTags: ["대회","모집"], group: "학부사이트", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "취업정보게시판",subtitle: "취업정보", source: "컴퓨터소프트웨어학부",color: .third,  channelTags: ["대회","모집"], group: "학부사이트", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "공지사항게시판",subtitle: "공지사항", source: "경영학부",color: .fourth,  channelTags: ["대회","모집"], group: "학부사이트", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "학사게시판",subtitle: "학사", source: "한양대학교", color: .first, channelTags: ["장학금"], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "입학게시판",subtitle: "입학", source: "한양대학교", color: .first, channelTags: ["장학금"], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "모집/채용게시판",subtitle: "모집/채용", source: "한양대학교", color: .first, channelTags: ["장학금"], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "사회봉사게시판",subtitle: "사회봉사", source: "한양대학교", color: .first, channelTags: ["장학금"], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "일반게시판",subtitle: "일반", source: "한양대학교", color: .first, channelTags: ["장학금"], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "산학/연구게시판",subtitle: "산학/연구", source: "한양대학교", color: .first, channelTags: ["장학금"], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "행사게시판",subtitle: "행사", source: "한양대학교", color: .first, channelTags: ["장학금"], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "장학게시판",subtitle: "장학", source: "한양대학교", color: .first, channelTags: ["장학금"], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "학회/세미나게시판",subtitle: "학회/세미나", source: "한양대학교", color: .first, channelTags: ["장학금"], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "공지사항게시판",subtitle: "공지사항", source: "기계공학부",color: .second,  channelTags: [""], group: "학부사이트", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "학사일반게시판",subtitle: "학사일반", source: "컴퓨터소프트웨어학부",color: .third,  channelTags: [""], group: "학부사이트", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "취업정보게시판",subtitle: "취업정보", source: "컴퓨터소프트웨어학부",color: .third,  channelTags: [""], group: "학부사이트", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "공지사항게시판",subtitle: "공지사항", source: "경영학부",color: .fourth,  channelTags: [""], group: "학부사이트", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "학사게시판",subtitle: "학사", source: "한양대학교", color: .first, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "입학게시판",subtitle: "입학", source: "한양대학교", color: .first, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "모집/채용게시판",subtitle: "모집/채용", source: "한양대학교", color: .first, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "사회봉사게시판",subtitle: "사회봉사", source: "한양대학교", color: .first, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "일반게시판",subtitle: "일반", source: "한양대학교", color: .first, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "산학/연구게시판",subtitle: "산학/연구", source: "한양대학교", color: .first, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "행사게시판",subtitle: "행사", source: "한양대학교", color: .first, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "장학게시판",subtitle: "장학", source: "한양대학교", color: .first, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "학회/세미나게시판",subtitle: "학회/세미나", source: "한양대학교", color: .first, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
             CoreDataManager.shared.saveTags(name: "대회", time: dateNow!){ onSuccess in print("saved = \(onSuccess)")}
             CoreDataManager.shared.saveTags(name: "모집", time: dateNow!){ onSuccess in print("saved = \(onSuccess)")}
             CoreDataManager.shared.saveTags(name: "채용", time: dateNow!){ onSuccess in print("saved = \(onSuccess)")}
@@ -290,6 +338,8 @@ class CoreDataManager{
             CoreDataManager.shared.saveUpdated(date: dateFormatter.string(from: dateNow!)){ onSuccess in } //print("saved = \(onSuccess)")
             lastUpdated = CoreDataManager.shared.getUpdated()
         }
+        let channels = CoreDataManager.shared.getChannels()
+        let tags = CoreDataManager.shared.getTags()
        let url = URL(string:"https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/" + "20-06-11")
         do {
             let data = try Data(contentsOf: url!)
@@ -333,7 +383,16 @@ class CoreDataManager{
                     }
                     
                     dateFormatter.dateFormat = "yy-MM-dd"
-                    CoreDataManager.shared.saveCards(title: card["title"] as! String, source: card["source"] as! String, category: card["category"] as! String, tag: [""], time: dateFormatter.date(from: card["time_"] as! String)!, color: color, isVisited: false, url: cardURL, json : json_){ onSuccess in } //print("saved = \(onSuccess)")
+                    let cardTitle = card["title"] as! String
+                    var tag = [""]
+                    for tagNum in 0..<tags.count{
+                        if(cardTitle.contains(tags[tagNum].name!)){
+                            print("appendTag!")
+                            tag.append(tags[tagNum].name!)
+                            CoreDataManager.shared.addChannelTag(subtitle: card["category"] as! String, source: card["source"] as! String, tag: tags[tagNum].name!){ onSuccess in print("saved = \(onSuccess)")}
+                        }
+                    }
+                    CoreDataManager.shared.saveCards(title: card["title"] as! String, source: card["source"] as! String, category: card["category"] as! String, tag: tag, time: dateFormatter.date(from: card["time_"] as! String)!, color: color, isVisited: false, url: cardURL, json : json_){ onSuccess in } //print("saved = \(onSuccess)")
                 }
             }
         dateFormatter.dateFormat = "yy-MM-dd"
@@ -368,4 +427,3 @@ extension CoreDataManager {
         }
     }
 }
-

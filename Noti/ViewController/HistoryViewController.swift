@@ -12,8 +12,10 @@ import CoreData
 class HistoryViewController: UIViewController{
 
     var selectedChannel = 0
+    var selectedTag = [Int]()
     @IBOutlet weak var historyTable: UITableView!
     @IBOutlet weak var channelCollection: UICollectionView!
+    @IBOutlet weak var tagCollection: UICollectionView!
     
     var mangedObjectContext : NSManagedObjectContext!
     var cards = [Card]()
@@ -34,18 +36,45 @@ class HistoryViewController: UIViewController{
     
     
     func updateCardsAndTitle(){
+        let allCards = CoreDataManager.shared.getCards()
+        var filterWithTagCards = [Card]()
+        
         if selectedChannel == 0 {
+            if(selectedTag.count == 0){
+                filterWithTagCards = allCards
+            }
+            else{
+                for i in 0..<selectedTag.count{
+                    let tmpCards = allCards.filter{$0.title!.contains(channels[selectedChannel].channelTags![selectedTag[i]])}
+                    for j in 0..<tmpCards.count{
+                        filterWithTagCards.append(tmpCards[j])
+                    }
+                }
+                
+            }
             let channelToChange = channels[selectedChannel]
 //            cards = CoreDataManager.shared.getCards()
-            let allCards = CoreDataManager.shared.getCards()
-            cards = allCards.filter{(card) -> Bool in
+            
+            cards = filterWithTagCards.filter{(card) -> Bool in
                 return channels.filter{(channel) -> Bool in
                     return channel.source == card.source && card.formattedSource!.contains(channel.subtitle!)}.count != 0}
             navigationItem.title = channelToChange.title
         }else{
+            if(selectedTag.count == 0){
+                filterWithTagCards = allCards
+            }
+           else{
+                for i in 0..<selectedTag.count{
+                    let tmpCards = allCards.filter{$0.title!.contains(channels[selectedChannel].channelTags![selectedTag[i]+1])}
+                     print(channels[selectedChannel].channelTags![selectedTag[i]+1])
+                    for j in 0..<tmpCards.count{
+                        filterWithTagCards.append(tmpCards[j])
+                    }
+                }
+            }
             let channelToChange = channels[selectedChannel]
-            let allCards = CoreDataManager.shared.getCards()
-            cards = allCards.filter{ $0.source == channelToChange.source && $0.formattedSource!.contains(channelToChange.subtitle!)}
+            //let allCards = CoreDataManager.shared.getCards()
+            cards = filterWithTagCards.filter{ $0.source == channelToChange.source && $0.formattedSource!.contains(channelToChange.subtitle!)}
             navigationItem.title = channelToChange.title
         }
         
@@ -56,7 +85,7 @@ class HistoryViewController: UIViewController{
         navigationItem.title = "전체"
         //네비게이션바 배경색 넣어주는 코드
         navigationItem.largeTitleDisplayMode = .always
-        
+        loadData()
         let coloredAppearance = UINavigationBarAppearance()
         coloredAppearance.configureWithOpaqueBackground()
         coloredAppearance.backgroundColor = UIColor.navBack
@@ -67,13 +96,19 @@ class HistoryViewController: UIViewController{
         self.navigationController?.navigationBar.compactAppearance = coloredAppearance
         historyTable.isScrollEnabled = true
         historyTable.delegate = self
+        channelCollection.dataSource = self
+        channelCollection.delegate = self
+        tagCollection.dataSource = self
+        tagCollection.delegate = self
 //        navigationController?.hidesBarsOnSwipe = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
         loadData()
         updateCardsAndTitle()
+        selectedTag = [Int]()
         channelCollection.reloadData()
+        tagCollection.reloadData()
         historyTable.reloadData()
     }
     
@@ -199,58 +234,130 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let cell = tableView.cellForRow(at: indexPath) as! HomeTableViewCell
-//
-//        performSegue(withIdentifier: "detailSegue", sender: cell)
-//    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as! HomeTableViewCell
+
+        performSegue(withIdentifier: "detailSegue", sender: cell)
+    }
     
 
 }
 
-//extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return channels.count
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "channel", for: indexPath) as! CustomCollectionViewCell
-////        cell.backgroundColor = UIColor.blue
-//        cell.titleLabel.text = channels[indexPath.row].subtitle
-//        cell.colorLabel.text = channels[indexPath.row].subtitle
-//        cell.colorLabel.textColor = .clear
-//        if selectedChannel==indexPath.row {
-//            cell.titleLabel.textColor = UIColor.navFont
-//            cell.colorLabel.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString:channels[indexPath.row].color!) 
-//
-//        }else{
-//            cell.titleLabel.textColor = .sourceFont
-//            cell.colorLabel.backgroundColor = .clear
-//        }
-//        
-//        return cell
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if(collectionView == self.channelCollection){
+             return channels.count
+        }
+        else{
+            if(selectedChannel == 0){
+                return channels[selectedChannel].channelTags!.count
+            }
+            else{
+                return channels[selectedChannel].channelTags!.count-1
+            }
+            
+        }
+    }
+
+   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if(collectionView == self.channelCollection){
+             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "channel", for: indexPath) as! CustomCollectionViewCell
+             ////        cell.backgroundColor = UIColor.blue
+                     cell.titleLabel.text = channels[indexPath.row].subtitle
+                     cell.colorLabel.text = channels[indexPath.row].subtitle
+                     cell.colorLabel.textColor = .clear
+                    if selectedChannel==indexPath.row {
+                     cell.titleLabel.textColor = UIColor.navFont
+                     cell.colorLabel.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString:channels[indexPath.row].color!)
+
+                     }else{
+                         cell.titleLabel.textColor = .sourceFont
+                         cell.colorLabel.backgroundColor = .clear
+                  }
+                   
+                     return cell
+        }
+        else{
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tagCollectionCell", for: indexPath) as! TagCollectionViewCell
+            /*if(HistoryTableViewController.selectedChannel != 0){
+                cell.tagName.text = "#\( channels[HistoryTableViewController.selectedChannel].channelTags![indexPath.row+1])"
+            }
+            else{
+                cell.tagName.text = "#\( channels[HistoryTableViewController.selectedChannel].channelTags![indexPath.row])"
+            }*/
+            if(selectedChannel == 0){
+                cell.tagName.text = "#\( channels[selectedChannel].channelTags![indexPath.row])"
+                           cell.tagName.textColor = .black
+                if selectedTag.contains(indexPath.row){
+                   cell.tagName.textColor = UIColor.navFont
+                   }else{
+                       cell.tagName.textColor = .sourceFont
+                }
+            }
+            else{
+                cell.tagName.text = "#\( channels[selectedChannel].channelTags![indexPath.row+1])"
+                if selectedTag.contains(indexPath.row){
+                              cell.tagName.textColor = UIColor.navFont
+                              }else{
+                                  cell.tagName.textColor = .sourceFont
+                           }
+            }
+           
+           /* if (HistoryTableViewController.selectedTag == indexPath.row) {
+                cell.tagName.textColor = .black
+            }else{
+                cell.tagName.textColor = .sourceFont
+            }*/
+            //print(cell.tagName.text)
+            return cell
+    }
+    
+}
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 ////        arr = arrList[indexPath.row]
-//        
+//
 ////        print("Cell \(indexPath.row) sellected")
-//        selectedChannel = indexPath.row
-//        updateCardsAndTitle()
-//        channelCollection.reloadData()
-//        historyTable.reloadData()
-//    }
-//    
-//
-//}
-//
-//extension HistoryViewController: UICollectionViewDelegateFlowLayout {
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: 80, height: 40)
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-//        return UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24)
-//    }
-//}
-//
+        if(collectionView == self.channelCollection){
+            selectedChannel = indexPath.row
+            selectedTag = [Int]()
+        }
+        else{
+            if(selectedTag.contains(indexPath.row)){
+                let index = selectedTag.firstIndex(of: indexPath.row)!
+                print("\(selectedTag[index]) remove!")
+                selectedTag.remove(at: index)
+            }
+            else{
+                print("\(indexPath.row) add!")
+                selectedTag.append(indexPath.row)
+                
+            }
+           
+        }
+        updateCardsAndTitle()
+        channelCollection.reloadData()
+        tagCollection.reloadData()
+        historyTable.reloadData()
+   }
+  
+
+}
+
+extension HistoryViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if(collectionView == self.channelCollection){
+            return CGSize(width: 80, height: 40)
+        }
+        else{
+            return CGSize(width: 80, height: 35)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24)
+    }
+}

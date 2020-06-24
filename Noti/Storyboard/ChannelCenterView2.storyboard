@@ -187,18 +187,9 @@
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tSB-EP-iQJ">
                                 <rect key="frame" x="0.0" y="88" width="414" height="60"/>
-                                <subviews>
-                                    <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="7YF-pY-SAR">
-                                        <rect key="frame" x="10" y="2" width="394" height="56"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </searchBar>
-                                </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstItem="7YF-pY-SAR" firstAttribute="leading" secondItem="tSB-EP-iQJ" secondAttribute="leading" constant="10" id="Dut-aC-pdY"/>
                                     <constraint firstAttribute="height" constant="60" id="iUR-eL-d51"/>
-                                    <constraint firstItem="7YF-pY-SAR" firstAttribute="centerY" secondItem="tSB-EP-iQJ" secondAttribute="centerY" id="mUZ-kB-C1c"/>
-                                    <constraint firstAttribute="trailing" secondItem="7YF-pY-SAR" secondAttribute="trailing" constant="10" id="rNn-tg-neO"/>
                                 </constraints>
                             </view>
                         </subviews>

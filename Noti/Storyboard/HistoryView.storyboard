@@ -72,8 +72,49 @@
                                     <outlet property="delegate" destination="ODg-HY-JJ9" id="ChG-3m-0cL"/>
                                 </connections>
                             </collectionView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dGT-ge-nBF">
+                                <rect key="frame" x="0.0" y="84" width="414" height="35"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="u4K-jz-06Z"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="4ab-Ns-Kxk">
+                                    <size key="itemSize" width="100" height="35"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="tagCollectionCell" id="TwY-J2-kDd" customClass="TagCollectionViewCell" customModule="Noti" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="60" height="35"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="kK5-rL-kRU">
+                                            <rect key="frame" x="0.0" y="0.0" width="60" height="35"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gFs-OJ-pbc">
+                                                    <rect key="frame" x="0.0" y="8" width="60" height="19"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="gFs-OJ-pbc" firstAttribute="bottom" secondItem="kK5-rL-kRU" secondAttribute="bottomMargin" id="ASw-av-iL5"/>
+                                                <constraint firstItem="gFs-OJ-pbc" firstAttribute="centerY" secondItem="kK5-rL-kRU" secondAttribute="centerY" id="Kv8-Wv-8Os"/>
+                                                <constraint firstItem="gFs-OJ-pbc" firstAttribute="centerX" secondItem="kK5-rL-kRU" secondAttribute="centerX" id="ctI-qr-AK3"/>
+                                                <constraint firstItem="gFs-OJ-pbc" firstAttribute="leading" secondItem="kK5-rL-kRU" secondAttribute="leading" id="dqr-Qf-jzo"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <size key="customSize" width="60" height="35"/>
+                                        <connections>
+                                            <outlet property="tagName" destination="gFs-OJ-pbc" id="XsT-eU-Xce"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="95" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="etd-5I-hXs">
-                                <rect key="frame" x="0.0" y="84" width="414" height="778"/>
+                                <rect key="frame" x="0.0" y="119" width="414" height="743"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="customCell" rowHeight="95" id="Hju-x4-nYI" customClass="HomeTableViewCell" customModule="Noti" customModuleProvider="target">
@@ -197,14 +238,17 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="dGT-ge-nBF" firstAttribute="leading" secondItem="1De-Rr-WXR" secondAttribute="leading" id="05y-2f-gI0"/>
                             <constraint firstItem="etd-5I-hXs" firstAttribute="trailing" secondItem="uPU-D1-az7" secondAttribute="trailing" id="6LJ-r3-MzI"/>
+                            <constraint firstItem="etd-5I-hXs" firstAttribute="top" secondItem="dGT-ge-nBF" secondAttribute="bottom" id="IKc-z8-lFj"/>
                             <constraint firstItem="uPU-D1-az7" firstAttribute="trailing" secondItem="1De-Rr-WXR" secondAttribute="trailing" id="KcP-Mg-DVq"/>
-                            <constraint firstItem="etd-5I-hXs" firstAttribute="top" secondItem="uPU-D1-az7" secondAttribute="top" constant="40" id="Tte-RS-Y60"/>
+                            <constraint firstItem="etd-5I-hXs" firstAttribute="top" secondItem="uPU-D1-az7" secondAttribute="top" constant="75" id="Tte-RS-Y60"/>
                             <constraint firstItem="1De-Rr-WXR" firstAttribute="top" secondItem="uPU-D1-az7" secondAttribute="top" id="WvE-BT-tz0"/>
                             <constraint firstItem="etd-5I-hXs" firstAttribute="bottom" secondItem="uPU-D1-az7" secondAttribute="bottom" id="dUr-M6-m8I"/>
                             <constraint firstItem="etd-5I-hXs" firstAttribute="leading" secondItem="uPU-D1-az7" secondAttribute="leading" id="e1b-7D-QbB"/>
                             <constraint firstItem="1De-Rr-WXR" firstAttribute="leading" secondItem="Mva-rT-hFN" secondAttribute="leading" id="ruR-Kb-1ef"/>
-                            <constraint firstItem="etd-5I-hXs" firstAttribute="top" secondItem="1De-Rr-WXR" secondAttribute="bottom" id="xf3-Ke-QAn"/>
+                            <constraint firstItem="dGT-ge-nBF" firstAttribute="trailing" secondItem="1De-Rr-WXR" secondAttribute="trailing" id="ttz-1y-Hmi"/>
+                            <constraint firstItem="dGT-ge-nBF" firstAttribute="top" secondItem="1De-Rr-WXR" secondAttribute="bottom" id="zzi-8r-9kF"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="uPU-D1-az7"/>
                     </view>
@@ -212,11 +256,12 @@
                     <connections>
                         <outlet property="channelCollection" destination="1De-Rr-WXR" id="mKE-kC-NQt"/>
                         <outlet property="historyTable" destination="etd-5I-hXs" id="y2N-xw-iDT"/>
+                        <outlet property="tagCollection" destination="dGT-ge-nBF" id="RcU-89-8bp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="809-Ce-QsF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="444.92753623188412" y="894.64285714285711"/>
+            <point key="canvasLocation" x="417" y="794"/>
         </scene>
         <!--HomeDetailViewController-->
         <scene sceneID="yjP-s1-ptU">

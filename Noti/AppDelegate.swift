@@ -66,8 +66,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let now = Date()
         var components = gregorian.dateComponents([.year,.month,.day,.hour,.minute,.second], from: now)
         
-        components.hour = 13
-        components.minute = 34
+        components.hour = 15
+        components.minute = 00
         let date = gregorian.date(from: components)
         let dailyTrigger = Calendar.current.dateComponents([.hour,.minute,.second], from: date!)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dailyTrigger, repeats: true)

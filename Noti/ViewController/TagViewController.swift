@@ -44,6 +44,8 @@ class TagViewController: UIViewController {
                 }
                 self.arr.append(Tag(title: newTag, time: NSDate(), selected: false))
                 CoreDataManager.shared.saveTags(name: newTag, time: NSDate() as Date){onSuccess in print("saved = \(onSuccess)")}
+                CoreDataManager.shared.addCardsTag(tag: newTag){onSuccess in print("saved = \(onSuccess)")}
+                CoreDataManager.shared.addChannelTag(subtitle: "전체", source: "전체", tag: newTag){onSuccess in print("saved = \(onSuccess)")}
                 let indexPath = IndexPath(row: self.arr.count - 1, section: 0)
                 self.tagCollection.insertItems(at: [indexPath])
 
@@ -86,7 +88,6 @@ extension TagViewController: UICollectionViewDelegate, UICollectionViewDataSourc
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         var token = arr[indexPath.item]
         token.selected = false
-        print("tag \(indexPath) sellected")
         arr.remove(at: indexPath.item)
         CoreDataManager.shared.removeChannelTag(tag: coreDataTag[indexPath.item].name!){onSuccess in print("saved = \(onSuccess)")}
         CoreDataManager.shared.removeTag(object: coreDataTag[indexPath.item])

@@ -73,8 +73,59 @@
                             </connections>
                         </collectionView>
                         <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="tagCollection" rowHeight="35" id="VqD-xI-uxk" customClass="TagCollectionTableViewCell" customModule="Noti" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="68" width="414" height="35"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VqD-xI-uxk" id="wnP-Rg-kHd">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="35"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="HMU-th-fc1">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="35"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="QLv-yJ-n9H">
+                                                <size key="itemSize" width="60" height="35"/>
+                                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                            </collectionViewFlowLayout>
+                                            <cells>
+                                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="tag" id="PHS-I6-xFU" customClass="TagCollectionViewCell" customModule="Noti" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="35"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="3HM-x2-Vgg">
+                                                        <rect key="frame" x="0.0" y="0.0" width="60" height="35"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L2N-BS-Z11">
+                                                                <rect key="frame" x="0.0" y="9" width="60" height="18"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="L2N-BS-Z11" firstAttribute="bottom" secondItem="3HM-x2-Vgg" secondAttribute="bottomMargin" constant="8" id="UD2-Qn-10N"/>
+                                                            <constraint firstItem="L2N-BS-Z11" firstAttribute="centerY" secondItem="3HM-x2-Vgg" secondAttribute="centerY" id="t1K-dY-yrr"/>
+                                                            <constraint firstItem="L2N-BS-Z11" firstAttribute="top" secondItem="3HM-x2-Vgg" secondAttribute="topMargin" constant="8" id="wNM-pI-5GA"/>
+                                                        </constraints>
+                                                    </collectionViewCellContentView>
+                                                    <size key="customSize" width="60" height="35"/>
+                                                    <connections>
+                                                        <outlet property="tagName" destination="L2N-BS-Z11" id="iX1-3f-Pxg"/>
+                                                    </connections>
+                                                </collectionViewCell>
+                                            </cells>
+                                        </collectionView>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="TagCollectionView" destination="HMU-th-fc1" id="UXb-qE-dfG"/>
+                                </connections>
+                            </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="customCell" rowHeight="95" id="lIe-q1-mJT" customClass="HomeTableViewCell" customModule="Noti" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="68" width="414" height="95"/>
+                                <rect key="frame" x="0.0" y="103" width="414" height="95"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lIe-q1-mJT" id="H1t-OI-jUw">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="95"/>
@@ -140,7 +191,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="history" rowHeight="80" id="ZtV-ac-UhQ" customClass="HistoryCell" customModule="Noti" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="163" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="198" width="414" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZtV-ac-UhQ" id="J3h-YH-SKo">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
@@ -197,7 +248,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ae2-FB-bcH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="400" y="250"/>
+            <point key="canvasLocation" x="400.00000000000006" y="249.77678571428569"/>
         </scene>
         <!--HomeDetailView-->
         <scene sceneID="2p3-zE-wjW">

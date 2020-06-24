@@ -144,7 +144,7 @@ class CoreDataManager{
         let fetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
         var addTagCard = Card()
         do {
-                   if let results: [Card] = try context?.fetch(fetchRequest) as? [Card] {
+            if let results: [Card] = try context?.fetch(fetchRequest) {
                     
                        for i in 0..<results.count{
                            if((results[i].title?.contains(tag))!){
@@ -332,7 +332,7 @@ class CoreDataManager{
         }
     }
     
-    func setData() -> Bool{
+    func setData() {
         var lastUpdated = CoreDataManager.shared.getUpdated()
         let dateFormatter = DateFormatter()
         
@@ -363,7 +363,6 @@ class CoreDataManager{
             CoreDataManager.shared.saveUpdated(date: dateFormatter.string(from: dateNow!)){ onSuccess in } //print("saved = \(onSuccess)")
             lastUpdated = CoreDataManager.shared.getUpdated()
         }
-        let channels = CoreDataManager.shared.getChannels()
         let tags = CoreDataManager.shared.getTags()
        let url = URL(string:"https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/" + "20-06-11")
         do {
@@ -392,7 +391,6 @@ class CoreDataManager{
                 
                 if (checkRedundancy.count == 0)
                 {
-                    let time = card["time_"] as! String
                     var color = UIColor()
                     switch card["source"] as! String{
                     case "한양대학교":
@@ -425,7 +423,6 @@ class CoreDataManager{
         } catch {
             print("Can't get url")
         }
-        return true;
     }
 }
     

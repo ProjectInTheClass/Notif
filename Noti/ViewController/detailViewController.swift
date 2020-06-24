@@ -68,7 +68,7 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
     var source: String?
     var date: String?
     var back2: String?
-    var url:String?
+    var url: String?
     var json = [String:String]()
     
 
@@ -90,6 +90,7 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.backBarButtonItem?.title = back2
         
+        
         titleLabel.text = title2
         sourceLabel.text = source
         dateLabel.text = date
@@ -97,6 +98,7 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
 //        URLTextView.isEditable = false
 //        URLTextView.isUserInteractionEnabled = true
 //        URLTextView.isSelectable = true
+        
         URLTextView.text = url!
         URLTextView.textContainer.maximumNumberOfLines = 1
         URLTextView.textContainer.lineBreakMode = .byTruncatingTail

@@ -25,6 +25,8 @@
 		6258C0AD2474348A001E5B49 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6258C0AC2474348A001E5B49 /* HistoryViewController.swift */; };
 		6258C0B3247EDCC5001E5B49 /* ChannelCenterView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6258C0B2247EDCC5001E5B49 /* ChannelCenterView.storyboard */; };
 		6258C0BB247EF7F6001E5B49 /* ChannelCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6258C0BA247EF7F6001E5B49 /* ChannelCollectionViewController.swift */; };
+		629B2DA724A24A9500A1741E /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629B2DA624A24A9500A1741E /* TagCollectionViewCell.swift */; };
+		629B2DA924A24B0300A1741E /* TagCollectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629B2DA824A24B0300A1741E /* TagCollectionTableViewCell.swift */; };
 		62B321F0248A180D00111CE8 /* NotiModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 62B321EE248A180D00111CE8 /* NotiModels.xcdatamodeld */; };
 		62B321F7248A1A9000111CE8 /* Channel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62B321F1248A1A9000111CE8 /* Channel+CoreDataClass.swift */; };
 		62B321F8248A1A9000111CE8 /* Channel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62B321F2248A1A9000111CE8 /* Channel+CoreDataProperties.swift */; };
@@ -65,6 +67,8 @@
 		6258C0AC2474348A001E5B49 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		6258C0B2247EDCC5001E5B49 /* ChannelCenterView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ChannelCenterView.storyboard; sourceTree = "<group>"; };
 		6258C0BA247EF7F6001E5B49 /* ChannelCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCollectionViewController.swift; sourceTree = "<group>"; };
+		629B2DA624A24A9500A1741E /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
+		629B2DA824A24B0300A1741E /* TagCollectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionTableViewCell.swift; sourceTree = "<group>"; };
 		62B321EF248A180D00111CE8 /* NotiModels.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NotiModels.xcdatamodel; sourceTree = "<group>"; };
 		62B321F1248A1A9000111CE8 /* Channel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Channel+CoreDataClass.swift"; sourceTree = "<group>"; };
 		62B321F2248A1A9000111CE8 /* Channel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Channel+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -130,14 +134,16 @@
 				0F93EE1C2471232F0018B9C8 /* Card.swift */,
 				62B321EE248A180D00111CE8 /* NotiModels.xcdatamodeld */,
 				860930AA24898DFD005B7A28 /* ChannelCollectionViewCell.swift */,
+				629B2DA624A24A9500A1741E /* TagCollectionViewCell.swift */,
+				6258C0AA2473DE49001E5B49 /* tagTableViewCell.swift */,
 				861984AD2487BAE7002FCF04 /* HistoryCell.swift */,
 				0F5DB591246AEA1700245E96 /* SceneDelegate.swift */,
 				0F5DB5A5246AF0A500245E96 /* HomeTableViewCell.swift */,
 				0F5DB598246AEA1C00245E96 /* Assets.xcassets */,
 				0F5DB59A246AEA1C00245E96 /* LaunchScreen.storyboard */,
 				0F5DB59D246AEA1C00245E96 /* Info.plist */,
-				6258C0AA2473DE49001E5B49 /* tagTableViewCell.swift */,
 				62BA56C4248E0BE4000CB9DF /* CoreDataManager.swift */,
+				629B2DA824A24B0300A1741E /* TagCollectionTableViewCell.swift */,
 			);
 			path = Noti;
 			sourceTree = "<group>";
@@ -259,9 +265,11 @@
 				0F93EE1D2471232F0018B9C8 /* Card.swift in Sources */,
 				860930AD248991B9005B7A28 /* CustomCollectionViewCell.swift in Sources */,
 				0F5DB590246AEA1700245E96 /* AppDelegate.swift in Sources */,
+				629B2DA724A24A9500A1741E /* TagCollectionViewCell.swift in Sources */,
 				0F5DB5A6246AF0A600245E96 /* HomeTableViewCell.swift in Sources */,
 				62B321FA248A1A9000111CE8 /* Tags+CoreDataProperties.swift in Sources */,
 				6258C0AD2474348A001E5B49 /* HistoryViewController.swift in Sources */,
+				629B2DA924A24B0300A1741E /* TagCollectionTableViewCell.swift in Sources */,
 				0F044263246B0899002A7C2B /* detailViewController.swift in Sources */,
 				623073AA2493739E00C06C6D /* LastUpdated+CoreDataClass.swift in Sources */,
 				864699ED249D6C8E006FB4C2 /* TagViewController.swift in Sources */,

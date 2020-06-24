@@ -140,7 +140,32 @@ class CoreDataManager{
                    onSuccess(success)
                }
     }
-    
+    func addCardsTag(tag : String, onSuccess: @escaping ((Bool) -> Void)){
+        let fetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
+        var addTagCard = Card()
+        do {
+                   if let results: [Card] = try context?.fetch(fetchRequest) as? [Card] {
+                    
+                       for i in 0..<results.count{
+                           if((results[i].title?.contains(tag))!){
+                               addTagCard = results[i]
+                            CoreDataManager.shared.addChannelTag(subtitle: addTagCard.category!, source: addTagCard.source!, tag: tag){onSuccess in print("saved = \(onSuccess)")}
+                               addTagCard.willChangeValue(forKey: "tag")
+                            addTagCard.tag?.append(tag)
+                               addTagCard.didChangeValue(forKey: "tag")
+                           }
+                    }
+                   }
+               } catch let error as NSError {
+                   print("Could not fatch🥺: \(error), \(error.userInfo)")
+                   onSuccess(false)
+               }
+               
+               contextSave { success in
+                   onSuccess(success)
+               }
+    }
+
     
     func getChannels()->[Channel]{
         //let dateFormatter = DateFormatter()

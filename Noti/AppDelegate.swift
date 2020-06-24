@@ -58,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func showNotification(){
         let content = UNMutableNotificationContent()
         
-        content.title = "app name"
+        content.title = "노티"
         content.body = "오늘 새로운 글이 있는지 확인해보세요!"
         content.badge = 1
         
@@ -66,8 +66,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let now = Date()
         var components = gregorian.dateComponents([.year,.month,.day,.hour,.minute,.second], from: now)
         
-        components.hour = 13
-        components.minute = 34
+        components.hour = 18
+        components.minute = 15
         let date = gregorian.date(from: components)
         let dailyTrigger = Calendar.current.dateComponents([.hour,.minute,.second], from: date!)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dailyTrigger, repeats: true)

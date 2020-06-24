@@ -141,13 +141,19 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
             // Convert HTTP Response Data to a simple String
             if let data = data, var dataString = String(data: data, encoding: encoding) {
                 if (self.source!.contains("한양대학교")) {
-                    dataString = dataString.slice(from: "<td class=\"view-script\">", to: "</tr> </tbody>")!
-                    
-                    var imageIndices = dataString.indices(of: "/documents")
-                    imageIndices.reverse()
-                    for i in imageIndices {
-                        dataString.insert(contentsOf: "https://www.hanyang.ac.kr", at: i)
+                    dataString = dataString.slice(from: "<td class=\"view-script\">", to: "<div class=\"bbs-button-wrap container\">")!
+                     
+                     let endtdIndices = dataString.ranges(of: "</td>")
+
+                    if let lastIndex = endtdIndices.last {
+                        dataString = String(dataString[..<lastIndex.upperBound])
                     }
+                     
+                     var imageIndices = dataString.indices(of: "/documents")
+                     imageIndices.reverse()
+                     for i in imageIndices {
+                         dataString.insert(contentsOf: "https://www.hanyang.ac.kr", at: i)
+                     }
                 }
                 else if (self.source!.contains("컴퓨터")) {
                     dataString = dataString.slice(from: "<td class=\"view_content\" colspan=\"2\">", to: "<td class=\"tit\">이전글</td>")!

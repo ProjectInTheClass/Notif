@@ -263,10 +263,10 @@
             </objects>
             <point key="canvasLocation" x="417" y="794"/>
         </scene>
-        <!--HomeDetailViewController-->
+        <!--HomeDetailView-->
         <scene sceneID="yjP-s1-ptU">
             <objects>
-                <viewControllerPlaceholder storyboardName="HomeDetailView" referencedIdentifier="HomeDetailViewController" id="kLd-YR-gh4" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="HomeDetailView" id="kLd-YR-gh4" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="Ct8-vR-Kxl"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rpg-LC-5Dn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

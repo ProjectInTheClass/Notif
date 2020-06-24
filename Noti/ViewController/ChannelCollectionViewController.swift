@@ -170,7 +170,7 @@ class ChannelCollectionViewController: UICollectionViewController {
         
     func buttonTouched(_ cell : UICollectionViewCell){
         let path = collectionView.indexPath(for: cell)
-        let addChannelCell = collectionView.cellForItem(at: path!) as! ChannelCollectionViewCell
+        _ = collectionView.cellForItem(at: path!) as! ChannelCollectionViewCell
         //channels for server를 위j..
         //channelsForServer.append(Channel(title: addChannelCell.channelTitle.text!,subtitle: "", category:  addChannelCell.channelSubTitle.text!,color: .white))
 

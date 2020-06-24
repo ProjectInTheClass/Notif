@@ -219,26 +219,26 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
                 let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section]}
                 destination.title2 = cell.titleLabel.text
                 destination.source = cell.sourceLabel.text
-                destination.date = cell.dateLabel.text
+                destination.date = sectionCards[indexPath.row].homeFormattedDate
                 destination.back2 = title
-
-                destination.url = sectionCards[indexPath.row].url
+                destination.url = sectionCards[indexPath.row].url!
                 //                print("!!!!!"+cards[indexPath.row].url)
                 destination.json = sectionCards[indexPath.row].json!
                 
                 // 방문할경우 비짓처리하고 테이블뷰 리로드
                 sectionCards[indexPath.row].isVisited = true
+                CoreDataManager.shared.visitCards(url: sectionCards[indexPath.row].url!){ onSuccess in print("saved = \(onSuccess)")}
                 historyTable.reloadData()
                 
             }
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath) as! HomeTableViewCell
-
-        performSegue(withIdentifier: "detailSegue", sender: cell)
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let cell = tableView.cellForRow(at: indexPath) as! HomeTableViewCell
+//
+////        performSegue(withIdentifier: "detailSegue", sender: cell)
+//    }
     
 
 }

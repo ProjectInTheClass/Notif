@@ -10,8 +10,8 @@ import UIKit
 import CoreData
 
 class HistoryTableViewController: UITableViewController {
-
-    var selectedChannel = 0
+    static var selectedTag = -1
+    static var selectedChannel = 0
     @IBOutlet weak var channelCollection: UICollectionView!
     
         var cards = [Card]()
@@ -29,13 +29,10 @@ class HistoryTableViewController: UITableViewController {
             allTags = CoreDataManager.shared.getTags()
             date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by: >)
         }
-        
-        
-        
-        
+    
         func updateCardsAndTitle(){
-            if selectedChannel == 0 {
-                let channelToChange = channels[selectedChannel]
+            if HistoryTableViewController.selectedChannel == 0 {
+                let channelToChange = channels[HistoryTableViewController.selectedChannel]
     //            cards = CoreDataManager.shared.getCards()
                 let allCards = CoreDataManager.shared.getCards()
                 cards = allCards.filter{(card) -> Bool in
@@ -43,15 +40,25 @@ class HistoryTableViewController: UITableViewController {
                         return (channel.source == "" || (channel.source == card.source)) && card.formattedSource!.contains(channel.subtitle!)}.count != 0}
                 navigationItem.title = channelToChange.title
             }else{
-                let channelToChange = channels[selectedChannel]
+                let channelToChange = channels[HistoryTableViewController.selectedChannel]
                 let allCards = CoreDataManager.shared.getCards()
-                cards = allCards.filter{channelToChange.source! == "" || (($0.source! == channelToChange.source!)) && $0.formattedSource!.contains(channelToChange.subtitle!)}
+                
+                if(HistoryTableViewController.selectedTag == -1){
+                    cards = allCards.filter{channelToChange.source! == "" || (($0.source! == channelToChange.source!)) && $0.formattedSource!.contains(channelToChange.subtitle!)}
+                    navigationItem.title = channelToChange.title
+                }
+                else{
+                    let tagCards = allCards.filter{$0.title!.contains(channelToChange.channelTags![HistoryTableViewController.selectedTag+1])}
+                    print("\(channelToChange.channelTags![HistoryTableViewController.selectedTag+1])!!")
+                    cards = tagCards.filter{channelToChange.source! == "" || (($0.source! == channelToChange.source!)) && $0.formattedSource!.contains(channelToChange.subtitle!)}
+                }
+                //cards = allCards.filter{channelToChange.source! == "" || (($0.source! == channelToChange.source!)) && $0.formattedSource!.contains(channelToChange.subtitle!)}
                 navigationItem.title = channelToChange.title
             }
             
             date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by: >)
             // Source label 추가
-            let source = NSAttributedString(string: channels[selectedChannel].source!, attributes: [.font : UIFont.boldSystemFont(ofSize: 20), .foregroundColor: UIColor.sourceFont])
+            let source = NSAttributedString(string: channels[HistoryTableViewController.selectedChannel].source!, attributes: [.font : UIFont.boldSystemFont(ofSize: 20), .foregroundColor: UIColor.sourceFont])
             let rightView = UIView()
             rightView.frame = CGRect(x: 0, y: 0, width: .bitWidth, height: 70)
             rItem = UIBarButtonItem(customView: rightView)
@@ -64,7 +71,8 @@ class HistoryTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        loadData()
+        //tableView.register(<#T##cellClass: AnyClass?##AnyClass?#>, forCellReuseIdentifier: <#T##String#>)
         navigationItem.title = "전체"
         //네비게이션바 배경색 넣어주는 코드
         navigationItem.largeTitleDisplayMode = .always
@@ -82,6 +90,7 @@ class HistoryTableViewController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         loadData()
+        //HistoryTableViewController.selectedTag = -1
         updateCardsAndTitle()
         channelCollection.reloadData()
         self.tableView.reloadData()
@@ -98,18 +107,28 @@ class HistoryTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         if(allTags.count == 0 ){
-                   return 1
+            return 1
         }
-        let returnData = cards.filter{$0.historyFormattedDate == date[section]}
+        if(section == 0){
+            return 1
+        }
+        else{
+            let returnData = cards.filter{$0.historyFormattedDate == date[section-1]}
+            //print("numberofrawinsection\(returnData.count)")
+            return returnData.count
+        }
         
-        return returnData.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section]}
-            
+        if(indexPath.section == 0){
+            let cell = tableView.dequeueReusableCell(withIdentifier: "tagCollection", for: indexPath) as! TagCollectionTableViewCell
+            cell.loaddata()
+            return cell
+        }
+            let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section-1]}
+        //print(indexPath.section)
             if (sectionCards[indexPath.row].url != ""){
-              
                 let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! HomeTableViewCell
                 
                 cell.titleLabel.text = sectionCards[indexPath.row].title
@@ -139,9 +158,6 @@ class HistoryTableViewController: UITableViewController {
                     cell.cellView.backgroundColor = .clear
                     cell.cellView.alpha = 1
                 }
-                
-               
-
                 // 그림자 부분
                 cell.backgroundView?.layer.shadowColor = UIColor.black.cgColor // 검정색 사용
                 cell.backgroundView?.layer.masksToBounds = false
@@ -167,13 +183,18 @@ class HistoryTableViewController: UITableViewController {
         
         // 커스텀섹션헤더부분
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-
+        
+        if(section == 0){
+            let view = UIView(frame: CGRect(x:0, y:0, width:tableView.frame.size.width, height:0 ))
+            return view
+        }
             let view = UIView(frame: CGRect(x:0, y:0, width:tableView.frame.size.width, height:17 ))
             let label = UILabel(frame: CGRect(x:20, y:17, width:tableView.frame.size.width, height:17))
 
+        
             label.font = UIFont.boldSystemFont(ofSize: 17)
             label.textColor = UIColor.sectionFont
-            label.text = date[section] //Array(Set(cards.map{$0.historyFormattedDate}))[section]//.sorted(by : >)[section]
+            label.text = date[section-1] //Array(Set(cards.map{$0.historyFormattedDate}))[section]//.sorted(by : >)[section]
             view.addSubview(label)
             view.backgroundColor = UIColor.white
 
@@ -183,27 +204,29 @@ class HistoryTableViewController: UITableViewController {
         
         // 섹션 헤더 높이 설정
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-            return 40;
+        if(section == 0 ){
+            return 0
+        }
+        return 40;
         }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 95;
     }
         
-        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             if (segue.identifier == "detailSegue") {
                 let destination = segue.destination as! detailViewController
                 if let cell = sender as? HomeTableViewCell {
                     guard let indexPath = self.tableView.indexPathForSelectedRow else {return}
                     let date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by: >)
-                    let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section]}
+                    let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section-1]}
                     destination.title2 = cell.titleLabel.text
                     destination.source = cell.sourceLabel.text
                     destination.date = sectionCards[indexPath.row].homeFormattedDate
                     destination.back2 = title
 
                     destination.url = sectionCards[indexPath.row].url
-                    //                print("!!!!!"+cards[indexPath.row].url)
                     destination.json = sectionCards[indexPath.row].json!
                     
                     // 방문할경우 비짓처리하고 테이블뷰 리로드
@@ -243,7 +266,7 @@ extension HistoryTableViewController: UICollectionViewDelegate, UICollectionView
         cell.titleLabel.text = channels[indexPath.row].subtitle
         cell.colorLabel.text = channels[indexPath.row].subtitle
         cell.colorLabel.textColor = .clear
-        if selectedChannel==indexPath.row {
+        if (HistoryTableViewController.selectedChannel==indexPath.row) {
             cell.titleLabel.textColor = UIColor.navFont
             cell.colorLabel.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString:channels[indexPath.row].color!)
 
@@ -259,8 +282,11 @@ extension HistoryTableViewController: UICollectionViewDelegate, UICollectionView
 //        arr = arrList[indexPath.row]
         
 //        print("Cell \(indexPath.row) sellected")
+        
         print(channels[indexPath.row].channelTags)
-        selectedChannel = indexPath.row
+        HistoryTableViewController.selectedChannel = indexPath.row
+        HistoryTableViewController.selectedTag = -1
+        loadData()
         updateCardsAndTitle()
         channelCollection.reloadData()
         self.tableView.reloadData()

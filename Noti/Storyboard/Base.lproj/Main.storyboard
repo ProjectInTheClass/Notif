@@ -152,7 +152,7 @@
         <!--HistoryViewController-->
         <scene sceneID="jIE-Gx-eN5">
             <objects>
-                <viewControllerPlaceholder storyboardName="HistoryView2" referencedIdentifier="HistoryViewController" id="Ud3-hY-Ra3" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="HistoryView" referencedIdentifier="HistoryViewController" id="Ud3-hY-Ra3" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="jFE-9q-IVL"/>
                     <navigationItem key="navigationItem" id="4cU-A2-Laf"/>
                 </viewControllerPlaceholder>

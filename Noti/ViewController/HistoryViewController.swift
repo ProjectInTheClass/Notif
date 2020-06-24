@@ -45,11 +45,10 @@ class HistoryViewController: UIViewController{
             }
             else{
                 for i in 0..<selectedTag.count{
-                    let tmpCards = allCards.filter{$0.title!.contains(channels[selectedChannel].channelTags![i])}
+                    let tmpCards = allCards.filter{$0.title!.contains(channels[selectedChannel].channelTags![selectedTag[i]])}
                     for j in 0..<tmpCards.count{
                         filterWithTagCards.append(tmpCards[j])
                     }
-                    
                 }
                 
             }
@@ -66,7 +65,8 @@ class HistoryViewController: UIViewController{
             }
            else{
                 for i in 0..<selectedTag.count{
-                    let tmpCards = allCards.filter{$0.title!.contains(channels[selectedChannel].channelTags![i])}
+                    let tmpCards = allCards.filter{$0.title!.contains(channels[selectedChannel].channelTags![selectedTag[i]+1])}
+                     print(channels[selectedChannel].channelTags![selectedTag[i]+1])
                     for j in 0..<tmpCards.count{
                         filterWithTagCards.append(tmpCards[j])
                     }
@@ -328,10 +328,13 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
         else{
             if(selectedTag.contains(indexPath.row)){
                 let index = selectedTag.firstIndex(of: indexPath.row)!
+                print("\(selectedTag[index]) remove!")
                 selectedTag.remove(at: index)
             }
             else{
+                print("\(indexPath.row) add!")
                 selectedTag.append(indexPath.row)
+                
             }
            
         }

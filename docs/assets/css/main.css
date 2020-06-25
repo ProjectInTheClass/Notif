@@ -100,10 +100,10 @@ input, select, textarea {
 
 	body {
 		background-color: #000;
-		background-image: url("images/overlay.png"), -moz-linear-gradient(15deg, #e6eeec 0%, #e6eeec 100%);
-		background-image: url("images/overlay.png"), -webkit-linear-gradient(15deg, #e6eeec 0%, #e6eeec 100%);
-		background-image: url("images/overlay.png"), -ms-linear-gradient(15deg, #e6eeec 0%, #e6eeec 100%);
-		background-image: url("images/overlay.png"), linear-gradient(15deg, #e6eeec 0%, #e6eeec 100%);
+		background-image: url("images/overlay.png"), -moz-linear-gradient(15deg, #fff 0%, #fff 100%);
+		background-image: url("images/overlay.png"), -webkit-linear-gradient(15deg, #fff 0%, #fff 100%);
+		background-image: url("images/overlay.png"), -ms-linear-gradient(15deg, #fff 0%, #fff 100%);
+		background-image: url("images/overlay.png"), linear-gradient(15deg, #fff 0%, #fff 100%);
 	}
 
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
@@ -125,10 +125,11 @@ input, select, textarea {
 	}
 
 	body, input, select, textarea {
-		font-family: "Source Sans Pro", Helvetica, sans-serif;
+		font-family: -apple-system,BlinkMacSystemFont,AppleSDGothicNeo,Helvetica,"\B9D1\C740 \ACE0\B515",Malgun Gothic,"\B3CB\C6C0",Dotum,sans-serif;
 		font-size: 17pt;
 		font-weight: 300;
 		line-height: 1.65;
+		color: rgb(29,29,31);		
 	}
 
 		@media screen and (max-width: 1680px) {
@@ -161,6 +162,7 @@ input, select, textarea {
 		-ms-transition: color 0.2s ease, border-bottom 0.2s ease;
 		transition: color 0.2s ease, border-bottom 0.2s ease;
 		text-decoration: none;
+		font-weight: 600;
 		border-bottom: dotted 1px;
 		color: inherit;
 	}
@@ -179,6 +181,8 @@ input, select, textarea {
 
 	p {
 		margin: 0 0 2em 0;
+		font-weight: 600;
+		color: #86868b;
 	}
 
 		p.content {
@@ -208,26 +212,33 @@ input, select, textarea {
 	h1 {
 		font-size: 2.5em;
 		line-height: 1.2;
+		font-weight: 800;
 	}
 
 	h2 {
 		font-size: 1.5em;
+		/* color: rgb(29,29,31); */
+		font-weight: 600;
 	}
 
 	h3 {
 		font-size: 1.25em;
+		font-weight: 600;
 	}
 
 	h4 {
 		font-size: 1.1em;
+		font-weight: 600;
 	}
 
 	h5 {
 		font-size: 0.9em;
+		font-weight: 600;
 	}
 
 	h6 {
 		font-size: 0.7em;
+		font-weight: 600;
 	}
 
 	@media screen and (max-width: 736px) {
@@ -3255,7 +3266,7 @@ input, select, textarea {
 		-ms-transition: background-color 0.2s ease, border-top-left-radius 0.2s ease, border-top-right-radius 0.2s ease, padding 0.2s ease;
 		transition: background-color 0.2s ease, border-top-left-radius 0.2s ease, border-top-right-radius 0.2s ease, padding 0.2s ease;
 		background-color: #ffffff;
-		color: #636363;
+		color: rgb(29,29,31);
 		position: absolute;
 		width: 64em;
 		max-width: calc(100% - 4em);
@@ -3280,7 +3291,8 @@ input, select, textarea {
 		}
 
 		#nav h1, #nav h2, #nav h3, #nav h4, #nav h5, #nav h6 {
-			color: #636363;
+			/* color: #636363; */
+			color: rgb(29,29,31);
 		}
 
 		#nav blockquote {
@@ -3377,25 +3389,34 @@ input, select, textarea {
 
 	#main {
 		background-color: #ffffff;
-		color: #636363;
+		/* color: #636363; */
+		color: rgb(29,29,31);
 		border-radius: 0.25em;
 	}
 
 		#main input, #main select, #main textarea {
-			color: #636363;
+			/* color: #636363; */
+			color: rgb(29,29,31);
 		}
 
 		#main a:hover {
-			color: #636363;
+			/* color: #636363; */
+			color: rgb(29,29,31);
 		}
 
 		#main strong, #main b {
-			color: #636363;
+			/* color: #636363; */
+			color: rgb(29,29,31);
 		}
 
 		#main h1, #main h2, #main h3, #main h4, #main h5, #main h6 {
-			color: #636363;
+			/* color: #636363; */
+			color: rgb(29,29,31);
 		}
+		
+		/* #main h3{
+			color: #8b8b8b;
+		} */
 
 		#main blockquote {
 			border-left-color: #dddddd;
@@ -3621,6 +3642,7 @@ input, select, textarea {
 		#main .spotlight .image {
 			/* border-color: #dddddd; */
 		}
+
 
 		#main > .main {
 			padding: 5em 5em 3em 5em ;

@@ -130,7 +130,7 @@ class HomeTableViewController: UITableViewController {
         selectView.backgroundColor = .selected
         selectedBackgrundView.addSubview(selectView)
         cell.selectedBackgroundView = selectedBackgrundView
-        
+
         
         // 비짓이 트루로 되어있으면 배경 블러처리해줌
         if (cards[indexPath.row].isVisited == true){

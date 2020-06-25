@@ -240,7 +240,7 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
             if let cell = sender as? HomeTableViewCell {
                 guard let indexPath = historyTable.indexPathForSelectedRow else {return}
                 let date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by: >)
-                let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section-1]}
+                let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section]}
                 destination.title2 = cell.titleLabel.text
                 destination.source = cell.sourceLabel.text
                 destination.date = sectionCards[indexPath.row].homeFormattedDate

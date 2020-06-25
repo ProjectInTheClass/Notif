@@ -197,23 +197,12 @@
         <!--ChannelCenterViewController-->
         <scene sceneID="ufJ-Tu-ThZ">
             <objects>
-                <viewControllerPlaceholder storyboardName="ChannelCenterView2" referencedIdentifier="ChannelCenterViewController" id="9s5-sB-qJm" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="ChannelCenterView" referencedIdentifier="ChannelCenterViewController" id="9s5-sB-qJm" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="Ze6-fP-7gi"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pp7-Rh-ipe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1748" y="1938"/>
-        </scene>
-        <!--ChannelCenterView-->
-        <scene sceneID="4w2-tu-MdR">
-            <objects>
-                <viewControllerPlaceholder storyboardName="ChannelCenterView" id="WEl-v0-qSF" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="Hxd-ON-vEZ"/>
-                    <navigationItem key="navigationItem" id="yK7-zI-dEF"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="YLd-5c-z77" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-908" y="1544"/>
         </scene>
     </scenes>
     <resources>

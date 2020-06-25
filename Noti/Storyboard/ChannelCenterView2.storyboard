@@ -206,11 +206,6 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="2dw-Uj-gtH">
-                        <barButtonItem key="leftBarButtonItem" title="취소" id="5bD-Ok-NK0">
-                            <connections>
-                                <action selector="cancelPressed:" destination="eHH-iR-NBW" id="I1r-lx-rzI"/>
-                            </connections>
-                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem title="완료" id="3U1-0u-Fiq">
                                 <connections>

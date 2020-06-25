@@ -211,23 +211,47 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if (segue.identifier == "detailSegue") {
+//            let destination = segue.destination as! detailViewController
+//            if let cell = sender as? HomeTableViewCell {
+//                guard let indexPath = historyTable.indexPathForSelectedRow else {return}
+//                let date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by: >)
+//                let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section]}
+//                destination.title2 = cell.titleLabel.text
+//                destination.source = cell.sourceLabel.text
+//                destination.date = cell.dateLabel.text
+//                destination.back2 = title
+//                destination.date = sectionCards[indexPath.row].homeFormattedDate
+//
+//                destination.url = sectionCards[indexPath.row].url
+//
+//                print(title, sectionCards[indexPath.row].url)
+//
+//                destination.json = sectionCards[indexPath.row].json!
+//
+//                // 방문할경우 비짓처리하고 테이블뷰 리로드
+//                sectionCards[indexPath.row].isVisited = true
+//                historyTable.reloadData()
+//
+//            }
+//        }
         if (segue.identifier == "detailSegue") {
             let destination = segue.destination as! detailViewController
             if let cell = sender as? HomeTableViewCell {
                 guard let indexPath = historyTable.indexPathForSelectedRow else {return}
                 let date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by: >)
-                let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section]}
+                let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section-1]}
                 destination.title2 = cell.titleLabel.text
                 destination.source = cell.sourceLabel.text
-                destination.date = cell.dateLabel.text
+                destination.date = sectionCards[indexPath.row].homeFormattedDate
                 destination.back2 = title
 
                 destination.url = sectionCards[indexPath.row].url
-                //                print("!!!!!"+cards[indexPath.row].url)
                 destination.json = sectionCards[indexPath.row].json!
                 
                 // 방문할경우 비짓처리하고 테이블뷰 리로드
                 sectionCards[indexPath.row].isVisited = true
+                CoreDataManager.shared.visitCards(url: sectionCards[indexPath.row].url!){ onSuccess in print("saved = \(onSuccess)")}
                 historyTable.reloadData()
                 
             }
@@ -281,7 +305,7 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
                      return cell
         }
         else{
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tagCollectionCell", for: indexPath) as! TagCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tagCollectionCell", for: indexPath) as! TokenListCell
             /*if(HistoryTableViewController.selectedChannel != 0){
                 cell.tagName.text = "#\( channels[HistoryTableViewController.selectedChannel].channelTags![indexPath.row+1])"
             }
@@ -289,20 +313,23 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
                 cell.tagName.text = "#\( channels[HistoryTableViewController.selectedChannel].channelTags![indexPath.row])"
             }*/
             if(selectedChannel == 0){
-                cell.tagName.text = "#\( channels[selectedChannel].channelTags![indexPath.row])"
-                           cell.tagName.textColor = .black
+//                cell.titleLabel.text = "#\( channels[selectedChannel].channelTags![indexPath.row])"
+
+                cell.token =  Tag(title: channels[selectedChannel].channelTags![indexPath.row], time: NSDate())
+                           cell.titleLabel.textColor = .black
                 if selectedTag.contains(indexPath.row){
-                   cell.tagName.textColor = UIColor.navFont
+                    cell.titleLabel.textColor = CoreDataManager.shared.colorWithHexString(hexString:channels[selectedChannel].color!)
                    }else{
-                       cell.tagName.textColor = .sourceFont
+                       cell.titleLabel.textColor = .sourceFont
                 }
             }
             else{
-                cell.tagName.text = "#\( channels[selectedChannel].channelTags![indexPath.row+1])"
+//                cell.titleLabel.text = "#\( channels[selectedChannel].channelTags![indexPath.row+1])"
+                cell.token = Tag(title: channels[selectedChannel].channelTags![indexPath.row+1], time: NSDate())
                 if selectedTag.contains(indexPath.row){
-                              cell.tagName.textColor = UIColor.navFont
+                              cell.titleLabel.textColor = CoreDataManager.shared.colorWithHexString(hexString:channels[selectedChannel].color!)
                               }else{
-                                  cell.tagName.textColor = .sourceFont
+                                  cell.titleLabel.textColor = .sourceFont
                            }
             }
            
@@ -353,11 +380,18 @@ extension HistoryViewController: UICollectionViewDelegateFlowLayout {
             return CGSize(width: 80, height: 40)
         }
         else{
-            return CGSize(width: 80, height: 35)
+            var text = ""
+            text = self.channels[selectedChannel].channelTags![indexPath.row]
+            let cellWidth = text.size(withAttributes:[.font: UIFont.boldSystemFont(ofSize:16.0)]).width + 30.0
+            return CGSize(width: cellWidth, height: 30.0)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        
         return UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24)
+        
     }
+    
 }

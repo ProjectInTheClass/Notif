@@ -114,6 +114,48 @@ class TokenMainCell: BaseCollectionViewCell {
   }
 }
 
+class TokenListCell: BaseCollectionViewCell {
+  
+  static let identifier = "TokenListCell"
+  
+  var token: Tag? {
+    didSet{
+      guard let sender = self.token else { return }
+      self.titleLabel.text = "#" + sender.title + "   "
+    }
+  }
+  
+  var titleLabel: UILabel = {
+    
+    let lbl = UILabel()
+    lbl.translatesAutoresizingMaskIntoConstraints = false
+    lbl.textAlignment = .center
+    lbl.font = UIFont.boldSystemFont(ofSize: 16)
+    lbl.textColor = .sectionFont
+    return lbl
+  }()
+  
+  override func setupViews() {
+    
+    self.titleLabel.text = nil
+    self.backgroundColor = .white
+    self.layer.cornerRadius = 9
+    
+    // 그림자
+    self.layer.shadowColor = UIColor.black.cgColor // 검정색 사용
+    self.layer.masksToBounds = false
+    self.layer.shadowOffset = CGSize(width: 1, height: 2) //반경
+    self.layer.shadowRadius = 3 // 반경?
+    self.layer.shadowOpacity = 0.2 //
+    
+    addSubview(titleLabel)
+    self.addConstraints([
+      titleLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+      titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+      titleLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1),
+      ])
+  }
+}
 class DynmicHeightCollectionView: UICollectionView {
   
   var isDynamicSizeRequired = false

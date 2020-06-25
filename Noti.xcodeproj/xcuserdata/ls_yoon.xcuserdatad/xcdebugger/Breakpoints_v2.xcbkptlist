@@ -48,7 +48,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "195"
             endingLineNumber = "195"
-            landmarkName = "subscribedChannel(subtitle:source:onSuccess:)"
+            landmarkName = "saveChannels(title:subtitle:source:color:channelTags:group:isSubscribed:onSuccess:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

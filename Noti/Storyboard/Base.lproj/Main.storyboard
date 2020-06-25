@@ -87,13 +87,7 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="DLh-lN-tO1">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="envelope" catalog="system" id="Wgc-te-p69">
-                            <connections>
-                                <action selector="unreadButtonIsSelected:" destination="rSO-Ud-TUV" id="9tI-ZF-kDg"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="DLh-lN-tO1"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QCZ-qg-QQI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -209,6 +203,5 @@
         <image name="Tab1" width="50" height="50"/>
         <image name="Tab2" width="50" height="40"/>
         <image name="Tab3" width="52" height="34"/>
-        <image name="envelope" catalog="system" width="128" height="93"/>
     </resources>
 </document>

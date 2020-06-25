@@ -283,7 +283,6 @@ extension HistoryTableViewController: UICollectionViewDelegate, UICollectionView
         
 //        print("Cell \(indexPath.row) sellected")
         
-        print(channels[indexPath.row].channelTags)
         HistoryTableViewController.selectedChannel = indexPath.row
         HistoryTableViewController.selectedTag = -1
         loadData()

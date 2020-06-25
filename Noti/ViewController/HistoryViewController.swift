@@ -247,6 +247,7 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
                 destination.back2 = title
 
                 destination.url = sectionCards[indexPath.row].url
+
                 destination.json = sectionCards[indexPath.row].json!
                 
                 // 방문할경우 비짓처리하고 테이블뷰 리로드
@@ -258,11 +259,11 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath) as! HomeTableViewCell
-
-        performSegue(withIdentifier: "detailSegue", sender: cell)
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let cell = tableView.cellForRow(at: indexPath) as! HomeTableViewCell
+//
+////        performSegue(withIdentifier: "detailSegue", sender: cell)
+//    }
     
 
 }

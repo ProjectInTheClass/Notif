@@ -3016,6 +3016,11 @@ input, select, textarea {
 	background-repeat: repeat-y;
 }
 
+#third {
+	background-image: url("images/color4.png");
+	background-repeat: repeat-y;
+}
+
 /* Spotlight */
 
 	.spotlight {

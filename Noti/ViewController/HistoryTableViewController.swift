@@ -72,7 +72,6 @@ class HistoryTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadData()
-        //tableView.register(<#T##cellClass: AnyClass?##AnyClass?#>, forCellReuseIdentifier: <#T##String#>)
         navigationItem.title = "전체"
         //네비게이션바 배경색 넣어주는 코드
         navigationItem.largeTitleDisplayMode = .always
@@ -90,7 +89,6 @@ class HistoryTableViewController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         loadData()
-        //HistoryTableViewController.selectedTag = -1
         updateCardsAndTitle()
         channelCollection.reloadData()
         self.tableView.reloadData()

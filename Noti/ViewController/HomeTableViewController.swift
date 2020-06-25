@@ -20,7 +20,7 @@ class HomeTableViewController: UITableViewController {
         let now = dateFormatter.string(from: Date())
                
         let yesterday = dateFormatter.string(from: Calendar.current.date(byAdding: .day, value: -1, to: Date())!)
-        //cards = cardsDataSource.cards.filter{ $0.time <= now && $0.time > yesterday && $0.url != ""}
+
         let allChannels = CoreDataManager.shared.getChannels()
         
         let channels = allChannels.filter{ $0.isSubscribed == true }
@@ -31,11 +31,7 @@ class HomeTableViewController: UITableViewController {
         navigationItem.title = "\(cards.count)개의 새로운 글"
     }
     
-    //var cardsViewController = CardViewController()
-    // 모든 카드 정보(cardsViewController에 있는 카드와 테이블뷰에 뿌릴 카드를 나눔
-//    var cards = cardsDataSource.cards
-    //var cards: [Card] = []
-    // 메세지 버튼(안본거만 뿌려주는 버튼)
+
     var listUnread = false
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -48,7 +44,6 @@ class HomeTableViewController: UITableViewController {
                 destination.date = cell.dateLabel.text
                 destination.back2 = title
                 destination.url = cards[indexPath.row].url
-//                print("!!!!!"+cards[indexPath.row].url)
                 destination.json = cards[indexPath.row].json!
                 
                 // 방문할경우 비짓처리하고 테이블뷰 리로드
@@ -60,10 +55,6 @@ class HomeTableViewController: UITableViewController {
         }
     }
     
-//    @objc func buttonClicked(){
-//            print("message button Clicked!")
-//    //        channels[selectedChannel]
-//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,6 +76,20 @@ class HomeTableViewController: UITableViewController {
         self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
         self.navigationController?.navigationBar.standardAppearance = coloredAppearance
         self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        
+        // 라이트 뷰 생성
+        let rightView = UIView()
+        rightView.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        // rItem이라는 UIBarButtonItem 객체 생성
+        let rItem = UIBarButtonItem(customView: rightView)
+        navigationItem.rightBarButtonItem = rItem
+        // 새로고침 버튼 생성
+        let unreadButton = UIButton(type:.system)
+        unreadButton.frame = CGRect(x:0, y:0, width: 30, height: 30)
+        unreadButton.setImage(UIImage(systemName: "envelope"), for: .normal)
+        unreadButton.addTarget(self, action: #selector(unreadButtonIsSelected), for: .touchUpInside)
+        // 라이트 뷰에 버튼 추가
+        rightView.addSubview(unreadButton)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -112,14 +117,14 @@ class HomeTableViewController: UITableViewController {
         cell.dateLabel.text = cards[indexPath.row].homeFormattedDate
         cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: cards[indexPath.row].color! )
         
-//                cell의 backgroudView 수정
+        // cell의 backgroudView 수정
         let backgrundView = UIView()
         let backView = UIView(frame: CGRect(x: 17, y: 0, width: view.frame.width-34, height: 86))
         backView.backgroundColor = .white
         backgrundView.addSubview(backView)
         cell.backgroundView = backgrundView
         
-//                cell의 selectedBackgroudView 수정
+        // cell의 selectedBackgroudView 수정
         let selectedBackgrundView = UIView()
         let selectView = UIView(frame: CGRect(x: 17, y: 0, width: view.frame.width-34, height: 86))
         selectView.backgroundColor = .selected
@@ -154,15 +159,17 @@ class HomeTableViewController: UITableViewController {
     }
     
     // 메시지 버튼 눌리면 할거
-    @IBAction func unreadButtonIsSelected(_ sender: UIBarButtonItem) {
+    @IBAction func unreadButtonIsSelected(_ sender: UIButton) {
         listUnread.toggle()
         if listUnread{
+            sender.setImage(UIImage(systemName: "envelope.fill"), for: .normal)
             loadData()
             cards = cards.filter{ $0.isVisited == false }
             navigationItem.title = "\(cards.count)개의 새로운 글"
-            
+
         }
         else{
+            sender.setImage(UIImage(systemName: "envelope"), for: .normal)
             loadData()
         }
         tableView.reloadData()

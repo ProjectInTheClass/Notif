@@ -26,10 +26,10 @@ class HistoryViewController: UIViewController{
     func loadData(){
         cards = CoreDataManager.shared.getCards()
         allChannels = CoreDataManager.shared.getChannels()
-        
+        selectedTag = [Int]()
         channels = allChannels.filter{ $0.isSubscribed == true }.sorted{ $0.group!.count < $1.group!.count }
         allTags = CoreDataManager.shared.getTags()
-        date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by: >)
+        date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by : {$0.compare($1) == .orderedDescending})
     }
     
     
@@ -77,8 +77,7 @@ class HistoryViewController: UIViewController{
             cards = filterWithTagCards.filter{ $0.source == channelToChange.source && $0.formattedSource!.contains(channelToChange.subtitle!)}
             navigationItem.title = channelToChange.title
         }
-        
-        date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by: >)
+        date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by : {$0.compare($1) == .orderedDescending})
     }
 
     override func viewDidLoad() {
@@ -153,12 +152,27 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! HomeTableViewCell
             
             cell.titleLabel.text = sectionCards[indexPath.row].title
-            cell.sourceLabel.text = sectionCards[indexPath.row].formattedSource
+            //cell.sourceLabel.text = sectionCards[indexPath.row].formattedSource
+            var tagText = ""
+            if(sectionCards[indexPath.row].tag!.count == 1){
+                tagText += sectionCards[indexPath.row].formattedSource!
+                cell.sourceLabel.textColor = .sourceFont
+            }
+            else{
+                for i in 1..<sectionCards[indexPath.row].tag!.count{
+                               tagText += "#\(sectionCards[indexPath.row].tag![i]) "
+
+                           }
+                cell.sourceLabel.textColor = CoreDataManager.shared.colorWithHexString(hexString:sectionCards[indexPath.row].color!)
+            }
+           
+            cell.sourceLabel.text = tagText
+            
 //            cell.dateLabel.text = sectionCards[indexPath.row].historyCardFormattedDate
             cell.dateLabel.text = ""
             cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionCards[indexPath.row].color!)
             
-            if (cards[indexPath.row].isVisited == true){
+            if (sectionCards[indexPath.row].isVisited == true){
                 cell.cellView.backgroundColor = UIColor(white: 0.95, alpha: 1)
                 cell.cellView.alpha = 0.67
             }else {
@@ -211,30 +225,6 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if (segue.identifier == "detailSegue") {
-//            let destination = segue.destination as! detailViewController
-//            if let cell = sender as? HomeTableViewCell {
-//                guard let indexPath = historyTable.indexPathForSelectedRow else {return}
-//                let date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by: >)
-//                let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section]}
-//                destination.title2 = cell.titleLabel.text
-//                destination.source = cell.sourceLabel.text
-//                destination.date = cell.dateLabel.text
-//                destination.back2 = title
-//                destination.date = sectionCards[indexPath.row].homeFormattedDate
-//
-//                destination.url = sectionCards[indexPath.row].url
-//
-//                print(title, sectionCards[indexPath.row].url)
-//
-//                destination.json = sectionCards[indexPath.row].json!
-//
-//                // 방문할경우 비짓처리하고 테이블뷰 리로드
-//                sectionCards[indexPath.row].isVisited = true
-//                historyTable.reloadData()
-//
-//            }
-//        }
         if (segue.identifier == "detailSegue") {
             let destination = segue.destination as! detailViewController
             if let cell = sender as? HomeTableViewCell {
@@ -307,12 +297,6 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
         }
         else{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tagCollectionCell", for: indexPath) as! TokenListCell
-            /*if(HistoryTableViewController.selectedChannel != 0){
-                cell.tagName.text = "#\( channels[HistoryTableViewController.selectedChannel].channelTags![indexPath.row+1])"
-            }
-            else{
-                cell.tagName.text = "#\( channels[HistoryTableViewController.selectedChannel].channelTags![indexPath.row])"
-            }*/
             if(selectedChannel == 0){
 //                cell.titleLabel.text = "#\( channels[selectedChannel].channelTags![indexPath.row])"
 

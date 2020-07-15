@@ -90,6 +90,7 @@ extension TagViewController: UICollectionViewDelegate, UICollectionViewDataSourc
         token.selected = false
         arr.remove(at: indexPath.item)
         CoreDataManager.shared.removeChannelTag(tag: coreDataTag[indexPath.item].name!){onSuccess in print("saved = \(onSuccess)")}
+        CoreDataManager.shared.removeCardsTag(tag: coreDataTag[indexPath.item].name!){onSuccess in print("saved = \(onSuccess)")}
         CoreDataManager.shared.removeTag(object: coreDataTag[indexPath.item])
         tagCollection.deleteItems(at: [indexPath])
         tagCollection.reloadData()

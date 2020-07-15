@@ -104,7 +104,7 @@ class CoreDataManager{
                 dateFormatter.dateFormat = "yy-MM-dd"
                 // 임시로 보여주기 위해 선언함
                 cards.homeFormattedDate = dateFormatter.string(from: time)
-                dateFormatter.dateFormat = "M.d"
+                dateFormatter.dateFormat = "MM.dd"
                 cards.historyFormattedDate = dateFormatter.string(from: time)
                 dateFormatter.dateFormat = "HH:mm"
                 cards.historyCardFormattedDate = dateFormatter.string(from: time)
@@ -165,7 +165,34 @@ class CoreDataManager{
                    onSuccess(success)
                }
     }
-
+    func removeCardsTag(tag : String, onSuccess: @escaping ((Bool) -> Void)){
+        let fetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
+        var removeTagCard = Card()
+        do {
+            if let results: [Card] = try context?.fetch(fetchRequest) {
+                    
+                       for i in 0..<results.count{
+                           
+                        for j in 1..<results[i].tag!.count{
+                            if(tag == results[i].tag![j]){
+                                removeTagCard = results[i]
+                                let index = removeTagCard.tag?.firstIndex(of: tag)
+                                 removeTagCard.willChangeValue(forKey: "tag")
+                                 removeTagCard.tag?.remove(at: index!)
+                                 removeTagCard.didChangeValue(forKey: "tag")
+                            }
+                        }
+                    }
+                   }
+               } catch let error as NSError {
+                   print("Could not fatch🥺: \(error), \(error.userInfo)")
+                   onSuccess(false)
+               }
+               
+               contextSave { success in
+                   onSuccess(success)
+               }
+    }
     
     func getChannels()->[Channel]{
         //let dateFormatter = DateFormatter()

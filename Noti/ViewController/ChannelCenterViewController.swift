@@ -88,6 +88,7 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
         }
         
         // 그림자 부분
+
         cell.layer.shadowColor = UIColor.black.cgColor // 검정색 사용
         cell.layer.masksToBounds = false
         cell.layer.shadowOffset = CGSize(width: 1, height: 2) //반경

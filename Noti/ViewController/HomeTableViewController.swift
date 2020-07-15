@@ -116,7 +116,7 @@ class HomeTableViewController: UITableViewController {
         cell.sourceLabel.text = cards[indexPath.row].formattedSource
         cell.dateLabel.text = cards[indexPath.row].homeFormattedDate
         cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: cards[indexPath.row].color! )
-        
+        cell.sourceLabel.textColor = .sourceFont
         // cell의 backgroudView 수정
         let backgrundView = UIView()
         let backView = UIView(frame: CGRect(x: 17, y: 0, width: view.frame.width-34, height: 86))

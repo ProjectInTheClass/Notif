@@ -97,9 +97,12 @@ module.exports = {
         .catch(() => new Date(0)); // Function is missing, needs to be deployed
     });
 
-    return BbPromise.all(getFunctionResults)
-      .then(_.min)
-      .then(x => x || null);
+    return BbPromise.all(getFunctionResults).then(results =>
+      results.reduce((currentMin, date) => {
+        if (!currentMin || date < currentMin) return date;
+        return currentMin;
+      }, null)
+    );
   },
 
   getObjectMetadata(objects) {
@@ -156,7 +159,7 @@ module.exports = {
 
         // If any objects were changed after the last time the function was updated
         // there could have been a failed deploy.
-        const changedAfterDeploy = _.some(objects, object => {
+        const changedAfterDeploy = objects.some(object => {
           return object.LastModified && object.LastModified > funcLastModifiedDate;
         });
 

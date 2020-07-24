@@ -172,14 +172,17 @@ class CoreDataManager{
             if let results: [Card] = try context?.fetch(fetchRequest) {
                     
                        for i in 0..<results.count{
-                           
+                        if(results[i].tag!.count==1){
+                            continue
+                        }
                         for j in 1..<results[i].tag!.count{
-                            if(tag == results[i].tag![j]){
+                             if(tag == results[i].tag![j]){
                                 removeTagCard = results[i]
                                 let index = removeTagCard.tag?.firstIndex(of: tag)
                                  removeTagCard.willChangeValue(forKey: "tag")
                                  removeTagCard.tag?.remove(at: index!)
                                  removeTagCard.didChangeValue(forKey: "tag")
+                                break;
                             }
                         }
                     }
@@ -278,7 +281,6 @@ class CoreDataManager{
                         if((results[i].channelTags?.contains(tag))!){
                             removeTagChannel = results[i]
                             let index = removeTagChannel.channelTags?.firstIndex(of: tag)
-                           
                             removeTagChannel.willChangeValue(forKey: "channelTags")
                             removeTagChannel.channelTags?.remove(at: index!)
                             removeTagChannel.didChangeValue(forKey: "channelTags")
@@ -437,7 +439,6 @@ class CoreDataManager{
                     var tag = [""]
                     for tagNum in 0..<tags.count{
                         if(cardTitle.contains(tags[tagNum].name!)){
-                            print("appendTag!")
                             tag.append(tags[tagNum].name!)
                             CoreDataManager.shared.addChannelTag(subtitle: card["category"] as! String, source: card["source"] as! String, tag: tags[tagNum].name!){ onSuccess in print("saved = \(onSuccess)")}
                         }
@@ -460,6 +461,7 @@ extension CoreDataManager {
         fetchRequest.predicate = NSPredicate(format: "url = %@", NSString(string: url))
         return fetchRequest
     }
+    
     fileprivate func filteredChannel(subtitle: String, source: String) -> NSFetchRequest<NSFetchRequestResult> {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult>
             = NSFetchRequest<NSFetchRequestResult>(entityName: "Channel")

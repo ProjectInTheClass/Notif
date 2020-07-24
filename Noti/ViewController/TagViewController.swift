@@ -11,7 +11,7 @@ import UIKit
 class TagViewController: UIViewController {
 
     var arr = [Tag]()
-    let coreDataTag = CoreDataManager.shared.getTags()
+    var coreDataTag = CoreDataManager.shared.getTags()
     @IBOutlet weak var tagCollection: DynmicHeightCollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,23 +20,19 @@ class TagViewController: UIViewController {
         for num in 0..<coreDataTag.count {
             arr.append(Tag(title: coreDataTag[num].name!, time: coreDataTag[num].time! as NSDate, selected: false))
         }
-        /*for (_,str) in ["취업", "인턴", "카카오", "삼성전자", "수강신청", "장애학생도우미", "장학금", "일반대학원", "채용연계", "Generics", "Error", "Deinitialization"].enumerated() {
-            arr.append(Tag(title: str, time: NSDate(), selected: false))
-        }*/
-        
     }
     
 // 추가버튼 눌렸을때
     @IBAction func addPressed(_ sender: Any) {
         let alertController = UIAlertController(title: "태그 추가하기", message: "추가할 태그의 이름을 입력해주세요", preferredStyle: .alert)
         alertController.addTextField{(textField) in textField.placeholder = "태그 이름 입력"}
-
+        
         let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
             let textField = alertController.textFields![0]
             if let newTag = textField.text, newTag != "" {
-//                guard self.arr.map({ $0.title }).contains(newTag) else {
-//
-//                }
+                if(newTag.contains(" ")){
+                    return  
+                }
                 for i in 0..<self.arr.count{
                     if self.arr[i].title == newTag{
                         return
@@ -95,7 +91,7 @@ extension TagViewController: UICollectionViewDelegate, UICollectionViewDataSourc
         tagCollection.deleteItems(at: [indexPath])
         tagCollection.reloadData()
         tagCollection.collectionViewLayout.invalidateLayout()
-
+        coreDataTag = CoreDataManager.shared.getTags()
     }
 
 }

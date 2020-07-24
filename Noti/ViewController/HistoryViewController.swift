@@ -66,7 +66,6 @@ class HistoryViewController: UIViewController{
            else{
                 for i in 0..<selectedTag.count{
                     let tmpCards = allCards.filter{$0.title!.contains(channels[selectedChannel].channelTags![selectedTag[i]+1])}
-                     print(channels[selectedChannel].channelTags![selectedTag[i]+1])
                     for j in 0..<tmpCards.count{
                         filterWithTagCards.append(tmpCards[j])
                     }
@@ -157,16 +156,28 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
             if(sectionCards[indexPath.row].tag!.count == 1){
                 tagText += sectionCards[indexPath.row].formattedSource!
                 cell.sourceLabel.textColor = .sourceFont
+                cell.sourceLabel.text = tagText
             }
             else{
                 for i in 1..<sectionCards[indexPath.row].tag!.count{
                                tagText += "#\(sectionCards[indexPath.row].tag![i]) "
 
-                           }
-                cell.sourceLabel.textColor = CoreDataManager.shared.colorWithHexString(hexString:sectionCards[indexPath.row].color!)
+                    }
+                cell.sourceLabel.text = tagText
+                if(selectedTag.count != 0){
+                    let attributedStr = NSMutableAttributedString(string: tagText)
+                    for j in 1..<(selectedTag.count+1){
+                        print(j)
+                        if(((sectionCards[indexPath.row].tag?.contains(channels[selectedChannel].channelTags![selectedTag[j-1] ]))!)){
+                            attributedStr.addAttribute(.foregroundColor, value: CoreDataManager.shared.colorWithHexString  (hexString:sectionCards[indexPath.row].color!), range:(cell.sourceLabel.text! as NSString).range(of:"#\( channels[selectedChannel].channelTags![selectedTag[j-1]])"))
+                            print(channels[selectedChannel].channelTags![selectedTag[j-1]])
+                        }
+                        
+                    }
+                    cell.sourceLabel.attributedText = attributedStr
+                }
             }
-           
-            cell.sourceLabel.text = tagText
+            //cell.sourceLabel.text = tagText
             
 //            cell.dateLabel.text = sectionCards[indexPath.row].historyCardFormattedDate
             cell.dateLabel.text = ""
@@ -340,11 +351,9 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
         else{
             if(selectedTag.contains(indexPath.row)){
                 let index = selectedTag.firstIndex(of: indexPath.row)!
-                print("\(selectedTag[index]) remove!")
                 selectedTag.remove(at: index)
             }
             else{
-                print("\(indexPath.row) add!")
                 selectedTag.append(indexPath.row)
                 
             }

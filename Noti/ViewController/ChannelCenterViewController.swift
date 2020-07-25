@@ -37,12 +37,16 @@ class ChannelCenterViewController: UIViewController {
         //네비게이션바 배경색 넣어주는 코드
         let coloredAppearance = UINavigationBarAppearance()
         coloredAppearance.configureWithOpaqueBackground()
-        coloredAppearance.backgroundColor = UIColor.navBack
-        coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.navFont]
-        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.navFont]
+//        coloredAppearance.backgroundColor = UIColor.navBack
+        coloredAppearance.backgroundColor = .red
+//        coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.navFont]
+//        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.navFont]
         self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
+        coloredAppearance.backgroundColor = .blue
         self.navigationController?.navigationBar.standardAppearance = coloredAppearance
-        
+        coloredAppearance.backgroundColor = .green
+        self.navigationController?.navigationBar.compactAppearance = coloredAppearance
+//        
     }
     
     /*

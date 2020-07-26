@@ -50,7 +50,6 @@ class TagViewController: UIViewController {
             }
 
         }
-
         let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
         }
         alertController.addAction(confirmAction)

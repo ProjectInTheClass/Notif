@@ -23,7 +23,7 @@ class AwsCompileStreamEvents {
       return false;
     }
     const intrinsicFunctions = ['Fn::ImportValue', 'Ref', 'Fn::GetAtt', 'Fn::Sub', 'Fn::Join'];
-    return intrinsicFunctions.some(cfInstructionName => variable[cfInstructionName] !== undefined);
+    return intrinsicFunctions.some(cfInstructionName => variable[cfInstructionName]);
   }
 
   resolveInvalidDestinationPropertyErrorMessage(functionName, property) {
@@ -124,11 +124,11 @@ class AwsCompileStreamEvents {
                 if (
                   Object.keys(event.stream.arn).length !== 1 ||
                   !(
-                    _.has(event.stream.arn, 'Fn::ImportValue') ||
-                    _.has(event.stream.arn, 'Fn::GetAtt') ||
-                    (_.has(event.stream.arn, 'Ref') &&
-                      _.has(this.serverless.service.resources.Parameters, event.stream.arn.Ref)) ||
-                    _.has(event.stream.arn, 'Fn::Join')
+                    event.stream.arn['Fn::ImportValue'] ||
+                    event.stream.arn['Fn::GetAtt'] ||
+                    (event.stream.arn.Ref &&
+                      this.serverless.service.resources.Parameters[event.stream.arn.Ref]) ||
+                    event.stream.arn['Fn::Join']
                   )
                 ) {
                   const errorMessage = [
@@ -263,6 +263,11 @@ class AwsCompileStreamEvents {
             if (event.stream.bisectBatchOnFunctionError != null) {
               streamResource.Properties.BisectBatchOnFunctionError =
                 event.stream.bisectBatchOnFunctionError;
+            }
+
+            if (event.stream.maximumRecordAgeInSeconds) {
+              streamResource.Properties.MaximumRecordAgeInSeconds =
+                event.stream.maximumRecordAgeInSeconds;
             }
 
             if (event.stream.destinations) {

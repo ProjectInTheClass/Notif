@@ -5,16 +5,21 @@ const cheerio = require('cheerio');
 const iconv = require('iconv-lite');
 const mysql = require('mysql');
 const xml2js = require('xml2js');
+const AWS = require('aws-sdk');
+
+AWS.config.update({region: 'ap-northeast-2'});
 
 module.exports.crawler = (event, context, callback) => {
-	csLoop(1, 'info_board');
-	csLoop(1, 'job_board');
 	hyLoop(1, 1);
 	// portalLoop();
 	bsLoop(1);
 	meLoop(1);
+	csLoop(1, 'info_board');
+	csLoop(1, 'job_board');
 
 	function hyLoop(category, page) {
+		const categories = ['', '학사', '입학', '모집/채용', '사회봉사', '일반','산학/연구', '행사', '장학', '학회/세미나'];
+		const dbCategories = ['', 'hyhs', 'hyih', 'hymjcy', 'hyshbs', 'hyib', 'hyshyg', 'hyhs2', 'hyjh', 'hyhhsmn'];
 		const url = 'https://www.hanyang.ac.kr/web/www/notice_all?p_p_id=viewNotice_WAR_noticeportlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_viewNotice_WAR_noticeportlet_sCategoryId='+ category +'&_viewNotice_WAR_noticeportlet_sCurPage='+ page +'&_viewNotice_WAR_noticeportlet_action=view';
 		request({url: url,encoding: null},
 			function (error, res, body) {
@@ -27,37 +32,7 @@ module.exports.crawler = (event, context, callback) => {
 					data.title = $(this).find('a').eq(0).text();
 					data.url = 'https://www.hanyang.ac.kr/web/www/notice_all?p_p_id=viewNotice_WAR_noticeportlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_viewNotice_WAR_noticeportlet_sCategoryId=1&_viewNotice_WAR_noticeportlet_sCurPage=1&_viewNotice_WAR_noticeportlet_sUserId=0&_viewNotice_WAR_noticeportlet_action=view_message&_viewNotice_WAR_noticeportlet_messageId=' + $(this).find('a').eq(0).attr('href').split(rex)[1]
 					data.source = '한양대학교'
-					switch (category) {
-						case 1: 
-							data.category = '학사'
-							break;
-						case 2:
-							data.category = '입학'
-							break;
-						case 3:
-							data.category = '모집/채용'
-							break;
-						case 4:
-							data.category = '사회봉사'
-							break;
-						case 5:
-							data.category = '일반'
-							break;
-						case 6:
-							data.category = '산학/연구'
-							break;
-						case 7:
-							data.category = '행사'
-							break;
-						case 8:
-							data.category = '장학'
-							break;
-						case 9:
-							data.category = '학회/세미나'
-							break;
-						default:
-							data.category = ''
-					}
+					data.category = categories[category];
 					data.time = $(this).find('.notice-date').eq(0).text().trim().replace(/\./gi, '-').substring(2,10)
 					data.json = '';
 					
@@ -75,15 +50,45 @@ module.exports.crawler = (event, context, callback) => {
 	
 				var sql = 'INSERT IGNORE INTO Cards (title, url, source, category, time_, json_) VALUES ?;';
 				connection.query(sql, [sqlList],function(err, rows, fields) {
-					connection.end();
+					// connection.end();
 					if(err) {
 						console.log(err);
 					} else {
 						console.log(rows);
 						if (rows.changedRows != 10){
-							// if(pagenum == 3) return;
-							hyLoop(category, page+1);
+							var sql = 'SELECT endpointarn FROM PushNoti WHERE ' +dbCategories[category]+' = 1';
+							connection.query(sql, function(err, result, fields) {
+								connection.end();
+								if (err) throw err;
+								else {
+									for(var i in result) {
+										// Create publish parameters
+										var params = {
+											MessageStructure: "json",
+											Message: JSON.stringify({
+											"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[i][3] +"-한양대학교\", \"body\" : \""+ sqlList[i][0] +"\"}}}"
+											}), /* required */
+											TargetArn: result[i].endpointarn
+										};
+									
+										// Create promise and SNS service object
+										var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
+										
+										// Handle promise's fulfilled/rejected states
+										publishTextPromise.then(
+											function(data) {
+											console.log(`Message ${params.Message} send sent to the topic ${params.TopicArn}`);
+											console.log("MessageID is " + data.MessageId);
+											}).catch(
+											function(err) {
+											console.error(err, err.stack);
+											});
+									}
+									hyLoop(category, page+1);
+								}
+							});
 						} else {
+							connection.end();
 							if (category == 9) return;
 							hyLoop(category+1, 1);
 						}
@@ -151,17 +156,46 @@ module.exports.crawler = (event, context, callback) => {
 	
 				var sql = 'INSERT IGNORE INTO Cards (title, url, source, category, time_, json_) VALUES ?;';
 				connection.query(sql, [sqlList],function(err, rows, fields) {
-					connection.end();
+					// connection.end();
 					if(err) {
 						console.log(err);
 					} else {
 						console.log(rows);
 						if (rows.changedRows != 10){
-							// if(pagenum == 3) return;
-							pagenum += 1;
-							meLoop(pagenum);
+							var sql = 'SELECT endpointarn FROM PushNoti WHERE megjsh = 1';
+							connection.query(sql, function(err, result, fields) {
+								connection.end();
+								if (err) throw err;
+								else {
+									for(var i in result) {
+										// Create publish parameters
+										var params = {
+											MessageStructure: "json",
+											Message: JSON.stringify({
+											"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[i][3] +"-기계공학부\", \"body\" : \""+ sqlList[i][0] +"\"}}}"
+											}), /* required */
+											TargetArn: result[i].endpointarn
+										};
+									
+										// Create promise and SNS service object
+										var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
+										
+										// Handle promise's fulfilled/rejected states
+										publishTextPromise.then(
+											function(data) {
+											console.log(`Message ${params.Message} send sent to the topic ${params.TopicArn}`);
+											console.log("MessageID is " + data.MessageId);
+											}).catch(
+											function(err) {
+											console.error(err, err.stack);
+											});
+									}
+									meLoop(pagenum+1);
+								}
+							});
+						} else {
+							connection.end();
 						}
-						
 					}
 				});
 		});
@@ -213,15 +247,45 @@ module.exports.crawler = (event, context, callback) => {
 
 				var sql = 'INSERT IGNORE INTO Cards (title, url, source, category, time_, json_) VALUES ?;';
 				connection.query(sql, [sqlList],function(err, rows, fields) {
-					connection.end();
+					// connection.end();
 					if(err) {
 						console.log(err);
 					} else {
 						console.log(rows);
 						if (rows.changedRows != 25){
-							// if(pagenum == 3) return;
-							pagenum += 1;
-							bsLoop(pagenum);
+							var sql = 'SELECT endpointarn FROM PushNoti WHERE bsgjsh = 1';
+							connection.query(sql, function(err, result, fields) {
+								connection.end();
+								if (err) throw err;
+								else {
+									for(var i in result) {
+										// Create publish parameters
+										var params = {
+											MessageStructure: "json",
+											Message: JSON.stringify({
+											"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[i][3] +"-경영학부\", \"body\" : \""+ sqlList[i][0] +"\"}}}"
+											}), /* required */
+											TargetArn: result[i].endpointarn
+										};
+									
+										// Create promise and SNS service object
+										var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
+										
+										// Handle promise's fulfilled/rejected states
+										publishTextPromise.then(
+											function(data) {
+											console.log(`Message ${params.Message} send sent to the topic ${params.TopicArn}`);
+											console.log("MessageID is " + data.MessageId);
+											}).catch(
+											function(err) {
+											console.error(err, err.stack);
+											});
+									}
+									bsLoop(pagenum+1);
+								}
+							});
+						} else {
+							connection.end();
 						}
 						
 					}
@@ -341,16 +405,48 @@ module.exports.crawler = (event, context, callback) => {
 
 				var sql = 'INSERT IGNORE INTO Cards (title, url, source, category, time_, json_) VALUES ?;';
 				connection.query(sql, [sqlList],function(err, rows, fields) {
-					connection.end();
+					// connection.end();
 					if(err) {
 						console.log(err);
 					} else {
 						console.log(rows);
 						if (rows.changedRows != 20){
-							pagenum += 1;
-							csLoop(pagenum, boardname);
+							var sql = 'SELECT endpointarn FROM PushNoti WHERE ' + (boardname == 'info_board' ? 'cshsib' : 'cscujb') +' = 1';
+							connection.query(sql, function(err, result, fields) {
+								connection.end();
+								if (err) throw err;
+								else {
+									for(var i in result) {
+										// Create publish parameters
+										var params = {
+											MessageStructure: "json",
+											Message: JSON.stringify({
+											"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[i][3] +"-컴퓨터소프트웨어학부\", \"body\" : \""+ sqlList[i][0] +"\"}}}"
+											}), /* required */
+											TargetArn: result[i].endpointarn
+										};
+									
+										// Create promise and SNS service object
+										var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
+										
+										// Handle promise's fulfilled/rejected states
+										publishTextPromise.then(
+											function(data) {
+											console.log(`Message ${params.Message} send sent to the topic ${params.TopicArn}`);
+											console.log("MessageID is " + data.MessageId);
+											}).catch(
+											function(err) {
+											console.error(err, err.stack);
+											});
+									}
+									csLoop(pagenum + 1, boardname);
+								}
+							});
 						} else if (boardname == 'job_board') {
+							connection.end();
 							callback(null, response);
+						} else {
+							connection.end();
 						}
 					}
 				});

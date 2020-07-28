@@ -56,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Convert token to string (디바이스 토큰 값을 가져옵니다.)
         let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02x", $1)})        // Print it to console(토큰 값을 콘솔창에 보여줍니다. 이 토큰값으로 푸시를 전송할 대상을 정합니다.)
         print("APNs device token: \(deviceTokenString)")
-        
+        CoreDataManager.shared.saveToken(token: deviceTokenString){ onSuccess in print("saved = \(onSuccess)")}
         guard let url = URL(string: "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/token/" + deviceTokenString ) else {return }
         
         var request = URLRequest(url: url)

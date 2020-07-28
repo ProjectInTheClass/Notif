@@ -10,12 +10,13 @@ const AWS = require('aws-sdk');
 AWS.config.update({region: 'ap-northeast-2'});
 
 
-// csLoop(1, 'info_board');
-// csLoop(1, 'job_board');
-//portalLoop();
-// bsLoop(1);
+csLoop(1, 'info_board');
+csLoop(1, 'job_board');
+portalLoop();
+bsLoop(1);
 meLoop(1);
-// hyLoop(1, 1);
+hyLoop(1, 1);
+
 
 function hyLoop(category, page) {
     const categories = ['', '학사', '입학', '모집/채용', '사회봉사', '일반','산학/연구', '행사', '장학', '학회/세미나'];
@@ -58,13 +59,13 @@ function hyLoop(category, page) {
                     console.log(rows);
                     if (rows.changedRows != 10){
                         // if(pagenum == 3) return;
-                        var connection = mysql.createConnection({
-                            host : 'noti.c0pwj79j83nj.ap-northeast-2.rds.amazonaws.com',
-                            user : 'admin',
-                            password: 'notinoti',
-                            port : 3306,
-                            database : 'noti'
-                        });
+                        // var connection = mysql.createConnection({
+                        //     host : 'noti.c0pwj79j83nj.ap-northeast-2.rds.amazonaws.com',
+                        //     user : 'admin',
+                        //     password: 'notinoti',
+                        //     port : 3306,
+                        //     database : 'noti'
+                        // });
 
                         var sql = 'SELECT endpointarn FROM PushNoti WHERE ' +dbCategories[category]+' = 1';
                         connection.query(sql, function(err, result, fields) {
@@ -98,6 +99,7 @@ function hyLoop(category, page) {
                             }
                         });
                     } else {
+                        connection.end();
                         if (category == 9) return;
                         hyLoop(category+1, 1);
                     }
@@ -171,13 +173,6 @@ function meLoop(pagenum) {
                 } else {
                     console.log(rows);
                     if (rows.changedRows != 10){
-                        var connection = mysql.createConnection({
-                            host : 'noti.c0pwj79j83nj.ap-northeast-2.rds.amazonaws.com',
-                            user : 'admin',
-                            password: 'notinoti',
-                            port : 3306,
-                            database : 'noti'
-                        });
 
                         var sql = 'SELECT endpointarn FROM PushNoti WHERE megjsh = 1';
                         connection.query(sql, function(err, result, fields) {
@@ -269,14 +264,6 @@ function bsLoop(pagenum) {
                 } else {
                     console.log(rows);
                     if (rows.changedRows != 25){
-                        var connection = mysql.createConnection({
-                            host : 'noti.c0pwj79j83nj.ap-northeast-2.rds.amazonaws.com',
-                            user : 'admin',
-                            password: 'notinoti',
-                            port : 3306,
-                            database : 'noti'
-                        });
-
                         var sql = 'SELECT endpointarn FROM PushNoti WHERE bsgjsh = 1';
                         connection.query(sql, function(err, result, fields) {
                             connection.end();
@@ -473,14 +460,6 @@ function portalLoop() {
 					} else {
 						console.log(rows);
 						if (rows.changedRows != 20){
-							var connection = mysql.createConnection({
-								host : 'noti.c0pwj79j83nj.ap-northeast-2.rds.amazonaws.com',
-								user : 'admin',
-								password: 'notinoti',
-								port : 3306,
-								database : 'noti'
-							});
-
 							var sql = 'SELECT endpointarn FROM PushNoti WHERE ' + (boardname == 'info_board' ? 'cshsib' : 'cscujb') +' = 1';
 							connection.query(sql, function(err, result, fields) {
 								connection.end();
@@ -512,8 +491,9 @@ function portalLoop() {
 									csLoop(pagenum + 1, boardname);
 								}
 							});
-						} else if (boardname == 'job_board') {
-							return;
+                        } else if (boardname == 'job_board') {
+                            connection.end();
+							process.exit();
 						}
 					}
 				});

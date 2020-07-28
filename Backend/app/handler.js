@@ -56,15 +56,6 @@ module.exports.crawler = (event, context, callback) => {
 					} else {
 						console.log(rows);
 						if (rows.changedRows != 10){
-							// if(pagenum == 3) return;
-							var connection = mysql.createConnection({
-								host : 'noti.c0pwj79j83nj.ap-northeast-2.rds.amazonaws.com',
-								user : 'admin',
-								password: 'notinoti',
-								port : 3306,
-								database : 'noti'
-							});
-
 							var sql = 'SELECT endpointarn FROM PushNoti WHERE ' +dbCategories[category]+' = 1';
 							connection.query(sql, function(err, result, fields) {
 								connection.end();
@@ -97,6 +88,7 @@ module.exports.crawler = (event, context, callback) => {
 								}
 							});
 						} else {
+							connection.end();
 							if (category == 9) return;
 							hyLoop(category+1, 1);
 						}
@@ -170,14 +162,6 @@ module.exports.crawler = (event, context, callback) => {
 					} else {
 						console.log(rows);
 						if (rows.changedRows != 10){
-							var connection = mysql.createConnection({
-								host : 'noti.c0pwj79j83nj.ap-northeast-2.rds.amazonaws.com',
-								user : 'admin',
-								password: 'notinoti',
-								port : 3306,
-								database : 'noti'
-							});
-
 							var sql = 'SELECT endpointarn FROM PushNoti WHERE megjsh = 1';
 							connection.query(sql, function(err, result, fields) {
 								connection.end();
@@ -209,6 +193,8 @@ module.exports.crawler = (event, context, callback) => {
 									meLoop(pagenum+1);
 								}
 							});
+						} else {
+							connection.end();
 						}
 					}
 				});
@@ -267,14 +253,6 @@ module.exports.crawler = (event, context, callback) => {
 					} else {
 						console.log(rows);
 						if (rows.changedRows != 25){
-							var connection = mysql.createConnection({
-								host : 'noti.c0pwj79j83nj.ap-northeast-2.rds.amazonaws.com',
-								user : 'admin',
-								password: 'notinoti',
-								port : 3306,
-								database : 'noti'
-							});
-
 							var sql = 'SELECT endpointarn FROM PushNoti WHERE bsgjsh = 1';
 							connection.query(sql, function(err, result, fields) {
 								connection.end();
@@ -306,6 +284,8 @@ module.exports.crawler = (event, context, callback) => {
 									bsLoop(pagenum+1);
 								}
 							});
+						} else {
+							connection.end();
 						}
 						
 					}
@@ -431,14 +411,6 @@ module.exports.crawler = (event, context, callback) => {
 					} else {
 						console.log(rows);
 						if (rows.changedRows != 20){
-							var connection = mysql.createConnection({
-								host : 'noti.c0pwj79j83nj.ap-northeast-2.rds.amazonaws.com',
-								user : 'admin',
-								password: 'notinoti',
-								port : 3306,
-								database : 'noti'
-							});
-
 							var sql = 'SELECT endpointarn FROM PushNoti WHERE ' + (boardname == 'info_board' ? 'cshsib' : 'cscujb') +' = 1';
 							connection.query(sql, function(err, result, fields) {
 								connection.end();
@@ -471,7 +443,10 @@ module.exports.crawler = (event, context, callback) => {
 								}
 							});
 						} else if (boardname == 'job_board') {
+							connection.end();
 							callback(null, response);
+						} else {
+							connection.end();
 						}
 					}
 				});

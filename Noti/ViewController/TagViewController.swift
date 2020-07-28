@@ -44,7 +44,7 @@ class TagViewController: UIViewController {
                 CoreDataManager.shared.addChannelTag(subtitle: "전체", source: "전체", tag: newTag){onSuccess in print("saved = \(onSuccess)")}
                 let indexPath = IndexPath(row: self.arr.count - 1, section: 0)
                 self.tagCollection.insertItems(at: [indexPath])
-
+                self.coreDataTag = CoreDataManager.shared.getTags()
                 self.tagCollection.reloadData()
                 self.tagCollection.collectionViewLayout.invalidateLayout()
             }

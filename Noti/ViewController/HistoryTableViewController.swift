@@ -10,10 +10,11 @@ import UIKit
 import CoreData
 
 class HistoryTableViewController: UITableViewController {
-    static var selectedTag = -1
-    static var selectedChannel = 0
+    var selectedChannel = 0
+    var selectedTag = [Int]()
     @IBOutlet weak var channelCollection: UICollectionView!
     
+    @IBOutlet weak var tagCollectionView: UICollectionView!
         var cards = [Card]()
         var allChannels = [Channel]()
         var channels = [Channel]()
@@ -31,34 +32,50 @@ class HistoryTableViewController: UITableViewController {
         }
     
         func updateCardsAndTitle(){
-            if HistoryTableViewController.selectedChannel == 0 {
-                let channelToChange = channels[HistoryTableViewController.selectedChannel]
-    //            cards = CoreDataManager.shared.getCards()
-                let allCards = CoreDataManager.shared.getCards()
-                cards = allCards.filter{(card) -> Bool in
-                    return channels.filter{(channel) -> Bool in
-                        return (channel.source == "" || (channel.source == card.source)) && card.formattedSource!.contains(channel.subtitle!)}.count != 0}
-                navigationItem.title = channelToChange.title
-            }else{
-                let channelToChange = channels[HistoryTableViewController.selectedChannel]
-                let allCards = CoreDataManager.shared.getCards()
-                
-                if(HistoryTableViewController.selectedTag == -1){
-                    cards = allCards.filter{channelToChange.source! == "" || (($0.source! == channelToChange.source!)) && $0.formattedSource!.contains(channelToChange.subtitle!)}
-                    navigationItem.title = channelToChange.title
-                }
-                else{
-                    let tagCards = allCards.filter{$0.title!.contains(channelToChange.channelTags![HistoryTableViewController.selectedTag+1])}
-                    print("\(channelToChange.channelTags![HistoryTableViewController.selectedTag+1])!!")
-                    cards = tagCards.filter{channelToChange.source! == "" || (($0.source! == channelToChange.source!)) && $0.formattedSource!.contains(channelToChange.subtitle!)}
-                }
-                //cards = allCards.filter{channelToChange.source! == "" || (($0.source! == channelToChange.source!)) && $0.formattedSource!.contains(channelToChange.subtitle!)}
-                navigationItem.title = channelToChange.title
-            }
-            
-            date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by: >)
+             let allCards = CoreDataManager.shared.getCards()
+                    var filterWithTagCards = [Card]()
+                    
+                    if selectedChannel == 0 {
+                        if(selectedTag.count == 0){
+                            filterWithTagCards = allCards
+                        }
+                        else{
+                            for i in 0..<selectedTag.count{
+                                let tmpCards = allCards.filter{$0.title!.contains(channels[selectedChannel].channelTags![selectedTag[i]])}
+                                for j in 0..<tmpCards.count{
+                                    filterWithTagCards.append(tmpCards[j])
+                                }
+                            }
+                            
+                        }
+                        let channelToChange = channels[selectedChannel]
+            //            cards = CoreDataManager.shared.getCards()
+                        
+                        cards = filterWithTagCards.filter{(card) -> Bool in
+                            return channels.filter{(channel) -> Bool in
+                                return channel.source == card.source && card.formattedSource!.contains(channel.subtitle!)}.count != 0}
+                        navigationItem.title = channelToChange.title
+                    }else{
+                        if(selectedTag.count == 0){
+                            filterWithTagCards = allCards
+                        }
+                       else{
+                            for i in 0..<selectedTag.count{
+                                let tmpCards = allCards.filter{$0.title!.contains(channels[selectedChannel].channelTags![selectedTag[i]+1])}
+                                for j in 0..<tmpCards.count{
+                                    filterWithTagCards.append(tmpCards[j])
+                                }
+                            }
+                        }
+                        let channelToChange = channels[selectedChannel]
+                        //let allCards = CoreDataManager.shared.getCards()
+                        cards = filterWithTagCards.filter{ $0.source == channelToChange.source && $0.formattedSource!.contains(channelToChange.subtitle!)}
+                        navigationItem.title = channelToChange.title
+                    }
+                    
+                    date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by: >)
             // Source label 추가
-            let source = NSAttributedString(string: channels[HistoryTableViewController.selectedChannel].source!, attributes: [.font : UIFont.boldSystemFont(ofSize: 20), .foregroundColor: UIColor.sourceFont])
+            let source = NSAttributedString(string: channels[selectedChannel].source!, attributes: [.font : UIFont.boldSystemFont(ofSize: 20), .foregroundColor: UIColor.sourceFont])
             let rightView = UIView()
             rightView.frame = CGRect(x: 0, y: 0, width: .bitWidth, height: 70)
             rItem = UIBarButtonItem(customView: rightView)
@@ -119,11 +136,6 @@ class HistoryTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if(indexPath.section == 0){
-            let cell = tableView.dequeueReusableCell(withIdentifier: "tagCollection", for: indexPath) as! TagCollectionTableViewCell
-            cell.loaddata()
-            return cell
-        }
             let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section-1]}
         //print(indexPath.section)
             if (sectionCards[indexPath.row].url != ""){
@@ -264,7 +276,7 @@ extension HistoryTableViewController: UICollectionViewDelegate, UICollectionView
         cell.titleLabel.text = channels[indexPath.row].subtitle
         cell.colorLabel.text = channels[indexPath.row].subtitle
         cell.colorLabel.textColor = .clear
-        if (HistoryTableViewController.selectedChannel==indexPath.row) {
+        if (selectedChannel==indexPath.row) {
             cell.titleLabel.textColor = UIColor.navFont
             cell.colorLabel.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString:channels[indexPath.row].color!)
 
@@ -277,12 +289,23 @@ extension HistoryTableViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        arr = arrList[indexPath.row]
-        
-//        print("Cell \(indexPath.row) sellected")
-        
-        HistoryTableViewController.selectedChannel = indexPath.row
-        HistoryTableViewController.selectedTag = -1
+        if(collectionView == self.channelCollection){
+            selectedChannel = indexPath.row
+            selectedTag = [Int]()
+        }
+        else{
+            if(selectedTag.contains(indexPath.row)){
+                let index = selectedTag.firstIndex(of: indexPath.row)!
+                print("\(selectedTag[index]) remove!")
+                selectedTag.remove(at: index)
+            }
+            else{
+                print("\(indexPath.row) add!")
+                selectedTag.append(indexPath.row)
+                
+            }
+           
+        }
         loadData()
         updateCardsAndTitle()
         channelCollection.reloadData()

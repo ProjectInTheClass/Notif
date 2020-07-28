@@ -34,6 +34,9 @@ class ChannelCenterViewController: UIViewController {
         //updateChannels()
         //categories = Array(Set(channels.map{$0.source!})).sorted(by: >)
         let coloredAppearance = UINavigationBarAppearance()
+       coloredAppearance.configureWithOpaqueBackground()
+       coloredAppearance.backgroundColor = UIColor.navBack
+
         if self.traitCollection.userInterfaceStyle == .dark{
             coloredAppearance.configureWithOpaqueBackground()
             self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
@@ -48,9 +51,6 @@ class ChannelCenterViewController: UIViewController {
             self.navigationController?.navigationBar.standardAppearance = coloredAppearance
         }
         //네비게이션바 배경색 넣어주는 코드
-        
-        
-        
     }
     
     /*

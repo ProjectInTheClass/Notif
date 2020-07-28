@@ -160,7 +160,7 @@ module.exports = {
       }
     });
 
-    if (_.includes(vpcConfigProvided, true) || this.serverless.service.provider.vpc) {
+    if (vpcConfigProvided.includes(true) || this.serverless.service.provider.vpc) {
       // add managed iam policy to allow ENI management
       this.mergeManagedPolicies([
         {
@@ -183,7 +183,7 @@ module.exports = {
     const resource = this.serverless.service.provider.compiledCloudFormationTemplate.Resources[
       this.provider.naming.getRoleLogicalId()
     ].Properties;
-    if (!_.has(resource, 'ManagedPolicyArns') || _.isEmpty(resource.ManagedPolicyArns)) {
+    if (!Array.isArray(resource.ManagedPolicyArns)) {
       resource.ManagedPolicyArns = [];
     }
     resource.ManagedPolicyArns = resource.ManagedPolicyArns.concat(managedPolicies);
@@ -204,7 +204,7 @@ module.exports = {
           ['Effect'],
           ['Action', 'NotAction'],
           ['Resource', 'NotResource'],
-        ].filter(props => props.every(prop => statement[prop] === undefined));
+        ].filter(props => props.every(prop => !statement[prop]));
         return missing.length === 0
           ? null
           : `statement ${i} is missing the following properties: ${missing

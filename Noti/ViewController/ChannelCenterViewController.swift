@@ -33,15 +33,23 @@ class ChannelCenterViewController: UIViewController {
         navigationItem.title = "채널센터"
         //updateChannels()
         //categories = Array(Set(channels.map{$0.source!})).sorted(by: >)
-        
-        //네비게이션바 배경색 넣어주는 코드
         let coloredAppearance = UINavigationBarAppearance()
-        coloredAppearance.configureWithOpaqueBackground()
-        coloredAppearance.backgroundColor = UIColor.navBack
-        coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.navFont]
-        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.navFont]
-        self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
-        self.navigationController?.navigationBar.standardAppearance = coloredAppearance
+        if self.traitCollection.userInterfaceStyle == .dark{
+            coloredAppearance.configureWithOpaqueBackground()
+            self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
+            self.navigationController?.navigationBar.standardAppearance = coloredAppearance
+        }
+        else{
+            coloredAppearance.configureWithOpaqueBackground()
+            coloredAppearance.backgroundColor = UIColor.navBack
+            coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.navFont]
+            coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.navFont]
+            self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
+            self.navigationController?.navigationBar.standardAppearance = coloredAppearance
+        }
+        //네비게이션바 배경색 넣어주는 코드
+        
+        
         
     }
     
@@ -82,12 +90,20 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
             cell.backView.alpha = 0.67
             cell.colorImageView.backgroundColor = .navBack
         }else {
-            cell.backView.backgroundColor = .white
+            if self.traitCollection.userInterfaceStyle == .dark{
+                cell.backView.backgroundColor = .clear
+                               
+                           }
+                           else{
+                cell.backView.backgroundColor = .white
+                           }
+            //cell.backView.backgroundColor = .white
             cell.backView.alpha = 1
             cell.colorImageView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionChannels[indexPath.item].color!)
         }
         
         // 그림자 부분
+
         cell.layer.shadowColor = UIColor.black.cgColor // 검정색 사용
         cell.layer.masksToBounds = false
         cell.layer.shadowOffset = CGSize(width: 1, height: 2) //반경
@@ -116,12 +132,16 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
             case UICollectionView.elementKindSectionHeader:
                 
                 let headerview = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header", for: indexPath) as! ChannelCollectionViewHeader
-//                let source = Array(Set(channels.map{$0.source!})).sorted(by:>)
-                //let sourceCell = source[indexPath.section]
                 let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }
                 headerview.categoryLabel.text = sectionChannels[indexPath.item].group
                 headerview.colorLabel.text =  sectionChannels[indexPath.item].group
-                headerview.colorLabel.textColor  =  .clear
+                if self.traitCollection.userInterfaceStyle == .dark{
+                    headerview.colorLabel.textColor  =  .white
+                    
+                }
+                else{
+                    headerview.colorLabel.textColor  =  .clear
+                }
                 headerview.colorLabel.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionChannels[0].color!)
                 
                 

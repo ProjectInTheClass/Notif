@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "serverless": "^1.71.3"
+    "serverless": "^1.76.1"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",

@@ -19,6 +19,8 @@
 		0F5DB5A4246AEAB300245E96 /* HomeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DB5A3246AEAB300245E96 /* HomeTableViewController.swift */; };
 		0F5DB5A6246AF0A600245E96 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DB5A5246AF0A500245E96 /* HomeTableViewCell.swift */; };
 		0F93EE1D2471232F0018B9C8 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F93EE1C2471232F0018B9C8 /* Card.swift */; };
+		0FD736CF24C741FB00F221BD /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD736CC24C7185100F221BD /* UserNotifications.framework */; };
+		0FD736D024C7420300F221BD /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD736CA24C7184800F221BD /* PushKit.framework */; };
 		623073AA2493739E00C06C6D /* LastUpdated+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623073A82493739E00C06C6D /* LastUpdated+CoreDataClass.swift */; };
 		623073AB2493739E00C06C6D /* LastUpdated+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623073A92493739E00C06C6D /* LastUpdated+CoreDataProperties.swift */; };
 		6258C0AB2473DE49001E5B49 /* tagTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6258C0AA2473DE49001E5B49 /* tagTableViewCell.swift */; };
@@ -59,6 +61,9 @@
 		0F5DB5A3246AEAB300245E96 /* HomeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewController.swift; sourceTree = "<group>"; };
 		0F5DB5A5246AF0A500245E96 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		0F93EE1C2471232F0018B9C8 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Card.swift; path = Noti/Card.swift; sourceTree = SOURCE_ROOT; };
+		0FD736CA24C7184800F221BD /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
+		0FD736CC24C7185100F221BD /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		0FD736CE24C72FBD00F221BD /* Noti.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Noti.entitlements; sourceTree = "<group>"; };
 		623073A82493739E00C06C6D /* LastUpdated+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LastUpdated+CoreDataClass.swift"; sourceTree = "<group>"; };
 		623073A92493739E00C06C6D /* LastUpdated+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LastUpdated+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		6258C0AA2473DE49001E5B49 /* tagTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tagTableViewCell.swift; sourceTree = "<group>"; };
@@ -89,6 +94,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FD736D024C7420300F221BD /* PushKit.framework in Frameworks */,
+				0FD736CF24C741FB00F221BD /* UserNotifications.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +107,7 @@
 			children = (
 				0F5DB58E246AEA1700245E96 /* Noti */,
 				0F5DB58D246AEA1700245E96 /* Products */,
+				0FD736C924C7184800F221BD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -114,6 +122,7 @@
 		0F5DB58E246AEA1700245E96 /* Noti */ = {
 			isa = PBXGroup;
 			children = (
+				0FD736CE24C72FBD00F221BD /* Noti.entitlements */,
 				623073A82493739E00C06C6D /* LastUpdated+CoreDataClass.swift */,
 				62B321F1248A1A9000111CE8 /* Channel+CoreDataClass.swift */,
 				62B321F3248A1A9000111CE8 /* Tags+CoreDataClass.swift */,
@@ -141,6 +150,15 @@
 				62BA56C4248E0BE4000CB9DF /* CoreDataManager.swift */,
 			);
 			path = Noti;
+			sourceTree = "<group>";
+		};
+		0FD736C924C7184800F221BD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0FD736CC24C7185100F221BD /* UserNotifications.framework */,
+				0FD736CA24C7184800F221BD /* PushKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		86A5E839246EE58B00B692F4 /* Storyboard */ = {
@@ -416,14 +434,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Noti/Noti.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = T8V5FU36ZC;
+				DEVELOPMENT_TEAM = 4QG3GC35LA;
 				INFOPLIST_FILE = Noti/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Junroot.Noti;
+				PRODUCT_BUNDLE_IDENTIFIER = com.codershigh.Noti;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -434,14 +453,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Noti/Noti.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = T8V5FU36ZC;
+				DEVELOPMENT_TEAM = 4QG3GC35LA;
 				INFOPLIST_FILE = Noti/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Junroot.Noti;
+				PRODUCT_BUNDLE_IDENTIFIER = com.codershigh.Noti;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

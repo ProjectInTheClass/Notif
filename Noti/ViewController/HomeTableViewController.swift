@@ -69,13 +69,26 @@ class HomeTableViewController: UITableViewController {
         
         //네비게이션바 배경색 넣어주는 코드
         let coloredAppearance = UINavigationBarAppearance()
-        coloredAppearance.configureWithOpaqueBackground()
-        coloredAppearance.backgroundColor = UIColor.navBack
-        coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.navFont]
-        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.navFont]
-        self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
-        self.navigationController?.navigationBar.standardAppearance = coloredAppearance
-        self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        if self.traitCollection.userInterfaceStyle == .dark{
+            coloredAppearance.configureWithOpaqueBackground()
+            //coloredAppearance.backgroundColor = UIColor.navBack
+            //coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.navFont]
+            //coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.navFont]
+            self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
+            self.navigationController?.navigationBar.standardAppearance = coloredAppearance
+            self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        }
+        else{
+            coloredAppearance.configureWithOpaqueBackground()
+            coloredAppearance.backgroundColor = UIColor.navBack
+            coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.navFont]
+            coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.navFont]
+            self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
+            self.navigationController?.navigationBar.standardAppearance = coloredAppearance
+            self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        }
+        
+        
         
         // 라이트 뷰 생성
         let rightView = UIView()
@@ -116,10 +129,11 @@ class HomeTableViewController: UITableViewController {
         cell.sourceLabel.text = cards[indexPath.row].formattedSource
         cell.dateLabel.text = cards[indexPath.row].homeFormattedDate
         cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: cards[indexPath.row].color! )
-        
+        cell.sourceLabel.textColor = .sourceFont
         // cell의 backgroudView 수정
         let backgrundView = UIView()
         let backView = UIView(frame: CGRect(x: 17, y: 0, width: view.frame.width-34, height: 86))
+        
         backView.backgroundColor = .white
         backgrundView.addSubview(backView)
         cell.backgroundView = backgrundView
@@ -130,14 +144,20 @@ class HomeTableViewController: UITableViewController {
         selectView.backgroundColor = .selected
         selectedBackgrundView.addSubview(selectView)
         cell.selectedBackgroundView = selectedBackgrundView
-        
+
         
         // 비짓이 트루로 되어있으면 배경 블러처리해줌
         if (cards[indexPath.row].isVisited == true){
             cell.cellView?.backgroundColor = UIColor(white: 0.95, alpha: 1)
             cell.cellView?.alpha = 0.67
         }else {
-            cell.cellView?.backgroundColor = .white
+            if self.traitCollection.userInterfaceStyle == .dark{
+                cell.cellView?.backgroundColor = .systemGray4
+            }
+            else{
+                cell.cellView?.backgroundColor = .white
+                
+            }
             cell.cellView?.alpha = 1
         }
         

@@ -45,9 +45,9 @@ class AwsCompileSQSEvents {
                 if (
                   Object.keys(event.sqs.arn).length !== 1 ||
                   !(
-                    _.has(event.sqs.arn, 'Fn::ImportValue') ||
-                    _.has(event.sqs.arn, 'Fn::GetAtt') ||
-                    _.has(event.sqs.arn, 'Fn::Join')
+                    event.sqs.arn['Fn::ImportValue'] ||
+                    event.sqs.arn['Fn::GetAtt'] ||
+                    event.sqs.arn['Fn::Join']
                   )
                 ) {
                   const errorMessage = [
@@ -145,11 +145,6 @@ class AwsCompileSQSEvents {
             const newSQSObject = {
               [queueLogicalId]: JSON.parse(sqsTemplate),
             };
-
-            if (event.sqs.maximumRetryAttempts) {
-              newSQSObject[queueLogicalId].Properties.MaximumRetryAttempts =
-                event.sqs.maximumRetryAttempts;
-            }
 
             _.merge(
               this.serverless.service.provider.compiledCloudFormationTemplate.Resources,

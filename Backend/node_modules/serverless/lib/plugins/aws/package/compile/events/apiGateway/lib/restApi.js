@@ -71,7 +71,10 @@ module.exports = {
       },
     });
 
-    if (!_.isEmpty(this.serverless.service.provider.resourcePolicy)) {
+    if (
+      this.serverless.service.provider.resourcePolicy &&
+      Object.keys(this.serverless.service.provider.resourcePolicy).length
+    ) {
       const policy = {
         Version: '2012-10-17',
         Statement: this.serverless.service.provider.resourcePolicy,
@@ -95,7 +98,7 @@ module.exports = {
       );
     }
 
-    if (!_.isEmpty(apiGateway.apiKeySourceType)) {
+    if (apiGateway.apiKeySourceType) {
       const apiKeySourceType = apiGateway.apiKeySourceType.toUpperCase();
       const validApiKeySourceType = ['HEADER', 'AUTHORIZER'];
 
@@ -114,15 +117,8 @@ module.exports = {
       );
     }
 
-    if (!_.isUndefined(apiGateway.minimumCompressionSize)) {
+    if (apiGateway.minimumCompressionSize) {
       const minimumCompressionSize = apiGateway.minimumCompressionSize;
-
-      if (!_.isInteger(minimumCompressionSize)) {
-        const message =
-          'minimumCompressionSize must be an integer. ' +
-          `You provided ${JSON.stringify(minimumCompressionSize)}.`;
-        return BbPromise.reject(new this.serverless.classes.Error(message));
-      }
 
       if (minimumCompressionSize < 0 || minimumCompressionSize > 10485760) {
         const message =

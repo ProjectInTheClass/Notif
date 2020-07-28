@@ -23,8 +23,6 @@ class CoreDataManager{
     func colorWithHexString(hexString: String) -> UIColor {
         var colorString = hexString.trimmingCharacters(in: .whitespacesAndNewlines)
         colorString = colorString.replacingOccurrences(of: "#", with: "").uppercased()
-
-        print(colorString)
         let alpha: CGFloat = 1.0
         let red: CGFloat = self.colorComponentFrom(colorString: colorString, start: 0, length: 2)
         let green: CGFloat = self.colorComponentFrom(colorString: colorString, start: 2, length: 2)
@@ -196,7 +194,9 @@ class CoreDataManager{
                    onSuccess(success)
                }
     }
-    
+    func deleteCard(){
+        
+    }
     func getChannels()->[Channel]{
         //let dateFormatter = DateFormatter()
         var channels = [Channel]()
@@ -359,6 +359,29 @@ class CoreDataManager{
                 }
             }
         }
+    }
+    func saveToken(token: String, onSuccess : @escaping ((Bool)->Void)){
+        if let context = context, let entity: NSEntityDescription = NSEntityDescription.entity(forEntityName: "Token", in: context){
+            if let Token: Token = NSManagedObject(entity: entity, insertInto: context) as? Token{
+                Token.name = token
+            contextSave{
+                success in onSuccess(success)
+                }
+            }
+        }
+    }
+    func getToken()->String{
+        //let dateFormatter = DateFormatter()
+        var userToken = [Token]()
+        let fetchRequest : NSFetchRequest<Token>  = Token.fetchRequest()
+        do{
+            if let fetchResult : [Token] = try context?.fetch(fetchRequest){
+            userToken = fetchResult
+            }
+        }catch{
+            fatalError("fetch error!")
+        }
+        return userToken[0].name!
     }
     
     func setData() {

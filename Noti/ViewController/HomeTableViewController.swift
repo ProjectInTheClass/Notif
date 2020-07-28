@@ -106,6 +106,7 @@ class HomeTableViewController: UITableViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        CoreDataManager.shared.setData()
         loadData()
         self.tableView.reloadData()
     }

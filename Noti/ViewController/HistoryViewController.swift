@@ -85,13 +85,22 @@ class HistoryViewController: UIViewController{
         navigationItem.largeTitleDisplayMode = .always
         loadData()
         let coloredAppearance = UINavigationBarAppearance()
-        coloredAppearance.configureWithOpaqueBackground()
-        coloredAppearance.backgroundColor = UIColor.navBack
-        coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.navFont]
-        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.navFont]
-        self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
-        self.navigationController?.navigationBar.standardAppearance = coloredAppearance
-        self.navigationController?.navigationBar.compactAppearance = coloredAppearance
+        if self.traitCollection.userInterfaceStyle == .dark{
+            coloredAppearance.configureWithOpaqueBackground()
+            self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
+            self.navigationController?.navigationBar.standardAppearance = coloredAppearance
+            self.navigationController?.navigationBar.compactAppearance = coloredAppearance
+        }
+        else{
+            coloredAppearance.configureWithOpaqueBackground()
+            coloredAppearance.backgroundColor = UIColor.navBack
+            coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.navFont]
+            coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.navFont]
+            self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
+            self.navigationController?.navigationBar.standardAppearance = coloredAppearance
+            self.navigationController?.navigationBar.compactAppearance = coloredAppearance
+        }
+        
         historyTable.isScrollEnabled = true
         historyTable.delegate = self
         channelCollection.dataSource = self
@@ -170,7 +179,6 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
                         print(j)
                         if(((sectionCards[indexPath.row].tag?.contains(channels[selectedChannel].channelTags![selectedTag[j-1] ]))!)){
                             attributedStr.addAttribute(.foregroundColor, value: CoreDataManager.shared.colorWithHexString  (hexString:sectionCards[indexPath.row].color!), range:(cell.sourceLabel.text! as NSString).range(of:"#\( channels[selectedChannel].channelTags![selectedTag[j-1]])"))
-                            print(channels[selectedChannel].channelTags![selectedTag[j-1]])
                         }
                         
                     }
@@ -187,7 +195,13 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.cellView.backgroundColor = UIColor(white: 0.95, alpha: 1)
                 cell.cellView.alpha = 0.67
             }else {
-                cell.cellView.backgroundColor = .white
+                if self.traitCollection.userInterfaceStyle == .dark{
+                    cell.cellView.backgroundColor = .systemGray4
+                }
+                else{
+                    cell.cellView.backgroundColor = .white
+                }
+                
                 cell.cellView.alpha = 1
             }
 
@@ -224,8 +238,15 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
         label.textColor = UIColor.sectionFont
         label.text = date[section] //Array(Set(cards.map{$0.historyFormattedDate}))[section]//.sorted(by : >)[section]
         view.addSubview(label)
-        view.backgroundColor = UIColor.white
+        if self.traitCollection.userInterfaceStyle == .dark{
+            view.backgroundColor = UIColor.black
 
+        }
+        else{
+            view.backgroundColor = UIColor.white
+
+        }
+        
         return view
 
     }
@@ -243,7 +264,7 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
                 let date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by: >)
                 let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section]}
                 destination.title2 = cell.titleLabel.text
-                destination.source = cell.sourceLabel.text
+                destination.source = sectionCards[indexPath.row].source
                 destination.date = sectionCards[indexPath.row].homeFormattedDate
                 destination.back2 = title
 
@@ -296,11 +317,22 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
                      cell.colorLabel.text = channels[indexPath.row].subtitle
                      cell.colorLabel.textColor = .clear
                     if selectedChannel==indexPath.row {
-                     cell.titleLabel.textColor = UIColor.navFont
+                        if self.traitCollection.userInterfaceStyle == .dark{
+                            cell.titleLabel.textColor = UIColor.white
+                        }
+                        else{
+                            cell.titleLabel.textColor = UIColor.navFont
+                        }
+                     
                      cell.colorLabel.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString:channels[indexPath.row].color!)
 
                      }else{
-                         cell.titleLabel.textColor = .sourceFont
+                        if self.traitCollection.userInterfaceStyle == .dark{
+                            cell.titleLabel.textColor = UIColor.systemGray4
+                        }
+                        else{
+                            cell.titleLabel.textColor = UIColor.sourceFont
+                        }
                          cell.colorLabel.backgroundColor = .clear
                   }
                    

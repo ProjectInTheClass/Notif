@@ -62,7 +62,6 @@ class HistoryTableViewController: UITableViewController {
                        else{
                             for i in 0..<selectedTag.count{
                                 let tmpCards = allCards.filter{$0.title!.contains(channels[selectedChannel].channelTags![selectedTag[i]+1])}
-                                 print(channels[selectedChannel].channelTags![selectedTag[i]+1])
                                 for j in 0..<tmpCards.count{
                                     filterWithTagCards.append(tmpCards[j])
                                 }

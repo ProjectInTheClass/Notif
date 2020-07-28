@@ -12,6 +12,9 @@ const PromiseTracker = require('./PromiseTracker');
 
 const resolvedValuesWeak = new WeakSet();
 
+// Used when resolving variables from a JS file
+const unsupportedJsTypes = new Set(['undefined', 'symbol', 'function']);
+
 /**
  * Maintainer's notes:
  *
@@ -143,8 +146,8 @@ class Variables {
     const provider = this.serverless.getProvider('aws');
     if (provider) {
       const requiredConfigs = [
-        _.assign({ name: 'region' }, provider.getRegionSourceValue()),
-        _.assign({ name: 'stage' }, provider.getStageSourceValue()),
+        Object.assign({ name: 'region' }, provider.getRegionSourceValue()),
+        Object.assign({ name: 'stage' }, provider.getStageSourceValue()),
         {
           name: 'profile',
           value: this.service.provider.profile,
@@ -174,7 +177,7 @@ class Variables {
       return this.disableDepedentServices(() => {
         const prepopulations = requiredConfigs.map(config =>
           this.populateValue(config.value, true) // populate
-            .then(populated => _.assign(config, { populated }))
+            .then(populated => Object.assign(config, { populated }))
         );
         return this.assignProperties(provider, prepopulations);
       });
@@ -258,12 +261,12 @@ class Variables {
     const addContext = (value, key) =>
       this.getProperties(root, false, value, context.concat(key), results);
     if (Array.isArray(current)) {
-      _.map(current, addContext);
+      current.map(addContext);
     } else if (
       _.isObject(current) &&
       !_.isDate(current) &&
       !_.isRegExp(current) &&
-      !_.isFunction(current)
+      typeof current !== 'function'
     ) {
       if (atRoot || current !== root) {
         _.mapValues(current, addContext);
@@ -286,11 +289,11 @@ class Variables {
    */
   populateVariables(properties) {
     const variables = properties.filter(
-      property => _.isString(property.value) && property.value.match(this.variableSyntax)
+      property => typeof property.value === 'string' && property.value.match(this.variableSyntax)
     );
-    return _.map(variables, variable =>
+    return variables.map(variable =>
       this.populateValue(variable.value, false).then(populated =>
-        _.assign({}, variable, { populated })
+        Object.assign({}, variable, { populated })
       )
     );
   }
@@ -364,7 +367,7 @@ class Variables {
     if (!matches || !matches.length) {
       return property;
     }
-    return _.map(matches, match => ({
+    return matches.map(match => ({
       match,
       variable: this.cleanVariable(match),
     }));
@@ -376,7 +379,7 @@ class Variables {
    * @returns {Promise[]} Promises for the eventual populated values of the given matches
    */
   populateMatches(matches, property) {
-    return _.map(matches, match => this.splitAndGet(match, property));
+    return matches.map(match => this.splitAndGet(match, property));
   }
   /**
    * Render the given matches and their associated results to the given value
@@ -455,7 +458,7 @@ class Variables {
     if (property === matchedString) {
       // total replacement
       property = valueToPopulate;
-    } else if (_.isString(valueToPopulate)) {
+    } else if (typeof valueToPopulate === 'string') {
       // partial replacement, string
       property = replaceall(matchedString, valueToPopulate, property);
     } else if (_.isNumber(valueToPopulate)) {
@@ -537,7 +540,7 @@ class Variables {
     const validValue = value =>
       value !== null &&
       typeof value !== 'undefined' &&
-      (Array.isArray(value) || !(typeof value === 'object' && _.isEmpty(value)));
+      (Array.isArray(value) || !(typeof value === 'object' && !Object.keys(value).length));
 
     return BbPromise.all(variableValues)
       .then(values => values.filter(v => v !== FAIL_TOKEN))
@@ -545,7 +548,7 @@ class Variables {
         let deepPropertyString = variableMatch;
         let deepProperties = 0;
         values.forEach((value, index) => {
-          if (_.isString(value) && value.match(this.variableSyntax)) {
+          if (typeof value === 'string' && value.match(this.variableSyntax)) {
             deepProperties += 1;
             const deepVariable = this.makeDeepVariable(value);
             deepPropertyString = deepPropertyString.replace(
@@ -700,24 +703,20 @@ class Variables {
       // eslint-disable-next-line global-require, import/no-dynamic-require
       const jsFile = require(referencedFileFullPath);
       const variableArray = variableString.split(':');
-      let returnValueFunction;
+      let returnValue;
       if (variableArray[1]) {
         let jsModule = variableArray[1];
         jsModule = jsModule.split('.')[0];
-        returnValueFunction = jsFile[jsModule];
+        returnValue = jsFile[jsModule];
       } else {
-        returnValueFunction = jsFile;
+        returnValue = jsFile;
       }
 
-      if (typeof returnValueFunction !== 'function') {
-        const errorMessage = [
-          'Invalid variable syntax when referencing',
-          ` file "${referencedFileRelativePath}".`,
-          ' Check if your javascript is exporting a function that returns a value.',
-        ].join('');
-        return BbPromise.reject(new this.serverless.classes.Error(errorMessage));
+      if (typeof returnValue === 'function') {
+        valueToPopulate = returnValue.call(jsFile, this.serverless);
+      } else {
+        valueToPopulate = returnValue;
       }
-      valueToPopulate = returnValueFunction.call(jsFile, this.serverless);
 
       return BbPromise.resolve(valueToPopulate).then(valueToPopulateResolved => {
         let deepProperties = variableString.replace(matchedFileRefString, '');
@@ -725,7 +724,7 @@ class Variables {
         deepProperties.splice(0, 1);
         return this.getDeeperValue(deepProperties, valueToPopulateResolved).then(
           deepValueToPopulateResolved => {
-            if (typeof deepValueToPopulateResolved === 'undefined') {
+            if (unsupportedJsTypes.has(typeof deepValueToPopulateResolved)) {
               const errorMessage = [
                 'Invalid variable syntax when referencing',
                 ` file "${referencedFileRelativePath}".`,
@@ -761,7 +760,7 @@ class Variables {
 
   buildOptions(regionSuffix) {
     const options = { useCache: true };
-    if (!_.isUndefined(regionSuffix)) {
+    if (regionSuffix) {
       options.region = regionSuffix;
     }
     return options;
@@ -784,7 +783,7 @@ class Variables {
         const outputs = result.Stacks[0].Outputs;
         const output = outputs.find(x => x.OutputKey === outputLogicalId);
 
-        if (output === undefined) {
+        if (!output) {
           const errorMessage = [
             'Trying to request a non exported variable from CloudFormation.',
             ` Stack name: "${stackName}"`,
@@ -867,7 +866,7 @@ class Variables {
 
   getValueStrToBool(variableString) {
     return BbPromise.try(() => {
-      if (_.isString(variableString)) {
+      if (typeof variableString === 'string') {
         const groups = variableString.match(this.strToBoolRefSyntax);
         const param = groups[1].trim();
         if (/^(true|false|0|1)$/.test(param)) {
@@ -902,7 +901,7 @@ class Variables {
     if (deepRef.length) {
       // if there is a deep reference remaining
       ret = ret.then(result => {
-        if (_.isString(result) && result.match(this.variableSyntax)) {
+        if (typeof result === 'string' && result.match(this.variableSyntax)) {
           const deepVariable = this.makeDeepVariable(result);
           return BbPromise.resolve(this.appendDeepVariable(deepVariable, deepRef));
         }
@@ -945,7 +944,7 @@ class Variables {
       deepProperties,
       (reducedValueParam, subProperty) => {
         let reducedValue = reducedValueParam;
-        if (_.isString(reducedValue) && reducedValue.match(this.deepRefSyntax)) {
+        if (typeof reducedValue === 'string' && reducedValue.match(this.deepRefSyntax)) {
           // build mode
           reducedValue = this.appendDeepVariable(reducedValue, subProperty);
         } else {
@@ -971,7 +970,7 @@ class Variables {
       typeof valueToPopulate === 'undefined' ||
       (typeof valueToPopulate === 'object' &&
         !Array.isArray(valueToPopulate) &&
-        _.isEmpty(valueToPopulate))
+        !Object.keys(valueToPopulate).length)
     ) {
       let varType;
       if (variableString.match(this.envRefSyntax)) {
@@ -985,7 +984,7 @@ class Variables {
       } else if (variableString.match(this.ssmRefSyntax)) {
         varType = 'SSM parameter';
       }
-      if (!_.isUndefined(varType)) {
+      if (varType) {
         logWarning(
           `A valid ${varType} to satisfy the declaration '${variableString}' could not be found.`
         );

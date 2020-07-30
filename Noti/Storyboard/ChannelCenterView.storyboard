@@ -55,16 +55,19 @@
                                                             <color key="textColor" red="0.113799043" green="0.1135409549" blue="0.12549179790000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E6a-bI-OHm">
-                                                            <rect key="frame" x="101" y="7" width="20" height="22"/>
+                                                        <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E6a-bI-OHm">
+                                                            <rect key="frame" x="71" y="18" width="50" height="50"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="20" id="018-0V-33f"/>
+                                                                <constraint firstAttribute="width" constant="50" id="018-0V-33f"/>
+                                                                <constraint firstAttribute="height" constant="50" id="W9E-eu-9o5"/>
                                                             </constraints>
                                                             <color key="tintColor" red="0.60406774279999997" green="0.60753774640000002" blue="0.62745404240000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                            <state key="normal" title="Button" image="bell" catalog="system"/>
+                                                            <state key="normal" image="bell.fill" catalog="system">
+                                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            </state>
                                                             <state key="selected" image="button:E6a-bI-OHm:image"/>
                                                             <connections>
-                                                                <action selector="alarmButtonSelected:" destination="QfW-AG-M9D" eventType="touchUpInside" id="o8F-cC-RIz"/>
+                                                                <action selector="notificationButton:" destination="QfW-AG-M9D" eventType="touchUpInside" id="jk0-Lc-ZxM"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
@@ -76,7 +79,6 @@
                                                         <constraint firstAttribute="bottom" secondItem="tWb-lK-yF5" secondAttribute="bottom" id="VuW-7Q-9EM"/>
                                                         <constraint firstAttribute="trailing" secondItem="E6a-bI-OHm" secondAttribute="trailing" constant="7" id="YU7-Z7-ROv"/>
                                                         <constraint firstAttribute="bottom" secondItem="Reb-Pa-EeW" secondAttribute="bottom" constant="7" id="bUX-Ix-bZA"/>
-                                                        <constraint firstItem="E6a-bI-OHm" firstAttribute="top" secondItem="Khq-pS-TBi" secondAttribute="top" constant="7" id="d7e-Zj-Q4x"/>
                                                         <constraint firstItem="tWb-lK-yF5" firstAttribute="top" secondItem="Khq-pS-TBi" secondAttribute="top" id="mrD-Tp-ySR"/>
                                                         <constraint firstItem="yFN-35-gqc" firstAttribute="leading" secondItem="tWb-lK-yF5" secondAttribute="trailing" constant="9" id="yMV-C3-gDC"/>
                                                     </constraints>
@@ -87,12 +89,14 @@
                                                 <constraint firstAttribute="bottom" secondItem="Khq-pS-TBi" secondAttribute="bottom" id="6Gh-7p-9TG"/>
                                                 <constraint firstItem="Khq-pS-TBi" firstAttribute="top" secondItem="FKp-lx-Fd3" secondAttribute="top" id="AUo-5G-Abg"/>
                                                 <constraint firstAttribute="trailing" secondItem="Khq-pS-TBi" secondAttribute="trailing" id="PW5-t2-LFc"/>
+                                                <constraint firstItem="E6a-bI-OHm" firstAttribute="centerY" secondItem="FKp-lx-Fd3" secondAttribute="centerY" id="iDt-63-erk"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <connections>
                                             <outlet property="backView" destination="Khq-pS-TBi" id="Gqm-vF-62c"/>
                                             <outlet property="categoryLabel" destination="Reb-Pa-EeW" id="oWq-0X-AUt"/>
                                             <outlet property="colorImageView" destination="tWb-lK-yF5" id="wwi-SV-kfD"/>
+                                            <outlet property="notificationButton" destination="E6a-bI-OHm" id="NAN-so-dxM"/>
                                             <outlet property="titleLabel" destination="yFN-35-gqc" id="X57-zm-aBG"/>
                                         </connections>
                                     </collectionViewCell>
@@ -383,7 +387,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="bell" catalog="system" width="128" height="124"/>
+        <image name="bell.fill" catalog="system" width="128" height="124"/>
         <image name="button:E6a-bI-OHm:image" width="128" height="124">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGBwpYJHZlcnNpb25ZJGFyY2hpdmVyVCR0b3BYJG9iamVjdHMSAAGGoF8QD05T

@@ -175,7 +175,7 @@ module.exports.crawler = (event, context, callback) => {
 											var params = {
 												MessageStructure: "json",
 												Message: JSON.stringify({
-												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[i][3] +"-기계공학부\", \"body\" : \""+ sqlList[i][0] +"\"}}}"
+												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-기계공학부\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}}}"
 												}), /* required */
 												TargetArn: result[i].endpointarn
 											};
@@ -268,7 +268,7 @@ module.exports.crawler = (event, context, callback) => {
 											var params = {
 												MessageStructure: "json",
 												Message: JSON.stringify({
-												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[i][3] +"-경영학부\", \"body\" : \""+ sqlList[i][0] +"\"}}}"
+												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-경영학부\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}}}"
 												}), /* required */
 												TargetArn: result[i].endpointarn
 											};
@@ -428,7 +428,7 @@ module.exports.crawler = (event, context, callback) => {
 											var params = {
 												MessageStructure: "json",
 												Message: JSON.stringify({
-												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[i][3] +"-컴퓨터소프트웨어학부\", \"body\" : \""+ sqlList[i][0] +"\"}}}"
+												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-컴퓨터소프트웨어학부\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}}}"
 												}), /* required */
 												TargetArn: result[i].endpointarn
 											};

@@ -44,7 +44,6 @@ class CoreDataManager{
         }
         let hexFloat: CGFloat = CGFloat(hexComponent)
         let floatValue: CGFloat = CGFloat(hexFloat / 255.0)
-        print(floatValue)
         return floatValue
     }
     func hexStringFromColor(color: UIColor) -> String {
@@ -54,7 +53,6 @@ class CoreDataManager{
        let b: CGFloat = components?[2] ?? 0.0
 
        let hexString = String.init(format: "#%02lX%02lX%02lX", lroundf(Float(r * 255)), lroundf(Float(g * 255)), lroundf(Float(b * 255)))
-       print(hexString)
        return hexString
     }
     func dataFromServer(){

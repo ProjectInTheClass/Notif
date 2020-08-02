@@ -149,7 +149,12 @@ class HomeTableViewController: UITableViewController {
         
         // 비짓이 트루로 되어있으면 배경 블러처리해줌
         if (cards[indexPath.row].isVisited == true){
-            cell.cellView?.backgroundColor = UIColor(white: 0.95, alpha: 1)
+            if self.traitCollection.userInterfaceStyle == .dark{
+                cell.cellView?.backgroundColor = UIColor(white: 0.5, alpha: 1)
+            }
+            else{
+               cell.cellView?.backgroundColor = UIColor(white: 0.95, alpha: 1)
+            }
             cell.cellView?.alpha = 0.67
         }else {
             if self.traitCollection.userInterfaceStyle == .dark{

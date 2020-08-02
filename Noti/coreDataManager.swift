@@ -44,7 +44,6 @@ class CoreDataManager{
         }
         let hexFloat: CGFloat = CGFloat(hexComponent)
         let floatValue: CGFloat = CGFloat(hexFloat / 255.0)
-//        print(floatValue)
         return floatValue
     }
     func hexStringFromColor(color: UIColor) -> String {
@@ -54,7 +53,6 @@ class CoreDataManager{
        let b: CGFloat = components?[2] ?? 0.0
 
        let hexString = String.init(format: "#%02lX%02lX%02lX", lroundf(Float(r * 255)), lroundf(Float(g * 255)), lroundf(Float(b * 255)))
-//       print(hexString)
        return hexString
     }
     func dataFromServer(){
@@ -250,27 +248,6 @@ class CoreDataManager{
                    onSuccess(success)
                }
     }
-    
-    func notificationChannel(subtitle : String, source: String, onSuccess: @escaping ((Bool) -> Void)){
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = filteredChannel(subtitle: subtitle, source: source)
-        var clickedChannel = Channel()
-        do {
-                if let results: [Channel] = try context?.fetch(fetchRequest) as? [Channel] {
-                    clickedChannel = results[0]
-                    clickedChannel.willChangeValue(forKey: "alarm")
-                    clickedChannel.alarm.toggle()
-                    clickedChannel.didChangeValue(forKey: "alarm")
-                }
-            } catch let error as NSError {
-                print("Could not fatch🥺: \(error), \(error.userInfo)")
-                onSuccess(false)
-            }
-               
-           contextSave { success in
-               onSuccess(success)
-           }
-    }
-    
     func addChannelTag(subtitle : String, source: String, tag: String, onSuccess: @escaping ((Bool) -> Void)){
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = filteredChannel(subtitle: subtitle, source: source)
         var addTagChannel = Channel()

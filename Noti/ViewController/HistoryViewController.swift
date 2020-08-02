@@ -160,7 +160,6 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! HomeTableViewCell
             
             cell.titleLabel.text = sectionCards[indexPath.row].title
-            //cell.sourceLabel.text = sectionCards[indexPath.row].formattedSource
             var tagText = ""
             if(sectionCards[indexPath.row].tag!.count == 1){
                 tagText += sectionCards[indexPath.row].formattedSource!
@@ -175,12 +174,19 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.sourceLabel.text = tagText
                 if(selectedTag.count != 0){
                     let attributedStr = NSMutableAttributedString(string: tagText)
-                    for j in 1..<(selectedTag.count+1){
-                        print(j)
-                        if(((sectionCards[indexPath.row].tag?.contains(channels[selectedChannel].channelTags![selectedTag[j-1] ]))!)){
-                            attributedStr.addAttribute(.foregroundColor, value: CoreDataManager.shared.colorWithHexString  (hexString:sectionCards[indexPath.row].color!), range:(cell.sourceLabel.text! as NSString).range(of:"#\( channels[selectedChannel].channelTags![selectedTag[j-1]])"))
+                    if(selectedChannel==0){
+                        for j in 1..<(selectedTag.count+1){
+                            if(((sectionCards[indexPath.row].tag?.contains(channels[selectedChannel].channelTags![selectedTag[j-1]]))!)){
+                                attributedStr.addAttribute(.foregroundColor, value: CoreDataManager.shared.colorWithHexString  (hexString:sectionCards[indexPath.row].color!), range:(cell.sourceLabel.text! as NSString).range(of:"#\( channels[selectedChannel].channelTags![selectedTag[j-1]])"))
+                            }
                         }
-                        
+                    }
+                    else{
+                        for j in 1..<(selectedTag.count+1){
+                            if(((sectionCards[indexPath.row].tag?.contains(channels[selectedChannel].channelTags![selectedTag[j-1]+1]))!)){
+                                attributedStr.addAttribute(.foregroundColor, value: CoreDataManager.shared.colorWithHexString  (hexString:sectionCards[indexPath.row].color!), range:(cell.sourceLabel.text! as NSString).range(of:"#\( channels[selectedChannel].channelTags![selectedTag[j-1]+1])"))
+                            }
+                        }
                     }
                     cell.sourceLabel.attributedText = attributedStr
                 }
@@ -190,9 +196,14 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
 //            cell.dateLabel.text = sectionCards[indexPath.row].historyCardFormattedDate
             cell.dateLabel.text = ""
             cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionCards[indexPath.row].color!)
-            
             if (sectionCards[indexPath.row].isVisited == true){
-                cell.cellView.backgroundColor = UIColor(white: 0.95, alpha: 1)
+                if self.traitCollection.userInterfaceStyle == .dark{
+                    cell.cellView?.backgroundColor = UIColor(white: 0.5, alpha: 1)
+                }
+                else{
+                   cell.cellView?.backgroundColor = UIColor(white: 0.95, alpha: 1)
+                }
+                //cell.cellView.backgroundColor = UIColor(white: 0.95, alpha: 1)
                 cell.cellView.alpha = 0.67
             }else {
                 if self.traitCollection.userInterfaceStyle == .dark{
@@ -204,7 +215,12 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 cell.cellView.alpha = 1
             }
-
+            let backgrundView = UIView()
+            let backView = UIView(frame: CGRect(x: 17, y: 0, width: view.frame.width-34, height: 86))
+            
+            backView.backgroundColor = .white
+            backgrundView.addSubview(backView)
+            cell.backgroundView = backgrundView
             // 그림자 부분
             cell.cellView.layer.shadowColor = UIColor.black.cgColor // 검정색 사용
             cell.cellView.layer.masksToBounds = false
@@ -240,7 +256,6 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
         view.addSubview(label)
         if self.traitCollection.userInterfaceStyle == .dark{
             view.backgroundColor = UIColor.black
-
         }
         else{
             view.backgroundColor = UIColor.white

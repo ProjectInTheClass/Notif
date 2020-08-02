@@ -108,7 +108,8 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
         titleView.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
         titleView.layer.shadowOpacity = 0.5
         titleView.layer.shadowRadius = 0
-        
+        //contentView.backgroundColor = .white
+        contentTextView.backgroundColor = .white
         
         
         getContent()

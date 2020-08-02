@@ -34,8 +34,8 @@ class ChannelCenterViewController: UIViewController {
         //updateChannels()
         //categories = Array(Set(channels.map{$0.source!})).sorted(by: >)
         let coloredAppearance = UINavigationBarAppearance()
-       coloredAppearance.configureWithOpaqueBackground()
-       coloredAppearance.backgroundColor = UIColor.navBack
+       //coloredAppearance.configureWithOpaqueBackground()
+       //coloredAppearance.backgroundColor = UIColor.navBack
 
         if self.traitCollection.userInterfaceStyle == .dark{
             coloredAppearance.configureWithOpaqueBackground()
@@ -84,22 +84,30 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
         cell.categoryLabel.text = sectionChannels[indexPath.item].source
         cell.colorImageView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionChannels[indexPath.item].color!)
         
+        //cell.backgroundColor = .white
         // 구독안하거 블러처리
         if (sectionChannels[indexPath.item].isSubscribed == false){
-            cell.backView.backgroundColor = UIColor(white: 1, alpha: 1)
-            cell.backView.alpha = 0.67
-            cell.colorImageView.backgroundColor = .navBack
+            if self.traitCollection.userInterfaceStyle == .dark{
+                cell.backView.backgroundColor = UIColor(white: 0.5, alpha: 1)
+                cell.titleLabel.textColor = .white
+            }
+            else{
+                cell.backView.backgroundColor = .white
+            }
+            //cell.backView.backgroundColor = UIColor(white: 1, alpha: 1)
+            cell.backView.alpha = 1
+            //cell.colorImageView.backgroundColor = .navBack
         }else {
             if self.traitCollection.userInterfaceStyle == .dark{
-                cell.backView.backgroundColor = .clear
-                               
-                           }
-                           else{
+                cell.titleLabel.textColor = .white
+                cell.backView.backgroundColor = .systemGray4
+            }
+            else{
                 cell.backView.backgroundColor = .white
-                           }
+            }
             //cell.backView.backgroundColor = .white
             cell.backView.alpha = 1
-            cell.colorImageView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionChannels[indexPath.item].color!)
+
         }
         
         // 그림자 부분
@@ -114,7 +122,6 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Cell \(indexPath.row) sellected")
         let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }
         CoreDataManager.shared.subscribedChannel(subtitle: sectionChannels[indexPath.row].subtitle!, source: sectionChannels[indexPath.row].source!){ onSuccess in print("saved = \(onSuccess)")}
         loadData()
@@ -136,12 +143,10 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
                 headerview.categoryLabel.text = sectionChannels[indexPath.item].group
                 headerview.colorLabel.text =  sectionChannels[indexPath.item].group
                 if self.traitCollection.userInterfaceStyle == .dark{
-                    headerview.colorLabel.textColor  =  .white
-                    
+                    headerview.categoryLabel.textColor = .white
                 }
-                else{
-                    headerview.colorLabel.textColor  =  .clear
-                }
+                
+                headerview.colorLabel.textColor  =  .clear
                 headerview.colorLabel.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionChannels[0].color!)
                 
                 

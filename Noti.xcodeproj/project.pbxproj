@@ -126,8 +126,8 @@
 		0F5DB58E246AEA1700245E96 /* Noti */ = {
 			isa = PBXGroup;
 			children = (
-				62534AEB24CEE0C6007C3938 /* Token+CoreDataClass.swift */,
 				0FD736CE24C72FBD00F221BD /* Noti.entitlements */,
+				62534AEB24CEE0C6007C3938 /* Token+CoreDataClass.swift */,
 				623073A82493739E00C06C6D /* LastUpdated+CoreDataClass.swift */,
 				62B321F1248A1A9000111CE8 /* Channel+CoreDataClass.swift */,
 				62B321F3248A1A9000111CE8 /* Tags+CoreDataClass.swift */,

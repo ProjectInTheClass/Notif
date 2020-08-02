@@ -61,28 +61,30 @@ module.exports.crawler = (event, context, callback) => {
 								connection.end();
 								if (err) throw err;
 								else {
-									for(var i in result) {
-										// Create publish parameters
-										var params = {
-											MessageStructure: "json",
-											Message: JSON.stringify({
-											"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[i][3] +"-한양대학교\", \"body\" : \""+ sqlList[i][0] +"\"}}}"
-											}), /* required */
-											TargetArn: result[i].endpointarn
-										};
-									
-										// Create promise and SNS service object
-										var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
+									for (var cardIndex = 0; cardIndex < rows.affectedRows; cardIndex++) {
+										for(var i in result) {
+											// Create publish parameters
+											var params = {
+												MessageStructure: "json",
+												Message: JSON.stringify({
+												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-한양대학교\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}}}"
+												}), /* required */
+												TargetArn: result[i].endpointarn
+											};
 										
-										// Handle promise's fulfilled/rejected states
-										publishTextPromise.then(
-											function(data) {
-											console.log(`Message ${params.Message} send sent to the topic ${params.TopicArn}`);
-											console.log("MessageID is " + data.MessageId);
-											}).catch(
-											function(err) {
-											console.error(err, err.stack);
-											});
+											// Create promise and SNS service object
+											var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
+											
+											// Handle promise's fulfilled/rejected states
+											publishTextPromise.then(
+												function(data) {
+												console.log(`Message ${params.Message} send sent to the topic ${params.TopicArn}`);
+												console.log("MessageID is " + data.MessageId);
+												}).catch(
+												function(err) {
+												console.error(err, err.stack);
+												});
+										}
 									}
 									hyLoop(category, page+1);
 								}
@@ -167,28 +169,30 @@ module.exports.crawler = (event, context, callback) => {
 								connection.end();
 								if (err) throw err;
 								else {
-									for(var i in result) {
-										// Create publish parameters
-										var params = {
-											MessageStructure: "json",
-											Message: JSON.stringify({
-											"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[i][3] +"-기계공학부\", \"body\" : \""+ sqlList[i][0] +"\"}}}"
-											}), /* required */
-											TargetArn: result[i].endpointarn
-										};
-									
-										// Create promise and SNS service object
-										var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
+									for (var cardIndex = 0; cardIndex < rows.affectedRows; cardIndex++) {
+										for(var i in result) {
+											// Create publish parameters
+											var params = {
+												MessageStructure: "json",
+												Message: JSON.stringify({
+												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-기계공학부\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}}}"
+												}), /* required */
+												TargetArn: result[i].endpointarn
+											};
 										
-										// Handle promise's fulfilled/rejected states
-										publishTextPromise.then(
-											function(data) {
-											console.log(`Message ${params.Message} send sent to the topic ${params.TopicArn}`);
-											console.log("MessageID is " + data.MessageId);
-											}).catch(
-											function(err) {
-											console.error(err, err.stack);
-											});
+											// Create promise and SNS service object
+											var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
+											
+											// Handle promise's fulfilled/rejected states
+											publishTextPromise.then(
+												function(data) {
+												console.log(`Message ${params.Message} send sent to the topic ${params.TopicArn}`);
+												console.log("MessageID is " + data.MessageId);
+												}).catch(
+												function(err) {
+												console.error(err, err.stack);
+												});
+										}
 									}
 									meLoop(pagenum+1);
 								}
@@ -258,28 +262,30 @@ module.exports.crawler = (event, context, callback) => {
 								connection.end();
 								if (err) throw err;
 								else {
-									for(var i in result) {
-										// Create publish parameters
-										var params = {
-											MessageStructure: "json",
-											Message: JSON.stringify({
-											"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[i][3] +"-경영학부\", \"body\" : \""+ sqlList[i][0] +"\"}}}"
-											}), /* required */
-											TargetArn: result[i].endpointarn
-										};
-									
-										// Create promise and SNS service object
-										var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
+									for (var cardIndex = 0; cardIndex < rows.affectedRows; cardIndex++) {
+										for(var i in result) {
+											// Create publish parameters
+											var params = {
+												MessageStructure: "json",
+												Message: JSON.stringify({
+												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-경영학부\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}}}"
+												}), /* required */
+												TargetArn: result[i].endpointarn
+											};
 										
-										// Handle promise's fulfilled/rejected states
-										publishTextPromise.then(
-											function(data) {
-											console.log(`Message ${params.Message} send sent to the topic ${params.TopicArn}`);
-											console.log("MessageID is " + data.MessageId);
-											}).catch(
-											function(err) {
-											console.error(err, err.stack);
-											});
+											// Create promise and SNS service object
+											var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
+											
+											// Handle promise's fulfilled/rejected states
+											publishTextPromise.then(
+												function(data) {
+												console.log(`Message ${params.Message} send sent to the topic ${params.TopicArn}`);
+												console.log("MessageID is " + data.MessageId);
+												}).catch(
+												function(err) {
+												console.error(err, err.stack);
+												});
+										}
 									}
 									bsLoop(pagenum+1);
 								}
@@ -293,66 +299,66 @@ module.exports.crawler = (event, context, callback) => {
 		});
 	}
 
-	function portalInnerLoop(list, i) {
-		if (i >= list.length)   return;
-		var rex = /gongjiSeq=|&header/g;
-		var sqlList = new Array();
-		var data = new Object();
-		data.title = list[i].title[0];
-		data.url = 'https://portal.hanyang.ac.kr/GjshAct/findGongjisahangs.do?pgmId=P308200&menuId=M006263&tk=0be29593626429dfc3f1b618045bc8172b86832df0d333bc0f5db47199b9028a';
-		data.source = '한양포털'
-		data.category = '';
-		var parsedDate = new Date(list[i].pubDate[0]);
-		data.time = parsedDate.toISOString().substring(2, 10);
-		var jsonList = new Array();
-		var jsonObject = new Object();
-		jsonObject.GongjiSeq = list[i].link[0].split(rex)[1];
-		jsonList.push(jsonObject);
-		data.json = JSON.stringify(jsonList);
+	// function portalInnerLoop(list, i) {
+	// 	if (i >= list.length)   return;
+	// 	var rex = /gongjiSeq=|&header/g;
+	// 	var sqlList = new Array();
+	// 	var data = new Object();
+	// 	data.title = list[i].title[0];
+	// 	data.url = 'https://portal.hanyang.ac.kr/GjshAct/findGongjisahangs.do?pgmId=P308200&menuId=M006263&tk=0be29593626429dfc3f1b618045bc8172b86832df0d333bc0f5db47199b9028a';
+	// 	data.source = '한양포털'
+	// 	data.category = '';
+	// 	var parsedDate = new Date(list[i].pubDate[0]);
+	// 	data.time = parsedDate.toISOString().substring(2, 10);
+	// 	var jsonList = new Array();
+	// 	var jsonObject = new Object();
+	// 	jsonObject.GongjiSeq = list[i].link[0].split(rex)[1];
+	// 	jsonList.push(jsonObject);
+	// 	data.json = JSON.stringify(jsonList);
 	
-		sqlList.push([data.title, data.url, data.source, data.category, data.time, data.json]);
+	// 	sqlList.push([data.title, data.url, data.source, data.category, data.time, data.json]);
 	
-		var connection = mysql.createConnection({
-			host : 'noti.c0pwj79j83nj.ap-northeast-2.rds.amazonaws.com',
-			user : 'admin',
-			password: 'notinoti',
-			port : 3306,
-			database : 'noti'
-		});
+	// 	var connection = mysql.createConnection({
+	// 		host : 'noti.c0pwj79j83nj.ap-northeast-2.rds.amazonaws.com',
+	// 		user : 'admin',
+	// 		password: 'notinoti',
+	// 		port : 3306,
+	// 		database : 'noti'
+	// 	});
 		
 	
-		connection.connect();
+	// 	connection.connect();
 	
-		var sql = 'INSERT IGNORE INTO Cards (title, url, source, category, time_, json_) VALUES (?);';
-		connection.query(sql, sqlList,function(err, rows, fields) {
-			connection.end();
-			if(err) {
-				console.log(err);
-			} else {
-				console.log(rows);
-				if (rows.affectedRows == 0) return;
-				portalInnerLoop(list, i + 1);
-			}
-		});
-	}
+	// 	var sql = 'INSERT IGNORE INTO Cards (title, url, source, category, time_, json_) VALUES (?);';
+	// 	connection.query(sql, sqlList,function(err, rows, fields) {
+	// 		connection.end();
+	// 		if(err) {
+	// 			console.log(err);
+	// 		} else {
+	// 			console.log(rows);
+	// 			if (rows.affectedRows == 0) return;
+	// 			portalInnerLoop(list, i + 1);
+	// 		}
+	// 	});
+	// }
 	
-	function portalLoop() {
-		const url = 'https://portal.hanyang.ac.kr/GjshAct/viewRSS.do?gubun=rss';
-		console.log(url)
-		request({url: url, encoding: null},
-			function (error, res, body) {
-				console.log('portal');
-				var body = iconv.decode(res.body, 'utf8');
+	// function portalLoop() {
+	// 	const url = 'https://portal.hanyang.ac.kr/GjshAct/viewRSS.do?gubun=rss';
+	// 	console.log(url)
+	// 	request({url: url, encoding: null},
+	// 		function (error, res, body) {
+	// 			console.log('portal');
+	// 			var body = iconv.decode(res.body, 'utf8');
 	
-				var parser = new xml2js.Parser();
-				parser.parseString(body, function (err, result) {
-					var json = JSON.parse(JSON.stringify(result));
-					var list = json['rss'].channel[0].item;
+	// 			var parser = new xml2js.Parser();
+	// 			parser.parseString(body, function (err, result) {
+	// 				var json = JSON.parse(JSON.stringify(result));
+	// 				var list = json['rss'].channel[0].item;
 	
-					portalInnerLoop(list, 0);
-				});
-			});
-	}
+	// 				portalInnerLoop(list, 0);
+	// 			});
+	// 		});
+	// }
 
 
 
@@ -416,28 +422,30 @@ module.exports.crawler = (event, context, callback) => {
 								connection.end();
 								if (err) throw err;
 								else {
-									for(var i in result) {
-										// Create publish parameters
-										var params = {
-											MessageStructure: "json",
-											Message: JSON.stringify({
-											"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[i][3] +"-컴퓨터소프트웨어학부\", \"body\" : \""+ sqlList[i][0] +"\"}}}"
-											}), /* required */
-											TargetArn: result[i].endpointarn
-										};
-									
-										// Create promise and SNS service object
-										var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
+									for (var cardIndex = 0; cardIndex < rows.affectedRows; cardIndex++) {
+										for(var i in result) {
+											// Create publish parameters
+											var params = {
+												MessageStructure: "json",
+												Message: JSON.stringify({
+												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-컴퓨터소프트웨어학부\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}}}"
+												}), /* required */
+												TargetArn: result[i].endpointarn
+											};
 										
-										// Handle promise's fulfilled/rejected states
-										publishTextPromise.then(
-											function(data) {
-											console.log(`Message ${params.Message} send sent to the topic ${params.TopicArn}`);
-											console.log("MessageID is " + data.MessageId);
-											}).catch(
-											function(err) {
-											console.error(err, err.stack);
-											});
+											// Create promise and SNS service object
+											var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
+											
+											// Handle promise's fulfilled/rejected states
+											publishTextPromise.then(
+												function(data) {
+												console.log(`Message ${params.Message} send sent to the topic ${params.TopicArn}`);
+												console.log("MessageID is " + data.MessageId);
+												}).catch(
+												function(err) {
+												console.error(err, err.stack);
+												});
+										}
 									}
 									csLoop(pagenum + 1, boardname);
 								}

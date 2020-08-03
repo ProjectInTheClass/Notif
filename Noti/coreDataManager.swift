@@ -58,6 +58,27 @@ class CoreDataManager{
     func dataFromServer(){
         
     }
+    
+    func notificationChannel(subtitle : String, source: String, onSuccess: @escaping ((Bool) -> Void)){
+             let fetchRequest: NSFetchRequest<NSFetchRequestResult> = filteredChannel(subtitle: subtitle, source: source)
+             var clickedChannel = Channel()
+             do {
+                     if let results: [Channel] = try context?.fetch(fetchRequest) as? [Channel] {
+                         clickedChannel = results[0]
+                         clickedChannel.willChangeValue(forKey: "alarm")
+                         clickedChannel.alarm.toggle()
+                         clickedChannel.didChangeValue(forKey: "alarm")
+                     }
+                 } catch let error as NSError {
+                     print("Could not fatch🥺: \(error), \(error.userInfo)")
+                     onSuccess(false)
+                 }
+
+                contextSave { success in
+                    onSuccess(success)
+                }
+         }
+    
     //sort!!
     func getCards()->[Card]{
         //cards.sort {(obj1, obj2) -> Bool in
@@ -391,6 +412,8 @@ class CoreDataManager{
             dateFormatter.dateFormat = "yyyy/MM/dd"
             
             CoreDataManager.shared.saveChannels(title: "전체",subtitle: "전체", source: "전체",color: .fifth,  channelTags:["대회", "모집","채용","장학금"], group: "전체", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "공지사항게시판",subtitle: "공지사항", source: "한양대학교 학생생활관", color: .fifth, channelTags: [""], group: "한양대학교 학생생활관", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "모집안내게시판",subtitle: "모집안내", source: "한양대학교 학생생활관", color: .fifth, channelTags: [""], group: "한양대학교 학생생활관", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
             CoreDataManager.shared.saveChannels(title: "공지사항게시판",subtitle: "공지사항", source: "기계공학부",color: .second,  channelTags: [""], group: "학부사이트", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
             CoreDataManager.shared.saveChannels(title: "학사일반게시판",subtitle: "학사일반", source: "컴퓨터소프트웨어학부",color: .third,  channelTags: [""], group: "학부사이트", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
             CoreDataManager.shared.saveChannels(title: "취업정보게시판",subtitle: "취업정보", source: "컴퓨터소프트웨어학부",color: .third,  channelTags: [""], group: "학부사이트", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}

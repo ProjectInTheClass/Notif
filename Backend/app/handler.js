@@ -10,12 +10,114 @@ const AWS = require('aws-sdk');
 AWS.config.update({region: 'ap-northeast-2'});
 
 module.exports.crawler = (event, context, callback) => {
+	dmLoop(1, 0);
 	hyLoop(1, 1);
 	// portalLoop();
 	bsLoop(1);
 	meLoop(1);
 	csLoop(1, 'info_board');
 	csLoop(1, 'job_board');
+
+	function dmLoop(page, listIndex) {
+		const dmList = ["enrolledstudent", "freshman", "addition", "direct_notice", "happy_notice", "rc_notice", "structure_safe_pds"];
+		const url = "http://www.dormitory.hanyang.ac.kr/board/list";
+		var sqlList = new Array();
+		
+		// if(page == 2) {
+		//     if (listIndex == dmList.length - 1) return;
+		//     dmLoop(1, listIndex+1);
+		//     return;
+		// }
+	
+		request.post({url:url, 
+			form: {
+				tb_name: dmList[listIndex],
+				pageNum: page
+			}},
+			function (error, res, body) {
+				console.log("dormitory ",dmList[listIndex] , page);
+				const $ = cheerio.load(body);
+				var rex = /javascript:goViewLink\(|\);/g;
+				$("tbody").find("tr").each(function (index, elem) {
+					var data = new Array();
+					data.title = $(this).find("a").eq(0).text();
+					data.url = "http://www.dormitory.hanyang.ac.kr/board/view?tb_name="+ dmList[listIndex] +"&idx=" + $(this).find('a').eq(0).attr('href').split(rex)[1];
+					data.source = "한양대학교 학생생활관";
+					data.category = (listIndex < 3 ? '모집안내' : '공지사항');
+					data.time = $(this).find(".listdate").eq(0).text().substring(2,10);
+					data.json = "";
+	
+					// console.log(data);
+					sqlList.push([data.title, data.url, data.source, data.category, data.time, data.json]);
+				});
+	
+				if (sqlList.length == 0) {
+					if (listIndex == dmList.length - 1) return;
+					dmLoop(1, listIndex+1);
+					return;
+				}
+	
+				var connection = mysql.createConnection({
+					host : 'noti.c0pwj79j83nj.ap-northeast-2.rds.amazonaws.com',
+					user : 'admin',
+					password: 'notinoti',
+					port : 3306,
+					database : 'noti'
+				});
+	
+				connection.connect();
+	
+				var sql = 'INSERT IGNORE INTO Cards (title, url, source, category, time_, json_) VALUES ?;';
+				connection.query(sql, [sqlList],function(err, rows, fields) {
+					// connection.end();
+					if(err) {
+						console.log(err);
+						if (listIndex == dmList.length - 1) return;
+						dmLoop(1, listIndex+1);
+						return;
+					} else {
+						console.log(rows);
+						if (rows.affectedRows != 0) {
+							var sql = 'SELECT endpointarn FROM PushNoti WHERE '+ (listIndex < 3 ? 'dmmjan' : 'dmgjsh') +' = 1';
+								connection.query(sql, function(err, result, fields) {
+									connection.end();
+									if (err) throw err;
+									else {
+										for (var cardIndex = 0; cardIndex < rows.affectedRows; cardIndex++) {
+											for(var i in result) {
+												var params = {
+													MessageStructure: "json",
+													Message: JSON.stringify({
+													"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-한양대학교 학생생활관\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}}}"
+													}), /* required */
+													TargetArn: result[i].endpointarn
+												};
+											
+												var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
+												
+												// Handle promise's fulfilled/rejected states
+												publishTextPromise.then(
+													function(data) {
+													console.log(`Message ${params.Message} send sent to the topic ${params.TopicArn}`);
+													console.log("MessageID is " + data.MessageId);
+													}).catch(
+													function(err) {
+													console.error(err, err.stack);
+													});
+											}   
+										}
+										dmLoop(page+1, listIndex);
+									}
+								});
+						} else {
+							connection.end();
+							if (listIndex == dmList.length - 1) return;
+							dmLoop(1, listIndex+1);
+						}
+					}
+				});
+			});
+	}   
 
 	function hyLoop(category, page) {
 		const categories = ['', '학사', '입학', '모집/채용', '사회봉사', '일반','산학/연구', '행사', '장학', '학회/세미나'];

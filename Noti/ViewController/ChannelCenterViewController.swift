@@ -12,6 +12,7 @@ class ChannelCenterViewController: UIViewController {
     var channels = [Channel]()
     
     var categories = [String]()
+    var channelsInDB = ["학사-한양대학교":"hyhs", "입학-한양대학교":"hyih", "모집/채용-한양대학교":"hymjcy","사회봉사-한양대학교":"hyshbs", "일반-한양대학교":"hyib", "산학/연구-한양대학교":"hyshyg","행사-한양대학교":"hyhs2", "장학-한양대학교":"hyjh","학회/세미나-한양대학교":"hyhhsmn", "공지사항-기계공학부":"megjsh", "학사일반-컴퓨터소프트웨어학부":"cshsib", "취업정보-컴퓨터소프트웨어학부":"cscujb","공지사항-경영학부":"bsgjsh","공지사항-한양대학교 학생생활관":"dmgjsh", "모집안내-한양대학교 학생생활관":"dmmjan"]
     
     //        @IBOutlet weak var historyTable: UITableView!
     func loadData(){
@@ -20,6 +21,47 @@ class ChannelCenterViewController: UIViewController {
         
         categories = Array(Set(channels.map{$0.group!})).sorted(by: >)
     }
+    
+    @IBAction func notificationButton(_ sender: UIButton) {
+             let contentView = sender.superview?.superview
+             let cell =  contentView?.superview as! ChannelCollectionViewCell
+             if (cell.isButtonEnabled)
+             {
+                 let indexPath = cell.indexPath
+                 let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }
+                 CoreDataManager.shared.notificationChannel(subtitle: sectionChannels[indexPath.item].subtitle!, source: sectionChannels[indexPath.item].source!) { onSuccess in print("saved = \(onSuccess)")}
+                 let tokenString = CoreDataManager.shared.getToken()
+                 var urlString = String()
+
+                 if (sectionChannels[indexPath.item].alarm) {
+                     cell.notificationButton.setImage(UIImage(systemName: "bell.fill"), for: .normal)
+                     urlString = "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/channel/"+channelsInDB[sectionChannels[indexPath.item].subtitle!+"-"+sectionChannels[indexPath.item].source!]!+"/1/"+tokenString
+                 } else {
+                     cell.notificationButton.setImage(UIImage(systemName: "bell"), for: .normal)
+                     urlString = "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/channel/"+channelsInDB[sectionChannels[indexPath.item].subtitle!+"-"+sectionChannels[indexPath.item].source!]!+"/0/"+tokenString
+                 }
+                  guard let url = URL(string: urlString) else {return }
+
+                 var request = URLRequest(url: url)
+
+                 request.httpMethod = "get"
+
+                 let session = URLSession.shared
+                 //URLSession provides the async request
+                 let task = session.dataTask(with: request) { data, response, error in
+                      if let error = error {
+                          print("Error took place \(error)")
+                          return
+                      }
+                      if let response = response as? HTTPURLResponse {
+                          print(response)
+                      }
+                  }
+                 // Check if Error took place
+                 
+                  task.resume()
+             }
+         }
 //    func updateChannels(){
 //        let source = Array(Set(channels.map{$0.source!})).sorted(by:<)
 //        //print("\(selectedChannel)!!!")
@@ -80,6 +122,8 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "channel", for: indexPath) as! ChannelCollectionViewCell
         
+        cell.indexPath = indexPath
+        
         cell.titleLabel.text = sectionChannels[indexPath.item].title
         cell.categoryLabel.text = sectionChannels[indexPath.item].source
         cell.colorImageView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionChannels[indexPath.item].color!)
@@ -98,6 +142,7 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
             cell.backView.alpha = 1
             //cell.colorImageView.backgroundColor = .navBack
         }else {
+            cell.isButtonEnabled = true
             if self.traitCollection.userInterfaceStyle == .dark{
                 cell.titleLabel.textColor = .white
                 cell.backView.backgroundColor = .systemGray4
@@ -118,12 +163,49 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
         cell.layer.shadowRadius = 3 // 반경?
         cell.layer.shadowOpacity = 0.2 //
 //                print(sectionChannels)
+        if (sectionChannels[indexPath.item].alarm) {
+                     cell.notificationButton.setImage(UIImage(systemName: "bell.fill"), for: .normal)
+                 } else {
+                     cell.notificationButton.setImage(UIImage(systemName: "bell"), for: .normal)
+                 }
+                 cell.notificationButton.isEnabled = true
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }
         CoreDataManager.shared.subscribedChannel(subtitle: sectionChannels[indexPath.row].subtitle!, source: sectionChannels[indexPath.row].source!){ onSuccess in print("saved = \(onSuccess)")}
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "channel", for: indexPath) as! ChannelCollectionViewCell
+                 if (!sectionChannels[indexPath.item].isSubscribed && sectionChannels[indexPath.row].alarm) {
+                        CoreDataManager.shared.notificationChannel(subtitle: sectionChannels[indexPath.item].subtitle!, source: sectionChannels[indexPath.item].source!) { onSuccess in print("saved = \(onSuccess)")}
+                            cell.notificationButton.setImage(UIImage(systemName: "bell"), for: .normal)
+                     let tokenString = CoreDataManager.shared.getToken()
+                     let urlString = "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/channel/"+channelsInDB[sectionChannels[indexPath.item].subtitle!+"-"+sectionChannels[indexPath.item].source!]!+"/0/"+tokenString
+                     guard let url = URL(string: urlString) else {return }
+
+                     var request = URLRequest(url: url)
+
+                     request.httpMethod = "get"
+
+                     let session = URLSession.shared
+                     //URLSession provides the async request
+                     let task = session.dataTask(with: request) { data, response, error in
+                          if let error = error {
+                              print("Error took place \(error)")
+                              return
+                          }
+                          if let response = response as? HTTPURLResponse {
+                              print(response)
+                          }
+                      }
+                     // Check if Error took place
+                     
+                      task.resume()
+                 }
+
+        
         loadData()
         collectionView.reloadData()
     }

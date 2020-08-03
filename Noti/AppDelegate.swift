@@ -91,6 +91,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         guard settings.authorizationStatus == .authorized else { return }
         DispatchQueue.main.async {
           UIApplication.shared.registerForRemoteNotifications()
+            UIApplication.shared.applicationIconBadgeNumber = 0
         }
       }
     }
@@ -129,9 +130,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let request = UNNotificationRequest(identifier: "Noti", content: content, trigger: trigger)
             
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+            
+            application.applicationIconBadgeNumber += 1
         }
     
-
+    func applicationDidBecomeActive(_ application: UIApplication) {
+//        application.applicationIconBadgeNumber = 0
+    }
     
     func showNotification(){
         let content = UNMutableNotificationContent()

@@ -33,7 +33,32 @@ class HistoryViewController: UIViewController{
     }
     
     
+    func updateTitle(title: String){
+        let longTitleLabel = UILabel()
+        longTitleLabel.text = title
+        longTitleLabel.font = .boldSystemFont(ofSize: 25)
+        longTitleLabel.sizeToFit()
+        longTitleLabel.textColor = .navFont
+
+        let leftItem = UIBarButtonItem(customView: longTitleLabel)
+        self.navigationItem.leftBarButtonItem = leftItem
+    }
     
+    func updateSubTitle(subTitle: String,color: UIColor = .history){
+        let title = UILabel()
+        title.text = subTitle
+        title.font = .boldSystemFont(ofSize: 17)
+        title.textColor = color
+        let spacer = UIView()
+        let constraint = spacer.widthAnchor.constraint(greaterThanOrEqualToConstant: CGFloat.greatestFiniteMagnitude)
+        constraint.isActive = true
+        constraint.priority = .defaultLow
+
+        let stack = UIStackView(arrangedSubviews: [title, spacer])
+        stack.axis = .horizontal
+    
+        navigationItem.titleView = stack
+    }
     
     func updateCardsAndTitle(){
         let allCards = CoreDataManager.shared.getCards()
@@ -58,7 +83,9 @@ class HistoryViewController: UIViewController{
             cards = filterWithTagCards.filter{(card) -> Bool in
                 return channels.filter{(channel) -> Bool in
                     return channel.source == card.source && card.formattedSource!.contains(channel.subtitle!)}.count != 0}
-            navigationItem.title = channelToChange.title
+//            navigationItem.title = channelToChange.title
+            updateTitle(title: channelToChange.title!)
+            updateSubTitle(subTitle: channelToChange.source!)
         }else{
             if(selectedTag.count == 0){
                 filterWithTagCards = allCards
@@ -74,13 +101,16 @@ class HistoryViewController: UIViewController{
             let channelToChange = channels[selectedChannel]
             //let allCards = CoreDataManager.shared.getCards()
             cards = filterWithTagCards.filter{ $0.source == channelToChange.source && $0.formattedSource!.contains(channelToChange.subtitle!)}
-            navigationItem.title = channelToChange.title
+//            navigationItem.title = channelToChange.title
+            updateTitle(title: channelToChange.title!)
+            updateSubTitle(subTitle: channelToChange.source!)
         }
         date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by : {$0.compare($1) == .orderedDescending})
     }
 
     override func viewDidLoad() {
-        navigationItem.title = "전체"
+        navigationItem.title = nil
+        updateTitle(title: "전체")
         //네비게이션바 배경색 넣어주는 코드
         navigationItem.largeTitleDisplayMode = .always
         loadData()
@@ -107,6 +137,7 @@ class HistoryViewController: UIViewController{
         channelCollection.delegate = self
         tagCollection.dataSource = self
         tagCollection.delegate = self
+        updateSubTitle(subTitle: "전체")
 //        navigationController?.hidesBarsOnSwipe = true
     }
     

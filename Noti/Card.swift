@@ -36,6 +36,7 @@ extension UIColor {
     static var history: UIColor { return UIColor(red: 142/255, green: 142/255, blue: 147/255, alpha: 0.7) }
     static var selected: UIColor { return UIColor(red: 209/255, green: 209/255, blue: 214/255, alpha: 1) }
     static var blueSelected: UIColor { return UIColor(red: 48/255, green: 123/255, blue: 246/255, alpha: 1) }
+    static var highlighted: UIColor { return UIColor(red: 61/255, green: 134/255, blue: 246/255, alpha: 1) }
 
 }
 

@@ -101,8 +101,8 @@
                     <tabBarItem key="tabBarItem" title="홈" image="Tab1" id="ajK-Q3-Ilf"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="9HT-pz-uFs"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="wnj-HJ-lda">
-                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="wnj-HJ-lda">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -157,17 +157,17 @@
         <!--히스토리-->
         <scene sceneID="cEh-EP-gi7">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Vdi-8p-8GF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="4hi-XS-iOl" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="히스토리" image="Tab2" id="5mL-ZQ-kp3"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="BHo-Pn-7W8">
-                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="BHo-Pn-7W8">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
                         <segue destination="Ud3-hY-Ra3" kind="relationship" relationship="rootViewController" id="QED-e0-hoR"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vdi-8p-8GF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="797" y="1192"/>
         </scene>
@@ -176,8 +176,8 @@
             <objects>
                 <navigationController id="Hht-5r-HH2" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="채널센터" image="Tab3" id="Eur-MW-p4b" userLabel="채널센터"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="UvV-Xw-39S">
-                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="UvV-Xw-39S">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>

@@ -367,7 +367,6 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
                 }
             }
             else{
-//                cell.titleLabel.text = "#\( channels[selectedChannel].channelTags![indexPath.row+1])"
                 cell.token = Tag(title: channels[selectedChannel].channelTags![indexPath.row+1], time: NSDate())
                 if selectedTag.contains(indexPath.row){
                               cell.titleLabel.textColor = CoreDataManager.shared.colorWithHexString(hexString:channels[selectedChannel].color!)
@@ -375,13 +374,6 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
                                   cell.titleLabel.textColor = .sourceFont
                            }
             }
-           
-           /* if (HistoryTableViewController.selectedTag == indexPath.row) {
-                cell.tagName.textColor = .black
-            }else{
-                cell.tagName.textColor = .sourceFont
-            }*/
-            //print(cell.tagName.text)
             return cell
     }
     

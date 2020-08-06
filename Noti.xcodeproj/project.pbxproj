@@ -21,6 +21,7 @@
 		0F93EE1D2471232F0018B9C8 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F93EE1C2471232F0018B9C8 /* Card.swift */; };
 		0FD736CF24C741FB00F221BD /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD736CC24C7185100F221BD /* UserNotifications.framework */; };
 		0FD736D024C7420300F221BD /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD736CA24C7184800F221BD /* PushKit.framework */; };
+		18BE0CE524DB1CEB003569EF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BE0CE424DB1CEB003569EF /* HomeViewController.swift */; };
 		623073AA2493739E00C06C6D /* LastUpdated+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623073A82493739E00C06C6D /* LastUpdated+CoreDataClass.swift */; };
 		623073AB2493739E00C06C6D /* LastUpdated+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623073A92493739E00C06C6D /* LastUpdated+CoreDataProperties.swift */; };
 		62534AED24CEE0C6007C3938 /* Token+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62534AEB24CEE0C6007C3938 /* Token+CoreDataClass.swift */; };
@@ -66,6 +67,7 @@
 		0FD736CA24C7184800F221BD /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
 		0FD736CC24C7185100F221BD /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		0FD736CE24C72FBD00F221BD /* Noti.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Noti.entitlements; sourceTree = "<group>"; };
+		18BE0CE424DB1CEB003569EF /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		623073A82493739E00C06C6D /* LastUpdated+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LastUpdated+CoreDataClass.swift"; sourceTree = "<group>"; };
 		623073A92493739E00C06C6D /* LastUpdated+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LastUpdated+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		62534AEB24CEE0C6007C3938 /* Token+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Token+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				6258C0BA247EF7F6001E5B49 /* ChannelCollectionViewController.swift */,
 				86AE280F2492B4BC00DDDDC5 /* ChannelCenterViewController.swift */,
 				0F2F63AB249BE257001E2CB2 /* HistoryTableViewController.swift */,
+				18BE0CE424DB1CEB003569EF /* HomeViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 				860930AB24898DFD005B7A28 /* ChannelCollectionViewCell.swift in Sources */,
 				62B321FB248A1A9000111CE8 /* Card+CoreDataClass.swift in Sources */,
 				62E3020724805B6D002332AE /* addTagViewController.swift in Sources */,
+				18BE0CE524DB1CEB003569EF /* HomeViewController.swift in Sources */,
 				6258C0AB2473DE49001E5B49 /* tagTableViewCell.swift in Sources */,
 				623073AB2493739E00C06C6D /* LastUpdated+CoreDataProperties.swift in Sources */,
 				62B321F8248A1A9000111CE8 /* Channel+CoreDataProperties.swift in Sources */,
@@ -446,6 +450,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4QG3GC35LA;
 				INFOPLIST_FILE = Noti/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -465,6 +470,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4QG3GC35LA;
 				INFOPLIST_FILE = Noti/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

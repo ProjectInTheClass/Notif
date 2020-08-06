@@ -143,7 +143,17 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
             }
             // Convert HTTP Response Data to a simple String
             if let data = data, var dataString = String(data: data, encoding: encoding) {
-                if (self.source!.contains("한양대학교")) {
+                if (self.source!.contains("학생생활관")) {
+                    dataString = dataString.slice(from: "<div class=\"cnt\">", to: "<div class=\"btn_area clearfix\">")!
+                    
+                    let enddivIndices = dataString.ranges(of: "</div>")
+                    
+                    if let lastIndex = enddivIndices.last {
+                        dataString = String(dataString[enddivIndices.first!.lowerBound...lastIndex.upperBound])
+                    }
+                    
+                }
+                else if (self.source!.contains("한양대학교")) {
                     dataString = dataString.slice(from: "<td class=\"view-script\">", to: "<div class=\"bbs-button-wrap container\">")!
                      
                      let endtdIndices = dataString.ranges(of: "</td>")

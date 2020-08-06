@@ -16,7 +16,7 @@ class HomeTableViewController: UITableViewController {
     func updateTitle(title: String){
         let longTitleLabel = UILabel()
         longTitleLabel.text = title
-        longTitleLabel.font = .boldSystemFont(ofSize: 25)
+        longTitleLabel.font = .boldSystemFont(ofSize: 27)
         longTitleLabel.sizeToFit()
         longTitleLabel.textColor = .navFont
 

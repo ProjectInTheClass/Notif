@@ -22,6 +22,17 @@ class ChannelCenterViewController: UIViewController {
         categories = Array(Set(channels.map{$0.group!})).sorted(by: >)
     }
     
+    func updateTitle(title: String){
+        let longTitleLabel = UILabel()
+        longTitleLabel.text = title
+        longTitleLabel.font = .boldSystemFont(ofSize: 25)
+        longTitleLabel.sizeToFit()
+        longTitleLabel.textColor = .navFont
+
+        let leftItem = UIBarButtonItem(customView: longTitleLabel)
+        self.navigationItem.leftBarButtonItem = leftItem
+    }
+    
     @IBAction func notificationButton(_ sender: UIButton) {
              let contentView = sender.superview?.superview
              let cell =  contentView?.superview as! ChannelCollectionViewCell
@@ -72,7 +83,8 @@ class ChannelCenterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadData()
-        navigationItem.title = "채널센터"
+//        navigationItem.title = "채널센터"
+        updateTitle(title: "채널센터")
         //updateChannels()
         //categories = Array(Set(channels.map{$0.source!})).sorted(by: >)
         let coloredAppearance = UINavigationBarAppearance()

@@ -13,6 +13,41 @@ class HomeTableViewController: UITableViewController {
     var mangedObjectContext : NSManagedObjectContext!
     var cards = [Card]()
     
+    func updateTitle(title: String){
+        let longTitleLabel = UILabel()
+        longTitleLabel.text = title
+        longTitleLabel.font = .boldSystemFont(ofSize: 25)
+        longTitleLabel.sizeToFit()
+        longTitleLabel.textColor = .navFont
+
+        let leftItem = UIBarButtonItem(customView: longTitleLabel)
+        self.navigationItem.leftBarButtonItem = leftItem
+    }
+    
+    func updateSubTitle(subTitle: String){
+        
+
+        let title = UILabel()
+        title.text = subTitle
+        title.font = .boldSystemFont(ofSize: 17)
+        title.textColor = .highlighted
+        let attributedStr = NSMutableAttributedString(string: subTitle)
+        attributedStr.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.navFont, range: (subTitle as NSString).range(of:"개의 새로운 글"))
+
+
+        //최종적으로 내 label에 속성을 적용
+        title.attributedText = attributedStr
+        let spacer = UIView()
+        let constraint = spacer.widthAnchor.constraint(greaterThanOrEqualToConstant: CGFloat.greatestFiniteMagnitude)
+        constraint.isActive = true
+        constraint.priority = .defaultLow
+
+        let stack = UIStackView(arrangedSubviews: [title, spacer])
+        stack.axis = .horizontal
+
+        navigationItem.titleView = stack
+    }
+    
     func loadData(){
         let cardsData = CoreDataManager.shared.getCards()
         let dateFormatter = DateFormatter()
@@ -63,9 +98,11 @@ class HomeTableViewController: UITableViewController {
         navigationItem.largeTitleDisplayMode = .always
         
         //카드개수만큼만 보여주도록 설정함
-        navigationItem.title = "\(cards.count)개의 새로운 글"
-
-        tabBarItem.title = "홈"
+//        navigationItem.title = "\(cards.count)개의 새로운 글"
+        
+        updateSubTitle(subTitle: "\(cards.count)개의 새로운 글")
+//        tabBarItem.title = "홈"
+        updateTitle(title: "홈")
         
         //네비게이션바 배경색 넣어주는 코드
         let coloredAppearance = UINavigationBarAppearance()

@@ -33,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
     }
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 //        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.badge,.sound], completionHandler: {(didAllow,Error) in
@@ -44,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UNUserNotificationCenter.current()
           .requestAuthorization(options: [.alert, .sound, .badge]) {
             [weak self] granted, error in
-              
+            
             print("Permission granted: \(granted)")
             guard granted else { return }
             self?.getNotificationSettings()
@@ -138,25 +139,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //        application.applicationIconBadgeNumber = 0
     }
     
-    func showNotification(){
-        let content = UNMutableNotificationContent()
-        
-        content.title = "노티"
-        content.body = "오늘 새로운 글이 있는지 확인해보세요!✨"
-        content.badge = 1
-        
-        let gregorian = Calendar(identifier: .gregorian)
-        let now = Date()
-        var components = gregorian.dateComponents([.year,.month,.day,.hour,.minute,.second], from: now)
-        
-        components.hour = 21
-        components.minute = 36
-        let date = gregorian.date(from: components)
-        let dailyTrigger = Calendar.current.dateComponents([.hour,.minute,.second], from: date!)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dailyTrigger, repeats: true)
-        //let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
-        let request = UNNotificationRequest(identifier: "localNoti", content: content, trigger: trigger)
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-    }
+    
 }

@@ -412,32 +412,32 @@ class CoreDataManager{
             dateFormatter.dateFormat = "yyyy/MM/dd"
             
             CoreDataManager.shared.saveChannels(title: "전체",subtitle: "전체", source: "전체",color: .fifth,  channelTags:["대회", "모집","채용","장학금"], group: "전체", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "공지사항게시판",subtitle: "공지사항", source: "학생생활관", color: .fifth, channelTags: [""], group: "학생생활관", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "모집안내게시판",subtitle: "모집안내", source: "학생생활관", color: .fifth, channelTags: [""], group: "학생생활관", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "공지사항게시판",subtitle: "공지사항", source: "기계공학부",color: .second,  channelTags: [""], group: "학부사이트", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "학사일반게시판",subtitle: "학사일반", source: "컴퓨터소프트웨어학부",color: .third,  channelTags: [""], group: "학부사이트", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "취업정보게시판",subtitle: "취업정보", source: "컴퓨터소프트웨어학부",color: .third,  channelTags: [""], group: "학부사이트", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "공지사항게시판",subtitle: "공지사항", source: "경영학부",color: .fourth,  channelTags: [""], group: "학부사이트", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "학사게시판",subtitle: "학사", source: "한양대학교", color: .first, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "입학게시판",subtitle: "입학", source: "한양대학교", color: .first, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "모집/채용게시판",subtitle: "모집/채용", source: "한양대학교", color: .first, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "사회봉사게시판",subtitle: "사회봉사", source: "한양대학교", color: .first, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "일반게시판",subtitle: "일반", source: "한양대학교", color: .first, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "산학/연구게시판",subtitle: "산학/연구", source: "한양대학교", color: .first, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "행사게시판",subtitle: "행사", source: "한양대학교", color: .first, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "장학게시판",subtitle: "장학", source: "한양대학교", color: .first, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.saveChannels(title: "학회/세미나게시판",subtitle: "학회/세미나", source: "한양대학교", color: .first, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "공지사항게시판",subtitle: "공지사항", source: "학생생활관", color: .third, channelTags: [""], group: "학생생활관", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "모집안내게시판",subtitle: "모집안내", source: "학생생활관", color: .third, channelTags: [""], group: "학생생활관", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "공지사항게시판",subtitle: "공지사항", source: "기계공학부",color: .first,  channelTags: [""], group: "학부사이트", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "학사일반게시판",subtitle: "학사일반", source: "컴퓨터소프트웨어학부",color: .first,  channelTags: [""], group: "학부사이트", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "취업정보게시판",subtitle: "취업정보", source: "컴퓨터소프트웨어학부",color: .first,  channelTags: [""], group: "학부사이트", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "공지사항게시판",subtitle: "공지사항", source: "경영학부",color: .first,  channelTags: [""], group: "학부사이트", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "학사게시판",subtitle: "학사", source: "한양대학교", color: .fourth, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "입학게시판",subtitle: "입학", source: "한양대학교", color: .fourth, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "모집/채용게시판",subtitle: "모집/채용", source: "한양대학교", color: .fourth, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "사회봉사게시판",subtitle: "사회봉사", source: "한양대학교", color: .fourth, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "일반게시판",subtitle: "일반", source: "한양대학교", color: .fourth, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "산학/연구게시판",subtitle: "산학/연구", source: "한양대학교", color: .fourth, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "행사게시판",subtitle: "행사", source: "한양대학교", color: .fourth, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "장학게시판",subtitle: "장학", source: "한양대학교", color: .fourth, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveChannels(title: "학회/세미나게시판",subtitle: "학회/세미나", source: "한양대학교", color: .fourth, channelTags: [""], group: "한양대학교", isSubscribed: true){ onSuccess in print("saved = \(onSuccess)")}
             CoreDataManager.shared.saveTags(name: "대회", time: dateNow!){ onSuccess in print("saved = \(onSuccess)")}
             CoreDataManager.shared.saveTags(name: "모집", time: dateNow!){ onSuccess in print("saved = \(onSuccess)")}
             CoreDataManager.shared.saveTags(name: "채용", time: dateNow!){ onSuccess in print("saved = \(onSuccess)")}
             CoreDataManager.shared.saveTags(name: "장학금", time: dateNow!){ onSuccess in print("saved = \(onSuccess)")}
             
             dateFormatter.dateFormat = "yy-MM-dd"
-            CoreDataManager.shared.saveUpdated(date: dateFormatter.string(from: dateNow!)){ onSuccess in } //print("saved = \(onSuccess)")
+            CoreDataManager.shared.saveUpdated(date: "20-06-11"){ onSuccess in } //print("saved = \(onSuccess)")
             lastUpdated = CoreDataManager.shared.getUpdated()
         }
         let tags = CoreDataManager.shared.getTags()
-       let url = URL(string:"https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/" + "20-06-11")
+       let url = URL(string:"https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/" + lastUpdated[0].date!)
         do {
             let data = try Data(contentsOf: url!)
             let cardsData = getCards()
@@ -467,13 +467,15 @@ class CoreDataManager{
                     var color = UIColor()
                     switch card["source"] as! String{
                     case "한양대학교":
-                        color = UIColor.first
-                    case "기계공학부":
-                        color = UIColor.second
-                    case "컴퓨터소프트웨어학부":
-                        color = UIColor.third
-                    case "경영학부":
                         color = UIColor.fourth
+                    case "기계공학부":
+                        color = UIColor.first
+                    case "컴퓨터소프트웨어학부":
+                        color = UIColor.first
+                    case "경영학부":
+                        color = UIColor.first
+                    case "학생생활관":
+                        color = UIColor.third
                     default:
                         color = UIColor.fifth
                     }
@@ -492,6 +494,7 @@ class CoreDataManager{
             }
         dateFormatter.dateFormat = "yy-MM-dd"
         CoreDataManager.shared.saveUpdated(date: dateFormatter.string(from: Date())){ onSuccess in }
+            
         } catch {
             print("Can't get url")
         }

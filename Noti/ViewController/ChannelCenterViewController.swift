@@ -39,7 +39,7 @@ class ChannelCenterViewController: UIViewController {
              if (cell.isButtonEnabled)
              {
                  let indexPath = cell.indexPath
-                 let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }
+                let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }.sorted(by: {$0.source! < $1.source!})
                  CoreDataManager.shared.notificationChannel(subtitle: sectionChannels[indexPath.item].subtitle!, source: sectionChannels[indexPath.item].source!) { onSuccess in print("saved = \(onSuccess)")}
                  let tokenString = CoreDataManager.shared.getToken()
                  var urlString = String()
@@ -130,7 +130,7 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 //        let source = Array(Set(channels.map{$0.source!})).sorted(by: >)
-        let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }
+        let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }.sorted(by: {$0.source! < $1.source!})
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "channel", for: indexPath) as! ChannelCollectionViewCell
         
@@ -187,7 +187,7 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }
+        let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }.sorted(by: {$0.source! < $1.source!})
         CoreDataManager.shared.subscribedChannel(subtitle: sectionChannels[indexPath.row].subtitle!, source: sectionChannels[indexPath.row].source!){ onSuccess in print("saved = \(onSuccess)")}
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "channel", for: indexPath) as! ChannelCollectionViewCell
@@ -234,7 +234,7 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
             case UICollectionView.elementKindSectionHeader:
                 
                 let headerview = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header", for: indexPath) as! ChannelCollectionViewHeader
-                let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }
+                let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }.sorted(by: {$0.source! < $1.source!})
                 headerview.categoryLabel.text = sectionChannels[indexPath.item].group
                 headerview.colorLabel.text =  sectionChannels[indexPath.item].group
                 if self.traitCollection.userInterfaceStyle == .dark{

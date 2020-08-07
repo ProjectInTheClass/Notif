@@ -42,7 +42,7 @@ module.exports.crawler = (event, context, callback) => {
 					var data = new Array();
 					data.title = $(this).find("a").eq(0).text();
 					data.url = "http://www.dormitory.hanyang.ac.kr/board/view?tb_name="+ dmList[listIndex] +"&idx=" + $(this).find('a').eq(0).attr('href').split(rex)[1];
-					data.source = "한양대학교 학생생활관";
+					data.source = "학생생활관";
 					data.category = (listIndex < 3 ? '모집안내' : '공지사항');
 					data.time = $(this).find(".listdate").eq(0).text().substring(2,10);
 					data.json = "";
@@ -88,7 +88,7 @@ module.exports.crawler = (event, context, callback) => {
 												var params = {
 													MessageStructure: "json",
 													Message: JSON.stringify({
-													"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-한양대학교 학생생활관\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}}}"
+													"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-학생생활관\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}}}"
 													}), /* required */
 													TargetArn: result[i].endpointarn
 												};

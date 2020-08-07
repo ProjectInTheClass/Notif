@@ -12,14 +12,14 @@ class ChannelCenterViewController: UIViewController {
     var channels = [Channel]()
     
     var categories = [String]()
-    var channelsInDB = ["학사-한양대학교":"hyhs", "입학-한양대학교":"hyih", "모집/채용-한양대학교":"hymjcy","사회봉사-한양대학교":"hyshbs", "일반-한양대학교":"hyib", "산학/연구-한양대학교":"hyshyg","행사-한양대학교":"hyhs2", "장학-한양대학교":"hyjh","학회/세미나-한양대학교":"hyhhsmn", "공지사항-기계공학부":"megjsh", "학사일반-컴퓨터소프트웨어학부":"cshsib", "취업정보-컴퓨터소프트웨어학부":"cscujb","공지사항-경영학부":"bsgjsh","공지사항-한양대학교 학생생활관":"dmgjsh", "모집안내-한양대학교 학생생활관":"dmmjan"]
+    var channelsInDB = ["학사-한양대학교":"hyhs", "입학-한양대학교":"hyih", "모집/채용-한양대학교":"hymjcy","사회봉사-한양대학교":"hyshbs", "일반-한양대학교":"hyib", "산학/연구-한양대학교":"hyshyg","행사-한양대학교":"hyhs2", "장학-한양대학교":"hyjh","학회/세미나-한양대학교":"hyhhsmn", "공지사항-기계공학부":"megjsh", "학사일반-컴퓨터소프트웨어학부":"cshsib", "취업정보-컴퓨터소프트웨어학부":"cscujb","공지사항-경영학부":"bsgjsh","공지사항-학생생활관":"dmgjsh", "모집안내-학생생활관":"dmmjan"]
     
     //        @IBOutlet weak var historyTable: UITableView!
     func loadData(){
         channels = CoreDataManager.shared.getChannels().filter{ $0.title! != "전체"}
-        channels = channels.sorted(by: {$0.group! > $1.group!})
+        channels = channels.sorted(by: {$0.group! < $1.group!})
         
-        categories = Array(Set(channels.map{$0.group!})).sorted(by: >)
+        categories = Array(Set(channels.map{$0.group!})).sorted(by: <)
     }
     
     func updateTitle(title: String){
@@ -39,7 +39,7 @@ class ChannelCenterViewController: UIViewController {
              if (cell.isButtonEnabled)
              {
                  let indexPath = cell.indexPath
-                 let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }
+                let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }.sorted(by: {$0.source! < $1.source!})
                  CoreDataManager.shared.notificationChannel(subtitle: sectionChannels[indexPath.item].subtitle!, source: sectionChannels[indexPath.item].source!) { onSuccess in print("saved = \(onSuccess)")}
                  let tokenString = CoreDataManager.shared.getToken()
                  var urlString = String()
@@ -130,7 +130,7 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 //        let source = Array(Set(channels.map{$0.source!})).sorted(by: >)
-        let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }
+        let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }.sorted(by: {$0.source! < $1.source!})
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "channel", for: indexPath) as! ChannelCollectionViewCell
         
@@ -143,6 +143,7 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
         //cell.backgroundColor = .white
         // 구독안하거 블러처리
         if (sectionChannels[indexPath.item].isSubscribed == false){
+            cell.isButtonEnabled = false
             if self.traitCollection.userInterfaceStyle == .dark{
                 cell.backView.backgroundColor = UIColor(white: 0.5, alpha: 1)
                 cell.titleLabel.textColor = .white
@@ -186,7 +187,7 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }
+        let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }.sorted(by: {$0.source! < $1.source!})
         CoreDataManager.shared.subscribedChannel(subtitle: sectionChannels[indexPath.row].subtitle!, source: sectionChannels[indexPath.row].source!){ onSuccess in print("saved = \(onSuccess)")}
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "channel", for: indexPath) as! ChannelCollectionViewCell
@@ -233,7 +234,7 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
             case UICollectionView.elementKindSectionHeader:
                 
                 let headerview = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header", for: indexPath) as! ChannelCollectionViewHeader
-                let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }
+                let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }.sorted(by: {$0.source! < $1.source!})
                 headerview.categoryLabel.text = sectionChannels[indexPath.item].group
                 headerview.colorLabel.text =  sectionChannels[indexPath.item].group
                 if self.traitCollection.userInterfaceStyle == .dark{

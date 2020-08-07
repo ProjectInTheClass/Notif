@@ -12,14 +12,14 @@ class ChannelCenterViewController: UIViewController {
     var channels = [Channel]()
     
     var categories = [String]()
-    var channelsInDB = ["학사-한양대학교":"hyhs", "입학-한양대학교":"hyih", "모집/채용-한양대학교":"hymjcy","사회봉사-한양대학교":"hyshbs", "일반-한양대학교":"hyib", "산학/연구-한양대학교":"hyshyg","행사-한양대학교":"hyhs2", "장학-한양대학교":"hyjh","학회/세미나-한양대학교":"hyhhsmn", "공지사항-기계공학부":"megjsh", "학사일반-컴퓨터소프트웨어학부":"cshsib", "취업정보-컴퓨터소프트웨어학부":"cscujb","공지사항-경영학부":"bsgjsh","공지사항-한양대학교 학생생활관":"dmgjsh", "모집안내-한양대학교 학생생활관":"dmmjan"]
+    var channelsInDB = ["학사-한양대학교":"hyhs", "입학-한양대학교":"hyih", "모집/채용-한양대학교":"hymjcy","사회봉사-한양대학교":"hyshbs", "일반-한양대학교":"hyib", "산학/연구-한양대학교":"hyshyg","행사-한양대학교":"hyhs2", "장학-한양대학교":"hyjh","학회/세미나-한양대학교":"hyhhsmn", "공지사항-기계공학부":"megjsh", "학사일반-컴퓨터소프트웨어학부":"cshsib", "취업정보-컴퓨터소프트웨어학부":"cscujb","공지사항-경영학부":"bsgjsh","공지사항-학생생활관":"dmgjsh", "모집안내-학생생활관":"dmmjan"]
     
     //        @IBOutlet weak var historyTable: UITableView!
     func loadData(){
         channels = CoreDataManager.shared.getChannels().filter{ $0.title! != "전체"}
-        channels = channels.sorted(by: {$0.group! > $1.group!})
+        channels = channels.sorted(by: {$0.group! < $1.group!})
         
-        categories = Array(Set(channels.map{$0.group!})).sorted(by: >)
+        categories = Array(Set(channels.map{$0.group!})).sorted(by: <)
     }
     
     func updateTitle(title: String){
@@ -143,6 +143,7 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
         //cell.backgroundColor = .white
         // 구독안하거 블러처리
         if (sectionChannels[indexPath.item].isSubscribed == false){
+            cell.isButtonEnabled = false
             if self.traitCollection.userInterfaceStyle == .dark{
                 cell.backView.backgroundColor = UIColor(white: 0.5, alpha: 1)
                 cell.titleLabel.textColor = .white

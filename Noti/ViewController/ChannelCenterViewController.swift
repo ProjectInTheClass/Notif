@@ -149,11 +149,13 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
                 cell.titleLabel.textColor = .white
             }
             else{
+//                cell.backView.backgroundColor = UIColor(white: 0.5, alpha: 1)
                 cell.backView.backgroundColor = .white
+                cell.titleLabel.textColor = .navFont
             }
-            //cell.backView.backgroundColor = UIColor(white: 1, alpha: 1)
-            cell.backView.alpha = 1
-            //cell.colorImageView.backgroundColor = .navBack
+//            cell.backView.backgroundColor = UIColor(white: 1, alpha: 1)
+            cell.backView.alpha = 0.67
+            cell.colorImageView.backgroundColor = .navBack
         }else {
             cell.isButtonEnabled = true
             if self.traitCollection.userInterfaceStyle == .dark{

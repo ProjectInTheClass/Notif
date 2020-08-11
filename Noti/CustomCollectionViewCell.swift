@@ -13,6 +13,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
 //    @IBOutlet weak var colorImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var colorLabel: UILabel!
+    @IBOutlet weak var colorDot: UILabel!
     
 }
 

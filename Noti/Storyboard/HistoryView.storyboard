@@ -30,20 +30,26 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="channel" id="iQD-c8-n07" customClass="CustomCollectionViewCell" customModule="Noti" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="52" height="40"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="64" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="zYW-jj-F5E">
-                                            <rect key="frame" x="0.0" y="0.0" width="52" height="40"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="64" height="40"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="•" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rCi-n3-39d">
+                                                    <rect key="frame" x="0.0" y="8" width="12" height="24"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                                    <color key="textColor" red="0.113799043" green="0.1135409549" blue="0.12549179790000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S9r-Gp-1p0">
-                                                    <rect key="frame" x="0.0" y="8" width="52" height="24"/>
+                                                    <rect key="frame" x="12" y="8" width="52" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                                     <color key="textColor" red="0.113799043" green="0.1135409549" blue="0.12549179790000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="26b-tM-tgw">
-                                                    <rect key="frame" x="0.0" y="35.5" width="52" height="3"/>
+                                                    <rect key="frame" x="12" y="35.5" width="52" height="3"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="3" id="Ym6-dP-ceZ"/>
                                                     </constraints>
@@ -53,15 +59,19 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="S9r-Gp-1p0" firstAttribute="leading" secondItem="rCi-n3-39d" secondAttribute="trailing" id="2og-xK-1fB"/>
+                                                <constraint firstItem="rCi-n3-39d" firstAttribute="centerY" secondItem="zYW-jj-F5E" secondAttribute="centerY" id="7Z3-qU-DjZ"/>
                                                 <constraint firstItem="S9r-Gp-1p0" firstAttribute="centerY" secondItem="zYW-jj-F5E" secondAttribute="centerY" id="8Pu-mh-u9C"/>
                                                 <constraint firstItem="26b-tM-tgw" firstAttribute="centerY" secondItem="zYW-jj-F5E" secondAttribute="centerY" constant="17" id="MsM-Wt-wEj"/>
                                                 <constraint firstAttribute="trailing" secondItem="26b-tM-tgw" secondAttribute="trailing" id="PfF-wu-q9n"/>
                                                 <constraint firstAttribute="trailing" secondItem="S9r-Gp-1p0" secondAttribute="trailing" id="Xg0-sc-bbE"/>
-                                                <constraint firstItem="26b-tM-tgw" firstAttribute="leading" secondItem="zYW-jj-F5E" secondAttribute="leading" id="cvN-wa-4Of"/>
-                                                <constraint firstItem="S9r-Gp-1p0" firstAttribute="leading" secondItem="zYW-jj-F5E" secondAttribute="leading" id="urf-UW-gBz"/>
+                                                <constraint firstItem="26b-tM-tgw" firstAttribute="leading" secondItem="zYW-jj-F5E" secondAttribute="leading" constant="12" id="cvN-wa-4Of"/>
+                                                <constraint firstItem="rCi-n3-39d" firstAttribute="leading" secondItem="zYW-jj-F5E" secondAttribute="leading" id="ozq-hN-aeV"/>
+                                                <constraint firstItem="S9r-Gp-1p0" firstAttribute="leading" secondItem="zYW-jj-F5E" secondAttribute="leading" constant="12" id="urf-UW-gBz"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <connections>
+                                            <outlet property="colorDot" destination="rCi-n3-39d" id="5wb-1x-X9z"/>
                                             <outlet property="colorLabel" destination="26b-tM-tgw" id="HJB-5A-Ypj"/>
                                             <outlet property="titleLabel" destination="S9r-Gp-1p0" id="BzQ-pL-oPU"/>
                                         </connections>

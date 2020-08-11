@@ -362,6 +362,7 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
                      cell.titleLabel.text = channels[indexPath.row].subtitle
                      cell.colorLabel.text = channels[indexPath.row].subtitle
                      cell.colorLabel.textColor = .clear
+            cell.colorDot.textColor = CoreDataManager.shared.colorWithHexString(hexString:channels[indexPath.row].color!)
                     if selectedChannel==indexPath.row {
                         if self.traitCollection.userInterfaceStyle == .dark{
                             cell.titleLabel.textColor = UIColor.white
@@ -462,7 +463,7 @@ extension HistoryViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         
         
-        return UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24)
+        return UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 24)
         
     }
     

@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0F044263246B0899002A7C2B /* detailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F044262246B0899002A7C2B /* detailViewController.swift */; };
-		0F2F63AA249BE1BC001E2CB2 /* HistoryView2.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F2F63A9249BE1BC001E2CB2 /* HistoryView2.storyboard */; };
-		0F2F63AC249BE257001E2CB2 /* HistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F2F63AB249BE257001E2CB2 /* HistoryTableViewController.swift */; };
 		0F4465D4249D0E9E005DF860 /* LoginWebView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F4465D3249D0E9E005DF860 /* LoginWebView.storyboard */; };
 		0F5DB590246AEA1700245E96 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DB58F246AEA1700245E96 /* AppDelegate.swift */; };
 		0F5DB592246AEA1700245E96 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DB591246AEA1700245E96 /* SceneDelegate.swift */; };
@@ -50,8 +48,6 @@
 
 /* Begin PBXFileReference section */
 		0F044262246B0899002A7C2B /* detailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = detailViewController.swift; sourceTree = "<group>"; };
-		0F2F63A9249BE1BC001E2CB2 /* HistoryView2.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HistoryView2.storyboard; sourceTree = "<group>"; };
-		0F2F63AB249BE257001E2CB2 /* HistoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewController.swift; sourceTree = "<group>"; };
 		0F4465D3249D0E9E005DF860 /* LoginWebView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LoginWebView.storyboard; sourceTree = "<group>"; };
 		0F5DB58C246AEA1700245E96 /* Noti.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Noti.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F5DB58F246AEA1700245E96 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -174,7 +170,6 @@
 				86A5E83A246EE5BC00B692F4 /* HomeDetailView.storyboard */,
 				86AE280D2492B44900DDDDC5 /* ChannelCenterView.storyboard */,
 				86A5E87C246EF00400B692F4 /* HistoryView.storyboard */,
-				0F2F63A9249BE1BC001E2CB2 /* HistoryView2.storyboard */,
 				0F4465D3249D0E9E005DF860 /* LoginWebView.storyboard */,
 			);
 			path = Storyboard;
@@ -189,7 +184,6 @@
 				6258C0AC2474348A001E5B49 /* HistoryViewController.swift */,
 				6258C0BA247EF7F6001E5B49 /* ChannelCollectionViewController.swift */,
 				86AE280F2492B4BC00DDDDC5 /* ChannelCenterViewController.swift */,
-				0F2F63AB249BE257001E2CB2 /* HistoryTableViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -257,7 +251,6 @@
 				0F4465D4249D0E9E005DF860 /* LoginWebView.storyboard in Resources */,
 				86AE280E2492B44900DDDDC5 /* ChannelCenterView.storyboard in Resources */,
 				0F5DB599246AEA1C00245E96 /* Assets.xcassets in Resources */,
-				0F2F63AA249BE1BC001E2CB2 /* HistoryView2.storyboard in Resources */,
 				86A5E83B246EE5BC00B692F4 /* HomeDetailView.storyboard in Resources */,
 				0F5DB597246AEA1700245E96 /* Main.storyboard in Resources */,
 			);
@@ -298,7 +291,6 @@
 				62B321FC248A1A9000111CE8 /* Card+CoreDataProperties.swift in Sources */,
 				62B321F9248A1A9000111CE8 /* Tags+CoreDataClass.swift in Sources */,
 				62B321F7248A1A9000111CE8 /* Channel+CoreDataClass.swift in Sources */,
-				0F2F63AC249BE257001E2CB2 /* HistoryTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

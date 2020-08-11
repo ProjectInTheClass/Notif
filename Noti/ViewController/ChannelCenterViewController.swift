@@ -205,9 +205,10 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
                       task.resume()
                  }
 
-        
+        changeTagOrChannel.tagOrChannelModified = 1
         loadData()
         collectionView.reloadData()
+        
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {

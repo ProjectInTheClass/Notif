@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 
 class HistoryTableViewController: UITableViewController {
+    
     var selectedChannel = 0
     var selectedTag = [Int]()
     @IBOutlet weak var channelCollection: UICollectionView!
@@ -105,10 +106,13 @@ class HistoryTableViewController: UITableViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        loadData()
-        updateCardsAndTitle()
-        channelCollection.reloadData()
-        self.tableView.reloadData()
+        if(changeTagOrChannel.tagOrChannelModified == 1){
+            loadData()
+            updateCardsAndTitle()
+            channelCollection.reloadData()
+            self.tableView.reloadData()
+            changeTagOrChannel.tagOrChannelModified = 0
+        }
     }
 
     // MARK: - Table view data source
@@ -321,3 +325,5 @@ extension HistoryTableViewController: UICollectionViewDelegateFlowLayout {
         return UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24)
     }
 }
+
+

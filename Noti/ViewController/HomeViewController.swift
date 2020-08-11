@@ -11,8 +11,8 @@ import CoreData
 
 class HomeViewController: UIViewController {
 
-    var cards = [Card]()
-    var saveCards = [Card]()
+    var cards : [Card]?
+    var saveCards : [Card]?
     var tagString : [String] = []
     var selectedTag = [Int]()
     
@@ -23,9 +23,11 @@ class HomeViewController: UIViewController {
     
     func loadData(){
         let allCards = CoreDataManager.shared.getCards()
+        cards = [Card]()
+        tagString = [String]()
         for i in 0..<allCards.count{
-            if(allCards[i].isVisited == true){
-                cards.append(allCards[i])
+            if(allCards[i].isFavorite == true){
+                cards!.append(allCards[i])
                 for j in 0..<allCards[i].tag!.count{
                     if(!tagString.contains(allCards[i].tag![j]) && allCards[i].tag![j] != ""){
                         if(tagString.count == 1 && tagString[0] == ""){
@@ -41,19 +43,18 @@ class HomeViewController: UIViewController {
         saveCards = cards
     }
     func updateCard(){
+        cards = saveCards
         var filteredCards = [Card]()
-        //print(selectedTag)
         if(selectedTag.count != 0){
             for i in 0..<selectedTag.count{
-                let tmpCards = cards.filter{$0.title!.contains(tagString[i])}
+                let tmpCards = cards!.filter{$0.title!.contains(tagString[selectedTag[i]])}
+                print(tmpCards.count)
                 for j in 0..<tmpCards.count{
                     filteredCards.append(tmpCards[j])
                 }
             }
-            cards = filteredCards
-        }
-        else{
-            cards = saveCards
+            cards = Array(Set(filteredCards))
+            
         }
     }
     
@@ -63,7 +64,7 @@ class HomeViewController: UIViewController {
         navigationItem.title = "내가 찜한 소식"
         //네비게이션바 배경색 넣어주는 코드
         navigationItem.largeTitleDisplayMode = .always
-        loadData()
+        //loadData()
         let coloredAppearance = UINavigationBarAppearance()
         if self.traitCollection.userInterfaceStyle == .dark{
             coloredAppearance.configureWithOpaqueBackground()
@@ -88,7 +89,7 @@ class HomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         updateCard()
         //selectedTag = [Int]()
-        //loadData()
+        loadData()
         HomeTableView.reloadData()
         TagCollectionView.reloadData()
     }
@@ -106,29 +107,35 @@ class HomeViewController: UIViewController {
 }
 extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cards.count
+        if(cards == nil){
+            return 0
+        }
+        else{
+            return cards!.count
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! HomeTableViewCell
-        cell.titleLabel.text = cards[indexPath.row].title
+        cell.titleLabel.text = cards![indexPath.row].title
         var tagText = ""
-        if(cards[indexPath.row].tag!.count==1){
-            tagText += cards[indexPath.row].formattedSource!
+        if(cards![indexPath.row].tag!.count==1){
+            tagText += cards![indexPath.row].formattedSource!
             cell.sourceLabel.textColor = .sourceFont
             cell.sourceLabel.text = tagText
         }
         else{
-            for i in 1..<cards[indexPath.row].tag!.count{
-                tagText += "#\(cards[indexPath.row].tag![i])"
+            for i in 1..<cards![indexPath.row].tag!.count{
+                tagText += "#\(cards![indexPath.row].tag![i])"
             }
             cell.sourceLabel.text = tagText
             if(selectedTag.count != 0){
                 let attributedStr = NSMutableAttributedString(string: tagText)
                 for i in 0..<selectedTag.count{
-                    for j in 0..<cards[indexPath.row].tag!.count{
-                        if(cards[indexPath.row].tag![j] == tagString[selectedTag[i]]){
-                            attributedStr.addAttribute(.foregroundColor, value: CoreDataManager.shared.colorWithHexString  (hexString:cards[indexPath.row].color!), range:(cell.sourceLabel.text! as NSString).range(of:"#\( tagString[selectedTag[i]])"))
+                    for j in 0..<(cards?[indexPath.row].tag!.count)!{
+                        if(cards![indexPath.row].tag![j] == tagString[selectedTag[i]]){
+                            attributedStr.addAttribute(.foregroundColor, value: CoreDataManager.shared.colorWithHexString  (hexString:cards![indexPath.row].color!), range:(cell.sourceLabel.text! as NSString).range(of:"#\( tagString[selectedTag[i]])"))
                         }
                     }
                 }
@@ -138,9 +145,9 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
                 cell.sourceLabel.textColor = .sourceFont
             }
         }
-        cell.dateLabel.text = ""
-        cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: cards[indexPath.row].color!)
-        if (cards[indexPath.row].isVisited == true){
+        cell.dateLabel.text = cards![indexPath.row].homeFormattedDate
+        cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: cards![indexPath.row].color!)
+        if (cards![indexPath.row].isVisited == true){
             if self.traitCollection.userInterfaceStyle == .dark{
                 cell.cellView?.backgroundColor = UIColor(white: 0.5, alpha: 1)
             }
@@ -171,22 +178,61 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
         cell.cellView.layer.shadowOpacity = 0.2
         return cell
     }
+    func resize(toTargetSize: CGSize, image : UIImage) -> UIImage? {
+        let target = CGRect(x: 0, y: -9, width: toTargetSize.width, height: toTargetSize.height)
+
+        UIGraphicsBeginImageContextWithOptions(target.size, false, UIScreen.main.scale)
+        image.draw(in: target, blendMode: .normal, alpha: 1)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return newImage
+    }
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let favoriteCardUrl = cards![indexPath.row].url
+        let deleteAction = UIContextualAction(style: .destructive, title:  "", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+            
+            CoreDataManager.shared.removeFavoriteCard(url: favoriteCardUrl!){ onSuccess in print("saved = \(onSuccess)")}
+                    success(true)
+            self.loadData()
+            self.updateCard()
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            self.HomeTableView.reloadData()
+            self.TagCollectionView.reloadData()
+
+        })
+        
+        if(self.traitCollection.userInterfaceStyle == .dark){
+            deleteAction.backgroundColor = .black
+            let image = UIImage(imageLiteralResourceName: "delete_red.png")
+            let size = CGSize(width: 100, height: 95)
+            let new_image = resize(toTargetSize: size, image: image)
+            deleteAction.image = new_image
+        }
+        else{
+            deleteAction.backgroundColor = .white
+            let image = UIImage(imageLiteralResourceName: "delete_red.png")
+            let size = CGSize(width: 100, height: 95)
+            let new_image = resize(toTargetSize: size, image: image)
+            deleteAction.image = new_image
+        }
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "detailSegue") {
-            print("!!")
             let destination = segue.destination as! detailViewController
             if let cell = sender as? HomeTableViewCell {
                 guard let indexPath = HomeTableView.indexPathForSelectedRow else {return}
                 destination.title2 = cell.titleLabel.text
-                destination.source = cards[indexPath.row].source
-                destination.date = cards[indexPath.row].homeFormattedDate
+                destination.source = cards![indexPath.row].source
+                destination.date = cards![indexPath.row].homeFormattedDate
                 destination.back2 = title
-                destination.url = cards[indexPath.row].url
-                destination.json = cards[indexPath.row].json!
+                destination.url = cards![indexPath.row].url
+                destination.json = cards![indexPath.row].json!
                 
                 // 방문할경우 비짓처리하고 테이블뷰 리로드
-                cards[indexPath.row].isVisited = true
-                CoreDataManager.shared.visitCards(url: cards[indexPath.row].url!){ onSuccess in print("saved = \(onSuccess)")}
+                cards![indexPath.row].isVisited = true
+                CoreDataManager.shared.visitCards(url: cards![indexPath.row].url!){ onSuccess in print("saved = \(onSuccess)")}
                 HomeTableView.reloadData()
             }
         }

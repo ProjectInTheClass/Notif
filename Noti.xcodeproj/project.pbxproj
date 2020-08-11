@@ -14,7 +14,6 @@
 		0F5DB597246AEA1700245E96 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F5DB595246AEA1700245E96 /* Main.storyboard */; };
 		0F5DB599246AEA1C00245E96 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F5DB598246AEA1C00245E96 /* Assets.xcassets */; };
 		0F5DB59C246AEA1C00245E96 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F5DB59A246AEA1C00245E96 /* LaunchScreen.storyboard */; };
-		0F5DB5A4246AEAB300245E96 /* HomeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DB5A3246AEAB300245E96 /* HomeTableViewController.swift */; };
 		0F5DB5A6246AF0A600245E96 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5DB5A5246AF0A500245E96 /* HomeTableViewCell.swift */; };
 		0F93EE1D2471232F0018B9C8 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F93EE1C2471232F0018B9C8 /* Card.swift */; };
 		0FD736CF24C741FB00F221BD /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD736CC24C7185100F221BD /* UserNotifications.framework */; };
@@ -63,7 +62,6 @@
 		0F5DB598246AEA1C00245E96 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0F5DB59B246AEA1C00245E96 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0F5DB59D246AEA1C00245E96 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Noti/Info.plist; sourceTree = SOURCE_ROOT; };
-		0F5DB5A3246AEAB300245E96 /* HomeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewController.swift; sourceTree = "<group>"; };
 		0F5DB5A5246AF0A500245E96 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		0F93EE1C2471232F0018B9C8 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Card.swift; path = Noti/Card.swift; sourceTree = SOURCE_ROOT; };
 		0FD736CA24C7184800F221BD /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
@@ -123,6 +121,7 @@
 				0F5DB58E246AEA1700245E96 /* Noti */,
 				0F5DB58D246AEA1700245E96 /* Products */,
 				0FD736C924C7184800F221BD /* Frameworks */,
+				18C92B2024E2DECE00002EF9 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -185,6 +184,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		18C92B2024E2DECE00002EF9 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		86A5E839246EE58B00B692F4 /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
@@ -206,7 +212,6 @@
 				6258C0BA247EF7F6001E5B49 /* ChannelCollectionViewController.swift */,
 				86AE280F2492B4BC00DDDDC5 /* ChannelCenterViewController.swift */,
 				18BE0CE424DB1CEB003569EF /* HomeViewController.swift */,
-
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -280,7 +285,6 @@
 				18413CF224E2C2D70057FF5A /* delete_dark.png in Resources */,
 				0F5DB599246AEA1C00245E96 /* Assets.xcassets in Resources */,
 				18413CEE24E2BFEC0057FF5A /* like.png in Resources */,
-				0F2F63AA249BE1BC001E2CB2 /* HistoryView2.storyboard in Resources */,
 				86A5E83B246EE5BC00B692F4 /* HomeDetailView.storyboard in Resources */,
 				0F5DB597246AEA1700245E96 /* Main.storyboard in Resources */,
 			);
@@ -302,7 +306,6 @@
 				6258C0AB2473DE49001E5B49 /* tagTableViewCell.swift in Sources */,
 				623073AB2493739E00C06C6D /* LastUpdated+CoreDataProperties.swift in Sources */,
 				62B321F8248A1A9000111CE8 /* Channel+CoreDataProperties.swift in Sources */,
-				0F5DB5A4246AEAB300245E96 /* HomeTableViewController.swift in Sources */,
 				86AE28102492B4BC00DDDDC5 /* ChannelCenterViewController.swift in Sources */,
 				0F93EE1D2471232F0018B9C8 /* Card.swift in Sources */,
 				860930AD248991B9005B7A28 /* CustomCollectionViewCell.swift in Sources */,

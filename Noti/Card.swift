@@ -29,8 +29,10 @@ extension UIColor {
     static var fourth: UIColor { return UIColor(red: 95/255, green: 142/255, blue: 199/255, alpha: 1) }
     static var fifth: UIColor { return UIColor(red: 54/255, green: 81/255, blue: 113/255, alpha: 1) }
     static var navBack: UIColor { return UIColor(red: 249/255, green: 249/255, blue: 249/255, alpha: 1) }
-    static var navFont: UIColor { return UIColor(red: 27/255, green: 26/255, blue: 29/255, alpha: 1) }
-    static var sourceFont: UIColor { return UIColor(red: 190/255, green: 191/255, blue: 195/255, alpha: 1) }
+    static var navFont: UIColor { return UIColor(named: "navFont")! }
+    static var cardFront: UIColor { return UIColor(named: "cardFront")! }
+    static var cardBack: UIColor { return UIColor(named: "cardBack")! }
+    static var sourceFont: UIColor { return UIColor(named: "unselectedFont")! }
     static var sectionFont: UIColor { return UIColor(red: 84/255, green: 88/255, blue: 94/255, alpha: 1) }
     static var sectionBackground: UIColor { return UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.7) }
     static var history: UIColor { return UIColor(red: 142/255, green: 142/255, blue: 147/255, alpha: 0.7) }

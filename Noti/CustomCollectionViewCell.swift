@@ -91,7 +91,7 @@ class TokenMainCell: BaseCollectionViewCell {
   override func setupViews() {
     
     self.titleLabel.text = nil
-    self.backgroundColor = .white
+    self.backgroundColor = .cardFront
     self.layer.cornerRadius = 9
     
     // 그림자
@@ -139,7 +139,7 @@ class TokenListCell: BaseCollectionViewCell {
   override func setupViews() {
     
     self.titleLabel.text = nil
-    self.backgroundColor = .white
+    self.backgroundColor = .cardFront
     self.layer.cornerRadius = 9
     
     // 그림자

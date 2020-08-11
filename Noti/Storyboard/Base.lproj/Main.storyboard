@@ -10,7 +10,7 @@
         <scene sceneID="RGM-VW-mrU">
             <objects>
                 <tableViewController modalPresentationStyle="fullScreen" id="rSO-Ud-TUV" customClass="HomeTableViewController" customModule="Noti" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="95" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="28" id="y0u-fJ-y6o">
+                    <tableView key="view" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="95" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="28" id="y0u-fJ-y6o">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <prototypes>

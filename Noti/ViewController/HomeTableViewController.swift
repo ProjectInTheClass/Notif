@@ -95,35 +95,8 @@ class HomeTableViewController: UITableViewController {
         super.viewDidLoad()
         CoreDataManager.shared.setData()
         loadData()
-        navigationItem.largeTitleDisplayMode = .always
-        
-        //카드개수만큼만 보여주도록 설정함
-//        navigationItem.title = "\(cards.count)개의 새로운 글"
-        
         updateSubTitle(subTitle: "\(cards.count)개의 새로운 글")
-//        tabBarItem.title = "홈"
         updateTitle(title: "홈")
-        
-        //네비게이션바 배경색 넣어주는 코드
-        let coloredAppearance = UINavigationBarAppearance()
-        if self.traitCollection.userInterfaceStyle == .dark{
-            coloredAppearance.configureWithOpaqueBackground()
-            //coloredAppearance.backgroundColor = UIColor.navBack
-            //coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.navFont]
-            //coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.navFont]
-            self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
-            self.navigationController?.navigationBar.standardAppearance = coloredAppearance
-            self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-        }
-        else{
-            coloredAppearance.configureWithOpaqueBackground()
-            coloredAppearance.backgroundColor = UIColor.navBack
-            coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.navFont]
-            coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.navFont]
-            self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
-            self.navigationController?.navigationBar.standardAppearance = coloredAppearance
-            self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-        }
         
         
         
@@ -172,7 +145,7 @@ class HomeTableViewController: UITableViewController {
         let backgrundView = UIView()
         let backView = UIView(frame: CGRect(x: 17, y: 0, width: view.frame.width-34, height: 86))
         
-        backView.backgroundColor = .white
+        backView.backgroundColor = .cardBack
         backgrundView.addSubview(backView)
         cell.backgroundView = backgrundView
         
@@ -183,24 +156,11 @@ class HomeTableViewController: UITableViewController {
         selectedBackgrundView.addSubview(selectView)
         cell.selectedBackgroundView = selectedBackgrundView
 
-        
+        cell.cellView?.backgroundColor = .cardFront
         // 비짓이 트루로 되어있으면 배경 블러처리해줌
         if (cards[indexPath.row].isVisited == true){
-            if self.traitCollection.userInterfaceStyle == .dark{
-                cell.cellView?.backgroundColor = UIColor(white: 0.5, alpha: 1)
-            }
-            else{
-               cell.cellView?.backgroundColor = UIColor(white: 0.95, alpha: 1)
-            }
-            cell.cellView?.alpha = 0.67
+            cell.cellView?.alpha = 0.6
         }else {
-            if self.traitCollection.userInterfaceStyle == .dark{
-                cell.cellView?.backgroundColor = .systemGray4
-            }
-            else{
-                cell.cellView?.backgroundColor = .white
-                
-            }
             cell.cellView?.alpha = 1
         }
         

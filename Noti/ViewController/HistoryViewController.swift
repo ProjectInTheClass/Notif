@@ -111,30 +111,7 @@ class HistoryViewController: UIViewController{
     override func viewDidLoad() {
         navigationItem.title = nil
         updateTitle(title: "전체")
-        //네비게이션바 배경색 넣어주는 코드
-        navigationItem.largeTitleDisplayMode = .always
         loadData()
-        let coloredAppearance = UINavigationBarAppearance()
-        if self.traitCollection.userInterfaceStyle == .dark{
-            coloredAppearance.configureWithOpaqueBackground()
-            self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
-            self.navigationController?.navigationBar.standardAppearance = coloredAppearance
-            self.navigationController?.navigationBar.compactAppearance = coloredAppearance
-        }
-        else{
-            coloredAppearance.configureWithOpaqueBackground()
-            coloredAppearance.backgroundColor = UIColor.navBack
-            coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.navFont]
-            coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.navFont]
-            self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
-            self.navigationController?.navigationBar.standardAppearance = coloredAppearance
-            self.navigationController?.navigationBar.compactAppearance = coloredAppearance
-        }
-        
-        historyTable.isScrollEnabled = true
-        historyTable.delegate = self
-        channelCollection.dataSource = self
-        channelCollection.delegate = self
         tagCollection.dataSource = self
         tagCollection.delegate = self
         updateSubTitle(subTitle: "전체")
@@ -227,29 +204,16 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
 //            cell.dateLabel.text = sectionCards[indexPath.row].historyCardFormattedDate
             cell.dateLabel.text = ""
             cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionCards[indexPath.row].color!)
+            cell.cellView?.backgroundColor = .cardFront
             if (sectionCards[indexPath.row].isVisited == true){
-                if self.traitCollection.userInterfaceStyle == .dark{
-                    cell.cellView?.backgroundColor = UIColor(white: 0.5, alpha: 1)
-                }
-                else{
-                   cell.cellView?.backgroundColor = UIColor(white: 0.95, alpha: 1)
-                }
-                //cell.cellView.backgroundColor = UIColor(white: 0.95, alpha: 1)
-                cell.cellView.alpha = 0.67
+                cell.cellView.alpha = 0.6
             }else {
-                if self.traitCollection.userInterfaceStyle == .dark{
-                    cell.cellView.backgroundColor = .systemGray4
-                }
-                else{
-                    cell.cellView.backgroundColor = .white
-                }
-                
                 cell.cellView.alpha = 1
             }
             let backgrundView = UIView()
             let backView = UIView(frame: CGRect(x: 17, y: 0, width: view.frame.width-34, height: 86))
             
-            backView.backgroundColor = .white
+            backView.backgroundColor = .cardBack
             backgrundView.addSubview(backView)
             cell.backgroundView = backgrundView
             // 그림자 부분
@@ -364,14 +328,8 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
                      cell.colorLabel.textColor = .clear
             cell.colorDot.textColor = CoreDataManager.shared.colorWithHexString(hexString:channels[indexPath.row].color!)
                     if selectedChannel==indexPath.row {
-                        if self.traitCollection.userInterfaceStyle == .dark{
-                            cell.titleLabel.textColor = UIColor.white
-                        }
-                        else{
-                            cell.titleLabel.textColor = UIColor.navFont
-                        }
-                     
-                     cell.colorLabel.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString:channels[indexPath.row].color!)
+                        cell.titleLabel.textColor = .navFont
+                        cell.colorLabel.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString:channels[indexPath.row].color!)
 
                      }else{
                         if self.traitCollection.userInterfaceStyle == .dark{

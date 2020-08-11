@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19F101" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19D76" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Card" representedClassName="Card" syncable="YES">
         <attribute name="category" optional="YES" attributeType="String"/>
         <attribute name="color" optional="YES" attributeType="String" valueTransformerName="NSSecureUnarchiveFromData"/>
@@ -7,6 +7,7 @@
         <attribute name="historyCardFormattedDate" optional="YES" attributeType="String"/>
         <attribute name="historyFormattedDate" optional="YES" attributeType="String"/>
         <attribute name="homeFormattedDate" optional="YES" attributeType="String"/>
+        <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isVisited" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="json" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String:String]"/>
         <attribute name="source" optional="YES" attributeType="String"/>
@@ -37,7 +38,7 @@
         <attribute name="name" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Card" positionX="-36" positionY="72" width="128" height="238"/>
+        <element name="Card" positionX="-36" positionY="72" width="128" height="253"/>
         <element name="Channel" positionX="-54" positionY="18" width="128" height="163"/>
         <element name="LastUpdated" positionX="-45" positionY="126" width="128" height="58"/>
         <element name="Tags" positionX="-63" positionY="-18" width="128" height="88"/>

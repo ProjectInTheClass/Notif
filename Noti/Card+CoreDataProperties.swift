@@ -30,5 +30,5 @@ extension Card {
     @NSManaged public var historyFormattedDate: String?
     @NSManaged public var formattedSource: String?
     @NSManaged public var historyCardFormattedDate: String?
-
+    @NSManaged public var isFavorite : Bool
 }

@@ -12,8 +12,8 @@ import CoreData
 private let reuseIdentifier = "ChannelCell"
 
 class ChannelCollectionViewController: UICollectionViewController {
-    var channels = [Channel]()
-    var channelsForServer = [Channel]()
+    var channels : [Channel]?
+    var channelsForServer : [Channel]?
     let cellSpacing :CGFloat = 5
     let sectionSpacing :CGFloat = 10
     var mangedObjectContext : NSManagedObjectContext!
@@ -62,7 +62,7 @@ class ChannelCollectionViewController: UICollectionViewController {
             return 2
         }
         else{
-            return channels.count-2
+            return channels!.count-2
         }
         
     }
@@ -73,14 +73,14 @@ class ChannelCollectionViewController: UICollectionViewController {
         
         // Configure the cell
         if(indexPath.section == 0){
-            cell.channelTitle.text = channels[indexPath.item].title
-            cell.channelSubTitle.text = channels[indexPath.item].source
+            cell.channelTitle.text = channels![indexPath.item].title
+            cell.channelSubTitle.text = channels![indexPath.item].source
             cell.channelColor.layer.backgroundColor = UIColor.first.cgColor
         }
         
         else{
-            cell.channelTitle.text = channels[indexPath.item + 2].title
-            cell.channelSubTitle.text = channels[indexPath.item + 2].source
+            cell.channelTitle.text = channels![indexPath.item + 2].title
+            cell.channelSubTitle.text = channels![indexPath.item + 2].source
             cell.channelColor.layer.backgroundColor = UIColor.second.cgColor
         }
         

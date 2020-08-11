@@ -91,6 +91,7 @@ extension TagViewController: UICollectionViewDelegate, UICollectionViewDataSourc
         tagCollection.reloadData()
         tagCollection.collectionViewLayout.invalidateLayout()
         coreDataTag = CoreDataManager.shared.getTags()
+        changeTagOrChannel.tagOrChannelModified = 1
     }
 
 }

@@ -83,7 +83,7 @@ class addTagViewController: UIViewController, UITableViewDataSource, UITextField
            // cardView.cards.append(Card(title: textField.text!,channelName: "", category: "", time: now as Date, color: UIColor.first, url: ""))
             self.viewDidLoad()
             tagTableView.reloadData()
-            CoreDataManager.shared.saveCards(title: textField.text!, source: "", category: "", tag :[], time: now as Date, color:UIColor.first, isVisited: false, url:"", json:["":""]){ onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.saveCards(title: textField.text!, source: "", category: "", tag :[], time: now as Date, color:UIColor.first, isVisited: false, url:"", json:["":""], isFavorite: false){ onSuccess in print("saved = \(onSuccess)")}
             textField.text! = ""
             
             return true

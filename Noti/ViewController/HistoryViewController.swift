@@ -125,6 +125,7 @@ class HistoryViewController: UIViewController{
         navigationItem.title = nil
         updateTitle(title: "전체")
         loadData()
+        updateCardsAndTitle()
         tagCollection.dataSource = self
         tagCollection.delegate = self
         updateSubTitle(subTitle: "전체")
@@ -383,10 +384,10 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
             cell.titleLabel.text = channels![indexPath.row].subtitle
             cell.colorLabel.text = channels![indexPath.row].subtitle
                      cell.colorLabel.textColor = .clear
-            cell.colorDot.textColor = CoreDataManager.shared.colorWithHexString(hexString:channels[indexPath.row].color!)
+            cell.colorDot.textColor = CoreDataManager.shared.colorWithHexString(hexString:channels![indexPath.row].color!)
                     if selectedChannel==indexPath.row {
                         cell.titleLabel.textColor = .navFont
-                        cell.colorLabel.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString:channels[indexPath.row].color!)
+                        cell.colorLabel.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString:channels![indexPath.row].color!)
                      }else{
                         if self.traitCollection.userInterfaceStyle == .dark{
                             cell.titleLabel.textColor = UIColor.systemGray4

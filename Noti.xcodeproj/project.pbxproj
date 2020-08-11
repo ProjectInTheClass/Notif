@@ -19,6 +19,13 @@
 		0F93EE1D2471232F0018B9C8 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F93EE1C2471232F0018B9C8 /* Card.swift */; };
 		0FD736CF24C741FB00F221BD /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD736CC24C7185100F221BD /* UserNotifications.framework */; };
 		0FD736D024C7420300F221BD /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD736CA24C7184800F221BD /* PushKit.framework */; };
+		18413CED24E2BFEC0057FF5A /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 18413CEB24E2BFEC0057FF5A /* delete.png */; };
+		18413CEE24E2BFEC0057FF5A /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = 18413CEC24E2BFEC0057FF5A /* like.png */; };
+		18413CF124E2C2D70057FF5A /* like_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 18413CEF24E2C2D70057FF5A /* like_dark.png */; };
+		18413CF224E2C2D70057FF5A /* delete_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 18413CF024E2C2D70057FF5A /* delete_dark.png */; };
+		18413CF424E2C8830057FF5A /* delete_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 18413CF324E2C8830057FF5A /* delete_red.png */; };
+		18413CFA24E2CD7A0057FF5A /* heart.png in Resources */ = {isa = PBXBuildFile; fileRef = 18413CF924E2CD7A0057FF5A /* heart.png */; };
+		18BE0CE524DB1CEB003569EF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BE0CE424DB1CEB003569EF /* HomeViewController.swift */; };
 		623073AA2493739E00C06C6D /* LastUpdated+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623073A82493739E00C06C6D /* LastUpdated+CoreDataClass.swift */; };
 		623073AB2493739E00C06C6D /* LastUpdated+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623073A92493739E00C06C6D /* LastUpdated+CoreDataProperties.swift */; };
 		62534AED24CEE0C6007C3938 /* Token+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62534AEB24CEE0C6007C3938 /* Token+CoreDataClass.swift */; };
@@ -62,6 +69,14 @@
 		0FD736CA24C7184800F221BD /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
 		0FD736CC24C7185100F221BD /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		0FD736CE24C72FBD00F221BD /* Noti.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Noti.entitlements; sourceTree = "<group>"; };
+		18413CEA24E2AC090057FF5A /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
+		18413CEB24E2BFEC0057FF5A /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = delete.png; path = ../../../../Downloads/delete.png; sourceTree = "<group>"; };
+		18413CEC24E2BFEC0057FF5A /* like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = like.png; path = ../../../../Downloads/like.png; sourceTree = "<group>"; };
+		18413CEF24E2C2D70057FF5A /* like_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = like_dark.png; path = ../../../../Downloads/like_dark.png; sourceTree = "<group>"; };
+		18413CF024E2C2D70057FF5A /* delete_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = delete_dark.png; path = ../../../../Downloads/delete_dark.png; sourceTree = "<group>"; };
+		18413CF324E2C8830057FF5A /* delete_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = delete_red.png; path = ../../../../Downloads/delete_red.png; sourceTree = "<group>"; };
+		18413CF924E2CD7A0057FF5A /* heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = heart.png; path = ../../../../Downloads/heart.png; sourceTree = "<group>"; };
+		18BE0CE424DB1CEB003569EF /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		623073A82493739E00C06C6D /* LastUpdated+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LastUpdated+CoreDataClass.swift"; sourceTree = "<group>"; };
 		623073A92493739E00C06C6D /* LastUpdated+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LastUpdated+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		62534AEB24CEE0C6007C3938 /* Token+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Token+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -150,6 +165,13 @@
 				0F5DB59A246AEA1C00245E96 /* LaunchScreen.storyboard */,
 				0F5DB59D246AEA1C00245E96 /* Info.plist */,
 				62BA56C4248E0BE4000CB9DF /* CoreDataManager.swift */,
+				18413CF924E2CD7A0057FF5A /* heart.png */,
+				18413CF324E2C8830057FF5A /* delete_red.png */,
+				18413CF024E2C2D70057FF5A /* delete_dark.png */,
+				18413CEF24E2C2D70057FF5A /* like_dark.png */,
+				18413CEB24E2BFEC0057FF5A /* delete.png */,
+				18413CEC24E2BFEC0057FF5A /* like.png */,
+				18413CEA24E2AC090057FF5A /* share.png */,
 			);
 			path = Noti;
 			sourceTree = "<group>";
@@ -178,12 +200,13 @@
 		86B27EB82486C154008DE388 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				0F5DB5A3246AEAB300245E96 /* HomeTableViewController.swift */,
 				0F044262246B0899002A7C2B /* detailViewController.swift */,
 				864699EC249D6C8E006FB4C2 /* TagViewController.swift */,
 				6258C0AC2474348A001E5B49 /* HistoryViewController.swift */,
 				6258C0BA247EF7F6001E5B49 /* ChannelCollectionViewController.swift */,
 				86AE280F2492B4BC00DDDDC5 /* ChannelCenterViewController.swift */,
+				18BE0CE424DB1CEB003569EF /* HomeViewController.swift */,
+
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -249,8 +272,15 @@
 				0F5DB59C246AEA1C00245E96 /* LaunchScreen.storyboard in Resources */,
 				86A5E87D246EF00400B692F4 /* HistoryView.storyboard in Resources */,
 				0F4465D4249D0E9E005DF860 /* LoginWebView.storyboard in Resources */,
+				18413CED24E2BFEC0057FF5A /* delete.png in Resources */,
+				18413CFA24E2CD7A0057FF5A /* heart.png in Resources */,
+				18413CF424E2C8830057FF5A /* delete_red.png in Resources */,
 				86AE280E2492B44900DDDDC5 /* ChannelCenterView.storyboard in Resources */,
+				18413CF124E2C2D70057FF5A /* like_dark.png in Resources */,
+				18413CF224E2C2D70057FF5A /* delete_dark.png in Resources */,
 				0F5DB599246AEA1C00245E96 /* Assets.xcassets in Resources */,
+				18413CEE24E2BFEC0057FF5A /* like.png in Resources */,
+				0F2F63AA249BE1BC001E2CB2 /* HistoryView2.storyboard in Resources */,
 				86A5E83B246EE5BC00B692F4 /* HomeDetailView.storyboard in Resources */,
 				0F5DB597246AEA1700245E96 /* Main.storyboard in Resources */,
 			);
@@ -268,6 +298,7 @@
 				860930AB24898DFD005B7A28 /* ChannelCollectionViewCell.swift in Sources */,
 				62B321FB248A1A9000111CE8 /* Card+CoreDataClass.swift in Sources */,
 				62E3020724805B6D002332AE /* addTagViewController.swift in Sources */,
+				18BE0CE524DB1CEB003569EF /* HomeViewController.swift in Sources */,
 				6258C0AB2473DE49001E5B49 /* tagTableViewCell.swift in Sources */,
 				623073AB2493739E00C06C6D /* LastUpdated+CoreDataProperties.swift in Sources */,
 				62B321F8248A1A9000111CE8 /* Channel+CoreDataProperties.swift in Sources */,

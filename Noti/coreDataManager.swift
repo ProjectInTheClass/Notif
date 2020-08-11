@@ -55,13 +55,9 @@ class CoreDataManager{
        let hexString = String.init(format: "#%02lX%02lX%02lX", lroundf(Float(r * 255)), lroundf(Float(g * 255)), lroundf(Float(b * 255)))
        return hexString
     }
-    func dataFromServer(){
-        
-    }
-    
     func notificationChannel(subtitle : String, source: String, onSuccess: @escaping ((Bool) -> Void)){
              let fetchRequest: NSFetchRequest<NSFetchRequestResult> = filteredChannel(subtitle: subtitle, source: source)
-             var clickedChannel = Channel()
+             var clickedChannel : Channel
              do {
                      if let results: [Channel] = try context?.fetch(fetchRequest) as? [Channel] {
                          clickedChannel = results[0]
@@ -81,9 +77,6 @@ class CoreDataManager{
     
     //sort!!
     func getCards()->[Card]{
-        //cards.sort {(obj1, obj2) -> Bool in
-          //  return obj1.time > obj2.time
-        //}
         let sorting : NSSortDescriptor = NSSortDescriptor(key: "time", ascending: false)
         
         var cards = [Card]()
@@ -99,7 +92,7 @@ class CoreDataManager{
         return cards
     }
     
-    func saveCards(title : String,  source : String, category : String, tag : [String], time : Date, color : UIColor, isVisited: Bool, url : String, json : [String:String], onSuccess :@escaping ((Bool)->Void)){
+    func saveCards(title : String,  source : String, category : String, tag : [String], time : Date, color : UIColor, isVisited: Bool, url : String, json : [String:String], isFavorite : Bool, onSuccess :@escaping ((Bool)->Void)){
         if let context = context,
             let entity: NSEntityDescription
             = NSEntityDescription.entity(forEntityName: "Card", in: context) {
@@ -116,7 +109,7 @@ class CoreDataManager{
                 cards.url = url
                 cards.json = json //as NSObject
                 cards.formattedSource = cards.category! + ((cards.category!.count == 0) ? "" : "-") + cards.source!
-                
+                cards.isFavorite = isFavorite
                let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yy-MM-dd"
                 // 임시로 보여주기 위해 선언함
@@ -140,7 +133,7 @@ class CoreDataManager{
     }
     func visitCards(url : String, onSuccess: @escaping ((Bool) -> Void)){
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = filteredRequest(url : url)
-        var visitedCard = Card()
+        var visitedCard : Card
         do {
                    if let results: [Card] = try context?.fetch(fetchRequest) as? [Card] {
                        visitedCard = results[0]
@@ -159,7 +152,7 @@ class CoreDataManager{
     }
     func addCardsTag(tag : String, onSuccess: @escaping ((Bool) -> Void)){
         let fetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
-        var addTagCard = Card()
+        var addTagCard : Card
         do {
             if let results: [Card] = try context?.fetch(fetchRequest) {
                     
@@ -184,7 +177,7 @@ class CoreDataManager{
     }
     func removeCardsTag(tag : String, onSuccess: @escaping ((Bool) -> Void)){
         let fetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
-        var removeTagCard = Card()
+        var removeTagCard : Card
         do {
             if let results: [Card] = try context?.fetch(fetchRequest) {
                     
@@ -213,12 +206,45 @@ class CoreDataManager{
                    onSuccess(success)
                }
     }
-    func deleteCard(){
-        
+    func addFavoriteCard(url : String, onSuccess: @escaping ((Bool) -> Void)){
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = filteredRequest(url : url)
+        var favoriteCard : Card
+        do {
+                   if let results: [Card] = try context?.fetch(fetchRequest) as? [Card] {
+                       favoriteCard = results[0]
+                       favoriteCard.willChangeValue(forKey: "isFavorite")
+                       favoriteCard.isFavorite = true
+                       favoriteCard.didChangeValue(forKey: "isFavorite")
+                   }
+               } catch let error as NSError {
+                   print("Could not fatch🥺: \(error), \(error.userInfo)")
+                   onSuccess(false)
+               }
+               contextSave { success in
+                   onSuccess(success)
+               }
+    }
+    func removeFavoriteCard(url : String, onSuccess: @escaping ((Bool) -> Void)){
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = filteredRequest(url : url)
+        var favoriteCard : Card
+        do {
+                   if let results: [Card] = try context?.fetch(fetchRequest) as? [Card] {
+                       favoriteCard = results[0]
+                       favoriteCard.willChangeValue(forKey: "isFavorite")
+                       favoriteCard.isFavorite = false
+                       favoriteCard.didChangeValue(forKey: "isFavorite")
+                   }
+               } catch let error as NSError {
+                   print("Could not fatch🥺: \(error), \(error.userInfo)")
+                   onSuccess(false)
+               }
+               contextSave { success in
+                   onSuccess(success)
+               }
     }
     func getChannels()->[Channel]{
         //let dateFormatter = DateFormatter()
-        var channels = [Channel]()
+        var channels : [Channel]?
         let fetchRequest : NSFetchRequest<Channel>  = Channel.fetchRequest()
         do{
             if let fetchResult : [Channel] = try context?.fetch(fetchRequest){
@@ -227,7 +253,7 @@ class CoreDataManager{
         }catch{
             fatalError("fetch error!")
         }
-        return channels
+        return channels!
     }
    
     func saveChannels(title : String, subtitle :String, source : String, color : UIColor, channelTags : [String], group : String, isSubscribed : Bool  ,onSuccess : @escaping ((Bool)->Void)){
@@ -252,7 +278,7 @@ class CoreDataManager{
     }
     func subscribedChannel(subtitle : String, source: String, onSuccess: @escaping ((Bool) -> Void)){
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = filteredChannel(subtitle: subtitle, source: source)
-        var visitedChannel = Channel()
+        var visitedChannel : Channel
         do {
                 if let results: [Channel] = try context?.fetch(fetchRequest) as? [Channel] {
                     visitedChannel = results[0]
@@ -271,7 +297,7 @@ class CoreDataManager{
     }
     func addChannelTag(subtitle : String, source: String, tag: String, onSuccess: @escaping ((Bool) -> Void)){
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = filteredChannel(subtitle: subtitle, source: source)
-        var addTagChannel = Channel()
+        var addTagChannel : Channel
         do {
                 if let results: [Channel] = try context?.fetch(fetchRequest) as? [Channel] {
                     addTagChannel = results[0]
@@ -293,7 +319,7 @@ class CoreDataManager{
     }
     func removeChannelTag(tag: String, onSuccess: @escaping ((Bool) -> Void)){
        let fetchRequest : NSFetchRequest<Channel>  = Channel.fetchRequest()
-        var removeTagChannel = Channel()
+        var removeTagChannel : Channel
         do {
             if let results: [Channel] = try context?.fetch(fetchRequest) {
                     for i in 0..<results.count{
@@ -317,7 +343,7 @@ class CoreDataManager{
                }
     }
     func getTags()->[Tags]{
-        var allTags = [Tags]()
+        var allTags : [Tags]?
         let fetchRequest : NSFetchRequest<Tags> = Tags.fetchRequest()
                do{
                    if let fetchResult : [Tags] = try context?.fetch(fetchRequest){
@@ -326,7 +352,7 @@ class CoreDataManager{
                }catch{
                    fatalError("fetch error!")
                }
-        return allTags
+        return allTags!
     }
     
     func saveTags(name : String, time : Date, onSuccess : @escaping ((Bool)->Void)){
@@ -489,7 +515,7 @@ class CoreDataManager{
                             CoreDataManager.shared.addChannelTag(subtitle: card["category"] as! String, source: card["source"] as! String, tag: tags[tagNum].name!){ onSuccess in print("saved = \(onSuccess)")}
                         }
                     }
-                    CoreDataManager.shared.saveCards(title: card["title"] as! String, source: card["source"] as! String, category: card["category"] as! String, tag: tag, time: dateFormatter.date(from: card["time_"] as! String)!, color: color, isVisited: false, url: cardURL, json : json_){ onSuccess in } //print("saved = \(onSuccess)")
+                    CoreDataManager.shared.saveCards(title: card["title"] as! String, source: card["source"] as! String, category: card["category"] as! String, tag: tag, time: dateFormatter.date(from: card["time_"] as! String)!, color: color, isVisited: false, url: cardURL, json : json_, isFavorite: false){ onSuccess in } //print("saved = \(onSuccess)")
                 }
             }
         dateFormatter.dateFormat = "yy-MM-dd"

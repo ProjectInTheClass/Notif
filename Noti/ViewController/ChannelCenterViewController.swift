@@ -121,19 +121,24 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
         cell.colorImageView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionChannels[indexPath.item].color!)
         
         //cell.backgroundColor = .white
-        cell.backView.backgroundColor = .cardFront
+        cell.cellView.backgroundColor = .cardFront
         cell.titleLabel.textColor = .navFont
         // 구독안하거 블러처리
         if (sectionChannels[indexPath.item].isSubscribed == false){
             cell.isButtonEnabled = false
-            cell.backView.alpha = 0.67
+            cell.cellView.alpha = 0.6
             cell.colorImageView.backgroundColor = .navBack
         }else {
             cell.isButtonEnabled = true
-            cell.backView.alpha = 1
+            cell.cellView.alpha = 1
 
         }
+        let backgrundView = UIView()
+        let backView = UIView(frame: CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height))
         
+        backView.backgroundColor = .cardBack
+        backgrundView.addSubview(backView)
+        cell.backgroundView = backgrundView
         // 그림자 부분
 
         cell.layer.shadowColor = UIColor.black.cgColor // 검정색 사용

@@ -93,8 +93,8 @@
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <connections>
-                                            <outlet property="backView" destination="Khq-pS-TBi" id="Gqm-vF-62c"/>
                                             <outlet property="categoryLabel" destination="Reb-Pa-EeW" id="oWq-0X-AUt"/>
+                                            <outlet property="cellView" destination="Khq-pS-TBi" id="i3n-2Q-bw4"/>
                                             <outlet property="colorImageView" destination="tWb-lK-yF5" id="wwi-SV-kfD"/>
                                             <outlet property="notificationButton" destination="E6a-bI-OHm" id="NAN-so-dxM"/>
                                             <outlet property="titleLabel" destination="yFN-35-gqc" id="X57-zm-aBG"/>

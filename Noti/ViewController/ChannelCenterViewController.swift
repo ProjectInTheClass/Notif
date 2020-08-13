@@ -83,27 +83,7 @@ class ChannelCenterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadData()
-//        navigationItem.title = "채널센터"
         updateTitle(title: "채널센터")
-        //updateChannels()
-        //categories = Array(Set(channels.map{$0.source!})).sorted(by: >)
-        let coloredAppearance = UINavigationBarAppearance()
-       //coloredAppearance.configureWithOpaqueBackground()
-       //coloredAppearance.backgroundColor = UIColor.navBack
-
-        if self.traitCollection.userInterfaceStyle == .dark{
-            coloredAppearance.configureWithOpaqueBackground()
-            self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
-            self.navigationController?.navigationBar.standardAppearance = coloredAppearance
-        }
-        else{
-            coloredAppearance.configureWithOpaqueBackground()
-            coloredAppearance.backgroundColor = UIColor.navBack
-            coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.navFont]
-            coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.navFont]
-            self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
-            self.navigationController?.navigationBar.standardAppearance = coloredAppearance
-        }
         //네비게이션바 배경색 넣어주는 코드
     }
     
@@ -141,31 +121,15 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
         cell.colorImageView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionChannels[indexPath.item].color!)
         
         //cell.backgroundColor = .white
+        cell.backView.backgroundColor = .cardFront
+        cell.titleLabel.textColor = .navFont
         // 구독안하거 블러처리
         if (sectionChannels[indexPath.item].isSubscribed == false){
             cell.isButtonEnabled = false
-            if self.traitCollection.userInterfaceStyle == .dark{
-                cell.backView.backgroundColor = UIColor(white: 0.5, alpha: 1)
-                cell.titleLabel.textColor = .white
-            }
-            else{
-//                cell.backView.backgroundColor = UIColor(white: 0.5, alpha: 1)
-                cell.backView.backgroundColor = .white
-                cell.titleLabel.textColor = .navFont
-            }
-//            cell.backView.backgroundColor = UIColor(white: 1, alpha: 1)
             cell.backView.alpha = 0.67
             cell.colorImageView.backgroundColor = .navBack
         }else {
             cell.isButtonEnabled = true
-            if self.traitCollection.userInterfaceStyle == .dark{
-                cell.titleLabel.textColor = .white
-                cell.backView.backgroundColor = .systemGray4
-            }
-            else{
-                cell.backView.backgroundColor = .white
-            }
-            //cell.backView.backgroundColor = .white
             cell.backView.alpha = 1
 
         }
@@ -240,10 +204,11 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
                 let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }.sorted(by: {$0.source! < $1.source!})
                 headerview.categoryLabel.text = sectionChannels[indexPath.item].group
                 headerview.colorLabel.text =  sectionChannels[indexPath.item].group
-                if self.traitCollection.userInterfaceStyle == .dark{
-                    headerview.categoryLabel.textColor = .white
-                }
-                
+//                if self.traitCollection.userInterfaceStyle == .dark{
+//                    headerview.categoryLabel.textColor = .white
+//                }
+//
+                headerview.categoryLabel.textColor = .navFont
                 headerview.colorLabel.textColor  =  .clear
                 headerview.colorLabel.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionChannels[0].color!)
                 

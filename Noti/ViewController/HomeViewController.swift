@@ -20,6 +20,16 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var HomeTableView: UITableView!
     @IBOutlet weak var TagCollectionView: UICollectionView!
     
+    func updateTitle(title: String){
+        let longTitleLabel = UILabel()
+        longTitleLabel.text = title
+        longTitleLabel.font = .boldSystemFont(ofSize: 27)
+        longTitleLabel.sizeToFit()
+        longTitleLabel.textColor = .navFont
+
+        let leftItem = UIBarButtonItem(customView: longTitleLabel)
+        self.navigationItem.leftBarButtonItem = leftItem
+    }
     
     func loadData(){
         let allCards = CoreDataManager.shared.getCards()
@@ -61,28 +71,9 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        navigationItem.title = "내가 찜한 소식"
+//        navigationItem.title = "내가 찜한 소식"
+        updateTitle(title: "내가 찜한 소식")
         //네비게이션바 배경색 넣어주는 코드
-        navigationItem.largeTitleDisplayMode = .always
-        //loadData()
-        let coloredAppearance = UINavigationBarAppearance()
-        if self.traitCollection.userInterfaceStyle == .dark{
-            coloredAppearance.configureWithOpaqueBackground()
-            self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
-            self.navigationController?.navigationBar.standardAppearance = coloredAppearance
-            self.navigationController?.navigationBar.compactAppearance = coloredAppearance
-        }
-        else{
-            coloredAppearance.configureWithOpaqueBackground()
-            coloredAppearance.backgroundColor = UIColor.navBack
-            coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.navFont]
-            coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.navFont]
-            self.navigationController?.navigationBar.scrollEdgeAppearance = coloredAppearance
-            self.navigationController?.navigationBar.standardAppearance = coloredAppearance
-            self.navigationController?.navigationBar.compactAppearance = coloredAppearance
-        }
-        HomeTableView.isScrollEnabled = true
-        HomeTableView.delegate = self
         TagCollectionView.dataSource = self
         TagCollectionView.delegate = self
     }
@@ -147,24 +138,7 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
         }
         cell.dateLabel.text = cards![indexPath.row].homeFormattedDate
         cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: cards![indexPath.row].color!)
-        if (cards![indexPath.row].isVisited == true){
-            if self.traitCollection.userInterfaceStyle == .dark{
-                cell.cellView?.backgroundColor = UIColor(white: 0.5, alpha: 1)
-            }
-            else{
-               cell.cellView?.backgroundColor = UIColor(white: 0.95, alpha: 1)
-            }
-            cell.cellView.alpha = 0.67
-        }else {
-            if self.traitCollection.userInterfaceStyle == .dark{
-                cell.cellView.backgroundColor = .systemGray4
-            }
-            else{
-                cell.cellView.backgroundColor = .white
-            }
-            
-            cell.cellView.alpha = 1
-        }
+        cell.cellView.backgroundColor = .cardFront
         let backgrundView = UIView()
         let backView = UIView(frame: CGRect(x: 17, y: 0, width: view.frame.width-34, height: 86))
         
@@ -204,14 +178,14 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
         
         if(self.traitCollection.userInterfaceStyle == .dark){
             deleteAction.backgroundColor = .black
-            let image = UIImage(imageLiteralResourceName: "delete_red.png")
+            let image = UIImage(named : "delete_red")!
             let size = CGSize(width: 100, height: 95)
             let new_image = resize(toTargetSize: size, image: image)
             deleteAction.image = new_image
         }
         else{
             deleteAction.backgroundColor = .white
-            let image = UIImage(imageLiteralResourceName: "delete_red.png")
+            let image = UIImage(imageLiteralResourceName: "delete_red")
             let size = CGSize(width: 100, height: 95)
             let new_image = resize(toTargetSize: size, image: image)
             deleteAction.image = new_image

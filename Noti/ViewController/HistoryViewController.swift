@@ -280,14 +280,14 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
         
         if(self.traitCollection.userInterfaceStyle == .dark){
             addAction.backgroundColor = .black
-            let image = UIImage(imageLiteralResourceName: "heart.png")
+            let image = UIImage(named: "heart.png")!
             let size = CGSize(width: 50, height: 50)
             let new_image = resize(toTargetSize: size, image: image)
             addAction.image = new_image
         }
         else{
             addAction.backgroundColor = .white
-            let image = UIImage(imageLiteralResourceName: "heart.png")
+            let image = UIImage(named: "heart.png")!
             let size = CGSize(width: 30, height: 30)
             let new_image = resize(toTargetSize: size, image: image)
             addAction.image = new_image
@@ -306,13 +306,7 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
         label.textColor = UIColor.sectionFont
         label.text = date[section] //Array(Set(cards.map{$0.historyFormattedDate}))[section]//.sorted(by : >)[section]
         view.addSubview(label)
-        if self.traitCollection.userInterfaceStyle == .dark{
-            view.backgroundColor = UIColor.black
-        }
-        else{
-            view.backgroundColor = UIColor.white
-
-        }
+        view.backgroundColor = .cardBack
         
         return view
 

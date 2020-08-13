@@ -18,8 +18,6 @@
 		0F93EE1D2471232F0018B9C8 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F93EE1C2471232F0018B9C8 /* Card.swift */; };
 		0FD736CF24C741FB00F221BD /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD736CC24C7185100F221BD /* UserNotifications.framework */; };
 		0FD736D024C7420300F221BD /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD736CA24C7184800F221BD /* PushKit.framework */; };
-		18413CF424E2C8830057FF5A /* delete_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 18413CF324E2C8830057FF5A /* delete_red.png */; };
-		18413CFA24E2CD7A0057FF5A /* heart.png in Resources */ = {isa = PBXBuildFile; fileRef = 18413CF924E2CD7A0057FF5A /* heart.png */; };
 		18BE0CE524DB1CEB003569EF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BE0CE424DB1CEB003569EF /* HomeViewController.swift */; };
 		623073AA2493739E00C06C6D /* LastUpdated+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623073A82493739E00C06C6D /* LastUpdated+CoreDataClass.swift */; };
 		623073AB2493739E00C06C6D /* LastUpdated+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623073A92493739E00C06C6D /* LastUpdated+CoreDataProperties.swift */; };
@@ -63,8 +61,6 @@
 		0FD736CA24C7184800F221BD /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
 		0FD736CC24C7185100F221BD /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		0FD736CE24C72FBD00F221BD /* Noti.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Noti.entitlements; sourceTree = "<group>"; };
-		18413CF324E2C8830057FF5A /* delete_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = delete_red.png; path = ../../../../Downloads/delete_red.png; sourceTree = "<group>"; };
-		18413CF924E2CD7A0057FF5A /* heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = heart.png; path = ../../../../Downloads/heart.png; sourceTree = "<group>"; };
 		18BE0CE424DB1CEB003569EF /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		623073A82493739E00C06C6D /* LastUpdated+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LastUpdated+CoreDataClass.swift"; sourceTree = "<group>"; };
 		623073A92493739E00C06C6D /* LastUpdated+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LastUpdated+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -155,8 +151,6 @@
 				0F5DB59A246AEA1C00245E96 /* LaunchScreen.storyboard */,
 				0F5DB59D246AEA1C00245E96 /* Info.plist */,
 				62BA56C4248E0BE4000CB9DF /* CoreDataManager.swift */,
-				18413CF924E2CD7A0057FF5A /* heart.png */,
-				18413CF324E2C8830057FF5A /* delete_red.png */,
 			);
 			path = Noti;
 			sourceTree = "<group>";
@@ -263,8 +257,6 @@
 				0F5DB59C246AEA1C00245E96 /* LaunchScreen.storyboard in Resources */,
 				86A5E87D246EF00400B692F4 /* HistoryView.storyboard in Resources */,
 				0F4465D4249D0E9E005DF860 /* LoginWebView.storyboard in Resources */,
-				18413CFA24E2CD7A0057FF5A /* heart.png in Resources */,
-				18413CF424E2C8830057FF5A /* delete_red.png in Resources */,
 				86AE280E2492B44900DDDDC5 /* ChannelCenterView.storyboard in Resources */,
 				0F5DB599246AEA1C00245E96 /* Assets.xcassets in Resources */,
 				86A5E83B246EE5BC00B692F4 /* HomeDetailView.storyboard in Resources */,

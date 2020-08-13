@@ -19,7 +19,7 @@ class ChannelCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var colorImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var categoryLabel: UILabel!
-    @IBOutlet weak var backView: UIView!
+    @IBOutlet weak var cellView: UIView!
     @IBOutlet weak var notificationButton: UIButton!
     
     var indexPath: IndexPath = []

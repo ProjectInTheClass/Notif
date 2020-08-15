@@ -47,6 +47,7 @@ class TagViewController: UIViewController {
                 self.coreDataTag = CoreDataManager.shared.getTags()
                 self.tagCollection.reloadData()
                 self.tagCollection.collectionViewLayout.invalidateLayout()
+                changeTagOrChannel.tagOrChannelModified = 1
             }
 
         }

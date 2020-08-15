@@ -141,9 +141,9 @@ class HistoryViewController: UIViewController{
             selectedTag = [Int]()
             channelCollection.reloadData()
             tagCollection.reloadData()
-            historyTable.reloadData()
             changeTagOrChannel.tagOrChannelModified = 0
         }
+        historyTable.reloadData()
         
     }
     

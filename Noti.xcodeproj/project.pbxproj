@@ -25,7 +25,6 @@
 		62534AEE24CEE0C6007C3938 /* Token+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62534AEC24CEE0C6007C3938 /* Token+CoreDataProperties.swift */; };
 		6258C0AB2473DE49001E5B49 /* tagTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6258C0AA2473DE49001E5B49 /* tagTableViewCell.swift */; };
 		6258C0AD2474348A001E5B49 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6258C0AC2474348A001E5B49 /* HistoryViewController.swift */; };
-		6258C0BB247EF7F6001E5B49 /* ChannelCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6258C0BA247EF7F6001E5B49 /* ChannelCollectionViewController.swift */; };
 		629B2DA724A24A9500A1741E /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629B2DA624A24A9500A1741E /* TagCollectionViewCell.swift */; };
 		62B321F0248A180D00111CE8 /* NotiModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 62B321EE248A180D00111CE8 /* NotiModels.xcdatamodeld */; };
 		62B321F7248A1A9000111CE8 /* Channel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62B321F1248A1A9000111CE8 /* Channel+CoreDataClass.swift */; };
@@ -68,7 +67,6 @@
 		62534AEC24CEE0C6007C3938 /* Token+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Token+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		6258C0AA2473DE49001E5B49 /* tagTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tagTableViewCell.swift; sourceTree = "<group>"; };
 		6258C0AC2474348A001E5B49 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
-		6258C0BA247EF7F6001E5B49 /* ChannelCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCollectionViewController.swift; sourceTree = "<group>"; };
 		629B2DA624A24A9500A1741E /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 		62B321EF248A180D00111CE8 /* NotiModels.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NotiModels.xcdatamodel; sourceTree = "<group>"; };
 		62B321F1248A1A9000111CE8 /* Channel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Channel+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -189,7 +187,6 @@
 				0F044262246B0899002A7C2B /* detailViewController.swift */,
 				864699EC249D6C8E006FB4C2 /* TagViewController.swift */,
 				6258C0AC2474348A001E5B49 /* HistoryViewController.swift */,
-				6258C0BA247EF7F6001E5B49 /* ChannelCollectionViewController.swift */,
 				86AE280F2492B4BC00DDDDC5 /* ChannelCenterViewController.swift */,
 				18BE0CE424DB1CEB003569EF /* HomeViewController.swift */,
 			);
@@ -272,7 +269,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				62534AEE24CEE0C6007C3938 /* Token+CoreDataProperties.swift in Sources */,
-				6258C0BB247EF7F6001E5B49 /* ChannelCollectionViewController.swift in Sources */,
 				860930AB24898DFD005B7A28 /* ChannelCollectionViewCell.swift in Sources */,
 				62B321FB248A1A9000111CE8 /* Card+CoreDataClass.swift in Sources */,
 				62E3020724805B6D002332AE /* addTagViewController.swift in Sources */,

@@ -122,7 +122,12 @@ class TokenListCell: BaseCollectionViewCell {
   var token: Tag? {
     didSet{
       guard let sender = self.token else { return }
-      self.titleLabel.text = "#" + sender.title + "   "
+        if(sender.title == "+"){
+            self.titleLabel.text = sender.title + "   "
+        }
+        else{
+             self.titleLabel.text = "#" + sender.title + "   "
+        }
     }
   }
   

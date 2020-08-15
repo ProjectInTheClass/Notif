@@ -88,7 +88,7 @@ module.exports.crawler = (event, context, callback) => {
 												var params = {
 													MessageStructure: "json",
 													Message: JSON.stringify({
-													"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-학생생활관\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}}}"
+													"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-학생생활관\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\"}}"
 													}), /* required */
 													TargetArn: result[i].endpointarn
 												};
@@ -169,7 +169,7 @@ module.exports.crawler = (event, context, callback) => {
 											var params = {
 												MessageStructure: "json",
 												Message: JSON.stringify({
-												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-한양대학교\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}}}"
+												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-한양대학교\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\"}}"
 												}), /* required */
 												TargetArn: result[i].endpointarn
 											};
@@ -277,7 +277,7 @@ module.exports.crawler = (event, context, callback) => {
 											var params = {
 												MessageStructure: "json",
 												Message: JSON.stringify({
-												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-기계공학부\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}}}"
+												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-기계공학부\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\"}}"
 												}), /* required */
 												TargetArn: result[i].endpointarn
 											};
@@ -309,7 +309,8 @@ module.exports.crawler = (event, context, callback) => {
 
 	var currentDate = new Date();
 	var currentYear = currentDate.getFullYear();
-	var currentMonth = currentDate.getMonth() + 1;
+	var currentDay = String(currentDate.getDate()).padStart(2, '0');
+	var currentMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
 
 	function bsLoop(pagenum) {
 		const url = 'https://biz.hanyang.ac.kr/board/bbs/board.php?bo_table=m4111&page=' + pagenum;
@@ -331,10 +332,13 @@ module.exports.crawler = (event, context, callback) => {
 					data.source = '경영학부';
 					data.category = '공지사항';
 					var cardDate = $(this).find('td').eq(3).text();
-					var cardMonth = cardDate.slice(0,2) * 1;
-					if (cardMonth > currentMonth) currentYear -= 1;
-					currentMonth = cardMonth;
-					data.time = currentYear.toString().slice(2) + '-' + cardDate;
+					if (cardDate.charAt(2) == ":") data.time = currentYear.toString().slice(2) + "-" + currentMonth + "-" + currentDay
+					else {
+						var cardMonth = cardDate.slice(0,2);
+						if (cardMonth > currentMonth) currentYear -= 1;
+						currentMonth = cardMonth;
+						data.time = currentYear.toString().slice(2) + '-' + cardDate;
+					}
 					data.json = '';
 					
 					sqlList.push([data.title, data.url, data.source, data.category, data.time, data.json]);
@@ -370,7 +374,7 @@ module.exports.crawler = (event, context, callback) => {
 											var params = {
 												MessageStructure: "json",
 												Message: JSON.stringify({
-												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-경영학부\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}}}"
+												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-경영학부\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\"}}"
 												}), /* required */
 												TargetArn: result[i].endpointarn
 											};
@@ -530,7 +534,7 @@ module.exports.crawler = (event, context, callback) => {
 											var params = {
 												MessageStructure: "json",
 												Message: JSON.stringify({
-												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-컴퓨터소프트웨어학부\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}}}"
+												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-컴퓨터소프트웨어학부\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\"}}"
 												}), /* required */
 												TargetArn: result[i].endpointarn
 											};

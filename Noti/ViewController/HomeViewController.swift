@@ -19,6 +19,7 @@ class HomeViewController: UIViewController {
 
     @IBOutlet weak var HomeTableView: UITableView!
     @IBOutlet weak var TagCollectionView: UICollectionView!
+    @IBOutlet weak var NoDataLabel: UILabel!
     
     func updateTitle(title: String){
         let longTitleLabel = UILabel()
@@ -78,13 +79,19 @@ class HomeViewController: UIViewController {
         TagCollectionView.delegate = self
     }
     override func viewDidAppear(_ animated: Bool) {
+        loadData()
         updateCard()
         //selectedTag = [Int]()
-        loadData()
+        if(saveCards?.count == 0){
+            NoDataLabel.isHidden = false
+            NoDataLabel.text = "아직 글이 없습니다.\n히스토리에서 버튼을 눌러 추가해 보세요"
+        }
+        else{
+            NoDataLabel.isHidden = true
+        }
         HomeTableView.reloadData()
         TagCollectionView.reloadData()
     }
-
     /*
     // MARK: - Navigation
 
@@ -173,20 +180,24 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
             tableView.deleteRows(at: [indexPath], with: .fade)
             self.HomeTableView.reloadData()
             self.TagCollectionView.reloadData()
+            if(self.saveCards?.count == 0){
+                self.NoDataLabel.isHidden = false
+                self.NoDataLabel.text = "아직 글이 없습니다.\n히스토리에서 버튼을 눌러 추가해 보세요"
+            }
 
         })
         
         if(self.traitCollection.userInterfaceStyle == .dark){
             deleteAction.backgroundColor = .black
-            let image = UIImage(named : "delete_red")!
-            let size = CGSize(width: 100, height: 95)
+            let image = UIImage(named : "deleteDark")!
+            let size = CGSize(width: 100, height:100)
             let new_image = resize(toTargetSize: size, image: image)
             deleteAction.image = new_image
         }
         else{
             deleteAction.backgroundColor = .white
-            let image = UIImage(imageLiteralResourceName: "delete_red")
-            let size = CGSize(width: 100, height: 95)
+            let image = UIImage(imageLiteralResourceName: "delete")
+            let size = CGSize(width: 100, height: 100)
             let new_image = resize(toTargetSize: size, image: image)
             deleteAction.image = new_image
         }

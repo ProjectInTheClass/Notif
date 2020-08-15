@@ -125,6 +125,7 @@ class HistoryViewController: UIViewController{
         CoreDataManager.shared.setData()
         navigationItem.title = nil
         updateTitle(title: "전체")
+        CoreDataManager.shared.setData()
         loadData()
         updateCardsAndTitle()
         tagCollection.dataSource = self
@@ -183,7 +184,6 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section]}
         
-        if (sectionCards[indexPath.row].url != ""){
           
             let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! HomeTableViewCell
             
@@ -244,19 +244,7 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
             cell.cellView.layer.shadowOpacity = 0.2 //
             return cell
             
-        }else{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "history", for: indexPath) as! HistoryCell
-
-            cell.history.text = "  #"+sectionCards[indexPath.row].title! + " 추가  "
-            cell.history.textColor = UIColor.first
-            let attributedStr = NSMutableAttributedString(string: cell.history.text!)
-            //위에서 만든 attributedStr에 addAttribute메소드를 통해 Attribute를 적용. kCTFontAttributeName은 value로 폰트크기와 폰트를 받을 수 있음.
-            attributedStr.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.sourceFont, range: (cell.history.text! as NSString).range(of:"추가"))
-
-            cell.history.attributedText = attributedStr
-            cell.backLine.backgroundColor = .sourceFont
-            return cell
-        }
+        
     }
     //swipe시 버튼에 추가되는 image의 resize를 위한 함수
     func resize(toTargetSize: CGSize, image : UIImage) -> UIImage? {
@@ -399,8 +387,6 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
         else{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tagCollectionCell", for: indexPath) as! TokenListCell
             if(selectedChannel == 0){
-//                cell.titleLabel.text = "#\( channels[selectedChannel].channelTags![indexPath.row])"
-
                 cell.token =  Tag(title: channels![selectedChannel].channelTags![indexPath.row], time: NSDate())
                            cell.titleLabel.textColor = .black
                 if selectedTag.contains(indexPath.row){
@@ -431,7 +417,33 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
             selectedTag = [Int]()
         }
         else{
-            if(selectedTag.contains(indexPath.row)){
+            if(indexPath.row == 0){
+                let alertController = UIAlertController(title: "태그 추가하기", message: "추가할 태그의 이름을 입력해주세요", preferredStyle: .alert)
+                alertController.addTextField{(textField) in textField.placeholder = "태그 이름 입력"}
+                
+                let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+                    let textField = alertController.textFields![0]
+                    if let newTag = textField.text, newTag != "" {
+                        if(newTag.contains(" ")){
+                            return
+                        }
+                        CoreDataManager.shared.saveTags(name: newTag, time: NSDate() as Date){onSuccess in print("saved = \(onSuccess)")}
+                        CoreDataManager.shared.addCardsTag(tag: newTag){onSuccess in print("saved = \(onSuccess)")}
+                        CoreDataManager.shared.addChannelTag(subtitle: "전체", source: "전체", tag: newTag){onSuccess in print("saved = \(onSuccess)")}
+                        //self.tagCollection.insertItems(at: [indexPath])
+                        self.tagCollection.reloadData()
+                        self.tagCollection.collectionViewLayout.invalidateLayout()
+                        changeTagOrChannel.tagOrChannelModified = 1
+                    }
+
+                }
+                let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
+                }
+                alertController.addAction(confirmAction)
+                alertController.addAction(cancelAction)
+                self.present(alertController, animated: true, completion: nil)
+            }
+            else if(selectedTag.contains(indexPath.row)){
                 let index = selectedTag.firstIndex(of: indexPath.row)!
                 selectedTag.remove(at: index)
             }

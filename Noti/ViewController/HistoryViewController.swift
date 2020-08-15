@@ -122,6 +122,7 @@ class HistoryViewController: UIViewController{
     }
 
     override func viewDidLoad() {
+        CoreDataManager.shared.setData()
         navigationItem.title = nil
         updateTitle(title: "전체")
         loadData()
@@ -133,6 +134,7 @@ class HistoryViewController: UIViewController{
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        CoreDataManager.shared.setData()
         if(changeTagOrChannel.tagOrChannelModified == 1){
             loadData()
             updateCardsAndTitle()

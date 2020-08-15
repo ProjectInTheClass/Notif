@@ -84,7 +84,7 @@ class HomeViewController: UIViewController {
         //selectedTag = [Int]()
         if(saveCards?.count == 0){
             NoDataLabel.isHidden = false
-            NoDataLabel.text = "아직 글이 없습니다\n히스토리에서 버튼을 눌러 추가해 보세요"
+            NoDataLabel.text = "아직 글이 없습니다.\n히스토리에서 버튼을 눌러 추가해 보세요"
         }
         else{
             NoDataLabel.isHidden = true
@@ -182,6 +182,7 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
             self.TagCollectionView.reloadData()
             if(self.saveCards?.count == 0){
                 self.NoDataLabel.isHidden = false
+                self.NoDataLabel.text = "아직 글이 없습니다.\n히스토리에서 버튼을 눌러 추가해 보세요"
             }
 
         })

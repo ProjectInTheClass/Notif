@@ -144,7 +144,7 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
             // Convert HTTP Response Data to a simple String
             if let data = data, var dataString = String(data: data, encoding: encoding) {
                 if (self.source!.contains("학생생활관")) {
-                    dataString = dataString.slice(from: "<div class=\"cnt\">", to: "<div class=\"btn_area clearfix\">")!
+                    dataString = dataString.slice(from: "<div class=\"cnt\">", to: "<div class=\"btn_area clearfix\">") ?? dataString
                     
                     let enddivIndices = dataString.ranges(of: "</div>")
                     
@@ -154,7 +154,7 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
                     
                 }
                 else if (self.source!.contains("한양대학교")) {
-                    dataString = dataString.slice(from: "<td class=\"view-script\">", to: "<div class=\"bbs-button-wrap container\">")!
+                    dataString = dataString.slice(from: "<td class=\"view-script\">", to: "<div class=\"bbs-button-wrap container\">") ?? dataString
                      
                      let endtdIndices = dataString.ranges(of: "</td>")
 
@@ -169,18 +169,18 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
                      }
                 }
                 else if (self.source!.contains("컴퓨터")) {
-                    dataString = dataString.slice(from: "<td class=\"view_content\" colspan=\"2\">", to: "<td class=\"tit\">이전글</td>")!
+                    dataString = dataString.slice(from: "<td class=\"view_content\" colspan=\"2\">", to: "<td class=\"tit\">이전글</td>") ?? dataString
                     let endtdIndices = dataString.ranges(of: "</td>")
 
                     if let lastIndex = endtdIndices.last {
                         dataString = String(dataString[..<lastIndex.upperBound])
                     }
                 } else if (self.source!.contains("경영")){
-                    dataString = dataString.slice(from: "<span id=\"writeContents\" style=\"display:block;width:700px\"><div align=\"center\">", to:"</span>")!
+                    dataString = dataString.slice(from: "<td height=\"150\" valign=\"top\" colspan=\"2\" style=\"word-break:break-all; padding:13px;\">", to:"</tr>") ?? dataString
                 } else if (self.source!.contains("기계")){
-                    dataString = dataString.slice(from: "<div class=\"HTML_CONTENT\">", to:"</div></td>")!
+                    dataString = dataString.slice(from: "<div class=\"HTML_CONTENT\">", to:"</div></td>") ?? dataString
                 } else if (self.source!.contains("포털")) {
-                    dataString = dataString.slice(from: "\"contents\":\"", to: "\",\"haengsaSdt\"")!
+                    dataString = dataString.slice(from: "\"contents\":\"", to: "\",\"haengsaSdt\"") ?? dataString
                     dataString = dataString.replacingOccurrences(of: "\\n", with: "")
                     dataString = dataString.replacingOccurrences(of: "\\\"", with: "\"")
 //                    print(dataString)

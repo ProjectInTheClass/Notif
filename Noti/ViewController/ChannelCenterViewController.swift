@@ -231,7 +231,6 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
     
     
     @IBAction func buttonPressed(_ sender: Any){
-        print("button Pressed!")
         performSegue(withIdentifier: "tagSegue", sender: self)
     }
 

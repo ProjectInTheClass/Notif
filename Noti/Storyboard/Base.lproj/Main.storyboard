@@ -197,6 +197,12 @@
                                     <outlet property="delegate" destination="TaN-3R-A19" id="q1g-f6-F8m"/>
                                 </connections>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PdA-J9-7QQ">
+                                <rect key="frame" x="186" y="438" width="42" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" name="unselectedFont"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="v9i-Ik-roA">
                                 <rect key="frame" x="0.0" y="88" width="414" height="50"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -220,23 +226,18 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kz8-2B-yc6">
-                                <rect key="frame" x="0.0" y="423" width="414" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" name="unselectedFont"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="v9i-Ik-roA" firstAttribute="trailing" secondItem="Js6-KW-aaI" secondAttribute="trailing" id="H1o-UV-ntl"/>
                             <constraint firstItem="Js6-KW-aaI" firstAttribute="top" secondItem="v9i-Ik-roA" secondAttribute="bottom" id="J9z-Rz-RAV"/>
+                            <constraint firstItem="PdA-J9-7QQ" firstAttribute="centerX" secondItem="SAX-mE-Zb7" secondAttribute="centerX" id="Lfh-De-Ukc"/>
                             <constraint firstItem="Js6-KW-aaI" firstAttribute="trailing" secondItem="5sg-4a-PmU" secondAttribute="trailing" id="RkG-AR-AzU"/>
                             <constraint firstItem="Js6-KW-aaI" firstAttribute="top" secondItem="5sg-4a-PmU" secondAttribute="top" constant="50" id="WL2-gI-lgX"/>
                             <constraint firstItem="Js6-KW-aaI" firstAttribute="bottom" secondItem="5sg-4a-PmU" secondAttribute="bottom" id="p2n-bg-4Lf"/>
                             <constraint firstItem="v9i-Ik-roA" firstAttribute="leading" secondItem="Js6-KW-aaI" secondAttribute="leading" id="pRQ-Hk-b2U"/>
                             <constraint firstItem="Js6-KW-aaI" firstAttribute="leading" secondItem="5sg-4a-PmU" secondAttribute="leading" id="rxq-EY-6z5"/>
+                            <constraint firstItem="PdA-J9-7QQ" firstAttribute="centerY" secondItem="SAX-mE-Zb7" secondAttribute="centerY" id="x7E-aE-Q5d"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="5sg-4a-PmU"/>
                     </view>
@@ -244,8 +245,8 @@
                     <navigationItem key="navigationItem" id="rXZ-gf-tM2"/>
                     <connections>
                         <outlet property="HomeTableView" destination="Js6-KW-aaI" id="D9s-sk-1ro"/>
-                        <outlet property="NoDataLabel" destination="kz8-2B-yc6" id="xXS-V8-nyT"/>
                         <outlet property="TagCollectionView" destination="v9i-Ik-roA" id="SKh-4q-VWu"/>
+                        <outlet property="noDataLabel" destination="PdA-J9-7QQ" id="WRg-Ic-3Fa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dv8-zn-tXw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

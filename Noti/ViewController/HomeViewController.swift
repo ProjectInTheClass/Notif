@@ -19,7 +19,7 @@ class HomeViewController: UIViewController {
 
     @IBOutlet weak var HomeTableView: UITableView!
     @IBOutlet weak var TagCollectionView: UICollectionView!
-    @IBOutlet weak var NoDataLabel: UILabel!
+    @IBOutlet weak var noDataLabel: UILabel!
     
     func updateTitle(title: String){
         let longTitleLabel = UILabel()
@@ -83,11 +83,11 @@ class HomeViewController: UIViewController {
         updateCard()
         //selectedTag = [Int]()
         if(saveCards?.count == 0){
-            NoDataLabel.isHidden = false
-            NoDataLabel.text = "아직 관심글이 없습니다.\n히스토리에서 카드를 스와이프해 추가해 보세요."
+            noDataLabel.isHidden = false
+            noDataLabel.text = "아직 관심글이 없습니다.\n히스토리에서 카드를 스와이프해 추가해 보세요."
         }
         else{
-            NoDataLabel.isHidden = true
+            noDataLabel.isHidden = true
         }
         HomeTableView.reloadData()
         TagCollectionView.reloadData()
@@ -146,12 +146,6 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
         cell.dateLabel.text = cards![indexPath.row].homeFormattedDate
         cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: cards![indexPath.row].color!)
         cell.cellView.backgroundColor = .cardFront
-        let backgrundView = UIView()
-        let backView = UIView(frame: CGRect(x: 17, y: 5, width: view.frame.width-34, height: 85))
-        
-        backView.backgroundColor = .white
-        backgrundView.addSubview(backView)
-        cell.backgroundView = backgrundView
         cell.cellView.layer.shadowColor = UIColor.black.cgColor
         cell.cellView.layer.masksToBounds = false
         cell.cellView.layer.shadowOffset = CGSize(width: 1, height: 2)
@@ -182,8 +176,8 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
             self.HomeTableView.reloadData()
             self.TagCollectionView.reloadData()
             if(self.saveCards?.count == 0){
-                self.NoDataLabel.isHidden = false
-                self.NoDataLabel.text = "아직 관심글이 없습니다.\n히스토리에서 카드를 스와이프해 추가해 보세요."
+                self.noDataLabel.isHidden = false
+                self.noDataLabel.text = "아직 관심글이 없습니다.\n히스토리에서 카드를 스와이프해 추가해 보세요."
             }
 
         })

@@ -131,7 +131,6 @@ class HistoryViewController: UIViewController{
         tagCollection.dataSource = self
         tagCollection.delegate = self
         updateSubTitle(subTitle: "전체")
-//        navigationController?.hidesBarsOnSwipe = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -183,66 +182,70 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section]}
-        
-          
-            let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! HomeTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! HomeTableViewCell
             
-            cell.titleLabel.text = sectionCards[indexPath.row].title
-            var tagText = ""
-            if(sectionCards[indexPath.row].tag!.count == 1){
-                tagText += sectionCards[indexPath.row].formattedSource!
-                cell.sourceLabel.textColor = .sourceFont
-                cell.sourceLabel.text = tagText
-            }
-            else{
-                for i in 1..<sectionCards[indexPath.row].tag!.count{
-                               tagText += "#\(sectionCards[indexPath.row].tag![i]) "
+        cell.titleLabel.text = sectionCards[indexPath.row].title
+        var tagText = ""
+        if(sectionCards[indexPath.row].tag!.count == 1){
+            tagText += sectionCards[indexPath.row].formattedSource!
+            cell.sourceLabel.textColor = .sourceFont
+            cell.sourceLabel.text = tagText
+        }
+        else{
+            for i in 1..<sectionCards[indexPath.row].tag!.count{
+                           tagText += "#\(sectionCards[indexPath.row].tag![i]) "
 
-                    }
-                cell.sourceLabel.text = tagText
-                if(selectedTag.count != 0){
-                    let attributedStr = NSMutableAttributedString(string: tagText)
-                    if(selectedChannel==0){
-                        for j in 1..<(selectedTag.count+1){
-                            if(((sectionCards[indexPath.row].tag?.contains(channels![selectedChannel].channelTags![selectedTag[j-1]]))!)){
-                                attributedStr.addAttribute(.foregroundColor, value: CoreDataManager.shared.colorWithHexString  (hexString:sectionCards[indexPath.row].color!), range:(cell.sourceLabel.text! as NSString).range(of:"#\( channels![selectedChannel].channelTags![selectedTag[j-1]])"))
-                            }
-                        }
-                    }
-                    else{
-                        for j in 1..<(selectedTag.count+1){
-                            if(((sectionCards[indexPath.row].tag?.contains(channels![selectedChannel].channelTags![selectedTag[j-1]+1]))!)){
-                                attributedStr.addAttribute(.foregroundColor, value: CoreDataManager.shared.colorWithHexString  (hexString:sectionCards[indexPath.row].color!), range:(cell.sourceLabel.text! as NSString).range(of:"#\( channels![selectedChannel].channelTags![selectedTag[j-1]+1])"))
-                            }
-                        }
-                    }
-                    cell.sourceLabel.attributedText = attributedStr
                 }
+            cell.sourceLabel.text = tagText
+            if(selectedTag.count != 0){
+                let attributedStr = NSMutableAttributedString(string: tagText)
+                if(selectedChannel==0){
+                    for j in 1..<(selectedTag.count+1){
+                        if(((sectionCards[indexPath.row].tag?.contains(channels![selectedChannel].channelTags![selectedTag[j-1]]))!)){
+                            attributedStr.addAttribute(.foregroundColor, value: CoreDataManager.shared.colorWithHexString  (hexString:sectionCards[indexPath.row].color!), range:(cell.sourceLabel.text! as NSString).range(of:"#\( channels![selectedChannel].channelTags![selectedTag[j-1]])"))
+                        }
+                    }
+                }
+                else{
+                    for j in 1..<(selectedTag.count+1){
+                        if(((sectionCards[indexPath.row].tag?.contains(channels![selectedChannel].channelTags![selectedTag[j-1]+1]))!)){
+                            attributedStr.addAttribute(.foregroundColor, value: CoreDataManager.shared.colorWithHexString  (hexString:sectionCards[indexPath.row].color!), range:(cell.sourceLabel.text! as NSString).range(of:"#\( channels![selectedChannel].channelTags![selectedTag[j-1]+1])"))
+                        }
+                    }
+                }
+                cell.sourceLabel.attributedText = attributedStr
             }
+        }
             //cell.sourceLabel.text = tagText
             
 //            cell.dateLabel.text = sectionCards[indexPath.row].historyCardFormattedDate
-            cell.dateLabel.text = ""
-            cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionCards[indexPath.row].color!)
-            cell.cellView?.backgroundColor = .cardFront
-            if (sectionCards[indexPath.row].isVisited == true){
-                cell.cellView.alpha = 0.6
-            }else {
-                cell.cellView.alpha = 1
-            }
-            let backgrundView = UIView()
-            let backView = UIView(frame: CGRect(x: 17, y: 0, width: view.frame.width-34, height: 86))
             
-            backView.backgroundColor = .cardBack
-            backgrundView.addSubview(backView)
-            cell.backgroundView = backgrundView
-            // 그림자 부분
-            cell.cellView.layer.shadowColor = UIColor.black.cgColor // 검정색 사용
-            cell.cellView.layer.masksToBounds = false
-            cell.cellView.layer.shadowOffset = CGSize(width: 1, height: 2) //반경
-            cell.cellView.layer.shadowRadius = 3 // 반경?
-            cell.cellView.layer.shadowOpacity = 0.2 //
-            return cell
+        if (sectionCards[indexPath.row].isFavorite){
+            cell.favoriteHeart.isHidden = false
+        }else{
+            cell.favoriteHeart.isHidden = true
+        }
+        cell.dateLabel.text = ""
+        cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: sectionCards[indexPath.row].color!)
+        cell.cellView?.backgroundColor = .cardFront
+        if (sectionCards[indexPath.row].isVisited == true){
+            cell.cellView.alpha = 0.6
+        }else {
+            cell.cellView.alpha = 1
+        }
+        let backgrundView = UIView()
+        let backView = UIView(frame: CGRect(x: 17, y: 0, width: view.frame.width-34, height: 86))
+        
+        backView.backgroundColor = .cardBack
+        backgrundView.addSubview(backView)
+        cell.backgroundView = backgrundView
+        // 그림자 부분
+        cell.cellView.layer.shadowColor = UIColor.black.cgColor // 검정색 사용
+        cell.cellView.layer.masksToBounds = false
+        cell.cellView.layer.shadowOffset = CGSize(width: 1, height: 2) //반경
+        cell.cellView.layer.shadowRadius = 3 // 반경?
+        cell.cellView.layer.shadowOpacity = 0.2 //
+        return cell
             
         
     }
@@ -258,31 +261,55 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
         return newImage
     }
     //swipe
+//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section]}
+//        let favoriteCardUrl = sectionCards[indexPath.row].url
+//        let addAction = UIContextualAction(style: .normal, title:  "추가", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+//            CoreDataManager.shared.addFavoriteCard(url: favoriteCardUrl!){ onSuccess in print("saved = \(onSuccess)")}
+//                    success(true)
+//
+//                })
+//
+//
+//        if(self.traitCollection.userInterfaceStyle == .dark){
+//            addAction.backgroundColor = .black
+//            let image = UIImage(named: "heart.png")!
+//            let size = CGSize(width: 50, height: 50)
+//            let new_image = resize(toTargetSize: size, image: image)
+//            addAction.image = new_image
+//        }
+//        else{
+//            addAction.backgroundColor = .white
+//            let image = UIImage(named: "heart.png")!
+//            let size = CGSize(width: 30, height: 30)
+//            let new_image = resize(toTargetSize: size, image: image)
+//            addAction.image = new_image
+//        }
+//        return UISwipeActionsConfiguration(actions: [addAction])
+//    }
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section]}
         let favoriteCardUrl = sectionCards[indexPath.row].url
-        let addAction = UIContextualAction(style: .normal, title:  "추가", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+        
+        let swipeTitile = sectionCards[indexPath.row].isFavorite ? "관심 삭제" : "관심 추가"
+        let addAction = UIContextualAction(style: .normal, title:  swipeTitile, handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
             CoreDataManager.shared.addFavoriteCard(url: favoriteCardUrl!){ onSuccess in print("saved = \(onSuccess)")}
                     success(true)
-            
+            self.historyTable.reloadData()
+        
                 })
+        let deleteAction = UIContextualAction(style: .destructive, title:  swipeTitile, handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
         
+        CoreDataManager.shared.removeFavoriteCard(url: favoriteCardUrl!){ onSuccess in print("saved = \(onSuccess)")}
+                success(true)
+            self.historyTable.reloadData()
+        })
+        let resultAction = sectionCards[indexPath.row].isFavorite ? deleteAction : addAction
+        resultAction.backgroundColor = .systemPink
+        let image = sectionCards[indexPath.row].isFavorite ? UIImage(systemName: "heart.slash") : UIImage(systemName: "heart")
+        resultAction.image = image
         
-        if(self.traitCollection.userInterfaceStyle == .dark){
-            addAction.backgroundColor = .black
-            let image = UIImage(named: "heart.png")!
-            let size = CGSize(width: 50, height: 50)
-            let new_image = resize(toTargetSize: size, image: image)
-            addAction.image = new_image
-        }
-        else{
-            addAction.backgroundColor = .white
-            let image = UIImage(named: "heart.png")!
-            let size = CGSize(width: 30, height: 30)
-            let new_image = resize(toTargetSize: size, image: image)
-            addAction.image = new_image
-        }
-        return UISwipeActionsConfiguration(actions: [addAction])
+        return UISwipeActionsConfiguration(actions: [resultAction])
     }
     
     

@@ -16,6 +16,8 @@ class HomeTableViewCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var cellView: UIView!
     @IBOutlet weak var sourceColorView: UIImageView!
+    @IBOutlet weak var favoriteHeart: UIImageView!
+    //    @IBOutlet weak var likeButton: UIButton!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

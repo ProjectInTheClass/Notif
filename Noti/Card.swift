@@ -55,7 +55,7 @@ extension UIColor {
     var json = [String:String]()
     
     var homeFormattedDate: String {
-//        let now = Date()
+        let now = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         // 임시로 보여주기 위해 선언함

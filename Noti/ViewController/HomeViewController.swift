@@ -84,7 +84,7 @@ class HomeViewController: UIViewController {
         //selectedTag = [Int]()
         if(saveCards?.count == 0){
             NoDataLabel.isHidden = false
-            NoDataLabel.text = "아직 글이 없습니다.\n히스토리에서 버튼을 눌러 추가해 보세요"
+            NoDataLabel.text = "아직 관심글이 없습니다.\n히스토리에서 카드를 스와이프해 추가해 보세요."
         }
         else{
             NoDataLabel.isHidden = true
@@ -147,7 +147,7 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
         cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: cards![indexPath.row].color!)
         cell.cellView.backgroundColor = .cardFront
         let backgrundView = UIView()
-        let backView = UIView(frame: CGRect(x: 17, y: 0, width: view.frame.width-34, height: 86))
+        let backView = UIView(frame: CGRect(x: 17, y: 5, width: view.frame.width-34, height: 85))
         
         backView.backgroundColor = .white
         backgrundView.addSubview(backView)
@@ -171,10 +171,11 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let favoriteCardUrl = cards![indexPath.row].url
-        let deleteAction = UIContextualAction(style: .destructive, title:  "", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+        let deleteAction = UIContextualAction(style: .destructive, title:  "관심 삭제", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
             
             CoreDataManager.shared.removeFavoriteCard(url: favoriteCardUrl!){ onSuccess in print("saved = \(onSuccess)")}
                     success(true)
+//            sectionCards[indexPath.row].isFavorite = false
             self.loadData()
             self.updateCard()
             tableView.deleteRows(at: [indexPath], with: .fade)
@@ -182,25 +183,13 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
             self.TagCollectionView.reloadData()
             if(self.saveCards?.count == 0){
                 self.NoDataLabel.isHidden = false
-                self.NoDataLabel.text = "아직 글이 없습니다.\n히스토리에서 버튼을 눌러 추가해 보세요"
+                self.NoDataLabel.text = "아직 관심글이 없습니다.\n히스토리에서 카드를 스와이프해 추가해 보세요."
             }
 
         })
-        
-        if(self.traitCollection.userInterfaceStyle == .dark){
-            deleteAction.backgroundColor = .black
-            let image = UIImage(named : "deleteDark")!
-            let size = CGSize(width: 100, height:100)
-            let new_image = resize(toTargetSize: size, image: image)
-            deleteAction.image = new_image
-        }
-        else{
-            deleteAction.backgroundColor = .white
-            let image = UIImage(imageLiteralResourceName: "delete")
-            let size = CGSize(width: 100, height: 100)
-            let new_image = resize(toTargetSize: size, image: image)
-            deleteAction.image = new_image
-        }
+        let image = UIImage(systemName: "heart.slash")
+        deleteAction.image = image
+        deleteAction.backgroundColor = .systemPink
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

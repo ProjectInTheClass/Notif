@@ -30,8 +30,8 @@
             filePath = "Noti/ViewController/detailViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
             landmarkName = "getContent()"
             landmarkType = "7">
          </BreakpointContent>

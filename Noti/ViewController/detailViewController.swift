@@ -110,12 +110,11 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
         titleView.layer.shadowOpacity = 0.5
         titleView.layer.shadowRadius = 0
         //contentView.backgroundColor = .white
-        contentTextView.backgroundColor = .white
+//        contentTextView.backgroundColor = .white
         
         activityIndicator.startAnimating()
-        
-        
         getContent()
+        
     }
 
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -214,6 +213,7 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
 //                    print(resultString)
                     self.activityIndicator.stopAnimating()
                     self.contentTextView.attributedText = mutableAttributedString
+                    self.contentTextView.backgroundColor = .white
                 }
             }
             

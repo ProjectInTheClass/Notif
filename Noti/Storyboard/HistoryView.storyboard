@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -235,15 +236,23 @@
                                     <outlet property="delegate" destination="ODg-HY-JJ9" id="uJp-7Q-mdF"/>
                                 </connections>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="아직 올라온 새글이 없어요." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="71i-ki-3Kf">
+                                <rect key="frame" x="117" y="438" width="180" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" name="unselectedFont"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="dGT-ge-nBF" firstAttribute="leading" secondItem="1De-Rr-WXR" secondAttribute="leading" id="05y-2f-gI0"/>
+                            <constraint firstItem="71i-ki-3Kf" firstAttribute="centerX" secondItem="Mva-rT-hFN" secondAttribute="centerX" id="3hW-Kc-rZs"/>
                             <constraint firstItem="etd-5I-hXs" firstAttribute="trailing" secondItem="uPU-D1-az7" secondAttribute="trailing" id="6LJ-r3-MzI"/>
                             <constraint firstItem="etd-5I-hXs" firstAttribute="top" secondItem="dGT-ge-nBF" secondAttribute="bottom" id="IKc-z8-lFj"/>
                             <constraint firstItem="uPU-D1-az7" firstAttribute="trailing" secondItem="1De-Rr-WXR" secondAttribute="trailing" id="KcP-Mg-DVq"/>
                             <constraint firstItem="etd-5I-hXs" firstAttribute="top" secondItem="uPU-D1-az7" secondAttribute="top" constant="75" id="Tte-RS-Y60"/>
                             <constraint firstItem="1De-Rr-WXR" firstAttribute="top" secondItem="uPU-D1-az7" secondAttribute="top" id="WvE-BT-tz0"/>
+                            <constraint firstItem="71i-ki-3Kf" firstAttribute="centerY" secondItem="Mva-rT-hFN" secondAttribute="centerY" id="Xke-uo-Xce"/>
                             <constraint firstItem="etd-5I-hXs" firstAttribute="bottom" secondItem="uPU-D1-az7" secondAttribute="bottom" id="dUr-M6-m8I"/>
                             <constraint firstItem="etd-5I-hXs" firstAttribute="leading" secondItem="uPU-D1-az7" secondAttribute="leading" id="e1b-7D-QbB"/>
                             <constraint firstItem="1De-Rr-WXR" firstAttribute="leading" secondItem="Mva-rT-hFN" secondAttribute="leading" id="ruR-Kb-1ef"/>
@@ -256,6 +265,7 @@
                     <connections>
                         <outlet property="channelCollection" destination="1De-Rr-WXR" id="mKE-kC-NQt"/>
                         <outlet property="historyTable" destination="etd-5I-hXs" id="y2N-xw-iDT"/>
+                        <outlet property="noDataLabel" destination="71i-ki-3Kf" id="F3A-fH-R0p"/>
                         <outlet property="tagCollection" destination="dGT-ge-nBF" id="RcU-89-8bp"/>
                     </connections>
                 </viewController>
@@ -276,5 +286,8 @@
     </scenes>
     <resources>
         <image name="heart.fill" catalog="system" width="128" height="109"/>
+        <namedColor name="unselectedFont">
+            <color red="0.74509803921568629" green="0.74901960784313726" blue="0.76470588235294112" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

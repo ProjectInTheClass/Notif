@@ -459,7 +459,11 @@ class CoreDataManager{
             CoreDataManager.shared.saveTags(name: "장학금", time: dateNow!){ onSuccess in print("saved = \(onSuccess)")}
             
             dateFormatter.dateFormat = "yy-MM-dd"
-            CoreDataManager.shared.saveUpdated(date: "20-06-11"){ onSuccess in } //print("saved = \(onSuccess)")
+            let today = Date()
+            let calendar = Calendar(identifier: .gregorian)
+            let dayOffset = DateComponents(day: -30)
+            let firstDate = calendar.date(byAdding: dayOffset, to: today)!
+            CoreDataManager.shared.saveUpdated(date: dateFormatter.string(from: firstDate)){ onSuccess in }
             lastUpdated = CoreDataManager.shared.getUpdated()
         }
         let tags = CoreDataManager.shared.getTags()

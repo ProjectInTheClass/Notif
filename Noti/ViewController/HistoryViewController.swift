@@ -135,7 +135,7 @@ class HistoryViewController: UIViewController{
 
     override func viewDidLoad() {
         CoreDataManager.shared.setData()
-        navigationItem.title = nil
+        navigationItem.title = ""
         updateTitle(title: "전체")
         CoreDataManager.shared.setData()
         loadData()

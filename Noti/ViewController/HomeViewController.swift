@@ -72,7 +72,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-//        navigationItem.title = "내가 찜한 소식"
+        navigationItem.title = ""
         updateTitle(title: "내가 찜한 소식")
         //네비게이션바 배경색 넣어주는 코드
         TagCollectionView.dataSource = self

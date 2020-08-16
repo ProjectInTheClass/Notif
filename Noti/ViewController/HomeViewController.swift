@@ -78,6 +78,7 @@ class HomeViewController: UIViewController {
         TagCollectionView.dataSource = self
         TagCollectionView.delegate = self
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         loadData()
         updateCard()
@@ -92,6 +93,8 @@ class HomeViewController: UIViewController {
         HomeTableView.reloadData()
         TagCollectionView.reloadData()
     }
+    
+
     /*
     // MARK: - Navigation
 

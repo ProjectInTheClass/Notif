@@ -16,6 +16,7 @@ class HistoryViewController: UIViewController{
     @IBOutlet weak var historyTable: UITableView!
     @IBOutlet weak var channelCollection: UICollectionView!
     @IBOutlet weak var tagCollection: UICollectionView!
+    @IBOutlet weak var noDataLabel: UILabel!
     
     var listUnread = false
     var mangedObjectContext : NSManagedObjectContext!
@@ -119,6 +120,16 @@ class HistoryViewController: UIViewController{
         }
         cardsHistoryDate = Array(Set(tmpCardsHistoryDate))
         date = cardsHistoryDate.sorted(by: {$0.compare($1) == .orderedDescending})
+        if cards.count == 0 {
+            if channels!.count == 1{
+                noDataLabel.text = "채널센터에서 새로운 채널을 추가해보세요."
+            }else{
+                noDataLabel.text = "아직 올라온 새글이 없어요."
+            }
+            noDataLabel.isHidden = false
+        }else{
+            noDataLabel.isHidden = true
+        }
         //date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by : {$0.compare($1) == .orderedDescending})
     }
 

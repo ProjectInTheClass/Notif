@@ -77,6 +77,7 @@ class CoreDataManager{
     
     //sort!!
     func getCards()->[Card]{
+        print("@@@getCards")
         let sorting : NSSortDescriptor = NSSortDescriptor(key: "time", ascending: false)
         
         var cards = [Card]()
@@ -243,6 +244,7 @@ class CoreDataManager{
                }
     }
     func getChannels()->[Channel]{
+        print("@@@getChannels")
         //let dateFormatter = DateFormatter()
         var channels : [Channel]?
         let fetchRequest : NSFetchRequest<Channel>  = Channel.fetchRequest()
@@ -343,6 +345,7 @@ class CoreDataManager{
                }
     }
     func getTags()->[Tags]{
+        print("@@@getTags")
         var allTags : [Tags]?
         let fetchRequest : NSFetchRequest<Tags> = Tags.fetchRequest()
                do{
@@ -430,6 +433,7 @@ class CoreDataManager{
     }
     
     func setData() {
+        print("@@@setData")
         var lastUpdated = CoreDataManager.shared.getUpdated()
         let dateFormatter = DateFormatter()
         

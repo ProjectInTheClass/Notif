@@ -27,19 +27,6 @@ class HistoryViewController: UIViewController{
     var date = [String]()
     var cardsHistoryDate = [String]()
     
-    func loadData(){
-        cards = CoreDataManager.shared.getCards()
-        let allCards = cards
-        allChannels = CoreDataManager.shared.getChannels()
-        selectedTag = [Int]()
-        
-        //channels = allChannels.filter{ $0.isSubscribed == true }.sorted(by: {$0.source! < $1.source!}).sorted{ $0.group! < $1.group!}
-        channels = allChannels!.filter{ $0.isSubscribed == true }.sorted{ $0.group!.count < $1.group!.count }
-
-        allTags = CoreDataManager.shared.getTags()
-        date = Array(Set(allCards.map{$0.historyFormattedDate!})).sorted(by : {$0.compare($1) == .orderedDescending})
-    }
-    
     
     func updateTitle(title: String){
         let longTitleLabel = UILabel()
@@ -67,7 +54,23 @@ class HistoryViewController: UIViewController{
     
         navigationItem.titleView = stack
     }
+    
+    func loadData(){
+        print("@@loadData")
+        cards = CoreDataManager.shared.getCards()
+        let allCards = cards
+        allChannels = CoreDataManager.shared.getChannels()
+        selectedTag = [Int]()
+        
+        //channels = allChannels.filter{ $0.isSubscribed == true }.sorted(by: {$0.source! < $1.source!}).sorted{ $0.group! < $1.group!}
+        channels = allChannels!.filter{ $0.isSubscribed == true }.sorted{ $0.group!.count < $1.group!.count }
+
+        allTags = CoreDataManager.shared.getTags()
+        date = Array(Set(allCards.map{$0.historyFormattedDate!})).sorted(by : {$0.compare($1) == .orderedDescending})
+    }
+    
     func updateCardsAndTitle(){
+        print("@@updateCardsAndTitle")
         let allCards = CoreDataManager.shared.getCards()
         var filterWithTagCards : [Card] = []
         //filterWithTagCards
@@ -93,6 +96,7 @@ class HistoryViewController: UIViewController{
 //            navigationItem.title = channelToChange.title
             updateTitle(title: channelToChange.title!)
             updateSubTitle(subTitle: channelToChange.source!)
+//            print("지금!")
 
         }else{
             if(selectedTag.count == 0){
@@ -134,32 +138,32 @@ class HistoryViewController: UIViewController{
     }
 
     override func viewDidLoad() {
+        print("@뷰가 처음 로드됨")
         CoreDataManager.shared.setData()
         navigationItem.title = ""
         updateTitle(title: "전체")
+        updateSubTitle(subTitle: "전체")
         CoreDataManager.shared.setData()
         loadData()
         updateCardsAndTitle()
         tagCollection.dataSource = self
         tagCollection.delegate = self
-        updateSubTitle(subTitle: "전체")
+    
         
-        // 라이트 뷰 생성
+        // unReadButton 만들기
         let rightView = UIView()
         rightView.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        // rItem이라는 UIBarButtonItem 객체 생성
         let rItem = UIBarButtonItem(customView: rightView)
         navigationItem.rightBarButtonItem = rItem
-        // 새로고침 버튼 생성
         let unreadButton = UIButton(type:.system)
         unreadButton.frame = CGRect(x:0, y:0, width: 30, height: 30)
         unreadButton.setImage(UIImage(systemName: "envelope.badge"), for: .normal)
         unreadButton.addTarget(self, action: #selector(unreadButtonIsSelected), for: .touchUpInside)
-        // 라이트 뷰에 버튼 추가
         rightView.addSubview(unreadButton)
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        print("@뷰가 어피어됨")
         CoreDataManager.shared.setData()
         if(changeTagOrChannel.tagOrChannelModified == 1){
             loadData()

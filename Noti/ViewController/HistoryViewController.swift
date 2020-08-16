@@ -12,19 +12,20 @@ import CoreData
 class HistoryViewController: UIViewController{
     var selectedChannel = 0
     var selectedTag = [Int]()
+    
     @IBOutlet weak var historyTable: UITableView!
     @IBOutlet weak var channelCollection: UICollectionView!
     @IBOutlet weak var tagCollection: UICollectionView!
     
+    var listUnread = false
     var mangedObjectContext : NSManagedObjectContext!
-    //var cards : [Card]?
     var cards = [Card].init()
-    //var cards = [Card]()
     var allChannels : [Channel]?
     var channels : [Channel]?
     var allTags = CoreDataManager.shared.getTags()
     var date = [String]()
     var cardsHistoryDate = [String]()
+    
     func loadData(){
         cards = CoreDataManager.shared.getCards()
         let allCards = cards
@@ -131,6 +132,20 @@ class HistoryViewController: UIViewController{
         tagCollection.dataSource = self
         tagCollection.delegate = self
         updateSubTitle(subTitle: "전체")
+        
+        // 라이트 뷰 생성
+        let rightView = UIView()
+        rightView.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        // rItem이라는 UIBarButtonItem 객체 생성
+        let rItem = UIBarButtonItem(customView: rightView)
+        navigationItem.rightBarButtonItem = rItem
+        // 새로고침 버튼 생성
+        let unreadButton = UIButton(type:.system)
+        unreadButton.frame = CGRect(x:0, y:0, width: 30, height: 30)
+        unreadButton.setImage(UIImage(systemName: "envelope.badge"), for: .normal)
+        unreadButton.addTarget(self, action: #selector(unreadButtonIsSelected), for: .touchUpInside)
+        // 라이트 뷰에 버튼 추가
+        rightView.addSubview(unreadButton)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -145,6 +160,28 @@ class HistoryViewController: UIViewController{
         }
         historyTable.reloadData()
         
+    }
+    
+    @IBAction func unreadButtonIsSelected(_ sender: UIButton) {
+        listUnread.toggle()
+        if listUnread{
+            sender.setImage(UIImage(systemName: "envelope.badge.fill"), for: .normal)
+            loadData()
+            cards = cards.filter{ $0.isVisited == false }
+            var tmpCardsHistoryDate = [String]()
+            for i in 0..<cards.count{
+                tmpCardsHistoryDate.append(cards[i].historyFormattedDate!)
+            }
+            cardsHistoryDate = Array(Set(tmpCardsHistoryDate))
+            date = cardsHistoryDate.sorted(by: {$0.compare($1) == .orderedDescending})
+//            navigationItem.title = "\(cards.count)개의 새로운 글"
+
+        }
+        else{
+            sender.setImage(UIImage(systemName: "envelope.badge"), for: .normal)
+            loadData()
+        }
+        historyTable.reloadData()
     }
     
     

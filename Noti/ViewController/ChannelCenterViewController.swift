@@ -127,7 +127,7 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
         if (sectionChannels[indexPath.item].isSubscribed == false){
             cell.isButtonEnabled = false
             cell.cellView.alpha = 0.6
-            cell.colorImageView.backgroundColor = .navBack
+            cell.colorImageView.backgroundColor = .channelColor
         }else {
             cell.isButtonEnabled = true
             cell.cellView.alpha = 1

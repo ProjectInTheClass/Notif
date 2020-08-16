@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17140" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="usx-Ry-BBX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="usx-Ry-BBX">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17115"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -54,8 +52,8 @@
                                                             </stackView>
                                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="JFr-NC-pXQ">
                                                                 <rect key="frame" x="0.0" y="50.5" width="390" height="34"/>
-                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                                <color key="textColor" systemColor="labelColor"/>
+                                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
@@ -66,7 +64,7 @@
                                                         </constraints>
                                                     </stackView>
                                                 </subviews>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="bottom" secondItem="7Vp-bc-96w" secondAttribute="bottom" constant="12" id="GeM-xa-tzV"/>
                                                     <constraint firstItem="7Vp-bc-96w" firstAttribute="leading" secondItem="2WW-q8-gtj" secondAttribute="leading" constant="12" id="elo-10-DCh"/>
@@ -76,27 +74,22 @@
                                             </view>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N1k-4P-Es1">
                                                 <rect key="frame" x="12" y="120.5" width="390" height="36.5"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 <dataDetectorType key="dataDetectorTypes" phoneNumber="YES"/>
                                             </textView>
-                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="3v2-zx-Jot">
-                                                <rect key="frame" x="197" y="129" width="20" height="20"/>
-                                            </activityIndicatorView>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstItem="2WW-q8-gtj" firstAttribute="top" secondItem="9g0-71-2Dc" secondAttribute="top" id="IEp-Pn-WGL"/>
                                             <constraint firstItem="N1k-4P-Es1" firstAttribute="leading" secondItem="9g0-71-2Dc" secondAttribute="leading" constant="12" id="WoG-4R-UaB"/>
-                                            <constraint firstItem="3v2-zx-Jot" firstAttribute="centerY" secondItem="N1k-4P-Es1" secondAttribute="centerY" id="b1s-ns-hze"/>
                                             <constraint firstItem="2WW-q8-gtj" firstAttribute="leading" secondItem="9g0-71-2Dc" secondAttribute="leading" id="bT4-GJ-g4D"/>
                                             <constraint firstAttribute="trailing" secondItem="2WW-q8-gtj" secondAttribute="trailing" id="dlX-ap-QFh"/>
                                             <constraint firstItem="N1k-4P-Es1" firstAttribute="top" secondItem="2WW-q8-gtj" secondAttribute="bottom" constant="12" id="dm8-4d-qeH"/>
                                             <constraint firstAttribute="trailing" secondItem="N1k-4P-Es1" secondAttribute="trailing" constant="12" id="dv1-1g-u4R"/>
                                             <constraint firstAttribute="bottom" secondItem="N1k-4P-Es1" secondAttribute="bottom" constant="40" id="eVX-CR-hlo"/>
-                                            <constraint firstItem="3v2-zx-Jot" firstAttribute="centerX" secondItem="N1k-4P-Es1" secondAttribute="centerX" id="vyn-4R-1Pk"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -107,16 +100,21 @@
                                     <constraint firstAttribute="bottom" secondItem="9g0-71-2Dc" secondAttribute="bottom" id="wPh-ky-poU"/>
                                 </constraints>
                             </scrollView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="3v2-zx-Jot">
+                                <rect key="frame" x="197" y="438" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="FbZ-pW-aMI"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="FbZ-pW-aMI" firstAttribute="top" secondItem="VgU-SR-iqB" secondAttribute="top" id="2Ic-IA-70d"/>
                             <constraint firstItem="VgU-SR-iqB" firstAttribute="leading" secondItem="FbZ-pW-aMI" secondAttribute="leading" id="Lgk-uy-cbs"/>
+                            <constraint firstItem="3v2-zx-Jot" firstAttribute="centerY" secondItem="0AH-Nm-khP" secondAttribute="centerY" id="NgS-Eh-3tX"/>
                             <constraint firstItem="FbZ-pW-aMI" firstAttribute="trailing" secondItem="VgU-SR-iqB" secondAttribute="trailing" id="Vw4-QN-xyW"/>
                             <constraint firstItem="VgU-SR-iqB" firstAttribute="bottom" secondItem="FbZ-pW-aMI" secondAttribute="bottom" id="Y8i-Jn-upE"/>
+                            <constraint firstItem="3v2-zx-Jot" firstAttribute="centerX" secondItem="0AH-Nm-khP" secondAttribute="centerX" id="ZWK-rm-UWR"/>
                             <constraint firstItem="9g0-71-2Dc" firstAttribute="width" secondItem="FbZ-pW-aMI" secondAttribute="width" id="nDL-tR-xDR"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="FbZ-pW-aMI"/>
                     </view>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="agP-KR-dVG"/>
                     <connections>
@@ -136,12 +134,4 @@
             <point key="canvasLocation" x="2746" y="189"/>
         </scene>
     </scenes>
-    <resources>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-    </resources>
 </document>

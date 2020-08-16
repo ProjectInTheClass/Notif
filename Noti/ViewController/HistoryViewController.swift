@@ -343,7 +343,7 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
         })
         let resultAction = sectionCards[indexPath.row].isFavorite ? deleteAction : addAction
         resultAction.backgroundColor = .systemPink
-        let image = sectionCards[indexPath.row].isFavorite ? UIImage(systemName: "heart.slash") : UIImage(systemName: "heart")
+        let image = sectionCards[indexPath.row].isFavorite ? UIImage(systemName: "heart.slash.fill") : UIImage(systemName: "heart.fill")
         resultAction.image = image
         
         return UISwipeActionsConfiguration(actions: [resultAction])

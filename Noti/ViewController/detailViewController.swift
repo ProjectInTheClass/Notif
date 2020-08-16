@@ -81,6 +81,7 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -110,6 +111,8 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
         titleView.layer.shadowRadius = 0
         //contentView.backgroundColor = .white
         contentTextView.backgroundColor = .white
+        
+        activityIndicator.startAnimating()
         
         
         getContent()
@@ -209,6 +212,7 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
                         }
                     })
 //                    print(resultString)
+                    self.activityIndicator.stopAnimating()
                     self.contentTextView.attributedText = mutableAttributedString
                 }
             }

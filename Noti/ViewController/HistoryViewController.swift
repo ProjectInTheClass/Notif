@@ -22,12 +22,12 @@ class HistoryViewController: UIViewController{
     //var cards = [Card]()
     var allChannels : [Channel]?
     var channels : [Channel]?
-    var allTags : [Tags]?
+    var allTags = CoreDataManager.shared.getTags()
     var date = [String]()
     var cardsHistoryDate = [String]()
     func loadData(){
         cards = CoreDataManager.shared.getCards()
-        let allCards = CoreDataManager.shared.getCards()
+        let allCards = cards
         allChannels = CoreDataManager.shared.getChannels()
         selectedTag = [Int]()
         
@@ -98,7 +98,7 @@ class HistoryViewController: UIViewController{
             }
            else{
                 for i in 0..<selectedTag.count{
-                    let tmpCards = allCards.filter{$0.title!.contains(channels![selectedChannel].channelTags![selectedTag[i]+1])}
+                    let tmpCards = allCards.filter{$0.title!.contains(channels![selectedChannel].channelTags![selectedTag[i]])}
                     for j in 0..<tmpCards.count{
                         filterWithTagCards.append(tmpCards[j])
                     }
@@ -170,7 +170,7 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if(allTags!.count == 0 ){
+        if(allTags.count == 0 ){
                    return 1
         }
         let returnData = cards.filter{$0.historyFormattedDate == date[section]}
@@ -208,8 +208,8 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 else{
                     for j in 1..<(selectedTag.count+1){
-                        if(((sectionCards[indexPath.row].tag?.contains(channels![selectedChannel].channelTags![selectedTag[j-1]+1]))!)){
-                            attributedStr.addAttribute(.foregroundColor, value: CoreDataManager.shared.colorWithHexString  (hexString:sectionCards[indexPath.row].color!), range:(cell.sourceLabel.text! as NSString).range(of:"#\( channels![selectedChannel].channelTags![selectedTag[j-1]+1])"))
+                        if(((sectionCards[indexPath.row].tag?.contains(channels![selectedChannel].channelTags![selectedTag[j-1]]))!)){
+                            attributedStr.addAttribute(.foregroundColor, value: CoreDataManager.shared.colorWithHexString  (hexString:sectionCards[indexPath.row].color!), range:(cell.sourceLabel.text! as NSString).range(of:"#\( channels![selectedChannel].channelTags![selectedTag[j-1]])"))
                         }
                     }
                 }
@@ -378,13 +378,7 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
             return channels!.count
         }
         else{
-            if(selectedChannel == 0){
                 return channels![selectedChannel].channelTags!.count
-            }
-            else{
-                return channels![selectedChannel].channelTags!.count-1
-            }
-            
         }
     }
 
@@ -423,7 +417,7 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
                 }
             }
             else{
-                cell.token = Tag(title: channels![selectedChannel].channelTags![indexPath.row+1], time: NSDate())
+                cell.token = Tag(title: channels![selectedChannel].channelTags![indexPath.row], time: NSDate())
                 if selectedTag.contains(indexPath.row){
                     cell.titleLabel.textColor = CoreDataManager.shared.colorWithHexString(hexString:channels![selectedChannel].color!)
                               }else{
@@ -453,6 +447,11 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
                     if let newTag = textField.text, newTag != "" {
                         if(newTag.contains(" ")){
                             return
+                        }
+                        for i in 0..<self.allTags.count{
+                            if(self.allTags[i].name == newTag){
+                                return
+                            }
                         }
                         CoreDataManager.shared.saveTags(name: newTag, time: NSDate() as Date){onSuccess in print("saved = \(onSuccess)")}
                         CoreDataManager.shared.addCardsTag(tag: newTag){onSuccess in print("saved = \(onSuccess)")}

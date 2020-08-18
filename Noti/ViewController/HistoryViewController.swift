@@ -164,6 +164,7 @@ class HistoryViewController: UIViewController{
     
     override func viewDidAppear(_ animated: Bool) {
         print("@뷰가 어피어됨")
+        UIApplication.shared.applicationIconBadgeNumber = 0
         CoreDataManager.shared.setData()
         if(changeTagOrChannel.tagOrChannelModified == 1){
             loadData()

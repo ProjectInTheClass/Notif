@@ -40,6 +40,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        let tokenString = CoreDataManager.shared.getToken()
+        guard let url = URL(string: "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/badgecount/0/" + tokenString) else {return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "get"
+       let session = URLSession.shared
+       //URLSession provides the async request
+       let task = session.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error took place \(error)")
+                return
+            }
+            if let response = response as? HTTPURLResponse {
+                print(response)
+            }
+        }
+       // Check if Error took place
+        task.resume()
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {

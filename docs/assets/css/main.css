@@ -181,7 +181,7 @@ input, select, textarea {
 
 	p {
 		margin: 0 0 2em 0;
-		font-weight: 600;
+		font-weight: 350;
 		color: #86868b;
 	}
 
@@ -2648,6 +2648,22 @@ input, select, textarea {
 		text-align: center;
 	}
 
+	section.dark {
+		background-color: black;
+	}
+
+	section.dark .dark #dark {
+		color: white;
+	}
+
+	#first #dark{
+		color: white;
+	}
+
+	/* #first p {
+		font
+	} */
+
 	header.major {
 		margin-bottom: 3em;
 	}
@@ -2839,10 +2855,35 @@ input, select, textarea {
 		height: auto;
 		margin: auto;
 	}
-
-	.features p {
-		font-size: 1.3em;
+	.features .images {
+		/* width: calc(33.3333%% - 2em); */
+		width: 43em;
+		margin-left: 2.7em;
 	}
+
+	.features .images img {
+		/* width: calc(33.3333% - 2em); */
+		width: 43em;
+		max-width: 66%;
+		height: auto;
+		margin: auto;
+	}
+
+	.features .imagess {
+		/* width: calc(33.3333%% - 2em); */
+		width: 65em;
+		margin-left: 0;
+	}
+
+	.features .imagess img {
+		/* width: calc(33.3333% - 2em); */
+		width: 65em;
+		max-width: 66%;
+		height: auto;
+		margin: auto;
+	}
+
+
 
 		.features li {
 			/* width: calc(33.33333% - 2em); */

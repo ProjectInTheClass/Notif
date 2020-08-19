@@ -135,9 +135,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             application.applicationIconBadgeNumber += 1
         }
     
-    func applicationDidBecomeActive(_ application: UIApplication) {
-//        application.applicationIconBadgeNumber = 0
-    }
     
+
+//    func applicationDidBecomeActive(_ application: UIApplication) {
+//        application.applicationIconBadgeNumber = 0
+//        print("앱이 열려짐")
+//    }
     
 }

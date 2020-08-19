@@ -46,10 +46,10 @@ class ChannelCenterViewController: UIViewController {
 
                  if (sectionChannels[indexPath.item].alarm) {
                      cell.notificationButton.setImage(UIImage(systemName: "bell.fill"), for: .normal)
-                     urlString = "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/channel/"+channelsInDB[sectionChannels[indexPath.item].subtitle!+"-"+sectionChannels[indexPath.item].source!]!+"/1/"+tokenString
+                    urlString = "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/channel/"+channelsInDB[sectionChannels[indexPath.item].subtitle!+"-"+sectionChannels[indexPath.item].source!]!+"/1/"+tokenString!
                  } else {
                      cell.notificationButton.setImage(UIImage(systemName: "bell"), for: .normal)
-                     urlString = "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/channel/"+channelsInDB[sectionChannels[indexPath.item].subtitle!+"-"+sectionChannels[indexPath.item].source!]!+"/0/"+tokenString
+                     urlString = "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/channel/"+channelsInDB[sectionChannels[indexPath.item].subtitle!+"-"+sectionChannels[indexPath.item].source!]!+"/0/"+tokenString!
                  }
                   guard let url = URL(string: urlString) else {return }
 
@@ -166,7 +166,7 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
                         CoreDataManager.shared.notificationChannel(subtitle: sectionChannels[indexPath.item].subtitle!, source: sectionChannels[indexPath.item].source!) { onSuccess in print("saved = \(onSuccess)")}
                             cell.notificationButton.setImage(UIImage(systemName: "bell"), for: .normal)
                      let tokenString = CoreDataManager.shared.getToken()
-                     let urlString = "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/channel/"+channelsInDB[sectionChannels[indexPath.item].subtitle!+"-"+sectionChannels[indexPath.item].source!]!+"/0/"+tokenString
+                     let urlString = "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/channel/"+channelsInDB[sectionChannels[indexPath.item].subtitle!+"-"+sectionChannels[indexPath.item].source!]!+"/0/"+tokenString!
                      guard let url = URL(string: urlString) else {return }
 
                      var request = URLRequest(url: url)

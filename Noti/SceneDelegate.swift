@@ -41,7 +41,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
         UIApplication.shared.applicationIconBadgeNumber = 0
-        let tokenString = CoreDataManager.shared.getToken()
+        guard let tokenString = CoreDataManager.shared.getToken() else {return }
         guard let url = URL(string: "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/badgecount/0/" + tokenString) else {return }
         var request = URLRequest(url: url)
         request.httpMethod = "get"

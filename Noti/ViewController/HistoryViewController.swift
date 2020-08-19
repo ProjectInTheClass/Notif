@@ -135,6 +135,15 @@ class HistoryViewController: UIViewController{
             noDataLabel.isHidden = true
         }
         //date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by : {$0.compare($1) == .orderedDescending})
+        if (listUnread){
+            cards = cards.filter{ $0.isVisited == false }
+            var tmpCardsHistoryDate = [String]()
+            for i in 0..<cards.count{
+                tmpCardsHistoryDate.append(cards[i].historyFormattedDate!)
+            }
+            cardsHistoryDate = Array(Set(tmpCardsHistoryDate))
+            date = cardsHistoryDate.sorted(by: {$0.compare($1) == .orderedDescending})
+        }
     }
 
     override func viewDidLoad() {
@@ -182,7 +191,7 @@ class HistoryViewController: UIViewController{
         listUnread.toggle()
         if listUnread{
             sender.setImage(UIImage(systemName: "envelope.badge.fill"), for: .normal)
-            loadData()
+//            loadData()
             cards = cards.filter{ $0.isVisited == false }
             var tmpCardsHistoryDate = [String]()
             for i in 0..<cards.count{
@@ -195,7 +204,8 @@ class HistoryViewController: UIViewController{
         }
         else{
             sender.setImage(UIImage(systemName: "envelope.badge"), for: .normal)
-            loadData()
+//            loadData()
+            updateCardsAndTitle()
         }
         historyTable.reloadData()
     }

@@ -78,17 +78,17 @@ module.exports.crawler = (event, context, callback) => {
 					} else {
 						console.log(rows);
 						if (rows.affectedRows != 0) {
-							var sql = 'SELECT endpointarn FROM PushNoti WHERE '+ (listIndex < 3 ? 'dmmjan' : 'dmgjsh') +' = 1';
+							var sql = 'SELECT endpointarn, badgeCount FROM PushNoti WHERE '+ (listIndex < 3 ? 'dmmjan' : 'dmgjsh') +' = 1';
 								connection.query(sql, function(err, result, fields) {
-									connection.end();
 									if (err) throw err;
 									else {
 										for (var cardIndex = 0; cardIndex < rows.affectedRows; cardIndex++) {
 											for(var i in result) {
+												result[i].badgeCount += 1;
 												var params = {
 													MessageStructure: "json",
 													Message: JSON.stringify({
-													"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-학생생활관\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\"}}"
+													"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-학생생활관\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\", \"badge\": "+ result[i].badgeCount +"}}"
 													}), /* required */
 													TargetArn: result[i].endpointarn
 												};
@@ -104,8 +104,17 @@ module.exports.crawler = (event, context, callback) => {
 													function(err) {
 													console.error(err, err.stack);
 													});
+
+												var sql = 'UPDATE PushNoti SET badgeCount = '+ result[i].badgeCount +' WHERE endpointarn = "' + result[i].endpointarn + '"' 
+												connection.query(sql, function(err, result, fields) {
+													if (err) throw err;
+													else {
+														console.log(result);
+													}
+												});
 											}   
 										}
+										connection.end();
 										dmLoop(page+1, listIndex);
 									}
 								});
@@ -158,18 +167,18 @@ module.exports.crawler = (event, context, callback) => {
 					} else {
 						console.log(rows);
 						if (rows.changedRows != 10){
-							var sql = 'SELECT endpointarn FROM PushNoti WHERE ' +dbCategories[category]+' = 1';
+							var sql = 'SELECT endpointarn, badgeCount FROM PushNoti WHERE ' +dbCategories[category]+' = 1';
 							connection.query(sql, function(err, result, fields) {
-								connection.end();
 								if (err) throw err;
 								else {
 									for (var cardIndex = 0; cardIndex < rows.affectedRows; cardIndex++) {
 										for(var i in result) {
 											// Create publish parameters
+											result[i].badgeCount += 1;
 											var params = {
 												MessageStructure: "json",
 												Message: JSON.stringify({
-												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-한양대학교\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\"}}"
+												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-한양대학교\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\", \"badge\": "+ result[i].badgeCount +"}}"
 												}), /* required */
 												TargetArn: result[i].endpointarn
 											};
@@ -186,8 +195,17 @@ module.exports.crawler = (event, context, callback) => {
 												function(err) {
 												console.error(err, err.stack);
 												});
+
+											var sql = 'UPDATE PushNoti SET badgeCount = '+ result[i].badgeCount +' WHERE endpointarn = "' + result[i].endpointarn + '"' 
+											connection.query(sql, function(err, result, fields) {
+												if (err) throw err;
+												else {
+													console.log(result);
+												}
+											});
 										}
 									}
+									connection.end();
 									hyLoop(category, page+1);
 								}
 							});
@@ -266,18 +284,18 @@ module.exports.crawler = (event, context, callback) => {
 					} else {
 						console.log(rows);
 						if (rows.changedRows != 10){
-							var sql = 'SELECT endpointarn FROM PushNoti WHERE megjsh = 1';
+							var sql = 'SELECT endpointarn, badgeCount FROM PushNoti WHERE megjsh = 1';
 							connection.query(sql, function(err, result, fields) {
-								connection.end();
 								if (err) throw err;
 								else {
 									for (var cardIndex = 0; cardIndex < rows.affectedRows; cardIndex++) {
 										for(var i in result) {
 											// Create publish parameters
+											result[i].badgeCount += 1;
 											var params = {
 												MessageStructure: "json",
 												Message: JSON.stringify({
-												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-기계공학부\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\"}}"
+												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-기계공학부\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\", \"badge\": "+ result[i].badgeCount +"}}"
 												}), /* required */
 												TargetArn: result[i].endpointarn
 											};
@@ -294,8 +312,17 @@ module.exports.crawler = (event, context, callback) => {
 												function(err) {
 												console.error(err, err.stack);
 												});
+
+											var sql = 'UPDATE PushNoti SET badgeCount = '+ result[i].badgeCount +' WHERE endpointarn = "' + result[i].endpointarn + '"' 
+											connection.query(sql, function(err, result, fields) {
+												if (err) throw err;
+												else {
+													console.log(result);
+												}
+											});
 										}
 									}
+									connection.end();
 									meLoop(pagenum+1);
 								}
 							});
@@ -363,18 +390,18 @@ module.exports.crawler = (event, context, callback) => {
 					} else {
 						console.log(rows);
 						if (rows.changedRows != 25){
-							var sql = 'SELECT endpointarn FROM PushNoti WHERE bsgjsh = 1';
+							var sql = 'SELECT endpointarn, badgeCount FROM PushNoti WHERE bsgjsh = 1';
 							connection.query(sql, function(err, result, fields) {
-								connection.end();
 								if (err) throw err;
 								else {
 									for (var cardIndex = 0; cardIndex < rows.affectedRows; cardIndex++) {
 										for(var i in result) {
 											// Create publish parameters
+											result[i].badgeCount += 1;
 											var params = {
 												MessageStructure: "json",
 												Message: JSON.stringify({
-												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-경영학부\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\"}}"
+												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-경영학부\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, , \"badge\": "+ result[i].badgeCount +"}}"
 												}), /* required */
 												TargetArn: result[i].endpointarn
 											};
@@ -391,8 +418,17 @@ module.exports.crawler = (event, context, callback) => {
 												function(err) {
 												console.error(err, err.stack);
 												});
+
+											var sql = 'UPDATE PushNoti SET badgeCount = '+ result[i].badgeCount +' WHERE endpointarn = "' + result[i].endpointarn + '"' 
+											connection.query(sql, function(err, result, fields) {
+												if (err) throw err;
+												else {
+													console.log(result);
+												}
+											});
 										}
 									}
+									connection.end();
 									bsLoop(pagenum+1);
 								}
 							});
@@ -523,18 +559,18 @@ module.exports.crawler = (event, context, callback) => {
 					} else {
 						console.log(rows);
 						if (rows.changedRows != 20){
-							var sql = 'SELECT endpointarn FROM PushNoti WHERE ' + (boardname == 'info_board' ? 'cshsib' : 'cscujb') +' = 1';
+							var sql = 'SELECT endpointarn, badgeCount FROM PushNoti WHERE ' + (boardname == 'info_board' ? 'cshsib' : 'cscujb') +' = 1';
 							connection.query(sql, function(err, result, fields) {
-								connection.end();
 								if (err) throw err;
 								else {
 									for (var cardIndex = 0; cardIndex < rows.affectedRows; cardIndex++) {
 										for(var i in result) {
 											// Create publish parameters
+											result[i].badgeCount += 1;
 											var params = {
 												MessageStructure: "json",
 												Message: JSON.stringify({
-												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-컴퓨터소프트웨어학부\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\"}}"
+												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-컴퓨터소프트웨어학부\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\", \"badge\": "+ result[i].badgeCount +"}}"
 												}), /* required */
 												TargetArn: result[i].endpointarn
 											};
@@ -551,8 +587,17 @@ module.exports.crawler = (event, context, callback) => {
 												function(err) {
 												console.error(err, err.stack);
 												});
+
+											var sql = 'UPDATE PushNoti SET badgeCount = '+ result[i].badgeCount +' WHERE endpointarn = "' + result[i].endpointarn + '"' 
+											connection.query(sql, function(err, result, fields) {
+												if (err) throw err;
+												else {
+													console.log(result);
+												}
+											});
 										}
 									}
+									connection.end();
 									csLoop(pagenum + 1, boardname);
 								}
 							});

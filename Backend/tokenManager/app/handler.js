@@ -16,10 +16,33 @@ module.exports.hello = (event, context, callback) => {
   var token = event['params']['path']['token'];
   var channelName = event['params']['path']['channel'];
   var value = event['params']['path']['value'];
+  var badgeCount = event['params']['path']['badgecount'];
   
   console.log('token@@@@@@@ ' + token)
   
-  if (!channelName) {
+  if (badgeCount) {
+    console.log("badgecount");
+    var sql = 'UPDATE PushNoti SET badgeCount = ' + badgeCount + ' WHERE token = "' + token +'"';
+    console.log(sql);
+    mysqlPool.getConnection(function(err, connection) {
+       if (err !== null) return console.log(err);
+       connection.query(sql,function (error, rows, field) {
+          connection.release();
+          if (error != null)  console.log(error);
+          else {
+              const response = {
+                  statusCode: 200,
+                  body : JSON.stringify({
+                      message: rows
+                  })
+              }
+              callback(null, response);
+          }
+       });
+    });
+  }
+  else if (!channelName) {
+    console.log("create token")
     var AWS = require('aws-sdk');
     
     var params = {
@@ -56,6 +79,7 @@ module.exports.hello = (event, context, callback) => {
         console.error(err, err.stack);
       });
   } else {
+    console.log("set push notification")
     var sql = 'UPDATE PushNoti SET ' + channelName + ' = \'' + value + '\' WHERE token = \'' + token + '\'';
     console.log(sql)
     mysqlPool.getConnection(function (err, connection) {

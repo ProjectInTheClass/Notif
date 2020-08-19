@@ -418,7 +418,7 @@ class CoreDataManager{
             }
         }
     }
-    func getToken()->String{
+    func getToken()->String?{
         //let dateFormatter = DateFormatter()
         var userToken = [Token]()
         let fetchRequest : NSFetchRequest<Token>  = Token.fetchRequest()
@@ -429,7 +429,7 @@ class CoreDataManager{
         }catch{
             fatalError("fetch error!")
         }
-        return userToken[0].name!
+        return userToken.count > 0 ? userToken[0].name : nil
     }
     
     func setData() {

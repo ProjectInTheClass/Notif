@@ -72,7 +72,8 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        navigationItem.title = ""
+        navigationItem.title = "관심글"
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.clear]
         updateTitle(title: "내가 찜한 소식")
         //네비게이션바 배경색 넣어주는 코드
         TagCollectionView.dataSource = self
@@ -92,6 +93,7 @@ class HomeViewController: UIViewController {
         }
         HomeTableView.reloadData()
         TagCollectionView.reloadData()
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.clear]
     }
     
 

@@ -149,7 +149,8 @@ class HistoryViewController: UIViewController{
     override func viewDidLoad() {
         print("@뷰가 처음 로드됨")
         CoreDataManager.shared.setData()
-        navigationItem.title = ""
+        navigationItem.title = "히스토리"
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.clear]
         updateTitle(title: "전체")
         updateSubTitle(subTitle: "전체")
         CoreDataManager.shared.setData()

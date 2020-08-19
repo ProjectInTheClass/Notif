@@ -91,7 +91,8 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.backBarButtonItem?.title = back2
         
-        
+        navigationItem.title = source
+        self.navigationController?.navigationBar.titleTextAttributes = nil
         titleLabel.text = title2
         sourceLabel.text = source
         dateLabel.text = date

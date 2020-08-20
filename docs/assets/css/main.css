@@ -2843,40 +2843,45 @@ input, select, textarea {
 
 
 	.features .image {
-		/* width: calc(33.3333%% - 2em); */
-		width: 30em;
-		margin-left: 2.7em;
+		width: calc(100% );
+		/* width: 30em; */
+		/* margin-left: 2.7em; */
+		padding-left: 2.7em;
 	}
 
 	.features .image img {
-		/* width: calc(33.3333% - 2em); */
-		width: 30em;
+		width: calc(100% );
+		/* width: 30em; */
 		max-width: 66%;
 		height: auto;
 		margin: auto;
+		
 	}
+
+
 	.features .images {
-		/* width: calc(33.3333%% - 2em); */
-		width: 43em;
-		margin-left: 2.7em;
+		width: calc(120% );
+		 padding-left: 2.7em;
+		/* width: 43em; */
+		/* margin-left: 2.7em; */
 	}
 
 	.features .images img {
-		/* width: calc(33.3333% - 2em); */
-		width: 43em;
+		width: calc(120% );
+		/* width: 43em; */
 		max-width: 66%;
+		
 		height: auto;
 		margin: auto;
 	}
 
 	.features .imagess {
-		/* width: calc(33.3333%% - 2em); */
+		/* width: calc(100%)-2em; */
 		width: 65em;
-		margin-left: 0;
 	}
 
 	.features .imagess img {
-		/* width: calc(33.3333% - 2em); */
+		/* width: calc(100%-2em); */
 		width: 65em;
 		max-width: 66%;
 		height: auto;
@@ -3083,11 +3088,6 @@ input, select, textarea {
 		margin: 0 0 2em 0;
 	}
 
-
-		.spotlight p {
-			
-		}
-
 		.spotlight .content {
 			-moz-flex: 1;
 			-webkit-flex: 1;
@@ -3116,11 +3116,7 @@ input, select, textarea {
 				/* border-radius: 100%; */
 				width: 25em;
 			}
-			.spotlight .image2 img {
-				display: block;
-				/* border-radius: 100%; */
-				width: 20em;
-			}
+
 
 		@media screen and (max-width: 980px) {
 
@@ -3153,7 +3149,7 @@ input, select, textarea {
 						width: calc(100% + 1em);
 					}
 
-				.spotlight .image .image2 {
+				.spotlight .image {
 					-moz-flex: 0 1 auto;
 					-webkit-flex: 0 1 auto;
 					-ms-flex: 0 1 auto;
@@ -3166,11 +3162,11 @@ input, select, textarea {
 
 		@media screen and (max-width: 736px) {
 
-			.spotlight .image .image2{
+			.spotlight .image {
 				padding: 0.35em;
 			}
 
-				.spotlight .image .image2 img {
+				.spotlight .image  img {
 					width: 12em;
 				}
 
@@ -3331,7 +3327,7 @@ input, select, textarea {
 		background-color: #ffffff;
 		color: rgb(29,29,31);
 		position: absolute;
-		width: 128em;
+		width: 100em;
 		max-width: calc(100% - 2em);
 		padding: 1em;
 		background-color: #f7f7f7;
@@ -3895,7 +3891,7 @@ input, select, textarea {
 /* Wrapper */
 
 	#wrapper {
-		/* width: 64em; */
+		width: 100em;
 		max-width: calc(100% - 2em);
 		margin: 0 auto;
 	}

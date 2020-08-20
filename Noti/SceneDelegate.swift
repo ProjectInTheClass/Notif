@@ -58,6 +58,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
        // Check if Error took place
         task.resume()
+        
+        NotificationCenter.default.post(name: NSNotification.Name("ReloadHistoryView"), object: nil)
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {

@@ -2876,13 +2876,13 @@ input, select, textarea {
 	}
 
 	.features .imagess {
-		/* width: calc(100%)-2em; */
-		width: 65em;
+		width: calc(120%);
+		/* width: 65em; */
 	}
 
 	.features .imagess img {
-		/* width: calc(100%-2em); */
-		width: 65em;
+		width: calc(120%);
+		/* width: 65em; */
 		max-width: 66%;
 		height: auto;
 		margin: auto;
@@ -3167,7 +3167,7 @@ input, select, textarea {
 			}
 
 				.spotlight .image  img {
-					width: 12em;
+					width: 20em;
 				}
 
 		}

@@ -170,11 +170,19 @@ class HistoryViewController: UIViewController{
         unreadButton.setImage(UIImage(systemName: "envelope.badge"), for: .normal)
         unreadButton.addTarget(self, action: #selector(unreadButtonIsSelected), for: .touchUpInside)
         rightView.addSubview(unreadButton)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadData(_:)), name: NSNotification.Name("ReloadHistoryView"), object: nil)
+    }
+    
+    @objc func reloadData(_ notification: Notification?) {
+        CoreDataManager.shared.setData()
+        loadData()
+        updateCardsAndTitle()
+        historyTable.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         print("@뷰가 어피어됨")
-        UIApplication.shared.applicationIconBadgeNumber = 0
         CoreDataManager.shared.setData()
         if(changeTagOrChannel.tagOrChannelModified == 1){
             loadData()

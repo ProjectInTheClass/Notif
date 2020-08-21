@@ -519,7 +519,8 @@ module.exports.crawler = (event, context, callback) => {
 					if ($(this).find('td').eq(1).text() != '[공지]') {
 						var data = new Object();
 						data.title = $(this).find('td').eq(2).find('a').text()
-						if ($(this).find('td').eq(2).find('a').attr('href').startsWith("http://")) {
+						let href = $(this).find('td').eq(2).find('a').attr('href')
+						if (href.startsWith("http://")||href.startsWith("https://")) {
 							data.url = $(this).find('td').eq(2).find('a').attr('href');
 						}else {
 							var rex = /idx=|&page/g;

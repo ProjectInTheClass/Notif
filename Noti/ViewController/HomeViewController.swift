@@ -81,7 +81,6 @@ class HomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         loadData()
         updateCard()
-        //selectedTag = [Int]()
         if(saveCards?.count == 0){
             noDataLabel.isHidden = false
             noDataLabel.text = "아직 관심글이 없습니다.\n히스토리에서 카드를 스와이프해 추가해 보세요."

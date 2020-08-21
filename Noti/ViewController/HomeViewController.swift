@@ -33,19 +33,18 @@ class HomeViewController: UIViewController {
     }
     
     func loadData(){
-        let allCards = CoreDataManager.shared.getCards()
         cards = [Card]()
         tagString = [String]()
-        for i in 0..<allCards.count{
-            if(allCards[i].isFavorite == true){
-                cards!.append(allCards[i])
-                for j in 0..<allCards[i].tag!.count{
-                    if(!tagString.contains(allCards[i].tag![j]) && allCards[i].tag![j] != ""){
+        for i in 0..<HistoryViewController.allCards.count{
+            if(HistoryViewController.allCards[i].isFavorite == true){
+                cards!.append(HistoryViewController.allCards[i])
+                for j in 0..<HistoryViewController.allCards[i].tag!.count{
+                    if(!tagString.contains(HistoryViewController.allCards[i].tag![j]) && HistoryViewController.allCards[i].tag![j] != ""){
                         if(tagString.count == 1 && tagString[0] == ""){
-                            tagString[0] = allCards[i].tag![j]
+                            tagString[0] = HistoryViewController.allCards[i].tag![j]
                         }
                         else{
-                            tagString.append(allCards[i].tag![j])
+                            tagString.append(HistoryViewController.allCards[i].tag![j])
                         }
                     }
                 }
@@ -59,7 +58,6 @@ class HomeViewController: UIViewController {
         if(selectedTag.count != 0){
             for i in 0..<selectedTag.count{
                 let tmpCards = cards!.filter{$0.title!.contains(tagString[selectedTag[i]])}
-                print(tmpCards.count)
                 for j in 0..<tmpCards.count{
                     filteredCards.append(tmpCards[j])
                 }

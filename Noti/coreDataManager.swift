@@ -19,6 +19,7 @@ class CoreDataManager{
     // 메세지 버튼(안본거만 뿌려주는 버튼)
     var listUnread = false
     var mangedObjectContext : NSManagedObjectContext!
+    static var allTags : [Tags]?
     
     func colorWithHexString(hexString: String) -> UIColor {
         var colorString = hexString.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -470,7 +471,7 @@ class CoreDataManager{
             CoreDataManager.shared.saveUpdated(date: dateFormatter.string(from: firstDate)){ onSuccess in }
             lastUpdated = CoreDataManager.shared.getUpdated()
         }
-        let tags = CoreDataManager.shared.getTags()
+        CoreDataManager.allTags = CoreDataManager.shared.getTags()
        let url = URL(string:"https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/" + lastUpdated[0].date!)
         do {
             let data = try Data(contentsOf: url!)
@@ -482,7 +483,6 @@ class CoreDataManager{
             let messages = arr["message"] as! [[String:Any]]
             for message in messages {
                 let card = message
-
                 var json_:[String:String] = ["":""]
                 var json_String = card["json_"] as! String
                 if(json_String != ""){
@@ -517,10 +517,10 @@ class CoreDataManager{
                     dateFormatter.dateFormat = "yy-MM-dd"
                     let cardTitle = card["title"] as! String
                     var tag = [""]
-                    for tagNum in 0..<tags.count{
-                        if(cardTitle.contains(tags[tagNum].name!)){
-                            tag.append(tags[tagNum].name!)
-                            CoreDataManager.shared.addChannelTag(subtitle: card["category"] as! String, source: card["source"] as! String, tag: tags[tagNum].name!){ onSuccess in print("saved = \(onSuccess)")}
+                    for tagNum in 0..<CoreDataManager.allTags!.count{
+                        if(cardTitle.contains(CoreDataManager.allTags![tagNum].name!)){
+                            tag.append(CoreDataManager.allTags![tagNum].name!)
+                            CoreDataManager.shared.addChannelTag(subtitle: card["category"] as! String, source: card["source"] as! String, tag: CoreDataManager.allTags![tagNum].name!){ onSuccess in print("saved = \(onSuccess)")}
                         }
                     }
                     CoreDataManager.shared.saveCards(title: card["title"] as! String, source: card["source"] as! String, category: card["category"] as! String, tag: tag, time: dateFormatter.date(from: card["time_"] as! String)!, color: color, isVisited: false, url: cardURL, json : json_, isFavorite: false){ onSuccess in } //print("saved = \(onSuccess)")

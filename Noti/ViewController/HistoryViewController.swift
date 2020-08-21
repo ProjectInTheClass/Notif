@@ -21,12 +21,11 @@ class HistoryViewController: UIViewController{
     var listUnread = false
     var mangedObjectContext : NSManagedObjectContext!
     var cards = [Card].init()
-    var allChannels : [Channel]?
     var channels : [Channel]?
-    var allTags = CoreDataManager.shared.getTags()
     var date = [String]()
     var cardsHistoryDate = [String]()
-    
+    static var allCards = [Card].init()
+    static var allChannels : [Channel]?
     
     func updateTitle(title: String){
         let longTitleLabel = UILabel()
@@ -58,29 +57,25 @@ class HistoryViewController: UIViewController{
     func loadData(){
         print("@@loadData")
         cards = CoreDataManager.shared.getCards()
-        let allCards = cards
-        allChannels = CoreDataManager.shared.getChannels()
+        HistoryViewController.allCards = cards.reversed()
+        HistoryViewController.allChannels = CoreDataManager.shared.getChannels()
         selectedTag = [Int]()
         
-        channels = allChannels!.filter{ $0.isSubscribed == true }.sorted(by: {$0.source! < $1.source!}).sorted{ $0.group! < $1.group!}
-//        channels = allChannels!.filter{ $0.isSubscribed == true }.sorted{ $0.group!.count < $1.group!.count }
-
-        allTags = CoreDataManager.shared.getTags()
-        date = Array(Set(allCards.map{$0.historyFormattedDate!})).sorted(by : {$0.compare($1) == .orderedDescending})
+        channels = HistoryViewController.allChannels!.filter{ $0.isSubscribed == true }.sorted(by: {$0.source! < $1.source!}).sorted{ $0.group! < $1.group!}
+        //channels = HistoryViewController.allChannels!.filter{ $0.isSubscribed == true }.sorted{$0.group!.count < $1.group!.count}
+        date = Array(Set(HistoryViewController.allCards.map{$0.historyFormattedDate!})).sorted(by : {$0.compare($1) == .orderedDescending})
     }
     
     func updateCardsAndTitle(){
         print("@@updateCardsAndTitle")
-        let allCards = CoreDataManager.shared.getCards()
         var filterWithTagCards : [Card] = []
-        //filterWithTagCards
         if selectedChannel == 0 {
             if(selectedTag.count == 0){
-                filterWithTagCards = allCards
+                filterWithTagCards = HistoryViewController.allCards
             }
             else{
                 for i in 0..<selectedTag.count{
-                    let tmpCards = allCards.filter{$0.title!.contains(channels![selectedChannel].channelTags![selectedTag[i]])}
+                    let tmpCards = HistoryViewController.allCards.filter{$0.title!.contains(channels![selectedChannel].channelTags![selectedTag[i]])}
                     for j in 0..<tmpCards.count{
                         filterWithTagCards.append(tmpCards[j])
                     }
@@ -93,18 +88,16 @@ class HistoryViewController: UIViewController{
                 cards = filterWithTagCards.filter{(card) -> Bool in
                 return channels!.filter{(channel) -> Bool in
                     return channel.source == card.source && card.formattedSource!.contains(channel.subtitle!)}.count != 0}
-//            navigationItem.title = channelToChange.title
             updateTitle(title: channelToChange.title!)
             updateSubTitle(subTitle: channelToChange.source!)
-//            print("지금!")
 
         }else{
             if(selectedTag.count == 0){
-                filterWithTagCards = allCards
+                filterWithTagCards = HistoryViewController.allCards
             }
            else{
                 for i in 0..<selectedTag.count{
-                    let tmpCards = allCards.filter{$0.title!.contains(channels![selectedChannel].channelTags![selectedTag[i]])}
+                    let tmpCards = HistoryViewController.allCards.filter{$0.title!.contains(channels![selectedChannel].channelTags![selectedTag[i]])}
                     for j in 0..<tmpCards.count{
                         filterWithTagCards.append(tmpCards[j])
                     }
@@ -114,7 +107,6 @@ class HistoryViewController: UIViewController{
             }
             let channelToChange = channels![selectedChannel]
             cards = filterWithTagCards.filter{ $0.source == channelToChange.source && $0.formattedSource!.contains(channelToChange.subtitle!)}
-//            navigationItem.title = channelToChange.title
             updateTitle(title: channelToChange.title!)
             updateSubTitle(subTitle: channelToChange.source!)
         }
@@ -134,7 +126,6 @@ class HistoryViewController: UIViewController{
         }else{
             noDataLabel.isHidden = true
         }
-        //date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by : {$0.compare($1) == .orderedDescending})
         if (listUnread){
             cards = cards.filter{ $0.isVisited == false }
             var tmpCardsHistoryDate = [String]()
@@ -153,7 +144,6 @@ class HistoryViewController: UIViewController{
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.clear]
         updateTitle(title: "전체")
         updateSubTitle(subTitle: "전체")
-        CoreDataManager.shared.setData()
         loadData()
         updateCardsAndTitle()
         tagCollection.dataSource = self
@@ -175,16 +165,18 @@ class HistoryViewController: UIViewController{
     override func viewDidAppear(_ animated: Bool) {
         print("@뷰가 어피어됨")
         UIApplication.shared.applicationIconBadgeNumber = 0
-        CoreDataManager.shared.setData()
+        //CoreDataManager.shared.setData()
         if(changeTagOrChannel.tagOrChannelModified == 1){
+            print("@@modified")
             loadData()
             updateCardsAndTitle()
             selectedTag = [Int]()
             channelCollection.reloadData()
             tagCollection.reloadData()
+            historyTable.reloadData()
             changeTagOrChannel.tagOrChannelModified = 0
         }
-        historyTable.reloadData()
+       
         
     }
     
@@ -192,7 +184,6 @@ class HistoryViewController: UIViewController{
         listUnread.toggle()
         if listUnread{
             sender.setImage(UIImage(systemName: "envelope.badge.fill"), for: .normal)
-//            loadData()
             cards = cards.filter{ $0.isVisited == false }
             var tmpCardsHistoryDate = [String]()
             for i in 0..<cards.count{
@@ -200,8 +191,6 @@ class HistoryViewController: UIViewController{
             }
             cardsHistoryDate = Array(Set(tmpCardsHistoryDate))
             date = cardsHistoryDate.sorted(by: {$0.compare($1) == .orderedDescending})
-//            navigationItem.title = "\(cards.count)개의 새로운 글"
-
         }
         else{
             sender.setImage(UIImage(systemName: "envelope.badge"), for: .normal)
@@ -227,14 +216,13 @@ class HistoryViewController: UIViewController{
 extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        //let returnData = Array(Set(cards)) Array(Set(cards.map{$0.historyFormattedDate}))
+
         return cardsHistoryDate.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if(allTags.count == 0 ){
+        if(CoreDataManager.allTags!.count == 0 ){
                    return 1
         }
         let returnData = cards.filter{$0.historyFormattedDate == date[section]}
@@ -512,15 +500,17 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
                         if(newTag.contains(" ")){
                             return
                         }
-                        for i in 0..<self.allTags.count{
-                            if(self.allTags[i].name == newTag){
+                        for i in 0..<CoreDataManager.allTags!.count{
+                            if(CoreDataManager.allTags![i].name == newTag){
                                 return
                             }
                         }
                         CoreDataManager.shared.saveTags(name: newTag, time: NSDate() as Date){onSuccess in print("saved = \(onSuccess)")}
                         CoreDataManager.shared.addCardsTag(tag: newTag){onSuccess in print("saved = \(onSuccess)")}
                         CoreDataManager.shared.addChannelTag(subtitle: "전체", source: "전체", tag: newTag){onSuccess in print("saved = \(onSuccess)")}
-                        //self.tagCollection.insertItems(at: [indexPath])
+                        self.updateCardsAndTitle()
+                        self.channelCollection.reloadData()
+                        self.historyTable.reloadData()
                         self.tagCollection.reloadData()
                         self.tagCollection.collectionViewLayout.invalidateLayout()
                         changeTagOrChannel.tagOrChannelModified = 1
@@ -529,9 +519,11 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
                 }
                 let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
                 }
+                
                 alertController.addAction(confirmAction)
                 alertController.addAction(cancelAction)
                 self.present(alertController, animated: true, completion: nil)
+                return
             }
             else if(selectedTag.contains(indexPath.row)){
                 let index = selectedTag.firstIndex(of: indexPath.row)!

@@ -54,6 +54,7 @@ function dmLoop(page, listIndex) {
             if (sqlList.length == 0) {
                 if (listIndex == dmList.length - 1) return;
                     dmLoop(1, listIndex+1);
+                    return;
             }
 
             var connection = mysql.createConnection({

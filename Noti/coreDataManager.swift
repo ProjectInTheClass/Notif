@@ -514,7 +514,11 @@ class CoreDataManager{
                         color = UIColor.fifth
                     }
                     
-                    dateFormatter.dateFormat = "yy-MM-dd"
+                    if ((card["time_"] as! String).count > 9) {
+                        dateFormatter.dateFormat = "yy-MM-dd HH:mm"
+                    } else {
+                        dateFormatter.dateFormat = "yy-MM-dd"
+                    }
                     let cardTitle = card["title"] as! String
                     var tag = [""]
                     for tagNum in 0..<CoreDataManager.allTags!.count{

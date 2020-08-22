@@ -253,7 +253,7 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
     
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section]}
+        let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section]}.sorted(by: {$0.time! > $1.time!})
         let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! HomeTableViewCell
             
         cell.titleLabel.text = sectionCards[indexPath.row].title

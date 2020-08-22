@@ -6,10 +6,27 @@ const iconv = require('iconv-lite');
 const mysql = require('mysql');
 const xml2js = require('xml2js');
 const AWS = require('aws-sdk');
-
 AWS.config.update({region: 'ap-northeast-2'});
 
 module.exports.crawler = (event, context, callback) => {
+	var date = new Date();
+	date.setTime(date.getTime() + (9 * 60 * 60 * 1000));
+	var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+
+    var min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+
+    var year = date.getFullYear().toString().slice(2);
+
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+	day = (day < 10 ? "0" : "") + day;
+	
+	var crawlingTime = year + "-" + month + "-" + day + " " + hour + ":" + min 
+
 	dmLoop(1, 0);
 	hyLoop(1, 1);
 	// portalLoop();
@@ -44,7 +61,8 @@ module.exports.crawler = (event, context, callback) => {
 					data.url = "http://www.dormitory.hanyang.ac.kr/board/view?tb_name="+ dmList[listIndex] +"&idx=" + $(this).find('a').eq(0).attr('href').split(rex)[1];
 					data.source = "학생생활관";
 					data.category = (listIndex < 3 ? '모집안내' : '공지사항');
-					data.time = $(this).find(".listdate").eq(0).text().substring(2,10);
+					// data.time = $(this).find(".listdate").eq(0).text().substring(2,10);
+					data.time = crawlingTime
 					data.json = "";
 	
 					// console.log(data);
@@ -144,7 +162,8 @@ module.exports.crawler = (event, context, callback) => {
 					data.url = 'https://www.hanyang.ac.kr/web/www/notice_all?p_p_id=viewNotice_WAR_noticeportlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_viewNotice_WAR_noticeportlet_sCategoryId=1&_viewNotice_WAR_noticeportlet_sCurPage=1&_viewNotice_WAR_noticeportlet_sUserId=0&_viewNotice_WAR_noticeportlet_action=view_message&_viewNotice_WAR_noticeportlet_messageId=' + $(this).find('a').eq(0).attr('href').split(rex)[1]
 					data.source = '한양대학교'
 					data.category = categories[category];
-					data.time = $(this).find('.notice-date').eq(0).text().trim().replace(/\./gi, '-').substring(2,10)
+					// data.time = $(this).find('.notice-date').eq(0).text().trim().replace(/\./gi, '-').substring(2,10)
+					data.time = crawlingTime;
 					data.json = '';
 					
 					// console.log(data)
@@ -258,7 +277,8 @@ module.exports.crawler = (event, context, callback) => {
 						data.url = 'http://me.hanyang.ac.kr/ko/cmnt/mann/views/findCmntInfo.do?boardSeq='+$(this).find('td input').eq(0).attr('value')+'&searchType=&searchVal=&menuCd=mann&catCd=&page=1';
 						data.source = '기계공학부'
 						data.category = '공지사항';
-						data.time=$(this).find('td').eq(3).text().replace(/\./gi, '-');
+						// data.time=$(this).find('td').eq(3).text().replace(/\./gi, '-');
+						data.time = crawlingTime;
 						data.json='';
 						
 						sqlList.push([data.title, data.url, data.source, data.category, data.time, data.json]);
@@ -358,14 +378,15 @@ module.exports.crawler = (event, context, callback) => {
 					data.url = 'https://biz.hanyang.ac.kr/board/bbs/board.php?bo_table=m4111&wr_id=' + $(this).find('td a').eq(1).attr('href').split(rex)[1]+'&page=1';
 					data.source = '경영학부';
 					data.category = '공지사항';
-					var cardDate = $(this).find('td').eq(3).text();
-					if (cardDate.charAt(2) == ":") data.time = currentYear.toString().slice(2) + "-" + currentMonth + "-" + currentDay
-					else {
-						var cardMonth = cardDate.slice(0,2);
-						if (cardMonth > currentMonth) currentYear -= 1;
-						currentMonth = cardMonth;
-						data.time = currentYear.toString().slice(2) + '-' + cardDate;
-					}
+					// var cardDate = $(this).find('td').eq(3).text();
+					// if (cardDate.charAt(2) == ":") data.time = currentYear.toString().slice(2) + "-" + currentMonth + "-" + currentDay
+					// else {
+					// 	var cardMonth = cardDate.slice(0,2);
+					// 	if (cardMonth > currentMonth) currentYear -= 1;
+					// 	currentMonth = cardMonth;
+					// 	data.time = currentYear.toString().slice(2) + '-' + cardDate;
+					// }
+					data.time = crawlingTime;
 					data.json = '';
 					
 					sqlList.push([data.title, data.url, data.source, data.category, data.time, data.json]);
@@ -530,8 +551,9 @@ module.exports.crawler = (event, context, callback) => {
 						// data.writer = $(this).find('td').eq(3).text()
 						data.source = '컴퓨터소프트웨어학부';
                     	data.category = boardname == 'info_board' ? '학사일반' : '취업정보';
-						var time = $(this).find('td').eq(4).text()
-						data.time = time.substring(0,2) + '-' + time.substring(3,5) + '-' + time.substring(6,8)
+						// var time = $(this).find('td').eq(4).text()
+						// data.time = time.substring(0,2) + '-' + time.substring(3,5) + '-' + time.substring(6,8)
+						data.time = crawlingTime;
 						data.json = null
 
 						resultList.push(data);

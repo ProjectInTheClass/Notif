@@ -406,9 +406,8 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
                 destination.back2 = title
 
                 destination.url = sectionCards[indexPath.row].url
-
+                destination.isFavorite = sectionCards[indexPath.row].isFavorite
                 destination.json = sectionCards[indexPath.row].json!
-                
                 // 방문할경우 비짓처리하고 테이블뷰 리로드
                 sectionCards[indexPath.row].isVisited = true
                 CoreDataManager.shared.visitCards(url: sectionCards[indexPath.row].url!){ onSuccess in print("saved = \(onSuccess)")}

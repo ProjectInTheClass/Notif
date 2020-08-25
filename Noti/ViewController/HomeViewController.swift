@@ -199,7 +199,7 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
                 destination.back2 = title
                 destination.url = cards![indexPath.row].url
                 destination.json = cards![indexPath.row].json!
-                
+                destination.isFavorite = cards![indexPath.row].isFavorite
                 // 방문할경우 비짓처리하고 테이블뷰 리로드
                 cards![indexPath.row].isVisited = true
                 CoreDataManager.shared.visitCards(url: cards![indexPath.row].url!){ onSuccess in print("saved = \(onSuccess)")}

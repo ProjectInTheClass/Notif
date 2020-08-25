@@ -17,10 +17,55 @@ module.exports.hello = (event, context, callback) => {
   var channelName = event['params']['path']['channel'];
   var value = event['params']['path']['value'];
   var badgeCount = event['params']['path']['badgecount'];
+  var tag = event['params']['path']['tag'];
+  var op = event['params']['path']['op'];
+  var topTag = event['params']['path']['topTag'];
   
   console.log('token@@@@@@@ ' + token)
   
-  if (badgeCount) {
+  
+  if (topTag) { 
+    var sql = 'SELECT tag, count(tag) as count FROM Tags group by tag order by count(tag) DESC';
+    mysqlPool.getConnection(function(err, connection) {
+       if (err !== null) return console.log(err);
+       connection.query(sql,function (error, rows, field) {
+          connection.release();
+          if (error != null)  console.log(error);
+          else {
+              const response = {
+                  statusCode: 200,
+                  body : JSON.stringify({
+                      message: rows
+                  })
+              }
+              callback(null, response);
+          }
+       });
+    });
+  } else if (tag) {
+    if (op == 'add')  {
+      var sql = 'INSERT IGNORE INTO Tags (token, tag) VALUES (\''+token+'\',\''+decodeURIComponent(tag)+'\')';
+    }
+    else {
+      var sql = 'DELETE FROM Tags WHERE token = \'' + token + '\' and tag = \'' + decodeURIComponent(tag) + '\'';
+    }
+    mysqlPool.getConnection(function(err, connection) {
+       if (err !== null) return console.log(err);
+       connection.query(sql,function (error, rows, field) {
+          connection.release();
+          if (error != null)  console.log(error);
+          else {
+              const response = {
+                  statusCode: 200,
+                  body : JSON.stringify({
+                      message: rows
+                  })
+              }
+              callback(null, response);
+          }
+       });
+    });
+  } else if (badgeCount) {
     console.log("badgecount");
     var sql = 'UPDATE PushNoti SET badgeCount = ' + badgeCount + ' WHERE token = "' + token +'"';
     console.log(sql);

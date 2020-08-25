@@ -57,7 +57,7 @@ class HistoryViewController: UIViewController{
     func loadData(){
         print("@@loadData")
         cards = CoreDataManager.shared.getCards()
-        HistoryViewController.allCards = cards.reversed()
+        HistoryViewController.allCards = cards
         HistoryViewController.allChannels = CoreDataManager.shared.getChannels()
         selectedTag = [Int]()
         
@@ -346,7 +346,7 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
 //        return UISwipeActionsConfiguration(actions: [addAction])
 //    }
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section]}
+        let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section]}.sorted(by: {$0.time! > $1.time!})
         let favoriteCardUrl = sectionCards[indexPath.row].url
         
         let swipeTitile = sectionCards[indexPath.row].isFavorite ? "관심 삭제" : "관심 추가"
@@ -399,7 +399,7 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
                 guard let indexPath = historyTable.indexPathForSelectedRow else {return}
                 let date = cardsHistoryDate.sorted(by : >)
                 //let date = Array(Set(cards.map{$0.historyFormattedDate!})).sorted(by: >)
-                let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section]}
+                let sectionCards = cards.filter{$0.historyFormattedDate==date[indexPath.section]}.sorted(by: {$0.time! > $1.time!})
                 destination.title2 = cell.titleLabel.text
                 destination.source = sectionCards[indexPath.row].source
                 destination.date = sectionCards[indexPath.row].homeFormattedDate

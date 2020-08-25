@@ -212,19 +212,39 @@ class CoreDataManager{
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = filteredRequest(url : url)
         var favoriteCard : Card
         do {
-                   if let results: [Card] = try context?.fetch(fetchRequest) as? [Card] {
-                       favoriteCard = results[0]
-                       favoriteCard.willChangeValue(forKey: "isFavorite")
-                       favoriteCard.isFavorite = true
-                       favoriteCard.didChangeValue(forKey: "isFavorite")
-                   }
-               } catch let error as NSError {
-                   print("Could not fatch🥺: \(error), \(error.userInfo)")
-                   onSuccess(false)
-               }
-               contextSave { success in
-                   onSuccess(success)
-               }
+            if let results: [Card] = try context?.fetch(fetchRequest) as? [Card] {
+                favoriteCard = results[0]
+                favoriteCard.willChangeValue(forKey: "isFavorite")
+                favoriteCard.isFavorite = true
+//                guard let data = url.data(using: String.Encoding.utf8) else {return }
+                guard let url2 = URL(string: "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/favorite/"+url.addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: "!*'();:@&=+$,/?%#[]{} ").inverted)!+"/1") else {return }
+                var request = URLRequest(url: url2)
+
+                request.httpMethod = "get"
+
+                let session = URLSession.shared
+                //URLSession provides the async request
+                let task = session.dataTask(with: request) { data, response, error in
+                     if let error = error {
+                         print("Error took place \(error)")
+                         return
+                     }
+                     if let response = response as? HTTPURLResponse {
+                         print(response)
+                     }
+                 }
+                // Check if Error took place
+                
+                task.resume()
+                favoriteCard.didChangeValue(forKey: "isFavorite")
+           }
+       } catch let error as NSError {
+           print("Could not fatch🥺: \(error), \(error.userInfo)")
+           onSuccess(false)
+       }
+       contextSave { success in
+           onSuccess(success)
+       }
     }
     func removeFavoriteCard(url : String, onSuccess: @escaping ((Bool) -> Void)){
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = filteredRequest(url : url)
@@ -234,6 +254,26 @@ class CoreDataManager{
                        favoriteCard = results[0]
                        favoriteCard.willChangeValue(forKey: "isFavorite")
                        favoriteCard.isFavorite = false
+//                    guard let data = url.data(using: String.Encoding.utf8) else {return }
+                    guard let url2 = URL(string: "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/favorite/"+url.addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: "!*'();:@&=+$,/?%#[]{} ").inverted)!+"/-1") else {return }
+                    var request = URLRequest(url: url2)
+
+                    request.httpMethod = "get"
+
+                    let session = URLSession.shared
+                    //URLSession provides the async request
+                    let task = session.dataTask(with: request) { data, response, error in
+                         if let error = error {
+                             print("Error took place \(error)")
+                             return
+                         }
+                         if let response = response as? HTTPURLResponse {
+                             print(response)
+                         }
+                     }
+                    // Check if Error took place
+                    
+                    task.resume()
                        favoriteCard.didChangeValue(forKey: "isFavorite")
                    }
                } catch let error as NSError {
@@ -369,6 +409,26 @@ class CoreDataManager{
             tag.name = name
             tag.time = time
             tag.formattedDate = dateFormatter.string(from: time)
+            let tokenString = CoreDataManager.shared.getToken()
+                guard let url2 = URL(string: "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/tag/"+tokenString!+"/"+tag.name!.addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: "!*'();:@&=+$,/?%#[]{} ").inverted)!+"/add") else {return }
+            var request = URLRequest(url: url2)
+
+            request.httpMethod = "get"
+
+            let session = URLSession.shared
+            //URLSession provides the async request
+            let task = session.dataTask(with: request) { data, response, error in
+                 if let error = error {
+                     print("Error took place \(error)")
+                     return
+                 }
+                 if let response = response as? HTTPURLResponse {
+                     print(response)
+                 }
+             }
+            // Check if Error took place
+            
+            task.resume()
             contextSave{
                 success in onSuccess(success)
             }
@@ -376,6 +436,36 @@ class CoreDataManager{
         }
     }
     func removeTag(object : NSManagedObject){
+        var dict: [String: Any] = [:]
+
+        for attribute in object.entity.attributesByName {
+            //check if value is present, then add key to dictionary so as to avoid the nil value crash
+            if let value = object.value(forKey: attribute.key) {
+                dict[attribute.key] = value
+            }
+        }
+
+        let name = dict["name"] as! String
+        let tokenString = CoreDataManager.shared.getToken()
+        guard let url2 = URL(string: "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/tag/"+tokenString!+"/"+name.addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: "!*'();:@&=+$,/?%#[]{} ").inverted)!+"/remove") else {return }
+        var request = URLRequest(url: url2)
+
+        request.httpMethod = "get"
+
+        let session = URLSession.shared
+        //URLSession provides the async request
+        let task = session.dataTask(with: request) { data, response, error in
+             if let error = error {
+                 print("Error took place \(error)")
+                 return
+             }
+             if let response = response as? HTTPURLResponse {
+                 print(response)
+             }
+         }
+        // Check if Error took place
+
+        task.resume()
         self.context?.delete(object)
         do{
             try self.context!.save()

@@ -62,7 +62,8 @@ extension StringProtocol {
     }
 }
 
-class detailViewController: UIViewController, UIScrollViewDelegate{
+class detailViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresentationControllerDelegate, PopoverContentControllerDelegate {
+    
     
     var title2: String?
     var source: String?
@@ -70,9 +71,11 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
     var back2: String?
     var url: String?
     var json = [String:String]()
+    var isFavorite : Bool?
+    var heartButtonPressed = false
+    var moreView : UIView?
+    var endPopover = false
     
-
-
     @IBOutlet weak var URLTextView: UITextView!
     @IBOutlet weak var contentTextView: UITextView!
     @IBOutlet weak var titleView: UIView!
@@ -90,6 +93,28 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
         
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.backBarButtonItem?.title = back2
+        
+        let rightView = UIView()
+        rightView.frame = CGRect(x: 0, y: 0, width: 65, height: 30)
+        let rItem = UIBarButtonItem(customView: rightView)
+        navigationItem.rightBarButtonItem = rItem
+        
+        let heartButton = UIButton(type:.system)
+        heartButton.frame = CGRect(x:0, y:0, width: 30, height: 30)
+        if(self.isFavorite == false){
+            heartButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        }else{
+             heartButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            heartButtonPressed = true
+        }
+        heartButton.addTarget(self, action: #selector(heartButtonIsSelected), for: .touchUpInside)
+        moreView = rightView
+        let moreButton = UIButton(type:.system)
+        moreButton.frame = CGRect(x: 35, y: 0, width: 30, height: 30)
+        moreButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+        moreButton.addTarget(self, action: #selector(moreButtonIsSelected(_:)), for: .touchUpInside)
+        rightView.addSubview(heartButton)
+        rightView.addSubview(moreButton)
         
         navigationItem.title = source
         self.navigationController?.navigationBar.titleTextAttributes = nil
@@ -117,7 +142,10 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
         getContent()
         
     }
-
+    override func viewDidAppear(_ animated: Bool) {
+        print("@@appear")
+        super.viewDidAppear(animated)
+    }
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return contentView
     }
@@ -223,6 +251,67 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
         task.resume()
     }
 
+    @IBAction func heartButtonIsSelected(_ sender: UIButton){
+        heartButtonPressed.toggle()
+        if(heartButtonPressed){
+            sender.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            CoreDataManager.shared.addFavoriteCard(url: url!){ onSuccess in print("saved = \(onSuccess)")}
+            
+        }
+        else{
+            sender.setImage(UIImage(systemName: "heart"), for: .normal)
+            CoreDataManager.shared.removeFavoriteCard(url: url!){ onSuccess in print("saved = \(onSuccess)")}
+        }
+    }
+
+    @IBAction func moreButtonIsSelected(_ sender: UIButton){
+        let button = sender
+        let buttonFrame = button.frame
+        let popoverController = self.storyboard?.instantiateViewController(withIdentifier: "PopoverContentController") as? PopoverContentController
+        popoverController?.modalPresentationStyle = .popover
+        popoverController?.preferredContentSize = CGSize(width: 130, height: 100)
+        if let popoverPresentationController = popoverController?.popoverPresentationController{
+            popoverPresentationController.permittedArrowDirections = .up
+            popoverPresentationController.sourceView = self.moreView
+            popoverPresentationController.sourceRect = buttonFrame
+            popoverPresentationController.delegate = self
+            popoverController?.delegate = self
+            if let popover = popoverController {
+                present(popover, animated: true, completion: nil)
+            }
+        }
+        
+    }
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
+    func popoverPresentationControllerShouldDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) -> Bool {
+        return true
+    }
+    func popoverContent(controller: PopoverContentController, didselectItem name: String) {
+        if(name == "공유하기"){
+            dismiss(animated: false, completion: nil)
+            showShareActivity()
+        }
+        else{
+            if let safariUrl = URL(string: url!){
+                UIApplication.shared.open(safariUrl, options: [:])
+            }
+        }
+        
+    }
+    
+    
+    func showShareActivity(){
+        let sharedText = [url]
+        let activityVc = UIActivityViewController(activityItems: sharedText as [Any], applicationActivities: nil)
+        
+        activityVc.isModalInPresentation = true
+        activityVc.popoverPresentationController?.sourceView = self.view
+        //activityVc.excludedActivityTypes = [UIActivity.ActivityType.airDrop, UIActivity.ActivityType.postToFacebook]
+        present(activityVc, animated: true, completion: nil)
+    }
     /*
     // MARK: - Navigation
 
@@ -234,3 +323,4 @@ class detailViewController: UIViewController, UIScrollViewDelegate{
     */
 
 }
+

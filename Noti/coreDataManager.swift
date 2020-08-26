@@ -404,13 +404,51 @@ class CoreDataManager{
         let entity: NSEntityDescription
         = NSEntityDescription.entity(forEntityName: "Tags", in: context) {
             if let tag: Tags = NSManagedObject(entity: entity, insertInto: context ) as? Tags{
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy/MM/dd"
-            tag.name = name
-            tag.time = time
-            tag.formattedDate = dateFormatter.string(from: time)
-            let tokenString = CoreDataManager.shared.getToken()
-                guard let url2 = URL(string: "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/tag/"+tokenString!+"/"+tag.name!.addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: "!*'();:@&=+$,/?%#[]{} ").inverted)!+"/add") else {return }
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy/MM/dd"
+                tag.name = name
+                tag.time = time
+                tag.formattedDate = dateFormatter.string(from: time)
+                if let tokenString = CoreDataManager.shared.getToken() {
+                    guard let url2 = URL(string: "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/tag/"+tokenString+"/"+tag.name!.addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: "!*'();:@&=+$,/?%#[]{} ").inverted)!+"/add") else {return }
+                    var request = URLRequest(url: url2)
+
+                    request.httpMethod = "get"
+
+                    let session = URLSession.shared
+                    //URLSession provides the async request
+                    let task = session.dataTask(with: request) { data, response, error in
+                         if let error = error {
+                             print("Error took place \(error)")
+                             return
+                         }
+                         if let response = response as? HTTPURLResponse {
+                             print(response)
+                         }
+                     }
+                    // Check if Error took place
+                    
+                    task.resume()
+                }
+                contextSave{
+                    success in onSuccess(success)
+                }
+            }
+        }
+    }
+    func removeTag(object : NSManagedObject){
+        var dict: [String: Any] = [:]
+
+        for attribute in object.entity.attributesByName {
+            //check if value is present, then add key to dictionary so as to avoid the nil value crash
+            if let value = object.value(forKey: attribute.key) {
+                dict[attribute.key] = value
+            }
+        }
+
+        let name = dict["name"] as! String
+        if let tokenString = CoreDataManager.shared.getToken() {
+            guard let url2 = URL(string: "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/tag/"+tokenString+"/"+name.addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: "!*'();:@&=+$,/?%#[]{} ").inverted)!+"/remove") else {return }
             var request = URLRequest(url: url2)
 
             request.httpMethod = "get"
@@ -427,45 +465,9 @@ class CoreDataManager{
                  }
              }
             // Check if Error took place
-            
+
             task.resume()
-            contextSave{
-                success in onSuccess(success)
-            }
-            }
         }
-    }
-    func removeTag(object : NSManagedObject){
-        var dict: [String: Any] = [:]
-
-        for attribute in object.entity.attributesByName {
-            //check if value is present, then add key to dictionary so as to avoid the nil value crash
-            if let value = object.value(forKey: attribute.key) {
-                dict[attribute.key] = value
-            }
-        }
-
-        let name = dict["name"] as! String
-        let tokenString = CoreDataManager.shared.getToken()
-        guard let url2 = URL(string: "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/tag/"+tokenString!+"/"+name.addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: "!*'();:@&=+$,/?%#[]{} ").inverted)!+"/remove") else {return }
-        var request = URLRequest(url: url2)
-
-        request.httpMethod = "get"
-
-        let session = URLSession.shared
-        //URLSession provides the async request
-        let task = session.dataTask(with: request) { data, response, error in
-             if let error = error {
-                 print("Error took place \(error)")
-                 return
-             }
-             if let response = response as? HTTPURLResponse {
-                 print(response)
-             }
-         }
-        // Check if Error took place
-
-        task.resume()
         self.context?.delete(object)
         do{
             try self.context!.save()

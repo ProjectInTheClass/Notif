@@ -145,7 +145,7 @@ class TokenListCell: BaseCollectionViewCell {
     
     self.titleLabel.text = nil
     self.backgroundColor = .cardFront
-    self.layer.cornerRadius = 9
+    self.layer.cornerRadius = 11
     
     // 그림자
     self.layer.shadowColor = UIColor.black.cgColor // 검정색 사용

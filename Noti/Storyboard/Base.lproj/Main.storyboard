@@ -268,7 +268,7 @@
         <scene sceneID="2gt-sm-5r0">
             <objects>
                 <navigationController id="zCZ-T8-nZm" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="홈" image="house" catalog="system" selectedImage="house" id="zoZ-1A-oi1"/>
+                    <tabBarItem key="tabBarItem" title="홈" image="house.fill" catalog="system" selectedImage="house.fill" id="zoZ-1A-oi1"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Vt8-mN-BN3">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -286,7 +286,7 @@
         <image name="Tab1" width="50" height="50"/>
         <image name="Tab2" width="50" height="40"/>
         <image name="Tab3" width="52" height="34"/>
-        <image name="house" catalog="system" width="128" height="110"/>
+        <image name="house.fill" catalog="system" width="128" height="106"/>
         <namedColor name="unselectedFont">
             <color red="0.74509803921568629" green="0.74901960784313726" blue="0.76470588235294112" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

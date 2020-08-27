@@ -33,6 +33,9 @@ class TagViewController: UIViewController {
                 if(newTag.contains(" ")){
                     return  
                 }
+                else if(newTag.count >= 10){
+                    return
+                }
                 for i in 0..<self.arr.count{
                     if self.arr[i].title == newTag{
                         return

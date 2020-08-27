@@ -19,7 +19,7 @@
 		0FD736CF24C741FB00F221BD /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD736CC24C7185100F221BD /* UserNotifications.framework */; };
 		0FD736D024C7420300F221BD /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD736CA24C7184800F221BD /* PushKit.framework */; };
 		1800085F24F508F100B72094 /* PopoverContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1800085E24F508F100B72094 /* PopoverContentController.swift */; };
-		18BE0CE524DB1CEB003569EF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BE0CE424DB1CEB003569EF /* HomeViewController.swift */; };
+		18BE0CE524DB1CEB003569EF /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BE0CE424DB1CEB003569EF /* FavoriteViewController.swift */; };
 		623073AA2493739E00C06C6D /* LastUpdated+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623073A82493739E00C06C6D /* LastUpdated+CoreDataClass.swift */; };
 		623073AB2493739E00C06C6D /* LastUpdated+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623073A92493739E00C06C6D /* LastUpdated+CoreDataProperties.swift */; };
 		62534AED24CEE0C6007C3938 /* Token+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62534AEB24CEE0C6007C3938 /* Token+CoreDataClass.swift */; };
@@ -45,6 +45,8 @@
 		86A5E87D246EF00400B692F4 /* HistoryView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86A5E87C246EF00400B692F4 /* HistoryView.storyboard */; };
 		86AE280E2492B44900DDDDC5 /* ChannelCenterView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86AE280D2492B44900DDDDC5 /* ChannelCenterView.storyboard */; };
 		86AE28102492B4BC00DDDDC5 /* ChannelCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AE280F2492B4BC00DDDDC5 /* ChannelCenterViewController.swift */; };
+		86ED231C24F7AA2D00E9C875 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86ED231B24F7AA2D00E9C875 /* HomeViewController.swift */; };
+		86ED231E24F7AA4400E9C875 /* HomeViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86ED231D24F7AA4400E9C875 /* HomeViewController.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,7 +65,7 @@
 		0FD736CC24C7185100F221BD /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		0FD736CE24C72FBD00F221BD /* Noti.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Noti.entitlements; sourceTree = "<group>"; };
 		1800085E24F508F100B72094 /* PopoverContentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverContentController.swift; sourceTree = "<group>"; };
-		18BE0CE424DB1CEB003569EF /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		18BE0CE424DB1CEB003569EF /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		623073A82493739E00C06C6D /* LastUpdated+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LastUpdated+CoreDataClass.swift"; sourceTree = "<group>"; };
 		623073A92493739E00C06C6D /* LastUpdated+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LastUpdated+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		62534AEB24CEE0C6007C3938 /* Token+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Token+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -89,6 +91,8 @@
 		86A5E87C246EF00400B692F4 /* HistoryView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HistoryView.storyboard; sourceTree = "<group>"; };
 		86AE280D2492B44900DDDDC5 /* ChannelCenterView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ChannelCenterView.storyboard; sourceTree = "<group>"; };
 		86AE280F2492B4BC00DDDDC5 /* ChannelCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCenterViewController.swift; sourceTree = "<group>"; };
+		86ED231B24F7AA2D00E9C875 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		86ED231D24F7AA4400E9C875 /* HomeViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HomeViewController.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,7 +198,9 @@
 				864699EC249D6C8E006FB4C2 /* TagViewController.swift */,
 				6258C0AC2474348A001E5B49 /* HistoryViewController.swift */,
 				86AE280F2492B4BC00DDDDC5 /* ChannelCenterViewController.swift */,
-				18BE0CE424DB1CEB003569EF /* HomeViewController.swift */,
+				18BE0CE424DB1CEB003569EF /* FavoriteViewController.swift */,
+				86ED231B24F7AA2D00E9C875 /* HomeViewController.swift */,
+				86ED231D24F7AA4400E9C875 /* HomeViewController.storyboard */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -261,6 +267,7 @@
 				86A5E87D246EF00400B692F4 /* HistoryView.storyboard in Resources */,
 				0F4465D4249D0E9E005DF860 /* LoginWebView.storyboard in Resources */,
 				86AE280E2492B44900DDDDC5 /* ChannelCenterView.storyboard in Resources */,
+				86ED231E24F7AA4400E9C875 /* HomeViewController.storyboard in Resources */,
 				0F5DB599246AEA1C00245E96 /* Assets.xcassets in Resources */,
 				86A5E83B246EE5BC00B692F4 /* HomeDetailView.storyboard in Resources */,
 				0F5DB597246AEA1700245E96 /* Main.storyboard in Resources */,
@@ -278,7 +285,8 @@
 				860930AB24898DFD005B7A28 /* ChannelCollectionViewCell.swift in Sources */,
 				62B321FB248A1A9000111CE8 /* Card+CoreDataClass.swift in Sources */,
 				62E3020724805B6D002332AE /* addTagViewController.swift in Sources */,
-				18BE0CE524DB1CEB003569EF /* HomeViewController.swift in Sources */,
+				18BE0CE524DB1CEB003569EF /* FavoriteViewController.swift in Sources */,
+				86ED231C24F7AA2D00E9C875 /* HomeViewController.swift in Sources */,
 				6258C0AB2473DE49001E5B49 /* tagTableViewCell.swift in Sources */,
 				623073AB2493739E00C06C6D /* LastUpdated+CoreDataProperties.swift in Sources */,
 				62B321F8248A1A9000111CE8 /* Channel+CoreDataProperties.swift in Sources */,

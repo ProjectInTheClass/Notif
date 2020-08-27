@@ -505,6 +505,9 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
                         if(newTag.contains(" ")){
                             return
                         }
+                        else if(newTag.count >= 10){
+                            return
+                        }
                         for i in 0..<CoreDataManager.allTags!.count{
                             if(CoreDataManager.allTags![i].name == newTag){
                                 return

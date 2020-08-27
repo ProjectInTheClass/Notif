@@ -95,12 +95,12 @@ class detailViewController: UIViewController, UIScrollViewDelegate, UIPopoverPre
         navigationItem.backBarButtonItem?.title = back2
         
         let rightView = UIView()
-        rightView.frame = CGRect(x: 0, y: 0, width: 65, height: 30)
+        rightView.frame = CGRect(x: 0, y: 0, width: 60, height: 50)
         let rItem = UIBarButtonItem(customView: rightView)
         navigationItem.rightBarButtonItem = rItem
-        
+        //navigationItem.rightBarButtonItem.
         let heartButton = UIButton(type:.system)
-        heartButton.frame = CGRect(x:0, y:0, width: 30, height: 30)
+        heartButton.frame = CGRect(x:0, y:0, width: 30, height: 50)
         if(self.isFavorite == false){
             heartButton.setImage(UIImage(systemName: "heart"), for: .normal)
         }else{
@@ -110,7 +110,7 @@ class detailViewController: UIViewController, UIScrollViewDelegate, UIPopoverPre
         heartButton.addTarget(self, action: #selector(heartButtonIsSelected), for: .touchUpInside)
         moreView = rightView
         let moreButton = UIButton(type:.system)
-        moreButton.frame = CGRect(x: 35, y: 0, width: 30, height: 30)
+        moreButton.frame = CGRect(x: 35, y: 0, width: 40, height: 50)
         moreButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
         moreButton.addTarget(self, action: #selector(moreButtonIsSelected(_:)), for: .touchUpInside)
         rightView.addSubview(heartButton)
@@ -269,7 +269,7 @@ class detailViewController: UIViewController, UIScrollViewDelegate, UIPopoverPre
         let buttonFrame = button.frame
         let popoverController = self.storyboard?.instantiateViewController(withIdentifier: "PopoverContentController") as? PopoverContentController
         popoverController?.modalPresentationStyle = .popover
-        popoverController?.preferredContentSize = CGSize(width: 130, height: 100)
+        popoverController?.preferredContentSize = CGSize(width: 270, height: 90)
         if let popoverPresentationController = popoverController?.popoverPresentationController{
             popoverPresentationController.permittedArrowDirections = .up
             popoverPresentationController.sourceView = self.moreView

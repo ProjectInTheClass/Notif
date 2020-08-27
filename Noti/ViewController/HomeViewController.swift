@@ -11,11 +11,14 @@ import UIKit
 class HomeViewController: UIViewController {
     
     var arr = [Tag]()
+    var recommendTags = [Tag]()
     var cards : [Card]?
     var coreDataTag = CoreDataManager.shared.getTags()
     
+    @IBOutlet weak var otherView: UIView!
     @IBOutlet weak var tagLabel: UILabel!
     @IBOutlet weak var tagCollection: DynmicHeightCollectionView!
+    @IBOutlet weak var recommendTagCollection: DynmicHeightCollectionView!
     
     func updateTagSubTitle(){
         if arr.count == 0{
@@ -39,6 +42,8 @@ class HomeViewController: UIViewController {
             cards?.append(allCards[i])
         }
         
+        recommendTags = arr
+        
         // unReadButton 만들기
         let rightView = UIView()
         rightView.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
@@ -52,6 +57,12 @@ class HomeViewController: UIViewController {
         
         
         updateTagSubTitle()
+        
+        otherView.layer.shadowColor = UIColor.black.cgColor // 검정색 사용
+        otherView.layer.masksToBounds = false
+        otherView.layer.shadowOffset = CGSize(width: 1, height: -2) //반경
+        otherView.layer.shadowRadius = 4 // 반경?
+        otherView.layer.shadowOpacity = 0.2 //
 
     }
     
@@ -118,29 +129,72 @@ class HomeViewController: UIViewController {
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     // 셀 개수
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        arr.count
+        if collectionView == self.tagCollection{
+            return arr.count
+        }else{
+            return recommendTags.count
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tag", for: indexPath) as! TokenMainCell
-        cell.token = arr[indexPath.item]
-        return cell
+        if collectionView == self.tagCollection{
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tag", for: indexPath) as! TokenMainCell
+            cell.token = arr[indexPath.item]
+            return cell
+        }else{
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "recommendTag", for: indexPath) as! TokenListCell
+            cell.token = recommendTags[indexPath.item]
+            cell.titleLabel.textColor = .white
+            cell.backgroundColor = .blueSelected
+            return cell
+        }
+        
     }
     
     // 셀눌렸을떄, 삭제할때
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        var token = arr[indexPath.item]
-        token.selected = false
-        arr.remove(at: indexPath.item)
-        CoreDataManager.shared.removeChannelTag(tag: coreDataTag[indexPath.item].name!){onSuccess in print("saved = \(onSuccess)")}
-        CoreDataManager.shared.removeCardsTag(tag: coreDataTag[indexPath.item].name!){onSuccess in print("saved = \(onSuccess)")}
-        CoreDataManager.shared.removeTag(object: coreDataTag[indexPath.item])
-        tagCollection.deleteItems(at: [indexPath])
-        tagCollection.reloadData()
-        tagCollection.collectionViewLayout.invalidateLayout()
-        coreDataTag = CoreDataManager.shared.getTags()
-        changeTagOrChannel.tagOrChannelModified = 1
-        updateTagSubTitle()
+        if collectionView == self.tagCollection{
+            var token = arr[indexPath.item]
+            token.selected = false
+            arr.remove(at: indexPath.item)
+            CoreDataManager.shared.removeChannelTag(tag: coreDataTag[indexPath.item].name!){onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.removeCardsTag(tag: coreDataTag[indexPath.item].name!){onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.removeTag(object: coreDataTag[indexPath.item])
+            tagCollection.deleteItems(at: [indexPath])
+            tagCollection.reloadData()
+            tagCollection.collectionViewLayout.invalidateLayout()
+            coreDataTag = CoreDataManager.shared.getTags()
+            changeTagOrChannel.tagOrChannelModified = 1
+            updateTagSubTitle()
+        }else{
+            let token = recommendTags[indexPath.item]
+            let alertController = UIAlertController(title: "태그 추가", message: "#\(token.title) 태그를 추가합니다", preferredStyle: .alert)
+//            alertController.addTextField{(textField) in textField.placeholder = "태그 이름 입력"}
+            let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+                for i in 0..<self.arr.count{
+                    if self.arr[i].title == token.title{
+                        return
+                    }
+                }
+                self.arr.append(token)
+                CoreDataManager.shared.saveTags(name: token.title, time: NSDate() as Date){onSuccess in print("saved = \(onSuccess)")}
+                CoreDataManager.shared.addCardsTag(tag: token.title){onSuccess in print("saved = \(onSuccess)")}
+                CoreDataManager.shared.addChannelTag(subtitle: "전체", source: "전체", tag: token.title){onSuccess in print("saved = \(onSuccess)")}
+                let indexPath = IndexPath(row: self.arr.count - 1, section: 0)
+                self.tagCollection.insertItems(at: [indexPath])
+                self.coreDataTag = CoreDataManager.shared.getTags()
+                self.tagCollection.reloadData()
+                self.tagCollection.collectionViewLayout.invalidateLayout()
+                self.updateTagSubTitle()
+                changeTagOrChannel.tagOrChannelModified = 1
+            }
+            let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
+            }
+            alertController.addAction(confirmAction)
+            alertController.addAction(cancelAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
 
 }
@@ -158,7 +212,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         if collectionView == tagCollection {
           return CGSize(width: cellWidth + 35, height: 30.0)
         } else {
-          return CGSize(width: cellWidth+100, height: 100.0)
+          return CGSize(width: cellWidth+35, height: 30.0)
         }
         
     }

@@ -17,6 +17,7 @@ class HistoryViewController: UIViewController{
     @IBOutlet weak var channelCollection: UICollectionView!
     @IBOutlet weak var tagCollection: UICollectionView!
     @IBOutlet weak var noDataLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var listUnread = false
     var mangedObjectContext : NSManagedObjectContext!
@@ -26,6 +27,7 @@ class HistoryViewController: UIViewController{
     var cardsHistoryDate = [String]()
     static var allCards = [Card].init()
     static var allChannels : [Channel]?
+    var isFirstRead = true
     
     func updateTitle(title: String){
         let longTitleLabel = UILabel()
@@ -139,16 +141,18 @@ class HistoryViewController: UIViewController{
 
     override func viewDidLoad() {
         print("@뷰가 처음 로드됨")
-        CoreDataManager.shared.setData()
         navigationItem.title = "히스토리"
+        
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.clear]
         updateTitle(title: "전체")
         updateSubTitle(subTitle: "전체")
-        loadData()
-        updateCardsAndTitle()
+//        loadData()
+//        updateCardsAndTitle()
         tagCollection.dataSource = self
         tagCollection.delegate = self
     
+        noDataLabel.isHidden = true
+        activityIndicator.startAnimating()
         
         // unReadButton 만들기
         let rightView = UIView()
@@ -162,6 +166,30 @@ class HistoryViewController: UIViewController{
         rightView.addSubview(unreadButton)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadData(_:)), name: NSNotification.Name("ReloadHistoryView"), object: nil)
+        self.tabBarController?.tabBar.barStyle = .default
+        
+        historyTable.refreshControl = UIRefreshControl()
+        historyTable.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+        historyTable.refreshControl?.transform = CGAffineTransform(scaleX: 0.75, y: 0.75) 
+    }
+    
+    @objc func handleRefreshControl() {
+       // Update your content…
+        print("scrolled")
+        DispatchQueue.main.async {
+           self.historyTable.refreshControl?.beginRefreshing()
+        }
+        CoreDataManager.shared.setData()
+        loadData()
+        updateCardsAndTitle()
+        selectedTag = [Int]()
+        channelCollection.reloadData()
+        tagCollection.reloadData()
+
+       // Dismiss the refresh control.
+       DispatchQueue.main.async {
+          self.historyTable.refreshControl?.endRefreshing()
+       }
     }
     
     @objc func reloadData(_ notification: Notification?) {
@@ -173,8 +201,16 @@ class HistoryViewController: UIViewController{
     
     override func viewDidAppear(_ animated: Bool) {
         print("@뷰가 어피어됨")
+        if (isFirstRead)    {
+            CoreDataManager.shared.setData()
+            isFirstRead = false
+            loadData()
+            updateCardsAndTitle()
+            selectedTag = [Int]()
+            channelCollection.reloadData()
+            tagCollection.reloadData()
+        }
         if(changeTagOrChannel.tagOrChannelModified == 1){
-            print("@@modified")
             loadData()
             updateCardsAndTitle()
             selectedTag = [Int]()
@@ -182,8 +218,8 @@ class HistoryViewController: UIViewController{
             tagCollection.reloadData()
             changeTagOrChannel.tagOrChannelModified = 0
         }
+        activityIndicator.stopAnimating()
         historyTable.reloadData()
-        
     }
     
     @IBAction func unreadButtonIsSelected(_ sender: UIButton) {
@@ -432,10 +468,10 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if(collectionView == self.channelCollection){
-            return channels!.count
+                return channels?.count ?? 0
         }
         else{
-                return channels![selectedChannel].channelTags!.count
+            return channels?[selectedChannel].channelTags!.count ?? 0
         }
     }
 

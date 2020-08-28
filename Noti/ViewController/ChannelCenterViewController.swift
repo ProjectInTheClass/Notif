@@ -13,6 +13,7 @@ class ChannelCenterViewController: UIViewController {
     
     var categories = [String]()
     var channelsInDB = ["학사-한양대학교":"hyhs", "입학-한양대학교":"hyih", "모집/채용-한양대학교":"hymjcy","사회봉사-한양대학교":"hyshbs", "일반-한양대학교":"hyib", "산학/연구-한양대학교":"hyshyg","행사-한양대학교":"hyhs2", "장학-한양대학교":"hyjh","학회/세미나-한양대학교":"hyhhsmn", "공지사항-기계공학부":"megjsh", "학사일반-컴퓨터소프트웨어학부":"cshsib", "취업정보-컴퓨터소프트웨어학부":"cscujb","공지사항-경영학부":"bsgjsh","공지사항-학생생활관":"dmgjsh", "모집안내-학생생활관":"dmmjan"]
+    var feedbackGenerator : UIImpactFeedbackGenerator? = nil
     
     //        @IBOutlet weak var historyTable: UITableView!
     func loadData(){
@@ -38,7 +39,8 @@ class ChannelCenterViewController: UIViewController {
              let cell =  contentView?.superview as! ChannelCollectionViewCell
              if (cell.isButtonEnabled)
              {
-                 let indexPath = cell.indexPath
+                feedbackGenerator?.impactOccurred()
+                let indexPath = cell.indexPath
                 let sectionChannels = channels.filter{ $0.group! == categories[indexPath.section] }.sorted(by: {$0.source! < $1.source!})
                  CoreDataManager.shared.notificationChannel(subtitle: sectionChannels[indexPath.item].subtitle!, source: sectionChannels[indexPath.item].source!) { onSuccess in print("saved = \(onSuccess)")}
                  let tokenString = CoreDataManager.shared.getToken()
@@ -82,6 +84,8 @@ class ChannelCenterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+        feedbackGenerator?.prepare()
         loadData()
         updateTitle(title: "채널센터")
         //네비게이션바 배경색 넣어주는 코드
@@ -226,12 +230,6 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
                 footerview.colorLabel.text = nil
                 return footerview
         }
-    }
-    
-    
-    
-    @IBAction func buttonPressed(_ sender: Any){
-        performSegue(withIdentifier: "tagSegue", sender: self)
     }
 
 }

@@ -62,7 +62,7 @@ extension StringProtocol {
     }
 }
 
-class detailViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresentationControllerDelegate, PopoverContentControllerDelegate {
+class detailViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresentationControllerDelegate, PopoverContentControllerDelegate, UIGestureRecognizerDelegate {
     
     
     var title2: String?
@@ -75,6 +75,7 @@ class detailViewController: UIViewController, UIScrollViewDelegate, UIPopoverPre
     var heartButtonPressed = false
     var moreView : UIView?
     var endPopover = false
+    var feedbackGenerator : UIImpactFeedbackGenerator? = nil
     
     @IBOutlet weak var URLTextView: UITextView!
     @IBOutlet weak var contentTextView: UITextView!
@@ -90,6 +91,8 @@ class detailViewController: UIViewController, UIScrollViewDelegate, UIPopoverPre
 
         scrollView.delegate = self
 
+        feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+        feedbackGenerator?.prepare()
         
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.backBarButtonItem?.title = back2
@@ -250,9 +253,10 @@ class detailViewController: UIViewController, UIScrollViewDelegate, UIPopoverPre
         
         task.resume()
     }
-
+    
     @IBAction func heartButtonIsSelected(_ sender: UIButton){
         heartButtonPressed.toggle()
+        feedbackGenerator?.impactOccurred()
         if(heartButtonPressed){
             sender.setImage(UIImage(systemName: "heart.fill"), for: .normal)
             CoreDataManager.shared.addFavoriteCard(url: url!){ onSuccess in print("saved = \(onSuccess)")}

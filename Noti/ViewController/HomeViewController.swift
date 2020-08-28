@@ -12,13 +12,16 @@ class HomeViewController: UIViewController {
     
     var arr = [Tag]()
     var recommendTags = [Tag]()
-    var cards : [Card]?
+    var cards : [WeeklyCard]?
     var coreDataTag = CoreDataManager.shared.getTags()
     
     @IBOutlet weak var otherView: UIView!
     @IBOutlet weak var tagLabel: UILabel!
     @IBOutlet weak var tagCollection: DynmicHeightCollectionView!
     @IBOutlet weak var recommendTagCollection: DynmicHeightCollectionView!
+    @IBOutlet weak var weeklyTable: UITableView!
+    
+    
     
     func updateTagSubTitle(){
         if arr.count == 0{
@@ -30,19 +33,11 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        navigationItem.title = "홈"
-//        navigationController?.navigationBar.backgroundColor = .clear
+
+//        CoreDataManager.shared.setData()
         for num in 0..<coreDataTag.count {
             arr.append(Tag(title: coreDataTag[num].name!, time: coreDataTag[num].time! as NSDate, selected: false))
         }
-        
-        cards = [Card]()
-        let allCards = CoreDataManager.shared.getCards()
-        for i in 0...4{
-            cards?.append(allCards[i])
-        }
-        
-        recommendTags = arr
         
         // unReadButton 만들기
         let rightView = UIView()
@@ -64,6 +59,15 @@ class HomeViewController: UIViewController {
         otherView.layer.shadowRadius = 4 // 반경?
         otherView.layer.shadowOpacity = 0.2 //
 
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        recommendTags = CoreDataManager.shared.getTagFromServer()
+        cards = CoreDataManager.shared.getWeeklyCardFromServer()
+        self.recommendTagCollection.reloadData()
+        self.weeklyTable.reloadData()
+
+        
     }
     
     // 추가버튼 눌렸을때
@@ -204,14 +208,15 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var text = ""
 
-        text = self.arr[indexPath.item].title
-
-
-        let cellWidth = text.size(withAttributes:[.font: UIFont.boldSystemFont(ofSize:16.0)]).width + 30.0
+        
 
         if collectionView == tagCollection {
+            text = self.arr[indexPath.item].title
+            let cellWidth = text.size(withAttributes:[.font: UIFont.boldSystemFont(ofSize:16.0)]).width + 30.0
           return CGSize(width: cellWidth + 35, height: 30.0)
         } else {
+            text = self.recommendTags[indexPath.item].title
+            let cellWidth = text.size(withAttributes:[.font: UIFont.boldSystemFont(ofSize:16.0)]).width + 30.0
           return CGSize(width: cellWidth+35, height: 30.0)
         }
         
@@ -258,7 +263,10 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return cards!.count
+        if (cards == nil)   {
+            return 0
+        }
+        return min(cards!.count, 5)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -267,8 +275,9 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
         cell.sourceLabel.text = cards?[indexPath.row].formattedSource
 //        cell.dateLabel.text = cards?[indexPath.row].homeFormattedDate
         cell.dateLabel.text = ""
-        cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: (cards?[indexPath.row].color!)! )
+        cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: (cards![indexPath.row].color) )
         cell.sourceLabel.textColor = .sourceFont
+        cell.cellView?.backgroundColor = .cardFront
         // cell의 backgroudView 수정
         let backgrundView = UIView()
         let backView = UIView(frame: CGRect(x: 17, y: 0, width: view.frame.width-34, height: 86))
@@ -287,11 +296,11 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
 //        cell.cellView?.backgroundColor = .cardFront
         
         // 그림자 부분
-        cell.backgroundView?.layer.shadowColor = UIColor.black.cgColor // 검정색 사용
-        cell.backgroundView?.layer.masksToBounds = false
-        cell.backgroundView?.layer.shadowOffset = CGSize(width: 1, height: 2) //반경
-        cell.backgroundView?.layer.shadowRadius = 3 // 반경?
-        cell.backgroundView?.layer.shadowOpacity = 0.2 //
+        cell.cellView.layer.shadowColor = UIColor.black.cgColor // 검정색 사용
+        cell.cellView.layer.masksToBounds = false
+        cell.cellView.layer.shadowOffset = CGSize(width: 1, height: 2) //반경
+        cell.cellView.layer.shadowRadius = 3 // 반경?
+        cell.cellView.layer.shadowOpacity = 0.2 //
         return cell
     }
     

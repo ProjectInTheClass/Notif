@@ -31,6 +31,7 @@ struct Tag {
 }
 
 
+
 class BaseCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {

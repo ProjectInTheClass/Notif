@@ -182,6 +182,7 @@
 		86A5E839246EE58B00B692F4 /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
+				86ED231D24F7AA4400E9C875 /* HomeViewController.storyboard */,
 				0F5DB595246AEA1700245E96 /* Main.storyboard */,
 				86A5E83A246EE5BC00B692F4 /* HomeDetailView.storyboard */,
 				86AE280D2492B44900DDDDC5 /* ChannelCenterView.storyboard */,
@@ -200,7 +201,6 @@
 				86AE280F2492B4BC00DDDDC5 /* ChannelCenterViewController.swift */,
 				18BE0CE424DB1CEB003569EF /* FavoriteViewController.swift */,
 				86ED231B24F7AA2D00E9C875 /* HomeViewController.swift */,
-				86ED231D24F7AA4400E9C875 /* HomeViewController.storyboard */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";

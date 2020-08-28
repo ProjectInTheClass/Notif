@@ -629,6 +629,90 @@ class CoreDataManager{
             print("Can't get url")
         }
     }
+    
+    func getWeeklyCardFromServer()->[Card]{
+        let returnCards = [Card]()
+        let dateFormatter = DateFormatter()
+        let today = NSDate()
+        dateFormatter.dateFormat = "yy-MM-dd"
+        let url = URL(string: "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/topWeek/%7B"+"\(dateFormatter.string(from: today as Date))"+"%7D")
+        do{
+            let data = try Data(contentsOf: url!)
+            let json = try JSONSerialization.jsonObject(with: data, options: [])as! [String:Any]
+            let body = json["body"] as! String
+            let dataInBody = body.data(using: .utf8)!
+            let arr = try! JSONSerialization.jsonObject(with: dataInBody, options: []) as! [String:Any]
+            let messages = arr["message"]as! [[String:Any]]
+            for card in messages{
+                let returnCard = Card()
+                returnCard.title = (card["title"] as! String)
+                returnCard.source = (card["source"] as! String)
+                returnCard.tag = [""]
+                let time = dateFormatter.date(from: card["time_"] as! String)
+                returnCard.time = time
+                dateFormatter.dateFormat = "yy-MM-dd"
+                returnCard.homeFormattedDate = dateFormatter.string(from: time!)
+                dateFormatter.dateFormat = "MM.dd"
+                returnCard.historyFormattedDate = dateFormatter.string(from: time!)
+                dateFormatter.dateFormat = "HH:mm"
+                returnCard.historyCardFormattedDate = dateFormatter.string(from: time!)
+                var color : UIColor
+                switch card["source"] as! String {
+                case "한양대학교":
+                    color = UIColor.fourth
+                case "기계공학부":
+                    color = UIColor.first
+                case "컴퓨터소프트웨어학부":
+                    color = UIColor.first
+                case "경영학부":
+                    color = UIColor.first
+                case "학생생활관":
+                    color = UIColor.third
+                default:
+                    color = UIColor.fifth
+                }
+                returnCard.color = CoreDataManager.shared.hexStringFromColor(color: color)
+                returnCard.isVisited = false
+                returnCard.url = (card["url"] as! String)
+                returnCard.json = ["":""]
+                returnCard.isFavorite = false
+                returnCard.formattedSource = returnCard.category! + ((returnCard.category!.count == 0) ? "" : "-") + returnCard.source!
+            }
+            
+        } catch{
+            print("Can't get url")
+        }
+        
+        return returnCards
+    }
+    
+    func getTagFromServer()->[Tag]{
+        var returnTags = [Tag]()
+        let url = URL(string: "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/topTag/1")
+        do{
+            let data = try Data(contentsOf: url!)
+            let json = try JSONSerialization.jsonObject(with: data, options: [])as! [String:Any]
+            let body = json["body"] as! String
+            let dataInBody = body.data(using: .utf8)!
+            let arr = try! JSONSerialization.jsonObject(with: dataInBody, options: []) as! [String:Any]
+            let messages = arr["message"]as! [[String:Any]]
+            for jsonTag in messages{
+                let tag = jsonTag
+                //var json_String = tag["json_"] as! String
+                /*if(json_String != ""){
+                    json_String = json_String.slice(from: ":\"", to: "\"}]")!
+                }*/
+                let returnTag : Tag
+                returnTag = .init(title: (tag["tag"] as? String)!, time: NSDate(), selected: false)
+                returnTags.append(returnTag)
+            }
+            
+        } catch{
+            print("Can't get url")
+        }
+        
+        return returnTags
+    }
 }
     
 extension CoreDataManager {

@@ -20,6 +20,8 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var tagCollection: DynmicHeightCollectionView!
     @IBOutlet weak var recommendTagCollection: DynmicHeightCollectionView!
     
+    
+    
     func updateTagSubTitle(){
         if arr.count == 0{
             tagLabel.text = "태그를 추가해 보세요"
@@ -32,17 +34,23 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
 //        navigationItem.title = "홈"
 //        navigationController?.navigationBar.backgroundColor = .clear
+        CoreDataManager.shared.setData()
         for num in 0..<coreDataTag.count {
             arr.append(Tag(title: coreDataTag[num].name!, time: coreDataTag[num].time! as NSDate, selected: false))
         }
+//
+//
+//        cards = [Card]()
+//        var allCards = CoreDataManager.shared.getCards()
+//        print(allCards.count)
+//        for i in 0...4{
+//            cards?.append(allCards[i])
+//        }
+//
+//        recommendTags = arr
         
-        cards = [Card]()
-        let allCards = CoreDataManager.shared.getCards()
-        for i in 0...4{
-            cards?.append(allCards[i])
-        }
-        
-        recommendTags = arr
+        recommendTags = CoreDataManager.shared.getTagFromServer()
+        cards = CoreDataManager.shared.getWeeklyCardFromServer()
         
         // unReadButton 만들기
         let rightView = UIView()
@@ -204,14 +212,15 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var text = ""
 
-        text = self.arr[indexPath.item].title
-
-
-        let cellWidth = text.size(withAttributes:[.font: UIFont.boldSystemFont(ofSize:16.0)]).width + 30.0
+        
 
         if collectionView == tagCollection {
+            text = self.arr[indexPath.item].title
+            let cellWidth = text.size(withAttributes:[.font: UIFont.boldSystemFont(ofSize:16.0)]).width + 30.0
           return CGSize(width: cellWidth + 35, height: 30.0)
         } else {
+            text = self.recommendTags[indexPath.item].title
+            let cellWidth = text.size(withAttributes:[.font: UIFont.boldSystemFont(ofSize:16.0)]).width + 30.0
           return CGSize(width: cellWidth+35, height: 30.0)
         }
         
@@ -269,6 +278,7 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
         cell.dateLabel.text = ""
         cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: (cards?[indexPath.row].color!)! )
         cell.sourceLabel.textColor = .sourceFont
+        cell.cellView?.backgroundColor = .cardFront
         // cell의 backgroudView 수정
         let backgrundView = UIView()
         let backView = UIView(frame: CGRect(x: 17, y: 0, width: view.frame.width-34, height: 86))
@@ -287,11 +297,11 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
 //        cell.cellView?.backgroundColor = .cardFront
         
         // 그림자 부분
-        cell.backgroundView?.layer.shadowColor = UIColor.black.cgColor // 검정색 사용
-        cell.backgroundView?.layer.masksToBounds = false
-        cell.backgroundView?.layer.shadowOffset = CGSize(width: 1, height: 2) //반경
-        cell.backgroundView?.layer.shadowRadius = 3 // 반경?
-        cell.backgroundView?.layer.shadowOpacity = 0.2 //
+        cell.cellView.layer.shadowColor = UIColor.black.cgColor // 검정색 사용
+        cell.cellView.layer.masksToBounds = false
+        cell.cellView.layer.shadowOffset = CGSize(width: 1, height: 2) //반경
+        cell.cellView.layer.shadowRadius = 3 // 반경?
+        cell.cellView.layer.shadowOpacity = 0.2 //
         return cell
     }
     

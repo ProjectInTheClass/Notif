@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5wB-9v-x5V">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17147" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5wB-9v-x5V">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17120"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -43,7 +45,7 @@
         <scene sceneID="kC7-pf-xpi">
             <objects>
                 <tabBarController id="5wB-9v-x5V" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="XSa-9O-ypB">
+                    <tabBar key="tabBar" autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="XSa-9O-ypB">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -57,7 +59,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jZp-uM-nmq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-445" y="686"/>
+            <point key="canvasLocation" x="-959" y="838"/>
         </scene>
         <!--HistoryViewController-->
         <scene sceneID="jIE-Gx-eN5">
@@ -124,7 +126,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="95" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Js6-KW-aaI">
                                 <rect key="frame" x="0.0" y="138" width="414" height="675"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="customCell" rowHeight="95" id="8xa-u1-ZcO" customClass="HomeTableViewCell" customModule="Noti" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="95"/>
@@ -161,7 +163,7 @@
                                                             </constraints>
                                                         </imageView>
                                                     </subviews>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="MyU-Xj-wfX" secondAttribute="trailing" constant="7" id="0pF-o6-Z4D"/>
                                                         <constraint firstAttribute="trailing" secondItem="bT5-rh-i3k" secondAttribute="trailing" constant="7" id="4UY-Ll-fuS"/>
@@ -199,14 +201,14 @@
                                 </connections>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PdA-J9-7QQ">
-                                <rect key="frame" x="186" y="438" width="42" height="20.5"/>
+                                <rect key="frame" x="186.5" y="438" width="41.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" name="unselectedFont"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="v9i-Ik-roA">
                                 <rect key="frame" x="0.0" y="88" width="414" height="50"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="YTU-XJ-L4L"/>
                                 </constraints>
@@ -228,7 +230,8 @@
                                 </cells>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="5sg-4a-PmU"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="v9i-Ik-roA" firstAttribute="trailing" secondItem="Js6-KW-aaI" secondAttribute="trailing" id="H1o-UV-ntl"/>
                             <constraint firstItem="Js6-KW-aaI" firstAttribute="top" secondItem="v9i-Ik-roA" secondAttribute="bottom" id="J9z-Rz-RAV"/>
@@ -240,7 +243,6 @@
                             <constraint firstItem="Js6-KW-aaI" firstAttribute="leading" secondItem="5sg-4a-PmU" secondAttribute="leading" id="rxq-EY-6z5"/>
                             <constraint firstItem="PdA-J9-7QQ" firstAttribute="centerY" secondItem="SAX-mE-Zb7" secondAttribute="centerY" id="x7E-aE-Q5d"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="5sg-4a-PmU"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="C4C-GZ-bRA"/>
                     <navigationItem key="navigationItem" id="rXZ-gf-tM2"/>
@@ -290,5 +292,8 @@
         <namedColor name="unselectedFont">
             <color red="0.74509803921568629" green="0.74901960784313726" blue="0.76470588235294112" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

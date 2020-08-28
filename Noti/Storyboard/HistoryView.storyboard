@@ -109,7 +109,7 @@
                                 </cells>
                             </collectionView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="95" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="etd-5I-hXs">
-                                <rect key="frame" x="0.0" y="119" width="414" height="694"/>
+                                <rect key="frame" x="0.0" y="119" width="414" height="777"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="customCell" rowHeight="95" id="Hju-x4-nYI" customClass="HomeTableViewCell" customModule="Noti" customModuleProvider="target">
@@ -249,7 +249,7 @@
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="uPU-D1-az7"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="dGT-ge-nBF" firstAttribute="leading" secondItem="1De-Rr-WXR" secondAttribute="leading" id="05y-2f-gI0"/>
                             <constraint firstItem="71i-ki-3Kf" firstAttribute="centerX" secondItem="Mva-rT-hFN" secondAttribute="centerX" id="3hW-Kc-rZs"/>
@@ -259,16 +259,15 @@
                             <constraint firstItem="etd-5I-hXs" firstAttribute="top" secondItem="uPU-D1-az7" secondAttribute="top" constant="75" id="Tte-RS-Y60"/>
                             <constraint firstItem="1De-Rr-WXR" firstAttribute="top" secondItem="uPU-D1-az7" secondAttribute="top" id="WvE-BT-tz0"/>
                             <constraint firstItem="71i-ki-3Kf" firstAttribute="centerY" secondItem="Mva-rT-hFN" secondAttribute="centerY" id="Xke-uo-Xce"/>
-                            <constraint firstItem="etd-5I-hXs" firstAttribute="bottom" secondItem="uPU-D1-az7" secondAttribute="bottom" id="dUr-M6-m8I"/>
                             <constraint firstItem="etd-5I-hXs" firstAttribute="leading" secondItem="uPU-D1-az7" secondAttribute="leading" id="e1b-7D-QbB"/>
                             <constraint firstItem="Z2d-52-SNh" firstAttribute="centerX" secondItem="uPU-D1-az7" secondAttribute="centerX" id="j4Q-Bl-uTI"/>
+                            <constraint firstAttribute="bottom" secondItem="etd-5I-hXs" secondAttribute="bottom" id="mgk-10-HS1"/>
                             <constraint firstItem="Z2d-52-SNh" firstAttribute="centerY" secondItem="uPU-D1-az7" secondAttribute="centerY" id="qDO-U2-ikm"/>
                             <constraint firstItem="1De-Rr-WXR" firstAttribute="leading" secondItem="Mva-rT-hFN" secondAttribute="leading" id="ruR-Kb-1ef"/>
                             <constraint firstItem="dGT-ge-nBF" firstAttribute="trailing" secondItem="1De-Rr-WXR" secondAttribute="trailing" id="ttz-1y-Hmi"/>
                             <constraint firstItem="dGT-ge-nBF" firstAttribute="top" secondItem="1De-Rr-WXR" secondAttribute="bottom" id="zzi-8r-9kF"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="7ZV-JZ-Ked"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="activityIndicator" destination="Z2d-52-SNh" id="fAX-GB-blB"/>
@@ -280,7 +279,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="809-Ce-QsF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="417" y="794"/>
+            <point key="canvasLocation" x="415.94202898550731" y="793.52678571428567"/>
         </scene>
         <!--HomeDetailView-->
         <scene sceneID="yjP-s1-ptU">
@@ -300,6 +299,9 @@
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGroupedBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPinkColor">
             <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

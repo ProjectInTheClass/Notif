@@ -142,6 +142,7 @@ class HistoryViewController: UIViewController{
     override func viewDidLoad() {
         print("@뷰가 처음 로드됨")
         navigationItem.title = "히스토리"
+        
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.clear]
         updateTitle(title: "전체")
         updateSubTitle(subTitle: "전체")
@@ -165,6 +166,30 @@ class HistoryViewController: UIViewController{
         rightView.addSubview(unreadButton)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadData(_:)), name: NSNotification.Name("ReloadHistoryView"), object: nil)
+        self.tabBarController?.tabBar.barStyle = .default
+        
+        historyTable.refreshControl = UIRefreshControl()
+        historyTable.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+        historyTable.refreshControl?.transform = CGAffineTransform(scaleX: 0.75, y: 0.75) 
+    }
+    
+    @objc func handleRefreshControl() {
+       // Update your content…
+        print("scrolled")
+        DispatchQueue.main.async {
+           self.historyTable.refreshControl?.beginRefreshing()
+        }
+        CoreDataManager.shared.setData()
+        loadData()
+        updateCardsAndTitle()
+        selectedTag = [Int]()
+        channelCollection.reloadData()
+        tagCollection.reloadData()
+
+       // Dismiss the refresh control.
+       DispatchQueue.main.async {
+          self.historyTable.refreshControl?.endRefreshing()
+       }
     }
     
     @objc func reloadData(_ notification: Notification?) {
@@ -176,23 +201,25 @@ class HistoryViewController: UIViewController{
     
     override func viewDidAppear(_ animated: Bool) {
         print("@뷰가 어피어됨")
-//        if(changeTagOrChannel.tagOrChannelModified == 1){
-            print("@@modified")
         if (isFirstRead)    {
             CoreDataManager.shared.setData()
             isFirstRead = false
+            loadData()
+            updateCardsAndTitle()
+            selectedTag = [Int]()
+            channelCollection.reloadData()
+            tagCollection.reloadData()
         }
+        if(changeTagOrChannel.tagOrChannelModified == 1){
             loadData()
             updateCardsAndTitle()
             selectedTag = [Int]()
             channelCollection.reloadData()
             tagCollection.reloadData()
             changeTagOrChannel.tagOrChannelModified = 0
-//        }
+        }
         activityIndicator.stopAnimating()
         historyTable.reloadData()
-        self.tabBarController?.tabBar.isTranslucent = true
-        self.tabBarController?.tabBar.backgroundImage = nil
     }
     
     @IBAction func unreadButtonIsSelected(_ sender: UIButton) {

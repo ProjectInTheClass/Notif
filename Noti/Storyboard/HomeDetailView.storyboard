@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="2" translatesAutoresizingMaskIntoConstraints="NO" id="VgU-SR-iqB">
-                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9g0-71-2Dc">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="197"/>
@@ -115,7 +115,7 @@
                             <constraint firstItem="VgU-SR-iqB" firstAttribute="leading" secondItem="FbZ-pW-aMI" secondAttribute="leading" id="Lgk-uy-cbs"/>
                             <constraint firstItem="3v2-zx-Jot" firstAttribute="centerY" secondItem="0AH-Nm-khP" secondAttribute="centerY" id="NgS-Eh-3tX"/>
                             <constraint firstItem="FbZ-pW-aMI" firstAttribute="trailing" secondItem="VgU-SR-iqB" secondAttribute="trailing" id="Vw4-QN-xyW"/>
-                            <constraint firstItem="VgU-SR-iqB" firstAttribute="bottom" secondItem="FbZ-pW-aMI" secondAttribute="bottom" id="Y8i-Jn-upE"/>
+                            <constraint firstItem="VgU-SR-iqB" firstAttribute="bottom" secondItem="0AH-Nm-khP" secondAttribute="bottom" id="Y8i-Jn-upE"/>
                             <constraint firstItem="3v2-zx-Jot" firstAttribute="centerX" secondItem="0AH-Nm-khP" secondAttribute="centerX" id="ZWK-rm-UWR"/>
                             <constraint firstItem="9g0-71-2Dc" firstAttribute="width" secondItem="FbZ-pW-aMI" secondAttribute="width" id="nDL-tR-xDR"/>
                         </constraints>

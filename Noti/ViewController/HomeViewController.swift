@@ -13,7 +13,7 @@ class HomeViewController: UIViewController {
     var arr = [Tag]()
     var recommendTags = [Tag]()
     var cards : [WeeklyCard]?
-    var coreDataTag = CoreDataManager.shared.getTags()
+    var coreDataTag : [Tags]?
     
     @IBOutlet weak var otherView: UIView!
     @IBOutlet weak var tagLabel: UILabel!
@@ -30,15 +30,25 @@ class HomeViewController: UIViewController {
             tagLabel.text = "총 \(arr.count)개의 태그"
         }
     }
+    func updateTag(){
+        arr = [Tag]()
+        coreDataTag = CoreDataManager.shared.getTags()
+        for num in 0..<coreDataTag!.count {
+            arr.append(Tag(title: coreDataTag![num].name!, time: coreDataTag![num].time! as NSDate, selected: false))
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
 //        CoreDataManager.shared.setData()
-        for num in 0..<coreDataTag.count {
-            arr.append(Tag(title: coreDataTag[num].name!, time: coreDataTag[num].time! as NSDate, selected: false))
+        let launchBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
+        if !launchBefore{
+            UserDefaults.standard.set(true, forKey: "launchedBefore")
+            CoreDataManager.shared.setData()
         }
-        
+        updateTag()
+        updateTagSubTitle()
         // unReadButton 만들기
         let rightView = UIView()
         rightView.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
@@ -49,9 +59,6 @@ class HomeViewController: UIViewController {
         unreadButton.setImage(UIImage(systemName: "plus"), for: .normal)
         unreadButton.addTarget(self, action: #selector(addPressed), for: .touchUpInside)
         rightView.addSubview(unreadButton)
-        
-        
-        updateTagSubTitle()
         
         otherView.layer.shadowColor = UIColor.black.cgColor // 검정색 사용
         otherView.layer.masksToBounds = false
@@ -66,11 +73,14 @@ class HomeViewController: UIViewController {
         cards = CoreDataManager.shared.getWeeklyCardFromServer()
         self.recommendTagCollection.reloadData()
         self.weeklyTable.reloadData()
+        self.tagCollection.reloadData()
         navigationController?.navigationBar.isHidden = true
-
-        
+        if(changeTagOrChannel.tagOrChannelModified == 1){
+            updateTag()
+            updateTagSubTitle()
+        }
+       
     }
-    
     // 추가버튼 눌렸을때
     @IBAction func addPressed(_ sender: Any) {
         let alertController = UIAlertController(title: "태그 추가하기", message: "추가할 태그의 이름을 입력해주세요", preferredStyle: .alert)
@@ -79,14 +89,13 @@ class HomeViewController: UIViewController {
         let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
             let textField = alertController.textFields![0]
             if let newTag = textField.text, newTag != "" {
-                if(newTag.contains(" ")){
-                    return
-                }
-                else if(newTag.count >= 10){
+                if(newTag.contains(" ") || newTag.count >= 10){
+                    self.tagAllowAction(action: 1)
                     return
                 }
                 for i in 0..<self.arr.count{
                     if self.arr[i].title == newTag{
+                        self.tagAllowAction(action: 2)
                         return
                     }
                 }
@@ -101,15 +110,14 @@ class HomeViewController: UIViewController {
                 self.tagCollection.collectionViewLayout.invalidateLayout()
                 self.updateTagSubTitle()
                 changeTagOrChannel.tagOrChannelModified = 1
+                self.tagAllowAction(action: 0)
             }
 
         }
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
-        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in}
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)
         self.present(alertController, animated: true, completion: nil)
-
     }
     @IBAction func cancelPressed(_ sender: Any) {
         dismiss(animated: true, completion: nil)
@@ -117,7 +125,26 @@ class HomeViewController: UIViewController {
     @IBAction func donePressed(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-
+    func tagAllowAction(action : Int){
+        
+         switch action {
+         case 1:
+             let alertController = UIAlertController(title: "태그를 추가할 수 없습니다", message: "태그는 10자를 넘거나 \n공백을 포함할 수 없습니다.", preferredStyle: .alert)
+             let confirmAction = UIAlertAction(title: "확인", style: .default){_ in return}
+             alertController.addAction(confirmAction)
+             self.present(alertController, animated: true, completion: nil)
+         case 2:
+             let alertController = UIAlertController(title: "태그를 추가할 수 없습니다", message: "이미 등록된 태그입니다.", preferredStyle: .alert)
+             let confirmAction = UIAlertAction(title: "확인", style: .default){_ in return}
+             alertController.addAction(confirmAction)
+             self.present(alertController, animated: true, completion: nil)
+         default:
+             let alertController = UIAlertController(title: "태그 추가 완료", message: "새로운 태그가 등록되었습니다!", preferredStyle: .alert)
+             let confirmAction = UIAlertAction(title: "확인", style: .default){_ in return}
+             alertController.addAction(confirmAction)
+             self.present(alertController, animated: true, completion: nil)
+         }
+    }
 
 }
 
@@ -163,9 +190,9 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             var token = arr[indexPath.item]
             token.selected = false
             arr.remove(at: indexPath.item)
-            CoreDataManager.shared.removeChannelTag(tag: coreDataTag[indexPath.item].name!){onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.removeCardsTag(tag: coreDataTag[indexPath.item].name!){onSuccess in print("saved = \(onSuccess)")}
-            CoreDataManager.shared.removeTag(object: coreDataTag[indexPath.item])
+            CoreDataManager.shared.removeChannelTag(tag: coreDataTag![indexPath.item].name!){onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.removeCardsTag(tag: coreDataTag![indexPath.item].name!){onSuccess in print("saved = \(onSuccess)")}
+            CoreDataManager.shared.removeTag(object: coreDataTag![indexPath.item])
             tagCollection.deleteItems(at: [indexPath])
             tagCollection.reloadData()
             tagCollection.collectionViewLayout.invalidateLayout()
@@ -179,6 +206,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
                 for i in 0..<self.arr.count{
                     if self.arr[i].title == token.title{
+                        self.tagAllowAction(action: 2)
                         return
                     }
                 }
@@ -193,6 +221,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 self.tagCollection.collectionViewLayout.invalidateLayout()
                 self.updateTagSubTitle()
                 changeTagOrChannel.tagOrChannelModified = 1
+                self.tagAllowAction(action: 0)
             }
             let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
             }

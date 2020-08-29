@@ -33,7 +33,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        navigationController?.navigationBar.isHidden = true
 //        CoreDataManager.shared.setData()
         for num in 0..<coreDataTag.count {
             arr.append(Tag(title: coreDataTag[num].name!, time: coreDataTag[num].time! as NSDate, selected: false))
@@ -66,6 +66,7 @@ class HomeViewController: UIViewController {
         cards = CoreDataManager.shared.getWeeklyCardFromServer()
         self.recommendTagCollection.reloadData()
         self.weeklyTable.reloadData()
+        navigationController?.navigationBar.isHidden = true
 
         
     }
@@ -308,5 +309,25 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
         let headerView = UIView()
         headerView.backgroundColor = UIColor.clear
         return headerView
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "detailSegue") {
+            let destination = segue.destination as! detailViewController
+            if let cell = sender as? HomeTableViewCell {
+                guard let indexPath = weeklyTable.indexPathForSelectedRow else {return}
+                destination.title2 = cell.titleLabel.text
+                destination.source = cards![indexPath.row].source
+                destination.date = cards![indexPath.row].homeFormattedDate
+                destination.back2 = title
+                destination.url = cards![indexPath.row].url
+                destination.json = cards![indexPath.row].json
+//                destination.isFavorite = cards![indexPath.row].isFavorite
+                // 방문할경우 비짓처리하고 테이블뷰 리로드
+//                cards![indexPath.row].isVisited = true
+                CoreDataManager.shared.visitCards(url: cards![indexPath.row].url){ onSuccess in print("saved = \(onSuccess)")}
+//                weeklyTable.reloadData()
+            }
+        }
     }
 }

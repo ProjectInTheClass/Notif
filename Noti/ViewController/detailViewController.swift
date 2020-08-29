@@ -88,7 +88,7 @@ class detailViewController: UIViewController, UIScrollViewDelegate, UIPopoverPre
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        navigationController?.navigationBar.isHidden = false
         scrollView.delegate = self
 
         feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)

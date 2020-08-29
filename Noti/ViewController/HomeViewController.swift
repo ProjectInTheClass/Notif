@@ -14,6 +14,7 @@ class HomeViewController: UIViewController {
     var recommendTags = [Tag]()
     var cards : [WeeklyCard]?
     var coreDataTag : [Tags]?
+    var feedbackGenerator : UIImpactFeedbackGenerator? = nil
     
     @IBOutlet weak var otherView: UIView!
     @IBOutlet weak var tagLabel: UILabel!
@@ -40,6 +41,8 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+        feedbackGenerator?.prepare()
         navigationController?.navigationBar.isHidden = true
 //        CoreDataManager.shared.setData()
         let launchBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
@@ -164,7 +167,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         if collectionView == self.tagCollection{
             return arr.count
         }else{
-            return recommendTags.count
+            return min(recommendTags.count, 10)
         }
         
     }
@@ -186,6 +189,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     // 셀눌렸을떄, 삭제할때
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        feedbackGenerator?.impactOccurred()
         if collectionView == self.tagCollection{
             var token = arr[indexPath.item]
             token.selected = false
@@ -304,7 +308,7 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
         cell.titleLabel.text = cards?[indexPath.row].title
         cell.sourceLabel.text = cards?[indexPath.row].formattedSource
 //        cell.dateLabel.text = cards?[indexPath.row].homeFormattedDate
-        cell.dateLabel.text = ""
+        cell.dateLabel.text = String((cards?[indexPath.row].favoriteCount)!)
         cell.sourceColorView.backgroundColor = CoreDataManager.shared.colorWithHexString(hexString: (cards![indexPath.row].color) )
         cell.sourceLabel.textColor = .sourceFont
         cell.cellView?.backgroundColor = .cardFront
@@ -345,12 +349,14 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource{
             let destination = segue.destination as! detailViewController
             if let cell = sender as? HomeTableViewCell {
                 guard let indexPath = weeklyTable.indexPathForSelectedRow else {return}
+                let card = CoreDataManager.shared.getCardbyURL(url: cards![indexPath.row].url)
                 destination.title2 = cell.titleLabel.text
                 destination.source = cards![indexPath.row].source
                 destination.date = cards![indexPath.row].homeFormattedDate
                 destination.back2 = title
                 destination.url = cards![indexPath.row].url
                 destination.json = cards![indexPath.row].json
+                destination.isFavorite = (card != nil) ? card?.isFavorite : false
 //                destination.isFavorite = cards![indexPath.row].isFavorite
                 // 방문할경우 비짓처리하고 테이블뷰 리로드
 //                cards![indexPath.row].isVisited = true

@@ -538,14 +538,13 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
                 let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
                     let textField = alertController.textFields![0]
                     if let newTag = textField.text, newTag != "" {
-                        if(newTag.contains(" ")){
-                            return
-                        }
-                        else if(newTag.count >= 10){
+                        if(newTag.contains(" ") || newTag.count >= 10){
+                            self.tagAllowAction(action: 1)
                             return
                         }
                         for i in 0..<CoreDataManager.allTags!.count{
                             if(CoreDataManager.allTags![i].name == newTag){
+                                self.tagAllowAction(action: 2)
                                 return
                             }
                         }
@@ -558,6 +557,7 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
                         self.tagCollection.reloadData()
                         self.tagCollection.collectionViewLayout.invalidateLayout()
                         changeTagOrChannel.tagOrChannelModified = 1
+                        self.tagAllowAction(action: 0)
                     }
 
                 }
@@ -567,7 +567,6 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
                 alertController.addAction(confirmAction)
                 alertController.addAction(cancelAction)
                 self.present(alertController, animated: true, completion: nil)
-                return
             }
             else if(selectedTag.contains(indexPath.row)){
                 let index = selectedTag.firstIndex(of: indexPath.row)!
@@ -584,8 +583,27 @@ extension HistoryViewController: UICollectionViewDelegate, UICollectionViewDataS
         tagCollection.reloadData()
         historyTable.reloadData()
    }
-  
-
+    func tagAllowAction(action : Int){
+       
+        switch action {
+        case 1:
+            let alertController = UIAlertController(title: "태그를 추가할 수 없습니다", message: "태그는 10자를 넘거나 \n공백을 포함할 수 없습니다.", preferredStyle: .alert)
+            let confirmAction = UIAlertAction(title: "확인", style: .default){_ in return}
+            alertController.addAction(confirmAction)
+            self.present(alertController, animated: true, completion: nil)
+        case 2:
+            let alertController = UIAlertController(title: "태그를 추가할 수 없습니다", message: "이미 등록된 태그입니다.", preferredStyle: .alert)
+            let confirmAction = UIAlertAction(title: "확인", style: .default){_ in return}
+            alertController.addAction(confirmAction)
+            self.present(alertController, animated: true, completion: nil)
+        default:
+            let alertController = UIAlertController(title: "태그 추가 완료", message: "새로운 태그가 등록되었습니다!", preferredStyle: .alert)
+            let confirmAction = UIAlertAction(title: "확인", style: .default){_ in return}
+            alertController.addAction(confirmAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
+   }
+    
 }
 
 extension HistoryViewController: UICollectionViewDelegateFlowLayout {

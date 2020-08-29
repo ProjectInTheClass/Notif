@@ -208,6 +208,19 @@ class CoreDataManager{
                    onSuccess(success)
                }
     }
+    
+    func getCardbyURL(url: String) -> Card?{
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = filteredRequest(url : url)
+        do {
+            if let result: [Card] = try context?.fetch(fetchRequest) as? [Card] {
+                return result[0]
+            }
+        } catch{
+            fatalError("fetch error!")
+        }
+        return nil
+    }
+    
     func addFavoriteCard(url : String, onSuccess: @escaping ((Bool) -> Void)){
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = filteredRequest(url : url)
         var favoriteCard : Card
@@ -653,6 +666,7 @@ class CoreDataManager{
                     dateFormatter.dateFormat = "yy-MM-dd"
                 }
                 let time = dateFormatter.date(from: card["time_"] as! String)
+                dateFormatter.dateFormat = "yy-MM-dd"
                 let homeFormattedDate = dateFormatter.string(from: time!)
                 var color : UIColor
                 switch card["source"] as! String {
@@ -672,8 +686,9 @@ class CoreDataManager{
                 let url2 = (card["url"] as! String)
                 let json = ["":""]
                 let formattedSource = category + ((category.count == 0) ? "" : "-") + source
+                let favoriteCount = card["favorite"] as! Int
                 returnCards.append(WeeklyCard(title: title, source: source, category: category, time: time!, homeFormattedDate: homeFormattedDate, color: hexStringFromColor(color: color), url: url2
-                                              , json: json, formattedSource: formattedSource))
+                                              , json: json, formattedSource: formattedSource, favoriteCount: favoriteCount ))
             }
             
         } catch{

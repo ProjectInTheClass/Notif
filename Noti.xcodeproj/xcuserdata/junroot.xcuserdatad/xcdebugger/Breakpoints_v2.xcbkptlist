@@ -238,8 +238,8 @@
             filePath = "Noti/CoreDataManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "645"
-            endingLineNumber = "645"
+            startingLineNumber = "658"
+            endingLineNumber = "658"
             landmarkName = "getWeeklyCardFromServer()"
             landmarkType = "7">
          </BreakpointContent>
@@ -254,8 +254,8 @@
             filePath = "Noti/CoreDataManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "647"
-            endingLineNumber = "647"
+            startingLineNumber = "660"
+            endingLineNumber = "660"
             landmarkName = "getWeeklyCardFromServer()"
             landmarkType = "7">
          </BreakpointContent>

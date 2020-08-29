@@ -54,4 +54,5 @@ struct WeeklyCard {
     var url: String
     var json: [String: String]
     var formattedSource: String
+    var favoriteCount: Int
 }

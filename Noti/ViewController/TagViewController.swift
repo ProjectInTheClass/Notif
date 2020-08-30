@@ -15,7 +15,8 @@ class TagViewController: UIViewController {
     @IBOutlet weak var tagCollection: DynmicHeightCollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        tagCollection.translatesAutoresizingMaskIntoConstraints = false
+        tagCollection.isDynamicSizeRequired = true
         navigationItem.title = "태그"
         for num in 0..<coreDataTag.count {
             arr.append(Tag(title: coreDataTag[num].name!, time: coreDataTag[num].time! as NSDate, selected: false))

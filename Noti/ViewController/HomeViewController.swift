@@ -41,9 +41,11 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tagCollection.translatesAutoresizingMaskIntoConstraints = false
+        tagCollection.isDynamicSizeRequired = true
+        navigationController?.navigationBar.isHidden = true
         feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
         feedbackGenerator?.prepare()
-        navigationController?.navigationBar.isHidden = true
 //        CoreDataManager.shared.setData()
         let launchBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
         if !launchBefore{
@@ -72,12 +74,12 @@ class HomeViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = true
         recommendTags = CoreDataManager.shared.getTagFromServer()
         cards = CoreDataManager.shared.getWeeklyCardFromServer()
         self.recommendTagCollection.reloadData()
         self.weeklyTable.reloadData()
         self.tagCollection.reloadData()
-        navigationController?.navigationBar.isHidden = true
         if(changeTagOrChannel.tagOrChannelModified == 1){
             updateTag()
             updateTagSubTitle()

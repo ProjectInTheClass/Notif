@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17147" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qNW-vy-cFj">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina6_1" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17120"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -22,9 +23,9 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="1090" translatesAutoresizingMaskIntoConstraints="NO" id="ufG-Bp-gev" userLabel="Content">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1090"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1100"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Td6-SR-82g">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Td6-SR-82g" userLabel="TopView">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YRc-PR-2as">
@@ -61,11 +62,11 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sJY-kf-7IG">
-                                                <rect key="frame" x="0.0" y="100" width="414" height="150"/>
+                                                <rect key="frame" x="0.0" y="100" width="414" height="160"/>
                                                 <subviews>
                                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="3kK-n3-wEI" customClass="DynmicHeightCollectionView" customModule="Noti" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
-                                                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="414" height="160"/>
+                                                        <color key="backgroundColor" name="back"/>
                                                         <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="15" minimumInteritemSpacing="15" id="5ft-kq-0oD" customClass="TagCollViewFlowLayout" customModule="Noti" customModuleProvider="target">
                                                             <size key="itemSize" width="300" height="105"/>
                                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -94,11 +95,11 @@
                                                     <constraint firstItem="3kK-n3-wEI" firstAttribute="top" secondItem="sJY-kf-7IG" secondAttribute="top" id="T5h-6I-6F2"/>
                                                     <constraint firstItem="3kK-n3-wEI" firstAttribute="leading" secondItem="sJY-kf-7IG" secondAttribute="leading" id="UVW-AO-soJ"/>
                                                     <constraint firstAttribute="bottom" secondItem="3kK-n3-wEI" secondAttribute="bottom" id="ddY-av-wnV"/>
-                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="150" id="oJ1-CR-x7c"/>
+                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="160" id="oJ1-CR-x7c"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MZS-6N-FMa">
-                                                <rect key="frame" x="0.0" y="250" width="414" height="840"/>
+                                                <rect key="frame" x="0.0" y="260" width="414" height="840"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ewY-ax-wy3">
                                                         <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
@@ -292,7 +293,7 @@
                             </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="bs7-Kk-sVU"/>
-                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
+                        <color key="backgroundColor" name="back"/>
                         <constraints>
                             <constraint firstItem="2oS-dX-EF2" firstAttribute="width" secondItem="NvU-zf-olb" secondAttribute="width" id="5gS-bj-jdQ"/>
                             <constraint firstItem="2oS-dX-EF2" firstAttribute="top" secondItem="bs7-Kk-sVU" secondAttribute="top" id="KGK-nm-OXJ"/>
@@ -330,11 +331,11 @@
     <resources>
         <image name="heart.fill" catalog="system" width="128" height="109"/>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <namedColor name="back">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGroupedBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPinkColor">
             <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

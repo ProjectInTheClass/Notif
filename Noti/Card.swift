@@ -35,6 +35,7 @@ extension UIColor {
     static var sourceFont: UIColor { return UIColor(named: "unselectedFont")! }
     static var channelColor: UIColor { return UIColor(named: "channelColor")! }
     static var sectionFont: UIColor { return UIColor(named: "sectionFont")! }
+    static var myTag: UIColor { return UIColor(named: "myTag")! }
     
     static var sectionBackground: UIColor { return UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.7) }
     static var history: UIColor { return UIColor(red: 142/255, green: 142/255, blue: 147/255, alpha: 0.7) }

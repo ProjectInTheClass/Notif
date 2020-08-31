@@ -41,9 +41,9 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.isNavigationBarHidden = true
         tagCollection.translatesAutoresizingMaskIntoConstraints = false
         tagCollection.isDynamicSizeRequired = true
-        navigationController?.navigationBar.isHidden = true
         feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
         feedbackGenerator?.prepare()
 //        CoreDataManager.shared.setData()
@@ -74,7 +74,8 @@ class HomeViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        navigationController?.navigationBar.isHidden = true
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
         recommendTags = CoreDataManager.shared.getTagFromServer()
         cards = CoreDataManager.shared.getWeeklyCardFromServer()
         self.recommendTagCollection.reloadData()

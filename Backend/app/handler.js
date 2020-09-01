@@ -106,7 +106,7 @@ module.exports.crawler = (event, context, callback) => {
 												var params = {
 													MessageStructure: "json",
 													Message: JSON.stringify({
-													"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-학생생활관\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\", \"badge\": "+ result[i].badgeCount +"}}"
+													"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-"+sqlList[cardIndex][2]+"\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\", \"badge\": "+ result[i].badgeCount +"}, \"url\" : \""+sqlList[cardIndex][1]+"\"}"
 													}), /* required */
 													TargetArn: result[i].endpointarn
 												};
@@ -197,7 +197,7 @@ module.exports.crawler = (event, context, callback) => {
 											var params = {
 												MessageStructure: "json",
 												Message: JSON.stringify({
-												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-한양대학교\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\", \"badge\": "+ result[i].badgeCount +"}}"
+													"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-"+sqlList[cardIndex][2]+"\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\", \"badge\": "+ result[i].badgeCount +"}, \"url\" : \""+sqlList[cardIndex][1]+"\"}"
 												}), /* required */
 												TargetArn: result[i].endpointarn
 											};
@@ -315,7 +315,7 @@ module.exports.crawler = (event, context, callback) => {
 											var params = {
 												MessageStructure: "json",
 												Message: JSON.stringify({
-												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-기계공학부\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\", \"badge\": "+ result[i].badgeCount +"}}"
+													"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-"+sqlList[cardIndex][2]+"\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\", \"badge\": "+ result[i].badgeCount +"}, \"url\" : \""+sqlList[cardIndex][1]+"\"}"
 												}), /* required */
 												TargetArn: result[i].endpointarn
 											};
@@ -422,7 +422,7 @@ module.exports.crawler = (event, context, callback) => {
 											var params = {
 												MessageStructure: "json",
 												Message: JSON.stringify({
-												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-경영학부\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, , \"badge\": "+ result[i].badgeCount +"}}"
+													"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-"+sqlList[cardIndex][2]+"\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\", \"badge\": "+ result[i].badgeCount +"}, \"url\" : \""+sqlList[cardIndex][1]+"\"}"
 												}), /* required */
 												TargetArn: result[i].endpointarn
 											};
@@ -593,7 +593,7 @@ module.exports.crawler = (event, context, callback) => {
 											var params = {
 												MessageStructure: "json",
 												Message: JSON.stringify({
-												"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-컴퓨터소프트웨어학부\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\", \"badge\": "+ result[i].badgeCount +"}}"
+													"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-"+sqlList[cardIndex][2]+"\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\", \"badge\": "+ result[i].badgeCount +"}, \"url\" : \""+sqlList[cardIndex][1]+"\"}"
 												}), /* required */
 												TargetArn: result[i].endpointarn
 											};

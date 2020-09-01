@@ -13,6 +13,7 @@ import UserNotifications
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate{
 
+    
     lazy var persistentContainer : NSPersistentContainer = {
         let container = NSPersistentContainer(name: "NotiModels")
         container.loadPersistentStores(completionHandler:{ (NSPersistentStoreDescription, error) in
@@ -44,6 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //            }
 //        })
         
+        UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current()
           .requestAuthorization(options: [.alert, .sound, .badge]) {
             [weak self] granted, error in
@@ -54,6 +56,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         return true
     }
+    
+    
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         // Convert token to string (디바이스 토큰 값을 가져옵니다.)
@@ -89,7 +93,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func getNotificationSettings() {
-      UNUserNotificationCenter.current().getNotificationSettings { settings in
+        let viewAction = UNNotificationAction(identifier: "acceptAction", title: "Accept", options: [UNNotificationActionOptions.foreground])
+        let viewCategory = UNNotificationCategory(identifier: "newPost", actions: [viewAction], intentIdentifiers: [], options: [])
+        UNUserNotificationCenter.current().setNotificationCategories([viewCategory])
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
         print("Notification settings: \(settings)")
         guard settings.authorizationStatus == .authorized else { return }
         DispatchQueue.main.async {
@@ -112,6 +119,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //    }
     
     
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print("userNotificationCenter\n\(response.actionIdentifier)")
+        let storyboard = UIStoryboard(name: "HomeDetailView", bundle: nil)
+        let viewController: detailViewController = storyboard.instantiateViewController(identifier: "HomeDetailViewController") as! detailViewController
+        
+        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
+        let rootViewController = sceneDelegate.window?.rootViewController as! UITabBarController
+        if let navController = rootViewController.selectedViewController as? UINavigationController {
+            CoreDataManager.shared.setData()
+            let url = response.notification.request.content.userInfo["url"] as! String
+            let card = CoreDataManager.shared.getCardbyURL(url: url)
+            viewController.title2 = card?.title
+            viewController.date = card?.homeFormattedDate
+            viewController.url = url
+            viewController.source = card?.source
+            viewController.isFavorite = (card != nil) ? card?.isFavorite : false
+            CoreDataManager.shared.visitCards(url: url){ onSuccess in print("saved = \(onSuccess)")}
+            
+            navController.pushViewController(viewController, animated: true)
+        }
+//        switch response.actionIdentifier {
+//           case "acceptAction":
+//              break
+//           default:
+//              break
+//           }
+        completionHandler()
+    }
     // Push notification received
         func application(_ application: UIApplication, didReceiveRemoteNotification data: [AnyHashable : Any]) {
             // Print notification payload data (푸시 데이터로 받은 것을 보여줍니다.)
@@ -122,7 +157,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let dict = data as! [String : Any]
             let alert = dict["aps"] as! [String : String]
            
-            content.title = alert["alert"]!
+//            content.title = alert["alert"]!
+            content.title = ""
             content.subtitle = ""
             content.body = ""
             content.badge = 1

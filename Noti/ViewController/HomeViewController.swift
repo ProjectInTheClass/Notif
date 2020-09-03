@@ -21,7 +21,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var tagCollection: DynmicHeightCollectionView!
     @IBOutlet weak var recommendTagCollection: DynmicHeightCollectionView!
     @IBOutlet weak var weeklyTable: UITableView!
-    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     
     func updateTagSubTitle(){
@@ -41,6 +41,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.activityIndicator.hidesWhenStopped = true
         self.navigationController?.isNavigationBarHidden = true
         tagCollection.translatesAutoresizingMaskIntoConstraints = false
         tagCollection.isDynamicSizeRequired = true
@@ -70,6 +71,7 @@ class HomeViewController: UIViewController {
         otherView.layer.shadowOffset = CGSize(width: 1, height: -2) //반경
         otherView.layer.shadowRadius = 4 // 반경?
         otherView.layer.shadowOpacity = 0.2 //
+        activityIndicator.startAnimating()
 
     }
     
@@ -81,6 +83,7 @@ class HomeViewController: UIViewController {
         self.recommendTagCollection.reloadData()
         self.weeklyTable.reloadData()
         self.tagCollection.reloadData()
+        activityIndicator.stopAnimating()
         if(changeTagOrChannel.tagOrChannelModified == 1){
             updateTag()
             updateTagSubTitle()

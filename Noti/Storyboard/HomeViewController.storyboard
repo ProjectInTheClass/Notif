@@ -289,11 +289,16 @@
                                 <viewLayoutGuide key="contentLayoutGuide" id="BVj-6n-c4z"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="suf-nc-2h8"/>
                             </scrollView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="XOL-hs-OVc">
+                                <rect key="frame" x="197" y="438" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" name="back"/>
                         <constraints>
+                            <constraint firstItem="XOL-hs-OVc" firstAttribute="centerX" secondItem="NvU-zf-olb" secondAttribute="centerX" id="3R1-Ck-fgM"/>
                             <constraint firstItem="2oS-dX-EF2" firstAttribute="width" secondItem="NvU-zf-olb" secondAttribute="width" id="5gS-bj-jdQ"/>
                             <constraint firstItem="2oS-dX-EF2" firstAttribute="top" secondItem="bs7-Kk-sVU" secondAttribute="top" id="KGK-nm-OXJ"/>
+                            <constraint firstItem="XOL-hs-OVc" firstAttribute="centerY" secondItem="NvU-zf-olb" secondAttribute="centerY" id="KNE-UA-Qs2"/>
                             <constraint firstAttribute="bottom" secondItem="2oS-dX-EF2" secondAttribute="bottom" id="POJ-GD-x6D"/>
                             <constraint firstItem="2oS-dX-EF2" firstAttribute="leading" secondItem="bs7-Kk-sVU" secondAttribute="leading" id="WIR-2q-Om7"/>
                             <constraint firstItem="ufG-Bp-gev" firstAttribute="width" secondItem="NvU-zf-olb" secondAttribute="width" id="b0O-q0-Wht"/>
@@ -304,6 +309,7 @@
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="XOL-hs-OVc" id="wCD-FF-2na"/>
                         <outlet property="otherView" destination="MZS-6N-FMa" id="0fb-Bh-yeJ"/>
                         <outlet property="recommendTagCollection" destination="lsn-X4-k0R" id="PMV-0W-OUi"/>
                         <outlet property="tagCollection" destination="3kK-n3-wEI" id="QOJ-kj-TX2"/>

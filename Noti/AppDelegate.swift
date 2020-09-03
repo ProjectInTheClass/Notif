@@ -54,6 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             guard granted else { return }
             self?.getNotificationSettings()
         }
+        Thread.sleep(forTimeInterval: 5.0)
         return true
     }
     

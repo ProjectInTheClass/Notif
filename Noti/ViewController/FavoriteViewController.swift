@@ -15,8 +15,8 @@ class FavoriteViewController: UIViewController {
     var saveCards : [Card]?
     var tagString : [String] = []
     var selectedTag = [Int]()
+    var allCards : [Card]?
     
-
     @IBOutlet weak var HomeTableView: UITableView!
     @IBOutlet weak var TagCollectionView: UICollectionView!
     @IBOutlet weak var noDataLabel: UILabel!
@@ -33,18 +33,24 @@ class FavoriteViewController: UIViewController {
     }
     
     func loadData(){
+        if(HistoryViewController.allCards.count == 0){
+            allCards = CoreDataManager.shared.getCards()
+        }
+        else{
+            allCards = HistoryViewController.allCards
+        }
         cards = [Card]()
         tagString = [String]()
-        for i in 0..<HistoryViewController.allCards.count{
-            if(HistoryViewController.allCards[i].isFavorite == true){
-                cards!.append(HistoryViewController.allCards[i])
-                for j in 0..<HistoryViewController.allCards[i].tag!.count{
-                    if(!tagString.contains(HistoryViewController.allCards[i].tag![j]) && HistoryViewController.allCards[i].tag![j] != ""){
+        for i in 0..<allCards!.count{
+            if(allCards![i].isFavorite == true){
+                cards!.append(allCards![i])
+                for j in 0..<allCards![i].tag!.count{
+                    if(!tagString.contains(allCards![i].tag![j]) && allCards![i].tag![j] != ""){
                         if(tagString.count == 1 && tagString[0] == ""){
-                            tagString[0] = HistoryViewController.allCards[i].tag![j]
+                            tagString[0] = allCards![i].tag![j]
                         }
                         else{
-                            tagString.append(HistoryViewController.allCards[i].tag![j])
+                            tagString.append(allCards![i].tag![j])
                         }
                     }
                 }

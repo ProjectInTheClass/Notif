@@ -155,8 +155,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             
             let content = UNMutableNotificationContent()
                    
-            let dict = data as! [String : Any]
-            let alert = dict["aps"] as! [String : String]
+//            let dict = data as! [String : Any]
+//            let alert = dict["aps"] as! [String : String]
            
 //            content.title = alert["alert"]!
             content.title = ""

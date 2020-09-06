@@ -571,7 +571,7 @@ class CoreDataManager{
             dateFormatter.dateFormat = "yy-MM-dd"
             let today = Date()
             let calendar = Calendar(identifier: .gregorian)
-            let dayOffset = DateComponents(day: -30)
+            let dayOffset = DateComponents(day: -60)
             let firstDate = calendar.date(byAdding: dayOffset, to: today)!
             CoreDataManager.shared.saveUpdated(date: dateFormatter.string(from: firstDate)){ onSuccess in }
             lastUpdated = CoreDataManager.shared.getUpdated()

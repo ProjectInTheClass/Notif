@@ -227,12 +227,11 @@ class detailViewController: UIViewController, UIScrollViewDelegate, UIPopoverPre
                     mutableAttributedString.enumerateAttribute(NSAttributedString.Key.attachment , in: NSMakeRange(0, mutableAttributedString.length) , options: .init(rawValue: 0), using: {(value, range, stop) in
                         if let attachment = value as? NSTextAttachment {
                             let image = attachment.image(forBounds: attachment.bounds, textContainer: NSTextContainer(), characterIndex: range.location)!
-                            let maxWidth = self.contentTextView.frame.size.width
+                            let maxWidth = self.contentTextView.frame.size.width - 6
                             if image.size.width > maxWidth {
                                 let newSize = CGSize(width: maxWidth, height: image.size.height*(maxWidth/image.size.width))
                                 let rect = CGRect(origin: CGPoint.zero, size: newSize)
-                                
-                                UIGraphicsBeginImageContext(newSize)
+                                UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
                                 image.draw(in: rect)
                                 let newImage = UIGraphicsGetImageFromCurrentImageContext()
                                 UIGraphicsEndImageContext()

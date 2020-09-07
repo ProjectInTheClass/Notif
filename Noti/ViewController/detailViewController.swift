@@ -62,7 +62,7 @@ extension StringProtocol {
     }
 }
 
-class detailViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresentationControllerDelegate, PopoverContentControllerDelegate, UIGestureRecognizerDelegate {
+class detailViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresentationControllerDelegate, PopoverContentControllerDelegate, UIGestureRecognizerDelegate, CustomActivityDelegate {
     
     
     var title2: String?
@@ -309,13 +309,20 @@ class detailViewController: UIViewController, UIScrollViewDelegate, UIPopoverPre
     
     func showShareActivity(){
         let sharedText = [url]
-        let activityVc = UIActivityViewController(activityItems: sharedText as [Any], applicationActivities: nil)
+        let customActivity = CustomActivity()
+        customActivity.delegate = self
+        let activityVc = UIActivityViewController(activityItems: sharedText as [Any], applicationActivities: [customActivity])
         
         activityVc.isModalInPresentation = true
         activityVc.popoverPresentationController?.sourceView = self.view
         //activityVc.excludedActivityTypes = [UIActivity.ActivityType.airDrop, UIActivity.ActivityType.postToFacebook]
         present(activityVc, animated: true, completion: nil)
     }
+    
+    func performActionCompletion(activity: CustomActivity){
+        UIPasteboard.general.string = title2! + "\n" + url!
+    }
+    
     /*
     // MARK: - Navigation
 
@@ -328,3 +335,38 @@ class detailViewController: UIViewController, UIScrollViewDelegate, UIPopoverPre
 
 }
 
+protocol CustomActivityDelegate : NSObjectProtocol{
+    func performActionCompletion(activity: CustomActivity)
+}
+class CustomActivity: UIActivity{
+    weak var delegate : CustomActivityDelegate?
+    
+    override class var activityCategory: UIActivity.Category{
+        return .action
+    }
+    
+    override var activityType: UIActivity.ActivityType?{
+        guard let bundleId = Bundle.main.bundleIdentifier else {return nil}
+        return UIActivity.ActivityType(rawValue: bundleId + "\(self.classForCoder)")
+    }
+    
+    override var activityTitle: String?{
+        return "제목과 함께 공유하기"
+    }
+    
+    override var activityImage: UIImage?{
+        return UIImage(systemName: "paperclip")
+    }
+    
+    override func canPerform(withActivityItems activityItems: [Any]) -> Bool {
+        return true
+    }
+    
+    override func prepare(withActivityItems activityItems: [Any]) {
+
+    }
+    override func perform() {
+        self.delegate?.performActionCompletion(activity: self)
+        activityDidFinish(true)
+    }
+}

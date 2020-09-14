@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QfW-AG-M9D">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QfW-AG-M9D">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -141,6 +141,13 @@
                                     <outlet property="delegate" destination="QfW-AG-M9D" id="jPm-A6-lZE"/>
                                 </connections>
                             </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B8I-w0-aVJ" userLabel="Pop" customClass="PopMessage" customModule="Noti" customModuleProvider="target">
+                                <rect key="frame" x="15" y="758" width="384" height="45"/>
+                                <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="ZIL-iE-ZG8"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -148,12 +155,21 @@
                             <constraint firstAttribute="bottom" secondItem="w6u-Ji-ZEd" secondAttribute="bottom" id="AwQ-n1-Pgt"/>
                             <constraint firstItem="w6u-Ji-ZEd" firstAttribute="leading" secondItem="vbV-lZ-YbM" secondAttribute="leading" id="DEf-Ya-rAg"/>
                             <constraint firstItem="w6u-Ji-ZEd" firstAttribute="top" secondItem="vbV-lZ-YbM" secondAttribute="top" id="F29-xe-laQ"/>
+                            <constraint firstItem="vbV-lZ-YbM" firstAttribute="trailing" secondItem="B8I-w0-aVJ" secondAttribute="trailing" constant="15" id="QLA-0E-2wg"/>
+                            <constraint firstItem="vbV-lZ-YbM" firstAttribute="bottom" secondItem="B8I-w0-aVJ" secondAttribute="bottom" priority="100" constant="10" id="gem-e8-1qZ"/>
+                            <constraint firstItem="vbV-lZ-YbM" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="B8I-w0-aVJ" secondAttribute="bottom" constant="10" id="m4O-1P-rCn"/>
+                            <constraint firstItem="B8I-w0-aVJ" firstAttribute="leading" secondItem="vbV-lZ-YbM" secondAttribute="leading" constant="15" id="sLl-2g-Ppv"/>
+                            <constraint firstItem="B8I-w0-aVJ" firstAttribute="centerX" secondItem="Lta-Ay-25Z" secondAttribute="centerX" id="zqi-2p-iEa"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="vbV-lZ-YbM"/>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="oLv-aA-H6k"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="popMessage" destination="B8I-w0-aVJ" id="KuH-sS-Av4"/>
+                        <outlet property="popMessageBottomConstraint" destination="gem-e8-1qZ" id="ed7-iZ-dZY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rum-jq-xjY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

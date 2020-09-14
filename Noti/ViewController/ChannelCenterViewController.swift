@@ -10,12 +10,20 @@ import UIKit
 
 class ChannelCenterViewController: UIViewController {
     var channels = [Channel]()
-    
     var categories = [String]()
     var channelsInDB = ["학사-한양대학교":"hyhs", "입학-한양대학교":"hyih", "모집/채용-한양대학교":"hymjcy","사회봉사-한양대학교":"hyshbs", "일반-한양대학교":"hyib", "산학/연구-한양대학교":"hyshyg","행사-한양대학교":"hyhs2", "장학-한양대학교":"hyjh","학회/세미나-한양대학교":"hyhhsmn", "공지사항-기계공학부":"megjsh", "학사일반-컴퓨터소프트웨어학부":"cshsib", "취업정보-컴퓨터소프트웨어학부":"cscujb","공지사항-경영학부":"bsgjsh","공지사항-학생생활관":"dmgjsh", "모집안내-학생생활관":"dmmjan"]
     var feedbackGenerator : UIImpactFeedbackGenerator? = nil
+    var popMessageFeedbackGenerator : UINotificationFeedbackGenerator? = nil
+    private var enabled = false
     
-    //        @IBOutlet weak var historyTable: UITableView!
+    
+
+    
+    @IBOutlet weak var popMessage: PopMessage!
+    @IBOutlet weak var popMessageBottomConstraint: NSLayoutConstraint!
+    var underTheUI = CGFloat()
+    
+            @IBOutlet weak var historyTable: UITableView!
     func loadData(){
         channels = CoreDataManager.shared.getChannels().filter{ $0.title! != "전체"}
         channels = channels.sorted(by: {$0.group! < $1.group!})
@@ -32,6 +40,55 @@ class ChannelCenterViewController: UIViewController {
 
         let leftItem = UIBarButtonItem(customView: longTitleLabel)
         self.navigationItem.leftBarButtonItem = leftItem
+    }
+    private func reset(){
+        enabled = false
+    }
+    func popMessage(message: NSAttributedString){
+        let options: UIView.AnimationOptions = [.curveEaseInOut
+        ]
+        
+        feedbackGenerator?.impactOccurred()
+        popMessage.setLabel(messages: message)
+        if(!enabled){
+            enabled = true
+            popMessageBottomConstraint.constant = 10
+            UIView.animate(withDuration: 0.5,
+                         delay: 0,
+                         options: options,
+                         animations: { [weak self] in
+                          self?.view.layoutIfNeeded()
+
+                }, completion: { finished in
+                    self.popMessageBottomConstraint.constant = -100
+                    UIView.animate(withDuration: 0.5,
+                                 delay: 3,
+                                 options: options,
+                                 animations: { [weak self] in
+                                  self?.view.layoutIfNeeded()
+                                 }, completion: { finished in
+                                    self.reset()
+                                 })
+            })
+        }
+        
+//        UIView.animate(withDuration: 0.5,
+//                     delay: 0,
+//                     options: options,
+//                     animations: { [weak self] in
+//                      self?.view.layoutIfNeeded()
+//
+//            }, completion: nil)
+//
+//
+//        popMessageBottomConstraint.constant = -100
+//        UIView.animate(withDuration: 0.5,
+//                     delay: 3,
+//                     options: options,
+//                     animations: { [weak self] in
+//                      self?.view.layoutIfNeeded()
+//        }, completion: nil)
+    
     }
     
     @IBAction func notificationButton(_ sender: UIButton) {
@@ -82,13 +139,38 @@ class ChannelCenterViewController: UIViewController {
 //        sectionChannels[selectedChannel.item].isSubscribed = !sectionChannels[selectedChannel.item].isSubscribed
 //    }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+//        let options: UIView.AnimationOptions = [.curveEaseInOut
+//        ]
+//
+//        popMessageBottomConstraint.constant = 10
+//
+//        UIView.animate(withDuration: 0.5,
+//                     delay: 0,
+//                     options: options,
+//                     animations: { [weak self] in
+//                      self?.view.layoutIfNeeded()
+//        }, completion: nil)
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        underTheUI = 10 - view.bounds.height
         feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
         feedbackGenerator?.prepare()
         loadData()
         updateTitle(title: "채널센터")
         //네비게이션바 배경색 넣어주는 코드
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        popMessageBottomConstraint.constant = underTheUI
+//        let underTheUI = 10 - view.bounds.height
     }
     
     /*
@@ -166,33 +248,50 @@ extension ChannelCenterViewController: UICollectionViewDelegate, UICollectionVie
         CoreDataManager.shared.subscribedChannel(subtitle: sectionChannels[indexPath.row].subtitle!, source: sectionChannels[indexPath.row].source!){ onSuccess in print("saved = \(onSuccess)")}
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "channel", for: indexPath) as! ChannelCollectionViewCell
-                 if (!sectionChannels[indexPath.item].isSubscribed && sectionChannels[indexPath.row].alarm) {
-                        CoreDataManager.shared.notificationChannel(subtitle: sectionChannels[indexPath.item].subtitle!, source: sectionChannels[indexPath.item].source!) { onSuccess in print("saved = \(onSuccess)")}
-                            cell.notificationButton.setImage(UIImage(systemName: "bell"), for: .normal)
-                     let tokenString = CoreDataManager.shared.getToken()
-                     let urlString = "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/channel/"+channelsInDB[sectionChannels[indexPath.item].subtitle!+"-"+sectionChannels[indexPath.item].source!]!+"/0/"+tokenString!
-                     guard let url = URL(string: urlString) else {return }
+        if (!sectionChannels[indexPath.item].isSubscribed && sectionChannels[indexPath.row].alarm) {
+            CoreDataManager.shared.notificationChannel(subtitle: sectionChannels[indexPath.item].subtitle!, source: sectionChannels[indexPath.item].source!) { onSuccess in print("saved = \(onSuccess)")}
+                cell.notificationButton.setImage(UIImage(systemName: "bell"), for: .normal)
+         let tokenString = CoreDataManager.shared.getToken()
+         let urlString = "https://wdjzl50cnh.execute-api.ap-northeast-2.amazonaws.com/RDS/channel/"+channelsInDB[sectionChannels[indexPath.item].subtitle!+"-"+sectionChannels[indexPath.item].source!]!+"/0/"+tokenString!
+         guard let url = URL(string: urlString) else {return }
 
-                     var request = URLRequest(url: url)
+         var request = URLRequest(url: url)
 
-                     request.httpMethod = "get"
+         request.httpMethod = "get"
 
-                     let session = URLSession.shared
-                     //URLSession provides the async request
-                     let task = session.dataTask(with: request) { data, response, error in
-                          if let error = error {
-                              print("Error took place \(error)")
-                              return
-                          }
-                          if let response = response as? HTTPURLResponse {
-                              print(response)
-                          }
-                      }
-                     // Check if Error took place
-                     
-                      task.resume()
-                 }
+         let session = URLSession.shared
+         //URLSession provides the async request
+         let task = session.dataTask(with: request) { data, response, error in
+              if let error = error {
+                  print("Error took place \(error)")
+                  return
+              }
+              if let response = response as? HTTPURLResponse {
+                  print(response)
+              }
+          }
+         // Check if Error took place
+         
+          task.resume()
+        }
+        
+        if (sectionChannels[indexPath.item].isSubscribed == false){
+            let text = sectionChannels[indexPath.row].subtitle! + "게시판 구독을 취소했습니다"
+            let atrStr = NSMutableAttributedString(string: text)
+            atrStr.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.sectionFont, range: (text as NSString).range(of:"구독을 취소했습니다"))
 
+            popMessage(message: atrStr)
+
+        }else {
+            let text = sectionChannels[indexPath.row].subtitle! + "게시판 구독을 시작합니다"
+            let atrStr = NSMutableAttributedString(string: text)
+            atrStr.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.sectionFont, range: (text as NSString).range(of:"구독을 시작합니다"))
+
+            popMessage(message: atrStr)
+
+        }
+        
+        print(sectionChannels[indexPath.row].subtitle!,sectionChannels[indexPath.row].source!)
         changeTagOrChannel.tagOrChannelModified = 1
         loadData()
         collectionView.reloadData()

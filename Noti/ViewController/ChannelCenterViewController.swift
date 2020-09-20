@@ -71,23 +71,6 @@ class ChannelCenterViewController: UIViewController {
                                  })
             })
         }
-        
-//        UIView.animate(withDuration: 0.5,
-//                     delay: 0,
-//                     options: options,
-//                     animations: { [weak self] in
-//                      self?.view.layoutIfNeeded()
-//
-//            }, completion: nil)
-//
-//
-//        popMessageBottomConstraint.constant = -100
-//        UIView.animate(withDuration: 0.5,
-//                     delay: 3,
-//                     options: options,
-//                     animations: { [weak self] in
-//                      self?.view.layoutIfNeeded()
-//        }, completion: nil)
     
     }
     

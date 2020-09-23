@@ -2844,22 +2844,37 @@ input, select, textarea {
 	.features .image {
 		width: calc(100% );
 		/* width: 30em; */
-		padding-left: 2.7em;
+		padding-left: 2.0em;
 	}
+
 
 	.features .image img {
 		width: calc(100% );
 		/* width: 30em; */
-		max-width: 66%;
+		max-width: 70%;
 		height: auto;
 		margin: auto;
 		
 	}
 
+	.features .profile {
+		height: auto;
+		width: auto;
+	}
+
+	.features .profile img {
+		height: 15em;
+	}
+
+	.major .name {
+		width: 100%;
+		text-align: center;
+	}
+
 
 	.features .images {
 		width: calc(120% );
-		 padding-left: 2.7em;
+		 padding-left: 2.0em;
 		/* width: 43em; */
 		/* margin-left: 2.7em; */
 	}
@@ -2867,7 +2882,7 @@ input, select, textarea {
 	.features .images img {
 		width: calc(120% );
 		/* width: 43em; */
-		max-width: 66%;
+		max-width: 73%;
 		
 		height: auto;
 		margin: auto;

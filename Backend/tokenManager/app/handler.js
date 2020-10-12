@@ -91,7 +91,7 @@ module.exports.hello = (event, context, callback) => {
     var AWS = require('aws-sdk');
     
     var params = {
-      PlatformApplicationArn: 'arn:aws:sns:ap-northeast-2:199206410574:app/APNS_SANDBOX/Noti', /* required */
+      PlatformApplicationArn: 'arn:aws:sns:ap-northeast-2:199206410574:app/APNS/Noti', /* required */
       Token: token, /* required */
     }
     

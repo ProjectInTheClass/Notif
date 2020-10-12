@@ -100,38 +100,7 @@ module.exports.crawler = (event, context, callback) => {
 								connection.query(sql, function(err, result, fields) {
 									if (err) throw err;
 									else {
-										for (var cardIndex = 0; cardIndex < rows.affectedRows; cardIndex++) {
-											for(var i in result) {
-												result[i].badgeCount += 1;
-												var params = {
-													MessageStructure: "json",
-													Message: JSON.stringify({
-													"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-"+sqlList[cardIndex][2]+"\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\", \"badge\": "+ result[i].badgeCount +"}, \"url\" : \""+sqlList[cardIndex][1]+"\"}"
-													}), /* required */
-													TargetArn: result[i].endpointarn
-												};
-											
-												var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
-												
-												// Handle promise's fulfilled/rejected states
-												publishTextPromise.then(
-													function(data) {
-													console.log(`Message ${params.Message} send sent to the topic ${params.TopicArn}`);
-													console.log("MessageID is " + data.MessageId);
-													}).catch(
-													function(err) {
-													console.error(err, err.stack);
-													});
-
-												var sql = 'UPDATE PushNoti SET badgeCount = '+ result[i].badgeCount +' WHERE endpointarn = "' + result[i].endpointarn + '"' 
-												connection.query(sql, function(err, result, fields) {
-													if (err) throw err;
-													else {
-														console.log(result);
-													}
-												});
-											}   
-										}
+										fnotification(result, rows, sqlList, connection);
 										connection.end();
 										dmLoop(page+1, listIndex);
 									}
@@ -190,40 +159,7 @@ module.exports.crawler = (event, context, callback) => {
 							connection.query(sql, function(err, result, fields) {
 								if (err) throw err;
 								else {
-									for (var cardIndex = 0; cardIndex < rows.affectedRows; cardIndex++) {
-										for(var i in result) {
-											// Create publish parameters
-											result[i].badgeCount += 1;
-											var params = {
-												MessageStructure: "json",
-												Message: JSON.stringify({
-													"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-"+sqlList[cardIndex][2]+"\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\", \"badge\": "+ result[i].badgeCount +"}, \"url\" : \""+sqlList[cardIndex][1]+"\"}"
-												}), /* required */
-												TargetArn: result[i].endpointarn
-											};
-										
-											// Create promise and SNS service object
-											var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
-											
-											// Handle promise's fulfilled/rejected states
-											publishTextPromise.then(
-												function(data) {
-												console.log(`Message ${params.Message} send sent to the topic ${params.TopicArn}`);
-												console.log("MessageID is " + data.MessageId);
-												}).catch(
-												function(err) {
-												console.error(err, err.stack);
-												});
-
-											var sql = 'UPDATE PushNoti SET badgeCount = '+ result[i].badgeCount +' WHERE endpointarn = "' + result[i].endpointarn + '"' 
-											connection.query(sql, function(err, result, fields) {
-												if (err) throw err;
-												else {
-													console.log(result);
-												}
-											});
-										}
-									}
+									notification(result, rows, sqlList, connection);
 									connection.end();
 									hyLoop(category, page+1);
 								}
@@ -308,40 +244,7 @@ module.exports.crawler = (event, context, callback) => {
 							connection.query(sql, function(err, result, fields) {
 								if (err) throw err;
 								else {
-									for (var cardIndex = 0; cardIndex < rows.affectedRows; cardIndex++) {
-										for(var i in result) {
-											// Create publish parameters
-											result[i].badgeCount += 1;
-											var params = {
-												MessageStructure: "json",
-												Message: JSON.stringify({
-													"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-"+sqlList[cardIndex][2]+"\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\", \"badge\": "+ result[i].badgeCount +"}, \"url\" : \""+sqlList[cardIndex][1]+"\"}"
-												}), /* required */
-												TargetArn: result[i].endpointarn
-											};
-										
-											// Create promise and SNS service object
-											var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
-											
-											// Handle promise's fulfilled/rejected states
-											publishTextPromise.then(
-												function(data) {
-												console.log(`Message ${params.Message} send sent to the topic ${params.TopicArn}`);
-												console.log("MessageID is " + data.MessageId);
-												}).catch(
-												function(err) {
-												console.error(err, err.stack);
-												});
-
-											var sql = 'UPDATE PushNoti SET badgeCount = '+ result[i].badgeCount +' WHERE endpointarn = "' + result[i].endpointarn + '"' 
-											connection.query(sql, function(err, result, fields) {
-												if (err) throw err;
-												else {
-													console.log(result);
-												}
-											});
-										}
-									}
+									notification(result, rows, sqlList, connection);
 									connection.end();
 									meLoop(pagenum+1);
 								}
@@ -415,40 +318,7 @@ module.exports.crawler = (event, context, callback) => {
 							connection.query(sql, function(err, result, fields) {
 								if (err) throw err;
 								else {
-									for (var cardIndex = 0; cardIndex < rows.affectedRows; cardIndex++) {
-										for(var i in result) {
-											// Create publish parameters
-											result[i].badgeCount += 1;
-											var params = {
-												MessageStructure: "json",
-												Message: JSON.stringify({
-													"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-"+sqlList[cardIndex][2]+"\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\", \"badge\": "+ result[i].badgeCount +"}, \"url\" : \""+sqlList[cardIndex][1]+"\"}"
-												}), /* required */
-												TargetArn: result[i].endpointarn
-											};
-										
-											// Create promise and SNS service object
-											var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
-											
-											// Handle promise's fulfilled/rejected states
-											publishTextPromise.then(
-												function(data) {
-												console.log(`Message ${params.Message} send sent to the topic ${params.TopicArn}`);
-												console.log("MessageID is " + data.MessageId);
-												}).catch(
-												function(err) {
-												console.error(err, err.stack);
-												});
-
-											var sql = 'UPDATE PushNoti SET badgeCount = '+ result[i].badgeCount +' WHERE endpointarn = "' + result[i].endpointarn + '"' 
-											connection.query(sql, function(err, result, fields) {
-												if (err) throw err;
-												else {
-													console.log(result);
-												}
-											});
-										}
-									}
+									notification(result, rows, sqlList, connection);
 									connection.end();
 									bsLoop(pagenum+1);
 								}
@@ -586,40 +456,7 @@ module.exports.crawler = (event, context, callback) => {
 							connection.query(sql, function(err, result, fields) {
 								if (err) throw err;
 								else {
-									for (var cardIndex = 0; cardIndex < rows.affectedRows; cardIndex++) {
-										for(var i in result) {
-											// Create publish parameters
-											result[i].badgeCount += 1;
-											var params = {
-												MessageStructure: "json",
-												Message: JSON.stringify({
-													"APNS_SANDBOX": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-"+sqlList[cardIndex][2]+"\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\", \"badge\": "+ result[i].badgeCount +"}, \"url\" : \""+sqlList[cardIndex][1]+"\"}"
-												}), /* required */
-												TargetArn: result[i].endpointarn
-											};
-										
-											// Create promise and SNS service object
-											var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
-											
-											// Handle promise's fulfilled/rejected states
-											publishTextPromise.then(
-												function(data) {
-												console.log(`Message ${params.Message} send sent to the topic ${params.TopicArn}`);
-												console.log("MessageID is " + data.MessageId);
-												}).catch(
-												function(err) {
-												console.error(err, err.stack);
-												});
-
-											var sql = 'UPDATE PushNoti SET badgeCount = '+ result[i].badgeCount +' WHERE endpointarn = "' + result[i].endpointarn + '"' 
-											connection.query(sql, function(err, result, fields) {
-												if (err) throw err;
-												else {
-													console.log(result);
-												}
-											});
-										}
-									}
+									notification(result, rows, sqlList, connection);
 									connection.end();
 									csLoop(pagenum + 1, boardname);
 								}
@@ -633,8 +470,6 @@ module.exports.crawler = (event, context, callback) => {
 					}
 				});
 
-				
-
 				const response = {
 					statusCode: 200,
 					body: JSON.stringify({
@@ -644,6 +479,44 @@ module.exports.crawler = (event, context, callback) => {
 				
 				//  console.log(response);
 		});
+	}
+
+	function notification(result, rows, sqlList, connection) {
+		for (var cardIndex = 0; cardIndex < rows.affectedRows; cardIndex++) {
+			for(var i in result) {
+				// Create publish parameters
+				result[i].badgeCount += 1;
+				var params = {
+					MessageStructure: "json",
+					Message: JSON.stringify({
+						"APNS": "{\"aps\":{\"alert\":{\"title\" : \""+ sqlList[cardIndex][3] +"-"+sqlList[cardIndex][2]+"\", \"body\" : \""+ sqlList[cardIndex][0] +"\"}, \"sound\" : \"default\", \"badge\": "+ result[i].badgeCount +"}, \"url\" : \""+sqlList[cardIndex][1]+"\"}"
+					}), /* required */
+					TargetArn: result[i].endpointarn
+				};
+			
+				// Create promise and SNS service object
+				var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
+				
+				console.log('endpointarn: ' + result[i].endpointarn);
+				// Handle promise's fulfilled/rejected states
+				publishTextPromise.then(
+					function(data) {
+					console.log(`Message ${params.Message} send sent to the topic ${params.TopicArn}`);
+					console.log("MessageID is " + data.MessageId);
+					}).catch(
+					function(err) {
+					console.error(err, err.stack);
+					});
+
+				var sql = 'UPDATE PushNoti SET badgeCount = '+ result[i].badgeCount +' WHERE endpointarn = "' + result[i].endpointarn + '"' 
+				connection.query(sql, function(err, result, fields) {
+					if (err) throw err;
+					else {
+						console.log(result);
+					}
+				});
+			}
+		}
 	}
 
 	
